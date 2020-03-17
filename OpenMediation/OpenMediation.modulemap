@@ -1,0 +1,37 @@
+framework module OpenMediation {
+    umbrella header "OpenMediationUmbrella.h"
+    
+    export *
+    module * { export * }
+    
+    link framework "AdSupport"
+    link framework "AudioToolbox"
+    link framework "AVFoundation"
+    link framework "CFNetwork"
+    link framework "CoreGraphics"
+    link framework "CoreMedia"
+    link framework "CoreImage"
+    link framework "CoreMotion"
+    link framework "CoreTelephony"
+    link framework "CoreVideo"
+    link framework "Foundation"
+    link framework "GLKit"
+    link framework "JavaScriptCore"
+    link framework "MediaPlayer"
+    link framework "MessageUI"
+    link framework "MobileCoreServices"
+    link framework "OpenGLES"
+    link framework "QuartzCore"
+    link framework "SafariServices"
+    link framework "Security"
+    link framework "StoreKit"
+    link framework "SystemConfiguration"
+    link framework "UIKit"
+    link framework "WebKit"
+    link framework "VideoToolbox"
+    link "c++"
+    link "xml2"
+    link "iAd"
+    link "z"
+    link "resolv"
+}
