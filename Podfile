@@ -3,7 +3,7 @@ platform :ios, '9.0'
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'OpenMediationDemo' do
-  pod 'AdTimingSDK'
+  pod 'AdTimingAds'
   pod 'Google-Mobile-Ads-SDK', '7.51.0'
   pod 'FBAudienceNetwork', '5.1.1'
   pod 'UnityAds', '3.2.0'

@@ -7,43 +7,52 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol AdTimingMediatedInterstitialDelegate <NSObject>
+@protocol AdTimingInterstitialDelegate <NSObject>
 
 @optional
 
-/// Invoked when a interstitial video is available.
-- (void)adtimingInterstitialChangedAvailability:(NSString*)placementID newValue:(BOOL)available;
 
-/// Sent immediately when a interstitial video is opened.
-- (void)adtimingInterstitialDidOpen:(NSString*)placementID;
+/// Invoked when a interstitial  did load.
+- (void)adtimingInterstitialDidLoad:(NSString *)placementID;
+
+/// Sent after an  interstitial fails to load the ad.
+- (void)adtimingInterstitialDidFailToLoad:(NSString *)placementID withError:(NSError *)error;
+
+- (void)adtimingInterstitialDidOpen:(NSString *)placementID;
 
 /// Sent immediately when a interstitial video starts to play.
-- (void)adtimingInterstitialDidShow:(NSString*)placementID;
+- (void)adtimingInterstitialDidShow:(NSString *)placementID;
 
 /// Sent after a interstitial video has been clicked.
-- (void)adtimingInterstitialDidClick:(NSString*)placementID;
+- (void)adtimingInterstitialDidClick:(NSString *)placementID;
 
 /// Sent after a interstitial video has been closed.
-- (void)adtimingInterstitialDidClose:(NSString*)placementID;
+- (void)adtimingInterstitialDidClose:(NSString *)placementID;
 
 /// Sent after a interstitial video has failed to play.
-- (void)adtimingInterstitialDidFailToShow:(NSString*)placementID withError:(NSError *)error;
+- (void)adtimingInterstitialDidFailToShow:(NSString *)placementID withError:(NSError *)error;
 
 @end
 
-@interface AdTimingInterstitialAd : NSObject
+@interface AdTimingInterstitial : NSObject
 
+/// Returns the singleton instance.
 + (instancetype)sharedInstance;
 
-- (void)addMediationDelegate:(id<AdTimingMediatedInterstitialDelegate>)delegate;
+/// Add delegate
+- (void)addDelegate:(id<AdTimingInterstitialDelegate>)delegate;
 
-- (void)removeMediationDelegate:(id<AdTimingMediatedInterstitialDelegate>)delegate;
+/// Remove delegate
+- (void)removeDelegate:(id<AdTimingInterstitialDelegate>)delegate;
 
+/// loadAd
 - (void)loadWithPlacementID:(NSString*)placementID;
 
+/// Indicates whether the interstitial video is ready to show ad.
 - (BOOL)isReady:(NSString*)placementID;
 
-- (void)showWithViewController:(UIViewController *)viewController placementID:(NSString *)placementID;
+
+- (void)showAdFromRootViewController:(UIViewController *)rootViewController placementID:(NSString *)placementID;
 
 @end
 

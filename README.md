@@ -63,8 +63,8 @@ $ pod install
 
 OpenMediation provides a prepackaged archive of the static framework:
 
-- **[OpenMediation SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OpenMediation-iOS-1.0.0.zip)**
-- **[AdTimingAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMAdTimingAdapter-iOS-1.0.0.zip)**
+- **[OpenMediation SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.1/OpenMediation-iOS-1.0.1.zip)**
+- **[AdTimingAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.1/OMAdTimingAdapter-iOS-1.0.1.zip)**
 - **[AdMobAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMAdMobAdapter-iOS-1.0.0.zip)**
 - **[FacebookAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMFacebookAdapter-iOS-1.0.0.zip)**
 - **[UnityAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMUnityAdapter-iOS-1.0.0.zip)**

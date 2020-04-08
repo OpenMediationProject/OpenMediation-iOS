@@ -6,51 +6,65 @@
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol AdTimingMediatedRewardedVideoDelegate <NSObject>
+@protocol AdTimingRewardedVideoDelegate <NSObject>
 
 @optional
 
-/// Invoked when a rewarded video is available.
-- (void)adtimingRewardedVideoChangedAvailability:(NSString*)placementID newValue:(BOOL)available;
+/// Invoked when a rewarded video did load.
+
+- (void)adtimingRewardedVideoDidLoad:(NSString *)placementID;
+
+/// Sent after an rewarded video fails to load the ad.
+- (void)adtimingRewardedVideoDidFailToLoad:(NSString *)placementID withError:(NSError *)error;
 
 /// Sent immediately when a rewarded video is opened.
-- (void)adtimingRewardedVideoDidOpen:(NSString*)placementID;
+- (void)adtimingRewardedVideoDidOpen:(NSString *)placementID;
 
 /// Sent immediately when a rewarded video starts to play.
-- (void)adtimingRewardedVideoPlayStart:(NSString*)placementID;
+- (void)adtimingRewardedVideoPlayStart:(NSString *)placementID;
 
 /// Send after a rewarded video has been completed.
-- (void)adtimingRewardedVideoPlayEnd:(NSString*)placementID;
+- (void)adtimingRewardedVideoPlayEnd:(NSString *)placementID;
 
 /// Sent after a rewarded video has been clicked.
-- (void)adtimingRewardedVideoDidClick:(NSString*)placementID;
+- (void)adtimingRewardedVideoDidClick:(NSString *)placementID;
 
 /// Sent after a user has been granted a reward.
-- (void)adtimingRewardedVideoDidReceiveReward:(NSString*)placementID;
+- (void)adtimingRewardedVideoDidReceiveReward:(NSString *)placementID;
 
 /// Sent after a rewarded video has been closed.
-- (void)adtimingRewardedVideoDidClose:(NSString*)placementID;
+- (void)adtimingRewardedVideoDidClose:(NSString *)placementID;
 
 /// Sent after a rewarded video has failed to play.
-- (void)adtimingRewardedVideoDidFailToShow:(NSString*)placementID withError:(NSError *)error;
+- (void)adtimingRewardedVideoDidFailToShow:(NSString *)placementID withError:(NSError *)error;
 
 @end
 
-@interface AdTimingRewardedVideoAd : NSObject
+@interface AdTimingRewardedVideo : NSObject
 
+/// Returns the singleton instance.
 + (instancetype)sharedInstance;
 
-- (void)addMediationDelegate:(id<AdTimingMediatedRewardedVideoDelegate>)delegate;
+/// Add delegate
+- (void)addDelegate:(id<AdTimingRewardedVideoDelegate>)delegate;
 
-- (void)removeMediationDelegate:(id<AdTimingMediatedRewardedVideoDelegate>)delegate;
+/// Remove delegate
+- (void)removeDelegate:(id<AdTimingRewardedVideoDelegate>)delegate;
 
+/// loadAd
 - (void)loadWithPlacementID:(NSString*)placementID;
 
+/// Indicates whether the rewarded video is ready to show ad.
 - (BOOL)isReady:(NSString*)placementID;
 
-- (void)showWithViewController:(UIViewController *)viewController placementID:(NSString *)placementID;
+
+- (void)showAdFromRootViewController:(UIViewController *)viewController placementID:(NSString *)placementID;
+
+
+- (void)showAdFromRootViewController:(UIViewController *)viewController placementID:(NSString *)placementID extraParams:(NSString*)extraParams;
 
 @end
+
 
 NS_ASSUME_NONNULL_END
 

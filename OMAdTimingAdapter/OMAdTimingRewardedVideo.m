@@ -14,18 +14,18 @@
 }
 
 -(void)loadAd {
-    Class rewardedVideoClass = NSClassFromString(@"AdTimingRewardedVideoAd");
+    Class rewardedVideoClass = NSClassFromString(@"AdTimingRewardedVideo");
     if (rewardedVideoClass && [rewardedVideoClass respondsToSelector:@selector(sharedInstance)] && [rewardedVideoClass instancesRespondToSelector:@selector(loadWithPlacementID:)] && [_pid length]>0) {
         [[rewardedVideoClass sharedInstance]loadWithPlacementID:_pid];
-        if (rewardedVideoClass && [rewardedVideoClass respondsToSelector:@selector(sharedInstance)] && [rewardedVideoClass instancesRespondToSelector:@selector(addMediationDelegate:)]) {
-            [[rewardedVideoClass sharedInstance]addMediationDelegate:self];
+        if (rewardedVideoClass && [rewardedVideoClass respondsToSelector:@selector(sharedInstance)] && [rewardedVideoClass instancesRespondToSelector:@selector(addDelegate:)]) {
+            [[rewardedVideoClass sharedInstance]addDelegate:self];
         }
     }
 }
 
 -(BOOL)isReady {
     BOOL isReady = NO;
-    Class rewardedVideoClass = NSClassFromString(@"AdTimingRewardedVideoAd");
+    Class rewardedVideoClass = NSClassFromString(@"AdTimingRewardedVideo");
     if (rewardedVideoClass && [rewardedVideoClass respondsToSelector:@selector(sharedInstance)] && [rewardedVideoClass instancesRespondToSelector:@selector(isReady:)] && [_pid length]>0) {
         isReady = [[rewardedVideoClass sharedInstance]isReady:_pid];
     }
@@ -33,21 +33,27 @@
 }
 
 - (void)show:(UIViewController *)vc {
-    Class rewardedVideoClass = NSClassFromString(@"AdTimingRewardedVideoAd");
+    Class rewardedVideoClass = NSClassFromString(@"AdTimingRewardedVideo");
     if ([self isReady]) {
-        if (rewardedVideoClass && [rewardedVideoClass respondsToSelector:@selector(sharedInstance)] && [rewardedVideoClass instancesRespondToSelector:@selector(showWithViewController:placementID:)]) {
-            [[rewardedVideoClass sharedInstance]showWithViewController:vc placementID:_pid];
+        if (rewardedVideoClass && [rewardedVideoClass respondsToSelector:@selector(sharedInstance)] && [rewardedVideoClass instancesRespondToSelector:@selector(showAdFromRootViewController:placementID:)]) {
+            [[rewardedVideoClass sharedInstance]showAdFromRootViewController:vc placementID:_pid];
         }
     }
 }
 
-- (void)adtimingRewardedVideoChangedAvailability:(NSString*)placementID newValue:(BOOL)available {
-    if (available && [placementID isEqualToString:_pid]) {
-        if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
-            [_delegate customEvent:self didLoadAd:nil];
-        }
-    }
+
+- (void)adtimingRewardedVideoDidLoad:(NSString *)placementID {
+    if ([placementID isEqualToString:_pid] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+        [_delegate customEvent:self didLoadAd:nil];
+     }
 }
+
+- (void)adtimingRewardedVideoDidFailToLoad:(NSString *)placementID withError:(NSError *)error {
+    if ([placementID isEqualToString:_pid] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+        [_delegate customEvent:self didFailToLoadWithError:error];
+     }
+}
+
 
 - (void)adtimingRewardedVideoDidOpen:(NSString*)placementID {
     if ([placementID isEqualToString:_pid] && _delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
