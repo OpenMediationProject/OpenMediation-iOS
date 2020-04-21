@@ -123,19 +123,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Show an interstitial over the application's key window.
  * This will load the next interstitial and display it.
- *
- * Note that this method is functionally equivalent to calling
- * showOver: and passing [[UIApplication sharedApplication] keyWindow].
  */
 + (ALInterstitialAd *)show;
-
-/**
- * Show a new interstitial ad. This method will display an interstitial*
- * over the given UIWindow.
- *
- * @param window  A window to show the interstitial over
- */
-+ (ALInterstitialAd *)showOver:(UIWindow *)window;
 
 /**
  * Get a reference to the shared singleton instance.
@@ -150,34 +139,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Show an interstitial over the application's key window.
  * This will load the next interstitial and display it.
- *
- * Note that this method is functionally equivalent to calling
- * showOver: and passing [[UIApplication sharedApplication] keyWindow].
  */
 - (void)show;
 
 /**
- * Show an interstitial over a given window.
- * @param window An instance of window to show the interstitial over.
- */
-- (void)showOver:(UIWindow *)window;
-
-/**
  * Show current interstitial over a given window and render a specified ad loaded by ALAdService.
  *
- * @param window An instance of window to show the interstitial over.
- * @param ad     The ad to render into this interstitial.
+ * @param ad The ad to render into this interstitial.
  */
-- (void)showOver:(UIWindow *)window andRender:(ALAd *)ad;
-
-#pragma mark - Dismissing Interstitials Expliticly
-
-/**
- * Dismiss this interstitial.
- *
- * In general, this is not recommended as it negatively impacts click through rate.
- */
-- (void)dismiss;
+- (void)showAd:(ALAd *)ad;
 
 #pragma mark - Initialization
 

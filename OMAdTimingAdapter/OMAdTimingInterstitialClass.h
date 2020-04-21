@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol AdTimingInterstitialDelegate <NSObject>
+@protocol AdTimingMediatedInterstitialDelegate <NSObject>
 
 @optional
 
@@ -40,10 +40,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedInstance;
 
 /// Add delegate
-- (void)addDelegate:(id<AdTimingInterstitialDelegate>)delegate;
+- (void)addDelegate:(id<AdTimingMediatedInterstitialDelegate>)delegate;
 
 /// Remove delegate
-- (void)removeDelegate:(id<AdTimingInterstitialDelegate>)delegate;
+- (void)removeDelegate:(id<AdTimingMediatedInterstitialDelegate>)delegate;
 
 /// loadAd
 - (void)loadWithPlacementID:(NSString*)placementID;

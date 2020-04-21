@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMAdColonyRewardedVideo : NSObject<OMRewardedVideoCustomEvent>
+@interface OMAdColonyRewardedVideo : NSObject<OMRewardedVideoCustomEvent,AdColonyInterstitialDelegate>
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, strong) AdColonyInterstitial *adColonyAd;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;

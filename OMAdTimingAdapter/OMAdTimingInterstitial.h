@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMAdTimingInterstitial : NSObject<OMInterstitialCustomEvent,AdTimingInterstitialDelegate>
+@interface OMAdTimingInterstitial : NSObject<OMInterstitialCustomEvent,AdTimingMediatedInterstitialDelegate>
 
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, weak) id<interstitialCustomEventDelegate> delegate;

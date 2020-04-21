@@ -17,6 +17,10 @@ static OMUnityRouter * _instance = nil;
 
 - (instancetype)init {
     if (self = [super init]) {
+        Class unityClass = NSClassFromString(@"UnityAds");
+        if (unityClass && [unityClass respondsToSelector:@selector(addDelegate:)]) {
+            [unityClass addDelegate:self];
+        }
         _placementDelegateMap = [NSMutableDictionary dictionary];
     }
     return self;

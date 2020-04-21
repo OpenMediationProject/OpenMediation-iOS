@@ -18,25 +18,11 @@
 }
 
 - (BOOL)isReady {
-    BOOL isReady = NO;
-    Class vungleClass = NSClassFromString(@"VungleSDK");
-    if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)]) {
-        VungleSDK *vungle = [vungleClass sharedSDK];
-        isReady = [vungle isAdCachedForPlacementID:_pid];
-    }
-    return isReady;
+    return [[OMVungleRouter sharedInstance]isAdAvailableForPlacementID:_pid];
 }
 
 - (void)show:(UIViewController*)vc {
-    NSDictionary *options = @{};
-    NSError *error;
-    Class vungleClass = NSClassFromString(@"VungleSDK");
-    if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)] && [[vungleClass sharedSDK] respondsToSelector:@selector(playAd: options:placementID: error:)]) {
-        VungleSDK *vungle = [vungleClass sharedSDK];
-        [vungle playAd:vc options:options placementID:_pid error:&error];
-        if (error) {
-        }
-    }
+    [[OMVungleRouter sharedInstance]showAdFromViewController:vc forPlacementId:_pid];
 }
 
 #pragma mark --

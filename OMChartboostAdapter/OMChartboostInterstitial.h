@@ -2,14 +2,15 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import <Foundation/Foundation.h>
-#import "OMChartboostRouter.h"
+#import "OMChartboostClass.h"
 #import "OMInterstitialCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMChartboostInterstitial : NSObject<OMInterstitialCustomEvent,OMChartboostAdapterDelegate>
+@interface OMChartboostInterstitial : NSObject<OMInterstitialCustomEvent,CHBInterstitialDelegate>
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, weak) id<interstitialCustomEventDelegate> delegate;
+@property (nonatomic,strong)  CHBInterstitial *chbInterstitial;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
 - (void)loadAd;

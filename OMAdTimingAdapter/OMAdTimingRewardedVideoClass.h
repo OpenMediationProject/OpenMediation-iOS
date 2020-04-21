@@ -6,7 +6,7 @@
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol AdTimingRewardedVideoDelegate <NSObject>
+@protocol AdTimingMediatedRewardedVideoDelegate <NSObject>
 
 @optional
 
@@ -46,10 +46,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedInstance;
 
 /// Add delegate
-- (void)addDelegate:(id<AdTimingRewardedVideoDelegate>)delegate;
+- (void)addDelegate:(id<AdTimingMediatedRewardedVideoDelegate>)delegate;
 
 /// Remove delegate
-- (void)removeDelegate:(id<AdTimingRewardedVideoDelegate>)delegate;
+- (void)removeDelegate:(id<AdTimingMediatedRewardedVideoDelegate>)delegate;
 
 /// loadAd
 - (void)loadWithPlacementID:(NSString*)placementID;

@@ -17,6 +17,11 @@
         [adColonyClass configureWithAppID:key zoneIDs:pids options:nil completion:^(NSArray<AdColonyZone *> *zones) {
                 completionHandler(nil);
         }];
+    }else {
+        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.adcolonyadapter"
+                                                    code:400
+                                                userInfo:@{NSLocalizedDescriptionKey:@"Failed,check init method and key"}];
+        completionHandler(error);
     }
 }
 @end

@@ -10,76 +10,85 @@
 - (instancetype)initWithParameter:(NSDictionary*)adParameter {
     if (self = [super init]) {
         _pid = [adParameter objectForKey:@"pid"];
-        [[OMChartboostRouter sharedInstance]registerPidDelegate:_pid delegate:self];
     }
     return self;
 }
 
 - (void)loadAd {
-    [[OMChartboostRouter sharedInstance]loadChartboostPlacmentID:_pid];
+    Class CHBRewardedClass = NSClassFromString(@"CHBRewarded");
+    if (CHBRewardedClass && [[CHBRewardedClass alloc] respondsToSelector:@selector(initWithLocation:delegate:)]) {
+        _chbRewarded = [[CHBRewardedClass alloc] initWithLocation:_pid delegate:self];
+    }
+    if (_chbRewarded) {
+        [_chbRewarded cache];
+    }
 }
 
 - (BOOL)isReady {
     BOOL isReady = NO;
-    Class chartboostClass = NSClassFromString(@"Chartboost");
-    if (chartboostClass && [chartboostClass respondsToSelector:@selector(hasRewardedVideo:)]) {
-        isReady = [chartboostClass hasRewardedVideo:_pid];
+    if(_chbRewarded && [_chbRewarded respondsToSelector:@selector(isCached)]){
+        isReady = _chbRewarded.isCached;
     }
     return isReady;
 }
 
 - (void)show:(UIViewController *)vc {
     if ([self isReady]) {
-        Class chartboostClass = NSClassFromString(@"Chartboost");
-        if (chartboostClass && [chartboostClass respondsToSelector:@selector(showRewardedVideo:)]) {
-            [chartboostClass showRewardedVideo:_pid];
+        if(_chbRewarded && [_chbRewarded respondsToSelector:@selector(showFromViewController:)]){
+            [_chbRewarded showFromViewController:vc];
         }
     }
 }
 
-- (void)omChartboostDidload {
-    if ([self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+- (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error{
+    if([self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]){
         [_delegate customEvent:self didLoadAd:nil];
     }
-}
-
-- (void)omChartboostDidFailToLoad:(nonnull NSError *)error {
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
-        NSError *cerror = [[NSError alloc] initWithDomain:@"" code:error.code userInfo:@{@"msg":@"There are no ads to show now"}];
+    
+    if(error && _delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]){
+        NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.ads" code:error.code userInfo:@{@"msg":@"There are no ads fill"}];
         [_delegate customEvent:self didFailToLoadWithError:cerror];
     }
 }
 
-- (void)omChartboostDidStart {
-    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
+
+- (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error{
+    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]){
         [_delegate rewardedVideoCustomEventDidOpen:self];
     }
-    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoStart:)]) {
+    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoStart:)]){
         [_delegate rewardedVideoCustomEventVideoStart:self];
     }
+    
+    if(error && _delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]){
+        NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.ads" code:error.code userInfo:@{@"msg":@"The ad failed to show"}];
+        [_delegate rewardedVideoCustomEventDidFailToShow:self withError:cerror];
+    }
+    
+    
 }
 
-- (void)omChartboostDidClick {
-    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
+- (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error{
+    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]){
         [_delegate rewardedVideoCustomEventDidClick:self];
     }
 }
 
-- (void)omChartboostRewardedVideoEnd {
-    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]) {
+- (void)chartboostVideoEnd {
+    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]){
         [_delegate rewardedVideoCustomEventVideoEnd:self];
     }
 }
 
-- (void)omChartboostDidReceiveReward {
-    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
-        [_delegate rewardedVideoCustomEventDidReceiveReward:self];
+- (void)didDismissAd:(CHBDismissEvent *)event{
+    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]){
+        [_delegate rewardedVideoCustomEventDidClose:self];
     }
 }
 
-- (void)omChartboostDidFinish {
-    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]) {
-        [_delegate rewardedVideoCustomEventDidClose:self];
+- (void)didEarnReward:(CHBRewardEvent *)event{
+    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]){
+        [_delegate rewardedVideoCustomEventDidReceiveReward:self];
     }
 }
 

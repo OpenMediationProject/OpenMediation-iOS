@@ -39,30 +39,34 @@ static OMMintegralRouter * _instance = nil;
 }
 
 - (void)loadPlacmentID:(NSString *)pid {
-    if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(loadVideo:delegate:)]) {
-        [_mintegralSDK loadVideo:pid delegate:self];
+    if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(loadVideoWithPlacementId:unitId:delegate:)]) {
+        [_mintegralSDK loadVideoWithPlacementId:@"" unitId:pid delegate:self];
     }
 }
 
 - (BOOL)isReady:(NSString *)pid {
     BOOL isReady = NO;
-    if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(isVideoReadyToPlay:)]) {
-       isReady = [_mintegralSDK isVideoReadyToPlay:pid];
+    if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(isVideoReadyToPlayWithPlacementId:unitId:)]) {
+        isReady = [_mintegralSDK isVideoReadyToPlayWithPlacementId:@"" unitId:pid];
     }
     return isReady;
 }
-
+//- (void)showVideoWithPlacementId:(nullable NSString *)placementId
+//        unitId:(nonnull NSString *)unitId
+//  withRewardId:(nullable NSString *)rewardId
+//        userId:(nullable NSString *)userId
+//      delegate:(nullable id <MTGRewardAdShowDelegate>)delegate
+//viewController:(nonnull UIViewController*)viewController;
 - (void)showVideo:(NSString *)pid withVC:(UIViewController*)vc {
-    if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(showVideo:withRewardId:userId:delegate:viewController:)]) {
-        [_mintegralSDK showVideo:pid withRewardId:@"" userId:@"" delegate:self viewController:vc];
+    if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(showVideoWithPlacementId:unitId:withRewardId:userId:delegate:viewController:)]) {
+        [_mintegralSDK showVideoWithPlacementId:@"" unitId:pid withRewardId:@"" userId:@"" delegate:self viewController:vc];
     }
 }
 
 #pragma mark - MTGRewardAdLoadDelegate
 - (void)onVideoAdLoadSuccess:(nullable NSString *)unitId {
     id<OMMintegralAdapterDelegate> delegate = [_placementDelegateMap objectForKey:unitId];
-     Class MTGRewardAdManagerClass = NSClassFromString(@"MTGRewardAdManager");
-       if (MTGRewardAdManagerClass && [[MTGRewardAdManagerClass sharedInstance] respondsToSelector:@selector(isVideoReadyToPlay:)] && [[MTGRewardAdManagerClass sharedInstance] isVideoReadyToPlay:unitId] && delegate && [delegate respondsToSelector:@selector(omMintegralDidload)] ) {
+       if ([self isReady:unitId] && delegate && [delegate respondsToSelector:@selector(omMintegralDidload)] ) {
            [delegate omMintegralDidload];
        }
 }

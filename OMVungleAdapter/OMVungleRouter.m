@@ -37,16 +37,52 @@ static OMVungleRouter * _instance = nil;
     }
 }
 
+- (void)loadBannerWithPlacementID:(NSString*)pid {
+    NSError *error = nil;
+    if (_vungleSDK && [_vungleSDK respondsToSelector:@selector(loadPlacementWithID:withSize:error:)]) {
+        [_vungleSDK loadPlacementWithID:pid withSize:VungleAdSizeBanner error:&error];
+    }
+}
+
+- (BOOL)isAdAvailableForPlacementID:(NSString *) pid {
+    BOOL isReady = NO;
+    Class vungleClass = NSClassFromString(@"VungleSDK");
+    if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)]) {
+        VungleSDK *vungle = [vungleClass sharedSDK];
+        isReady = [vungle isAdCachedForPlacementID:pid];
+    }
+    return isReady;
+}
+
+
+- (void)showAdFromViewController:(UIViewController *)viewController forPlacementId:(NSString *)placementID {
+    if (!self.isAdPlaying && [self isAdAvailableForPlacementID:placementID]) {
+        NSDictionary *options = @{};
+        NSError *error;
+        Class vungleClass = NSClassFromString(@"VungleSDK");
+        if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)] && [[vungleClass sharedSDK] respondsToSelector:@selector(playAd: options:placementID: error:)]) {
+            VungleSDK *vungle = [vungleClass sharedSDK];
+            self.isAdPlaying = YES;
+            BOOL success = [vungle playAd:viewController options:options placementID:placementID error:&error];
+            if (!success) {
+                self.isAdPlaying = NO;
+            }
+        }
+    }
+}
+
 #pragma mark -- VungleSDKDelegate
 - (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable placementID:(nullable NSString *)placementID error:(nullable NSError *)error {
     
     id<OMVungleAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementID];
     
-    if (!error && _vungleSDK && [_vungleSDK respondsToSelector:@selector(isAdCachedForPlacementID:)] && [_vungleSDK isAdCachedForPlacementID:placementID]) {
+    if(isAdPlayable && _vungleSDK && [_vungleSDK respondsToSelector:@selector(isAdCachedForPlacementID:)] && [_vungleSDK isAdCachedForPlacementID:placementID] ) {
         if (delegate && [delegate respondsToSelector:@selector(omVungleDidload)]) {
             [delegate omVungleDidload];
         }
-    } else {
+    }
+
+    if (error && !self.isAdPlaying) {
         if (delegate && [delegate respondsToSelector:@selector(omVungleDidFailToLoad:)]) {
             [delegate omVungleDidFailToLoad:error];
         }
@@ -68,12 +104,13 @@ static OMVungleRouter * _instance = nil;
     if (delegate && [delegate respondsToSelector:@selector(omVungleRewardedVideoEnd)]) {
         [delegate omVungleRewardedVideoEnd];
     }
+    self.isAdPlaying = NO;
 }
 
 
 - (void)vungleDidCloseAdWithViewInfo:(nonnull VungleViewInfo *)info placementID:(nonnull NSString *)placementID {
     id<OMVungleAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementID];
-    if (info.didDownload) {
+    if ([info.didDownload isEqual:@YES]) {
         if (delegate && [delegate respondsToSelector:@selector(omVungleDidClick)]) {
             [delegate omVungleDidClick];
         }
@@ -82,4 +119,13 @@ static OMVungleRouter * _instance = nil;
         [delegate omVungleDidFinish:!((BOOL)[info.completedView integerValue])];
     }
 }
+
+#pragma mark - VungleSDKNativeAds delegate methods
+- (void)nativeAdsPlacementWillTriggerURLLaunch:(NSString *)placement {
+    id<OMVungleAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placement];
+    if (delegate && [delegate respondsToSelector:@selector(omVungleWillLeaveApplication)]) {
+         [delegate omVungleWillLeaveApplication];
+    }
+}
+
 @end

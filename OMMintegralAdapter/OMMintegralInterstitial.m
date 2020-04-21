@@ -17,8 +17,8 @@
 
 -(void)loadAd {
     Class MTGInterstitialVideoAdManagerClass = NSClassFromString(@"MTGInterstitialVideoAdManager");
-    if (MTGInterstitialVideoAdManagerClass && [[MTGInterstitialVideoAdManagerClass alloc] respondsToSelector:@selector(initWithUnitID:delegate:)]) {
-        _ivAdManager = [[MTGInterstitialVideoAdManagerClass alloc] initWithUnitID:_pid delegate:self];
+    if (MTGInterstitialVideoAdManagerClass && [[MTGInterstitialVideoAdManagerClass alloc] respondsToSelector:@selector(initWithPlacementId:unitId:delegate:)]) {
+        _ivAdManager = [[MTGInterstitialVideoAdManagerClass alloc] initWithPlacementId:@"" unitId:_pid delegate:self];
         _ivAdManager.delegate = self;
     }
     if (_ivAdManager) {
@@ -28,7 +28,7 @@
 
 -(BOOL)isReady {
     if (_ivAdManager) {
-        return [_ivAdManager isVideoReadyToPlay:_pid];
+        return [_ivAdManager isVideoReadyToPlayWithPlacementId:@"" unitId:_pid];
     }
     return NO;
 }

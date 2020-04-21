@@ -9,13 +9,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ChartboostDelegate;
-/*!
- @typedef NS_ENUM (NSUInteger, CBLogLevel)
- 
- @abstract
- Set logging level. Default is OFF
- */
 typedef NS_ENUM(NSUInteger, CBLoggingLevel) {
     /*! Logging Off. */
     CBLoggingLevelOff,
@@ -29,14 +22,6 @@ typedef NS_ENUM(NSUInteger, CBLoggingLevel) {
     CBLoggingLevelError,
 };
 
-
-/*!
- @typedef NS_ENUM (NSUInteger, CBFramework)
- 
- @abstract
- Used with setFramework:(CBFramework)framework calls to set suffix for
- wrapper libraries like Unity or Corona.
- */
 typedef NS_ENUM(NSUInteger, CBFramework) {
     /*! Unity. */
     CBFrameworkUnity,
@@ -61,111 +46,6 @@ typedef NS_ENUM(NSUInteger, CBFramework) {
 };
 
 /*!
- @typedef NS_ENUM (NSUInteger, CBMediation)
- 
- @abstract
- Used with setMediation:(CBMediation)library calls to set mediation library name
- partners. If you don't see your library here, contact support.
- */
-typedef NS_ENUM(NSUInteger, CBMediation) {
-    /*! Unknown. Other */
-    CBMediationOther,
-    /*! AdMarvel */
-    CBMediationAdMarvel,
-    /*! Fuse */
-    CBMediationFuse,
-    /*! Fyber */
-    CBMediationFyber,
-    /*! HeyZap */
-    CBMediationHeyZap,
-    /*! MoPub */
-    CBMediationMoPub,
-    /*! Supersonic */
-    CBMediationSupersonic,
-    /*! AdMob */
-    CBMediationAdMob,
-    /*! HyprMX */
-    CBMediationHyprMX,
-    /*! AerServ */
-    CBMediationAerServ
-};
-
-
-
-/*!
- @typedef NS_ENUM (NSUInteger, CBLoadError)
- 
- @abstract
- Returned to ChartboostDelegate methods to notify of Chartboost SDK errors.
- */
-typedef NS_ENUM(NSUInteger, CBLoadError) {
-    /*! Unknown internal error. */
-    CBLoadErrorInternal = 0,
-    /*! Network is currently unavailable. */
-    CBLoadErrorInternetUnavailable = 1,
-    /*! Too many requests are pending for that location.  */
-    CBLoadErrorTooManyConnections = 2,
-    /*! Interstitial loaded with wrong orientation. */
-    CBLoadErrorWrongOrientation = 3,
-    /*! Interstitial disabled, first session. */
-    CBLoadErrorFirstSessionInterstitialsDisabled = 4,
-    /*! Network request failed. */
-    CBLoadErrorNetworkFailure = 5,
-    /*!  No ad received. */
-    CBLoadErrorNoAdFound = 6,
-    /*! Session not started. */
-    CBLoadErrorSessionNotStarted = 7,
-    /*! There is an impression already visible.*/
-    CBLoadErrorImpressionAlreadyVisible = 8,
-    /*! User manually cancelled the impression. */
-    CBLoadErrorUserCancellation = 10,
-    /*! No location detected. */
-    CBLoadErrorNoLocationFound = 11,
-    /*! Error downloading asset. */
-    CBLoadErrorAssetDownloadFailure = 16,
-    /*! Video Prefetching is not finished */
-    CBLoadErrorPrefetchingIncomplete = 21,
-    /*! Error Originating from the JS side of a Web View */
-    CBLoadErrorWebViewScriptError = 22,
-    /*! Network is unavailable while attempting to show. */
-    CBLoadErrorInternetUnavailableAtShow = 25
-};
-
-/*!
- @typedef NS_ENUM (NSUInteger, CBClickError)
- 
- @abstract
- Returned to ChartboostDelegate methods to notify of Chartboost SDK errors.
- */
-typedef NS_ENUM(NSUInteger, CBClickError) {
-    /*! Invalid URI. */
-    CBClickErrorUriInvalid,
-    /*! The device does not know how to open the protocol of the URI  */
-    CBClickErrorUriUnrecognized,
-    /*! User failed to pass the age gate. */
-    CBClickErrorAgeGateFailure,
-    /*! Unknown internal error */
-    CBClickErrorInternal,
-};
-
-/*!
- @typedef NS_ENUM (NSUInteger, CBStatusBarBehavior)
- 
- @abstract
- Used with setStatusBarBehavior:(CBStatusBarBehavior)statusBarBehavior calls to set how fullscreen ads should
- behave with regards to the status bar.
- */
-typedef NS_ENUM(NSUInteger, CBStatusBarBehavior) {
-    /*! Ignore status bar altogether; fullscreen ads will use the space of the status bar. */
-    CBStatusBarBehaviorIgnore,
-    /*! Respect the status bar partially; fullscreen ads will use the space of the status bar but any user interactive buttons will not. */
-    CBStatusBarBehaviorRespectButtons,
-    /*! Respect the status bar fully; fullscreen ads will not use the status bar space. */
-    CBStatusBarBehaviorRespect
-};
-
-
-/*!
  @typedef NS_ENUM (NSUInteger, CBPIDataUseConsent)
  
  @abstract
@@ -179,20 +59,7 @@ typedef NS_ENUM(NSInteger, CBPIDataUseConsent) {
     /*! User consents (Behavioral and Contextual Ads). */
     YesBehavioral = 1
 };
-/*!
- @typedef CBLocation
- 
- @abstract
- Defines standard locations to describe where Chartboost SDK features appear in game.
- 
- @discussion Standard locations used to describe where Chartboost features show up in your game
- For best performance, it is highly recommended to use standard locations.
- 
- Benefits include:
- - Higher eCPMs.
- - Control of ad targeting and frequency.
- - Better reporting.
- */
+
 typedef NSString * const CBLocation;
 
 /*! "Startup" - Initial startup of game. */
@@ -229,18 +96,6 @@ FOUNDATION_EXPORT CBLocation const CBLocationSettings;
 FOUNDATION_EXPORT CBLocation const CBLocationQuit;
 /*! "Default" - Supports legacy applications that only have one "Default" location */
 FOUNDATION_EXPORT CBLocation const CBLocationDefault;
-/*!
- @protocol ChartboostDelegate
- 
- @abstract
- Provide methods and callbacks to receive notifications of when the Chartboost SDK
- has taken specific actions or to more finely control the Chartboost SDK.
- 
- @discussion For more information on integrating and using the Chartboost SDK
- please visit our help site documentation at https://help.chartboost.com
- 
- All of the delegate methods are optional.
- */
 
 @interface Chartboost : NSObject
 
@@ -252,424 +107,676 @@ FOUNDATION_EXPORT CBLocation const CBLocationDefault;
  
  @param appSignature The Chartboost application signature for this application.
  
- @param delegate The delegate instance to receive Chartboost SDK callbacks.
+ @param completion A completion block to be executed when the SDK finishes initializing.
+ It takes a boolean parameter which indicates if the initialization succeeded or not.
  
  @discussion This method must be executed before any other Chartboost SDK methods can be used.
  Once executed this call will also controll session tracking and background tasks
  used by Chartboost.
  */
-+ (void)startWithAppId:(NSString*)appId
-          appSignature:(NSString*)appSignature
-              delegate:(id<ChartboostDelegate>)delegate;
++ (void)startWithAppId:(NSString*)appId appSignature:(NSString*)appSignature completion:(void (^)(BOOL))completion;
 
+/*!
+ @abstract
+ Returns the version of the Chartboost SDK.
+ */
 + (NSString*)getSDKVersion;
 
+/*!
+ @abstract
+ Set the logging level
+ 
+ @param loggingLevel The minimum level that's going to be logged
+ 
+ @discussion Logging by default is off.
+ */
+
++ (void)setLoggingLevel:(CBLoggingLevel)loggingLevel;
 
 /*!
  @abstract
- Check to see if any views are visible
+ Set a custom identifier to send in the POST body for all Chartboost API server requests.
  
- @return YES if there is any view visible
+ @param customId The identifier to send with all Chartboost API server requests.
  
- @discussion This method can be used to check if any chartboost ad's are visible on the app.
+ @discussion Use this method to set a custom identifier that can be used later in the Chartboost
+ dashboard to group information by.
  */
-+ (BOOL)isAnyViewVisible;
++ (void)setCustomId:(NSString *)customId;
 
 /*!
  @abstract
- Determine if a locally cached interstitial exists for the given CBLocation.
+ Get the current custom identifier being sent in the POST body for all Chartboost API server requests.
  
- @param location The location for the Chartboost impression type.
+ @return The identifier being sent with all Chartboost API server requests.
  
- @return YES if there a locally cached interstitial, and NO if not.
- 
- @discussion A return value of YES here indicates that the corresponding
- showInterstitial:(CBLocation)location method will present without making
- additional Chartboost API server requests to fetch data to present.
+ @discussion Use this method to get the custom identifier that can be used later in the Chartboost
+ dashboard to group information by.
  */
-+ (BOOL)hasInterstitial:(CBLocation)location;
-/*!
- @abstract
- Determine if a locally cached rewarded video exists for the given CBLocation.
- 
- @param location The location for the Chartboost impression type.
- 
- @return YES if there a locally cached rewarded video, and NO if not.
- 
- @discussion A return value of YES here indicates that the corresponding
- showRewardedVideo:(CBLocation)location method will present without making
- additional Chartboost API server requests to fetch data to present.
- */
-+ (BOOL)hasRewardedVideo:(CBLocation)location;
-/*!
- @abstract
- Cache an interstitial at the given CBLocation.
- 
- @param location The location for the Chartboost impression type.
- 
- @discussion This method will first check if there is a locally cached interstitial
- for the given CBLocation and, if found, will do nothing. If no locally cached data exists
- the method will attempt to fetch data from the Chartboost API server.
- */
-+ (void)cacheInterstitial:(CBLocation)location;
-/*!
- @abstract
- Present an interstitial for the given CBLocation.
- 
- @param location The location for the Chartboost impression type.
- 
- @discussion This method will first check if there is a locally cached interstitial
- for the given CBLocation and, if found, will present using the locally cached data.
- If no locally cached data exists the method will attempt to fetch data from the
- Chartboost API server and present it.  If the Chartboost API server is unavailable
- or there is no eligible interstitial to present in the given CBLocation this method
- is a no-op.
- */
-+ (void)showInterstitial:(CBLocation)location;
++ (NSString *)getCustomId;
 
 /*!
  @abstract
- Cache a rewarded video at the given CBLocation.
+ Set a custom version to append to the POST body of every request. This is useful for analytics and provides chartboost with important information.
+ example: [Chartboost setChartboostWrapperVersion:@"6.4.6"];
  
- @param location The location for the Chartboost impression type.
+ @param chartboostWrapperVersion The version sent as a string.
  
- @discussion This method will first check if there is a locally cached rewarded video
- for the given CBLocation and, if found, will do nothing. If no locally cached data exists
- the method will attempt to fetch data from the Chartboost API server.
+ @discussion This is an internal method used via Chartboost's Unity and Corona SDKs
+ to track their usage.
  */
-+ (void)cacheRewardedVideo:(CBLocation)location;
-
-
++ (void)setChartboostWrapperVersion:(NSString*)chartboostWrapperVersion;
 
 /*!
  @abstract
- Present a rewarded video for the given CBLocation.
+ Set a custom framework suffix to append to the POST headers field.
+ example setFramework:Unity withVersion:4.6, setFrameworkVersion:5.2.1
  
- @param location The location for the Chartboost impression type.
+ @param framework The suffix to send with all Chartbooost API server requets.
+ @param version The platform version used for analytics. Example Unity should set Application.unityVersion
  
- @discussion This method will first check if there is a locally cached rewarded video
- for the given CBLocation and, if found, will present it using the locally cached data.
- If no locally cached data exists the method will attempt to fetch data from the
- Chartboost API server and present it.  If the Chartboost API server is unavailable
- or there is no eligible rewarded video to present in the given CBLocation this method
- is a no-op.
+ @discussion This is an internal method used via Chartboost's Unity and Corona SDKs
+ to track their usage.
  */
-+ (void)showRewardedVideo:(CBLocation)location;
++ (void)setFramework:(CBFramework)framework withVersion:(NSString *)version;
+
 /*!
  @abstract
- Cache a number of InPlay objects for the given CBLocation.
+ Decide if Chartboost SDKK will attempt to fetch videos from the Chartboost API servers.
  
- @param location The location for the Chartboost impression type.
+ @param shouldPrefetch YES if Chartboost should prefetch video content, NO otherwise.
  
- @discussion This method will first check if there is a locally cached InPlay object set
- for the given CBLocation and, if found, will do nothing. If no locally cached data exists
- the method will attempt to fetch data from the Chartboost API server.
+ @discussion Set to control if Chartboost SDK control if videos should be prefetched.
+ 
+ Default is YES.
  */
-+ (void)cacheInPlay:(CBLocation)location;
++ (void)setShouldPrefetchVideoContent:(BOOL)shouldPrefetch;
+
 /*!
  @abstract
- Set the Chartboost Delegate
+ returns YES if auto IAP tracking is enabled, NO if it isn't.
  
- @param del The new Chartboost Delegate for the sharedChartboost instance
- 
- @discussion This doesn't need to be called when calling startWithAppID, only later
- to switch the delegate object.
+ @discussion Call to check if automatic tracking of in-app purchases is enabled.
+ The setting is controlled by the server.
  */
-+ (void)setDelegate:(id<ChartboostDelegate>)del;
++ (BOOL)getAutoIAPTracking;
+
+/*!
+ @abstract
+ Mute/unmute chartboost ads.
+ @param mute YES all sounds, NO activates them. Default is NO
+ @discussion default value is NO
+ */
++ (void)setMuted:(BOOL)mute;
+
+/*!
+ @abstract
+ Set to restrict Chartboost's ability to collect personal data from the device. See CBPIDataUseConsent declaration for details
+ Note: This method should be called before starting the Chartboost SDK with startWithAppId:appSignature:delegate.
+ @param consent set the consent level
+ @discussion Default value is Unknown
+ */
++ (void)setPIDataUseConsent:(CBPIDataUseConsent)consent;
+
+/*!
+ @abstract
+ Get the current consent setting
+ */
++ (CBPIDataUseConsent)getPIDataUseConsent;
 @end
 
-@protocol ChartboostDelegate <NSObject>
+
+@protocol CHBAdDelegate;
+
+@protocol CHBAd <NSObject>
+
+/*!
+ @brief The delegate instance to receive ad callbacks.
+ */
+@property (nonatomic, weak, nullable) id<CHBAdDelegate> delegate;
+
+/*!
+ @brief Chartboost location for the ad.
+ @discussion Used to obtain ads with increased performance.
+ */
+@property (nonatomic, readonly) CBLocation location;
+
+/*!
+ @brief Determines if a cached ad exists.
+ @return YES if there is a cached ad, and NO if not.
+ */
+@property (nonatomic, readonly) BOOL isCached;
+
+/*!
+ @brief Caches an ad.
+ @discussion This method will first check if there is a cached ad and, if found, will do nothing.
+ If no cached ad exists the method will attempt to fetch it from the Chartboost server.
+ Implement didCacheAd:error: in your ad delegate to be notified of a cache request result.
+ */
+- (void)cache;
+
+/*!
+ @brief Shows an ad.
+ @param viewController The view controller to present the ad on.
+ @discussion This method will first check if there is a cached ad, if found it will present it.
+ It is highly recommended that a non-nil view controller is passed, as it is required for enhanced ad presentation and some features like opening links in an in-app web browser.
+ */
+- (void)showFromViewController:(nullable UIViewController *)viewController;
+
+@end
+
+@interface CHBAdEvent : NSObject
+/*!
+ @brief The ad related to the event.
+ */
+@property (nonatomic, readonly) id<CHBAd> ad;
+@end
+
+/*!
+ @class CHBCacheEvent
+ @brief A CHBAdEvent subclass passed on cache-related delegate methods.
+ */
+@interface CHBCacheEvent : CHBAdEvent
+@end
+
+/*!
+ @class CHBShowEvent
+ @brief A CHBAdEvent subclass passed on show-related delegate methods.
+ */
+@interface CHBShowEvent : CHBAdEvent
+@end
+
+/*!
+ @class CHBClickEvent
+ @brief A CHBAdEvent subclass passed on click-related delegate methods.
+ */
+@interface CHBClickEvent : CHBAdEvent
+/*!
+ @brief The view controller used to present the viewer for the link associated with the click.
+ @discussion This is the view controller you passed on the showFromViewController: call or a Chartboost ad view controller which was presented on top of it. If you called showFromViewController: passing a nil view controller this property will be nil too.
+ You may use it to present your custom click confirmation gate if you implement the shouldConfirmClick:confirmationHandler: ad delegate method.
+ */
+@property (nonatomic, readonly, nullable) UIViewController *viewController;
+@end
+
+/*!
+ @class CHBDismissEvent
+ @brief A CHBAdEvent subclass passed on dismiss-related delegate methods.
+ */
+@interface CHBDismissEvent : CHBAdEvent
+@end
+
+/*!
+ @class CHBRewardEvent
+ @brief A CHBAdEvent subclass passed on reward-related delegate methods.
+ */
+@interface CHBRewardEvent : CHBAdEvent
+/*!
+ @brief The earned reward.
+ */
+@property (nonatomic, readonly) NSInteger reward;
+@end
+
+
+// MARK: - Errors
+
+/*!
+ @typedef NS_ENUM (NSUInteger, CHBCacheErrorCode)
+ @brief Error codes for failed cache operations.
+ */
+typedef NS_ENUM(NSUInteger, CHBCacheErrorCode) {
+    CHBCacheErrorCodeInternal = 0,
+    CHBCacheErrorCodeInternetUnavailable = 1,
+    CHBCacheErrorCodeNetworkFailure = 5,
+    CHBCacheErrorCodeNoAdFound = 6,
+    CHBCacheErrorCodeSessionNotStarted = 7,
+    CHBCacheErrorCodeAssetDownloadFailure = 16,
+    CHBCacheErrorCodePublisherDisabled = 35
+};
+
+/*!
+ @class CHBCacheError
+ @brief An error object passed on cache-related delegate methods.
+ */
+@interface CHBCacheError : NSObject
+/*! @brief Error code that indicates the failure reason. */
+@property (nonatomic, readonly) CHBCacheErrorCode code;
+@end
+
+
+/*!
+ @typedef NS_ENUM (NSUInteger, CHBShowErrorCode)
+ @brief Error codes for failed show operations.
+ */
+typedef NS_ENUM(NSUInteger, CHBShowErrorCode) {
+    CHBShowErrorCodeInternal = 0,
+    CHBShowErrorCodeSessionNotStarted = 7,
+    CHBShowErrorCodeAdAlreadyVisible = 8,
+    CHBShowErrorCodeInternetUnavailable = 25,
+    CHBShowErrorCodePresentationFailure = 33,
+    CHBShowErrorCodeNoCachedAd = 34
+};
+
+/*!
+ @class CHBShowError
+ @brief An error object passed on show-related delegate methods.
+ */
+@interface CHBShowError : NSObject
+/*! @brief Error code that indicates the failure reason. */
+@property (nonatomic, readonly) CHBShowErrorCode code;
+@end
+
+/*!
+ @typedef NS_ENUM (NSUInteger, CHBClickErrorCode)
+ @brief Error codes for failed click operations.
+ */
+typedef NS_ENUM(NSUInteger, CHBClickErrorCode) {
+    CHBClickErrorCodeUriInvalid = 0,
+    CHBClickErrorCodeUriUnrecognized = 1,
+    CHBClickErrorCodeConfirmationGateFailure = 2,
+    CHBClickErrorCodeInternal = 3
+};
+
+/*!
+ @class CHBClickError
+ @brief An error object passed on click-related delegate methods.
+ */
+@interface CHBClickError : NSObject
+/*! @brief Error code that indicates the failure reason. */
+@property (nonatomic, readonly) CHBClickErrorCode code;
+@end
+
+
+// MARK: - Delegate
+
+/*!
+ @protocol CHBAdDelegate
+ @brief The protocol which all Chartboost ad delegates inherit from.
+ @discussion Provides methods to receive notifications related to an ad's actions and to control its behavior.
+ */
+@protocol CHBAdDelegate <NSObject>
 
 @optional
 
 /*!
- @abstract
- Called by the SDK to show customized AgeGate View.
+ @brief Called after a cache call, either if an ad has been loaded from the Chartboost servers and cached, or tried to but failed.
+ @param event A cache event with info related to the cached ad.
+ @param error An error specifying the failure reason, or nil if the operation was successful.
+ @discussion Implement to be notified of when an ad is ready to be shown after the cache method has been called.
  
- @return A valid UIView. Reutrn nil if no customized Age Gate is needed.
- 
- @discussion SDK will call this method to see if user wants to implement their own custom age gate view.
- Check for didPassAgeGate for other details.
+ A typical implementation would look like this:
+ @code
+ - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error {
+    if (error) {
+        // Handle error
+    } else {
+        // At this point event.ad.isCached will be true, and the ad is ready to be shown.
+    }
+ }
+ @endcode
  */
-- (UIView*)customAgeGateView;
+- (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error;
 
 /*!
- @abstract
- Called after the SDK has been successfully initialized
+ @brief Called after a showFromViewController: call, right before an ad is presented.
+ @param event A show event with info related to the ad to be shown.
+ @discussion Implement to be notified of when an ad is about to be presented.
  
- @param status The result of the initialization. YES if successful. NO if failed.
- 
- @discussion Implement to be notified of when the initialization process has finished.
+ A typical implementation would look like this:
+ @code
+ - (void)willShowAd:(CHBShowEvent *)event {
+    // Pause ongoing processes like video or gameplay.
+ }
+ @endcode
  */
-
-- (void)didInitialize:(BOOL)status;
-
-#pragma mark - Interstitial Delegate
+- (void)willShowAd:(CHBShowEvent *)event;
 
 /*!
- @abstract
- Called before requesting an interstitial via the Chartboost API server.
- 
- @param location The location for the Chartboost impression type.
- 
- @return YES if execution should proceed, NO if not.
- 
- @discussion Implement to control if the Charboost SDK should fetch data from
- the Chartboost API servers for the given CBLocation.  This is evaluated
- if the showInterstitial:(CBLocation) or cacheInterstitial:(CBLocation)location
- are called.  If YES is returned the operation will proceed, if NO, then the
- operation is treated as a no-op.
- 
- Default return is YES.
+ @brief This method is deprecated in favor of willShowAd:, the error parameter will always be nil.
+ If implemented, both willShowAd:error: and willShowAd: will be called when the corresponding event occurs.
  */
-- (BOOL)shouldRequestInterstitial:(CBLocation)location;
+- (void)willShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error DEPRECATED_MSG_ATTRIBUTE("Please use willShowAd: instead. This method is deprecated and will be removed in a future version.");
 
 /*!
- @abstract
- Called before an interstitial will be displayed on the screen.
+ @brief Called after a showFromViewController: call, either if the ad has been presented and an ad impression logged, or if the operation failed.
+ @param event A show event with info related to the ad shown.
+ @param error An error specifying the failure reason, or nil if the operation was successful.
+ @discussion Implement to be notified of when the ad presentation process has finished. Note that this method may be called more than once if some error occurs after the ad has been successfully shown.
  
- @param location The location for the Chartboost impression type.
- 
- @return YES if execution should proceed, NO if not.
- 
- @discussion Implement to control if the Charboost SDK should display an interstitial
- for the given CBLocation.  This is evaluated if the showInterstitial:(CBLocation)
- is called.  If YES is returned the operation will proceed, if NO, then the
- operation is treated as a no-op and nothing is displayed.
- 
- Default return is YES.
+ A common practice consists of caching an ad here so there's an ad ready for the next time you need to show it.
+ Note that this is not necessary for banners with automaticallyRefreshesContent set to YES.
+ @code
+ - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error {
+    if (error) {
+        // Handle error, possibly resuming processes paused in willShowAd:
+    } else {
+        [event.ad cache];
+    }
+ }
+ @endcode
  */
-- (BOOL)shouldDisplayInterstitial:(CBLocation)location;
+- (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error;
 
 /*!
- @abstract
- Called after an interstitial has been displayed on the screen.
+ @brief Called whenever the user clicks an ad to give a chance to the developer to present a confirmation gate before the click is handled.
+ @param event A click event with info related to the ad clicked.
+ @param confirmationHandler A block to be executed only if the return value is YES. It takes a BOOL parameter that indicates if the confirmation gate was passed or not.
+ @return YES if the handling of the triggering click should be paused for confirmation, NO if the click should be handled without confirmation.
+ @warning If you return YES in your implementation make sure to execute the confirmationHandler at some point, since the ad flow will be paused until then.
+ If you use the event's view controller to present a confirmation view make sure it has been dismissed by the time you execute the confirmation handler.
+ @discussion If you return YES it is your responsibility to implement some confirmation method that triggers the execution of the confirmationHandler.
  
- @param location The location for the Chartboost impression type.
+ If this method is not implemented clicks will be handled without confirmation.
  
- @discussion Implement to be notified of when an interstitial has
- been displayed on the screen for a given CBLocation.
+ A typical implementation would look like this:
+ @code
+ - (BOOL)shouldConfirmClick:(CHBClickEvent *)event confirmationHandler:(void(^)(BOOL))confirmationHandler
+    if (self.needsClickConfirmation) {
+        MyAwesomeAgeGate *ageGate = [[MyAwesomeAgeGate alloc] initWithCompletion:^(BOOL confirmed) {
+            [ageGate dismissViewControllerAnimated:YES completion:^{
+                confirmationHandler(confirmed);
+            }];
+        }];
+        [event.viewController presentViewController:ageGate animated:YES completion:nil];
+        return YES;
+    } else {
+        return NO;
+    }
+ }
+ @endcode
  */
-- (void)didDisplayInterstitial:(CBLocation)location;
+- (BOOL)shouldConfirmClick:(CHBClickEvent *)event confirmationHandler:(void(^)(BOOL))confirmationHandler;
 
 /*!
- @abstract
- Called after an interstitial has been loaded from the Chartboost API
- servers and cached locally.
+ @brief Called after an ad has been clicked.
+ @param event A click event with info related to the ad clicked.
+ @param error An error specifying the failure reason, or nil if the operation was successful.
+ @discussion Implement to be notified of when an ad has been clicked.
+ If the click does not result into the opening of a link an error will be provided explaning why.
  
- @param location The location for the Chartboost impression type.
- 
- @discussion Implement to be notified of when an interstitial has been loaded from the Chartboost API
- servers and cached locally for a given CBLocation.
+ A typical implementation would look like this:
+ @code
+ - (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error {
+    if (error) {
+        // Handle error
+    } else {
+        // Maybe pause ongoing processes like video or gameplay.
+    }
+ }
+ @endcode
  */
-- (void)didCacheInterstitial:(CBLocation)location;
+- (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error;
 
 /*!
- @abstract
- Called after an interstitial has attempted to load from the Chartboost API
- servers but failed.
+ @brief Called when the link viewer presented as result of an ad click has been dismissed.
+ @param event A click event with info related to the ad clicked.
+ @param error An error specifying the failure reason, or nil if the operation was successful.
+ @discussion Implement to be notified of when an ad click has been handled.
+ This can mean an in-app web browser or App Store app sheet has been dismissed, or that the user came back to the app after the link was opened on an external application.
  
- @param location The location for the Chartboost impression type.
- 
- @param error The reason for the error defined via a CBLoadError.
- 
- @discussion Implement to be notified of when an interstitial has attempted to load from the Chartboost API
- servers but failed for a given CBLocation.
+ A typical implementation would look like this:
+ @code
+ - (void)didFinishHandlingClick:(CHBClickEvent *)event error:(nullable CHBClickError *)error {
+    // Resume processes previously paused on didClickAd:error: implementation.
+ }
+ @endcode
  */
-- (void)didFailToLoadInterstitial:(CBLocation)location
-                        withError:(CBLoadError)error;
+- (void)didFinishHandlingClick:(CHBClickEvent *)event error:(nullable CHBClickError *)error;
+
+@end
 
 /*!
- @abstract
- Called after a click is registered, but the user is not fowrwarded to the IOS App Store.
- 
- @param location The location for the Chartboost impression type.
- 
- @param error The reason for the error defined via a CBLoadError.
- 
- @discussion Implement to be notified of when a click is registered, but the user is not fowrwarded
- to the IOS App Store for a given CBLocation.
+ @protocol CHBDismissableAdDelegate
+ @brief Delegate protocol for ads that can be dismissed.
+ @discussion Provides methods to receive notifications related to an ad's actions and to control its behavior.
  */
-- (void)didFailToRecordClick:(CBLocation)location
-                   withError:(CBClickError)error;
+@protocol CHBDismissableAdDelegate <CHBAdDelegate>
+
+@optional
 
 /*!
- @abstract
- Called after an interstitial has been dismissed.
+ @brief Called after an ad is dismissed.
+ @param event A dismiss event with info related to the dismissed ad.
+ @discussion Implement to be notified of when an ad is no longer displayed.
  
- @param location The location for the Chartboost impression type.
- 
- @discussion Implement to be notified of when an interstitial has been dismissed for a given CBLocation.
- "Dismissal" is defined as any action that removed the interstitial UI such as a click or close.
+ A typical implementation would look like this:
+ @code
+ - (void)didDismissAd:(CHBCacheEvent *)event {
+    // Resume processes paused in willShowAd:
+ }
+ @endcode
  */
-- (void)didDismissInterstitial:(CBLocation)location;
+- (void)didDismissAd:(CHBDismissEvent *)event;
+
+@end
+
+
+@protocol CHBInterstitialDelegate <CHBDismissableAdDelegate>
+
+@end
 
 /*!
- @abstract
- Called after an interstitial has been closed.
+ @class CHBInterstitial
  
- @param location The location for the Chartboost impression type.
+ @brief CHBInterstitial is a full-screen ad.
  
- @discussion Implement to be notified of when an interstitial has been closed for a given CBLocation.
- "Closed" is defined as clicking the close interface for the interstitial.
+ @discussion To show an interstitial it first needs to be cached. Trying to show an uncached intersitital will always fail, thus it is recommended to always check if the ad is cached first.
+ 
+ You can create and cache as many interstitial as you want, but only one can be presented at the same time.
+ 
+ A basic implementation would look like this:
+ @code
+ - (void)createAndCacheInterstitial {
+    CHBInterstitial *interstitial = [[CHBInterstitial alloc] initWithLocation:CBLocationDefault delegate:self];
+    [interstitial cache];
+ }
+ 
+ - (void)showInterstitial {
+    if (interstitial.isCached) {
+        [interstitial showFromViewController:self];
+    }
+ }
+ 
+ // Delegate methods
+ 
+ - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error {
+    if (error) {
+        // Handle error, possibly scheduling a retry
+    }
+ }
+ 
+ - (void)willShowAd:(CHBShowEvent *)event {
+    // Pause ongoing processes
+ }
+ 
+ - (void)didDismissAd:(CHBDismissEvent *)event {
+    // Resume paused processes
+ }
+ @endcode
+ 
+ If your application uses a View controller-based status bar appearance (usually the default), an ad shown with a valid view controller will hide the status bar. Otherwise it is your responsibility to hide it or not.
+ 
+ For more information on integrating and using the Chartboost SDK please visit our help site documentation at https://help.chartboost.com
  */
-- (void)didCloseInterstitial:(CBLocation)location;
+@interface CHBInterstitial : NSObject
 
 /*!
- @abstract
- Called after an interstitial has been clicked.
- 
- @param location The location for the Chartboost impression type.
- 
- @discussion Implement to be notified of when an interstitial has been click for a given CBLocation.
- "Clicked" is defined as clicking the creative interface for the interstitial.
+ @brief Chartboost location for the ad.
+ @discussion Used to obtain ads with increased performance.
  */
-- (void)didClickInterstitial:(CBLocation)location;
-
-
-#pragma mark - Rewarded Video Delegate
+@property (nonatomic, readonly) CBLocation location;
 
 /*!
- @abstract
- Called before a rewarded video will be displayed on the screen.
- 
- @param location The location for the Chartboost impression type.
- 
- @return YES if execution should proceed, NO if not.
- 
- @discussion Implement to control if the Charboost SDK should display a rewarded video
- for the given CBLocation.  This is evaluated if the showRewardedVideo:(CBLocation)
- is called.  If YES is returned the operation will proceed, if NO, then the
- operation is treated as a no-op and nothing is displayed.
- 
- Default return is YES.
+ @brief The delegate instance to receive interstitial callbacks.
  */
-- (BOOL)shouldDisplayRewardedVideo:(CBLocation)location;
+@property (nonatomic, weak, nullable) id<CHBInterstitialDelegate> delegate;
 
 /*!
- @abstract
- Called after a rewarded video has been displayed on the screen.
- 
- @param location The location for the Chartboost impression type.
- 
- @discussion Implement to be notified of when a rewarded video has
- been displayed on the screen for a given CBLocation.
+ @brief Determines if a cached ad exists.
+ @return YES if there is a cached ad, and NO if not.
+ @discussion A return value of YES here indicates that it is safe to call the showFromViewController: method.
+ Calling this method when this value is NO will cause the show request to fail with a CHBShowErrorCodeNoCachedAd error.
  */
-- (void)didDisplayRewardedVideo:(CBLocation)location;
+@property (nonatomic, readonly) BOOL isCached;
 
 /*!
- @abstract
- Called after a rewarded video has been loaded from the Chartboost API
- servers and cached locally.
- 
- @param location The location for the Chartboost impression type.
- 
- @discussion Implement to be notified of when a rewarded video has been loaded from the Chartboost API
- servers and cached locally for a given CBLocation.
+ @brief The initializer for the interstitial object.
+ @param location Location for the interstitial. See the location property documentation.
+ @param delegate Delegate for the interstitial. See the delegate property documentation.
  */
-- (void)didCacheRewardedVideo:(CBLocation)location;
+- (instancetype)initWithLocation:(CBLocation)location delegate:(nullable id<CHBInterstitialDelegate>)delegate;
 
 /*!
- @abstract
- Called after a rewarded video has attempted to load from the Chartboost API
- servers but failed.
- 
- @param location The location for the Chartboost impression type.
- 
- @param error The reason for the error defined via a CBLoadError.
- 
- @discussion Implement to be notified of when an rewarded video has attempted to load from the Chartboost API
- servers but failed for a given CBLocation.
- */
-- (void)didFailToLoadRewardedVideo:(CBLocation)location
-                         withError:(CBLoadError)error;
+ @brief Please use initWithLocation:delegate: instead.
+*/
+- (instancetype)init NS_UNAVAILABLE;
 
 /*!
- @abstract
- Called after a rewarded video has been dismissed.
- 
- @param location The location for the Chartboost impression type.
- 
- @discussion Implement to be notified of when a rewarded video has been dismissed for a given CBLocation.
- "Dismissal" is defined as any action that removed the rewarded video UI such as a click or close.
+ @brief Caches an ad.
+ @discussion This method will first check if there is a cached ad and, if found, will do nothing.
+ If no cached ad exists the method will attempt to fetch it from the Chartboost server.
+ Implement didCacheAd:error: in your ad delegate to be notified of a cache request result.
  */
-- (void)didDismissRewardedVideo:(CBLocation)location;
+- (void)cache;
 
 /*!
- @abstract
- Called after a rewarded video has been closed.
- 
- @param location The location for the Chartboost impression type.
- 
- @discussion Implement to be notified of when a rewarded video has been closed for a given CBLocation.
- "Closed" is defined as clicking the close interface for the rewarded video.
+ @brief Shows an ad.
+ @param viewController The view controller to present the ad on.
+ @discussion This method will first check if there is a cached ad, if found it will present it.
+ If no cached ad exists the request will fail with a CHBShowErrorCodeNoCachedAd error.
+ It is highly recommended that a non-nil view controller is passed, as it is required for enhanced ad presentation and some features like opening links in an in-app web browser.
+ Implement didShowAd:error: in your ad delegate to be notified of a show request result.
  */
-- (void)didCloseRewardedVideo:(CBLocation)location;
+- (void)showFromViewController:(nullable UIViewController *)viewController;
+
+@end
 
 /*!
- @abstract
- Called after a rewarded video has been clicked.
- 
- @param location The location for the Chartboost impression type.
- 
- @discussion Implement to be notified of when a rewarded video has been click for a given CBLocation.
- "Clicked" is defined as clicking the creative interface for the rewarded video.
+ @protocol CHBRewardableAdDelegate
+ @brief Delegate protocol for ads that can provide a reward.
+ @discussion Provides methods to receive notifications related to an ad's actions and to control its behavior.
  */
-- (void)didClickRewardedVideo:(CBLocation)location;
+@protocol CHBRewardableAdDelegate <CHBAdDelegate>
+
+@optional
 
 /*!
- @abstract
- Called after a rewarded video has been viewed completely and user is eligible for reward.
- 
- @param reward The reward for watching the video.
- 
- @param location The location for the Chartboost impression type.
- 
- @discussion Implement to be notified of when a rewarded video has been viewed completely and user is eligible for reward.
+ @brief Called when a rewarded ad has completed playing.
+ @param event A reward event with info related to the ad and the reward.
+ @discussion Implement to be notified when a reward is earned.
  */
-- (void)didCompleteRewardedVideo:(CBLocation)location
-                      withReward:(int)reward;
-#pragma mark - General Delegate
+- (void)didEarnReward:(CHBRewardEvent *)event;
+
+@end
+
 
 /*!
- @abstract
- Called before an interstitial has been displayed on the screen.
- 
- @param location The location for the Chartboost impression type.
- 
- @discussion Implement to be notified of when an interstitial will
- be displayed on the screen for a given CBLocation.
+ @protocol CHBRewardedDelegate
+ @brief Rewarded delegate protocol that inherits from CHBAdDelegate.
+ @discussion Provides methods to receive notifications related to a rewarded ad's actions and to control its behavior.
+ In a typical integration you would implement willShowAd: and didDismissAd:, pausing and resuming ongoing processes (e.g: gameplay, video) there.
+ The method didEarnReward: needs to be implemented in order to be notified when the user earns a reward.
  */
-- (void)willDisplayInterstitial:(CBLocation)location;
+@protocol CHBRewardedDelegate <CHBDismissableAdDelegate, CHBRewardableAdDelegate>
+@end
 
 /*!
- @abstract
- Called before a video has been displayed on the screen.
+ @class CHBRewarded
  
- @param location The location for the Chartboost impression type.
+ @brief CHBRewarded is a full-screen ad that provides some reward to the user.
  
- @discussion Implement to be notified of when a video will
- be displayed on the screen for a given CBLocation.  You can then do things like mute
- effects and sounds.
+ @discussion To show a rewarded ad it first needs to be cached. Trying to show an uncached rewarded ad will always fail, thus it is recommended to always check if the ad is cached first.
+ 
+ You can create and cache as many rewarded ads as you want, but only one can be presented at the same time.
+ 
+ A basic implementation would look like this:
+ @code
+ - (void)createAndCacheRewarded {
+    self.rewarded = [[CHBRewarded alloc] initWithLocation:CBLocationDefault delegate:self];
+    [self.rewarded cache];
+ }
+ 
+ - (void)showRewarded {
+    if (self.rewarded.isCached) {
+        [self.rewarded showFromViewController:self];
+    }
+ }
+ 
+ // Delegate methods
+ 
+ - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error {
+    if (error) {
+        // Handle error, possibly scheduling a retry
+    }
+ }
+ 
+ - (void)willShowAd:(CHBShowEvent *)event {
+    // Pause ongoing processes
+ }
+
+ - (void)didDismissAd:(CHBDismissEvent *)event {
+    // Resume paused processes
+ }
+ 
+ - (void)didEarnReward:(CHBRewardEvent *)event {
+    // Update app state with event.reward
+ }
+ @endcode
+ 
+ If your application uses a View controller-based status bar appearance (usually the default), an ad shown with a valid view controller will hide the status bar. Otherwise it is your responsibility to hide it or not.
+
+ For more information on integrating and using the Chartboost SDK please visit our help site documentation at https://help.chartboost.com
  */
-- (void)willDisplayVideo:(CBLocation)location;
+@interface CHBRewarded : NSObject
 
 /*!
- @abstract
- Called after the App Store sheet is dismissed, when displaying the embedded app sheet.
- 
- @discussion Implement to be notified of when the App Store sheet is dismissed.
+ @brief Chartboost location for the ad.
+ @discussion Used to obtain ads with increased performance.
  */
-- (void)didCompleteAppStoreSheetFlow;
+@property (nonatomic, readonly) CBLocation location;
 
 /*!
- @abstract
- Called if Chartboost SDK pauses click actions awaiting confirmation from the user.
- 
- @discussion Use this method to display any gating you would like to prompt the user for input.
- Once confirmed call didPassAgeGate:(BOOL)pass to continue execution.
+ @brief The delegate instance to receive rewarded ad callbacks.
  */
-- (void)didPauseClickForConfirmation;
+@property (nonatomic, weak, nullable) id<CHBRewardedDelegate> delegate;
+
+/*!
+ @brief Determines if a cached ad exists.
+ @return YES if there is a cached ad, and NO if not.
+ @discussion A return value of YES here indicates that it is safe to call the showFromViewController: method.
+ Calling this method when this value is NO will cause the show request to fail with a CHBShowErrorCodeNoCachedAd error.
+ */
+@property (nonatomic, readonly) BOOL isCached;
+
+/*!
+ @brief The initializer for the rewarded ad object.
+ @param location Location for the rewarded ad. See the location property documentation.
+ @param delegate Delegate for the rewarded ad. See the delegate property documentation.
+ */
+- (instancetype)initWithLocation:(CBLocation)location delegate:(nullable id<CHBRewardedDelegate>)delegate;
+
+/*!
+ @brief Please use initWithLocation:delegate: instead.
+*/
+- (instancetype)init NS_UNAVAILABLE;
+
+/*!
+ @brief Caches an ad.
+ @discussion This method will first check if there is a cached ad and, if found, will do nothing.
+ If no cached ad exists the method will attempt to fetch it from the Chartboost server.
+ Implement didCacheAd:error: in your ad delegate to be notified of a cache request result.
+ */
+- (void)cache;
+
+/*!
+ @brief Shows an ad.
+ @param viewController The view controller to present the ad on.
+ @discussion This method will first check if there is a cached ad, if found it will present it.
+ If no cached ad exists the request will fail with a CHBShowErrorCodeNoCachedAd error.
+ It is highly recommended that a non-nil view controller is passed, as it is required for enhanced ad presentation and some features like opening links in an in-app web browser.
+ Implement didShowAd:error: in your ad delegate to be notified of a show request result.
+ */
+- (void)showFromViewController:(nullable UIViewController *)viewController;
 
 @end
 

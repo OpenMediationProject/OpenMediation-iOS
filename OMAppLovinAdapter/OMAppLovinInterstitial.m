@@ -36,8 +36,8 @@
 }
 
 - (void)show:(UIViewController*)vc {
-    if (self.alAd) {
-        [_appLovinInterstitial showOver:[OMAppLovinAdapter currentWindow] andRender:self.alAd];
+    if(self.alAd && _appLovinInterstitial && [_appLovinInterstitial respondsToSelector:@selector(showAd:)]){
+        [_appLovinInterstitial showAd:self.alAd];
     }
     _ready = NO;
 }

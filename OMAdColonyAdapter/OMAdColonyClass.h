@@ -14,10 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class AdColonyAppOptions;
 @class AdColonyNativeAdView;
 
-@interface AdColonyAdRequestError : NSError
-
-@end
-
 /**
  AdColonyOptions is a superclass for all types of AdColonyOptions.
  Note that AdColonyOptions classes should never be instantiated directly.
@@ -93,93 +89,123 @@ typedef NS_ENUM(NSUInteger, AdColonyIAPEngagement) {
     AdColonyIAPEngagementOverlay
 };
 
+@class AdColonyTypes;
+@class AdColonyInterstitial;
+
+@interface AdColonyAdRequestError : NSError
+
+@end
+
+/**
+ * The delegate of an AdColonyInterstitial object. This delegate receives interstitial lifecycle notifications.
+ */
+@protocol AdColonyInterstitialDelegate <NSObject>
+
+@required
+
+/**
+ @abstract Did load notification
+ @discussion Notifies you when interstitial has been created, received an ad and is ready to use. Call is dispatched on main thread.
+ @param interstitial Loaded interstitial
+ */
+- (void)adColonyInterstitialDidLoad:(AdColonyInterstitial * _Nonnull)interstitial;
+
+/**
+ @abstract No ad notification
+ @discussion Notifies you when SDK was not able to load an ad for requested zone. Call is dispatched on main thread.
+ @param error Error with failure explanation
+ */
+- (void)adColonyInterstitialDidFailToLoad:(AdColonyAdRequestError * _Nonnull)error;
+
+@optional
+
+/**
+ @abstract Open notification
+ @discussion Notifies you when interstitial is going to show fullscreen content. Call is dispatched on main thread.
+ @param interstitial interstitial ad object
+ */
+- (void)adColonyInterstitialWillOpen:(AdColonyInterstitial * _Nonnull)interstitial;
+
+/**
+ @abstract Close notification
+ @discussion Notifies you when interstitial dismissed fullscreen content. Call is dispatched on main thread.
+ @param interstitial interstitial ad object
+ */
+- (void)adColonyInterstitialDidClose:(AdColonyInterstitial * _Nonnull)interstitial;
+
+/**
+ @abstract Expire notification
+ @discussion Notifies you when an interstitial expires and is no longer valid for playback. This does not get triggered when the expired flag is set because it has been viewed. It's recommended to request a new ad within this callback. Call is dispatched on main thread.
+ @param interstitial interstitial ad object
+ */
+- (void)adColonyInterstitialExpired:(AdColonyInterstitial * _Nonnull)interstitial;
+
+/**
+ @abstract Will leave application notification
+ @discussion Notifies you when an ad action cause the user to leave application. Call is dispatched on main thread.
+ @param interstitial interstitial ad object
+ */
+- (void)adColonyInterstitialWillLeaveApplication:(AdColonyInterstitial * _Nonnull)interstitial;
+
+/**
+ @abstract Click notification
+ @discussion Notifies you when the user taps on the interstitial causing the action to be taken. Call is dispatched on main thread.
+ @param interstitial interstitial ad object
+ */
+- (void)adColonyInterstitialDidReceiveClick:(AdColonyInterstitial * _Nonnull)interstitial;
+
+/** @name Videos For Purchase (V4P) */
+
+/**
+ @abstract IAP opportunity notification
+ @discussion Notifies you when the ad triggers an IAP opportunity.
+ @param interstitial interstitial ad object
+ @param iapProductID IAP product id
+ @param engagement engagement type
+ */
+- (void)adColonyInterstitial:(AdColonyInterstitial * _Nonnull)interstitial iapOpportunityWithProductId:(NSString * _Nonnull)iapProductID andEngagement:(AdColonyIAPEngagement)engagement;
+
+@end
+
+
+/**
+ Ad object returned from a request. This is used to show and receive callbacks once the ad is presented.
+ */
 @interface AdColonyInterstitial : NSObject
 
 /** @name Properties */
 
 /**
+ @abstract Interstitial delegate
+ @discussion Delegate object that receives interstitial lifecycle notifications.
+ */
+@property (nonatomic, nullable, weak) id<AdColonyInterstitialDelegate> delegate;
+
+/**
  @abstract Represents the unique zone identifier string from which the interstitial was requested.
  @discussion AdColony zone IDs can be created at the [Control Panel](http://clients.adcolony.com).
  */
-@property (nonatomic, readonly) NSString *zoneID;
+@property (nonatomic, strong, readonly) NSString *zoneID;
 
 /**
  @abstract Indicates whether or not the interstitial has been played or if it has met its expiration time.
  @discussion AdColony interstitials become expired as soon as the ad launches or just before they have met their expiration time.
  */
-@property (nonatomic, readonly) BOOL expired;
+@property (atomic, assign, readonly) BOOL expired;
 
 /**
  @abstract Indicates whether or not the interstitial has audio enabled.
  @discussion Leverage this property to determine if the application's audio should be paused while the ad is playing.
  */
-@property (nonatomic, readonly) BOOL audioEnabled;
+@property (nonatomic, assign, readonly) BOOL audioEnabled;
 
 /**
  @abstract Indicates whether or not the interstitial is configured to trigger IAPs.
  @discussion Leverage this property to determine if the interstitial is configured to trigger IAPs.
  */
-@property (nonatomic, readonly) BOOL iapEnabled;
+@property (nonatomic, assign, readonly) BOOL iapEnabled;
 
-/** @name Ad Event Handlers */
 
-/**
- @abstract Sets the block of code to be executed when the interstitial is displayed to the user.
- @discussion Note that the associated code block will be dispatched on the main thread.
- @param open The block of code to be executed.
- */
-- (void)setOpen:(nullable void (^)(void))open;
-
-/**
- @abstract Sets the block of code to be executed when the interstitial is removed from the view hierarchy. It's recommended to request a new ad within this callback.
- @discussion Note that the associated code block will be dispatched on the main thread.
- @param close The block of code to be executed.
- */
-- (void)setClose:(nullable void (^)(void))close;
-
-/**
- @abstract Sets the block of code to be executed when the interstitial begins playing audio.
- @discussion Note that the associated code block will be dispatched on the main thread.
- @param audioStart The block of code to be executed.
- */
-- (void)setAudioStart:(nullable void (^)(void))audioStart __attribute__((deprecated("Deprecated in v3.3.6, use the open callback")));
-
-/**
- @abstract Sets the block of code to be executed when the interstitial stops playing audio.
- @discussion Note that the associated code block will be dispatched on the main thread.
- @param audioStop The block of code to be executed.
- */
-- (void)setAudioStop:(nullable void (^)(void))audioStop __attribute__((deprecated("Deprecated in v3.3.6, use the close callback")));
-
-/**
- @abstract Sets the block of code to be executed when an interstitial expires and is no longer valid for playback. This does not get triggered when the expired flag is set because it has been viewed. It's recommended to request a new ad within this callback.
- @discussion Note that the associated code block will be dispatched on the main thread.
- @param expire The block of code to be executed.
- */
-- (void)setExpire:(nullable void (^)(void))expire;
-
-/**
- @abstract Sets the block of code to be executed when an action causes the user to leave the application.
- @discussion Note that the associated code block will be dispatched on the main thread.
- @param leftApplication The block of code to be executed.
- */
-- (void)setLeftApplication:(nullable void (^)(void))leftApplication;
-
-/**
- @abstract Sets the block of code to be executed when the user taps on the interstitial ad, causing an action to be taken.
- @discussion Note that the associated code block will be dispatched on the main thread.
- @param click The block of code to be executed.
- */
-- (void)setClick:(nullable void (^)(void))click;
-
-/** @name Videos For Purchase (V4P) */
-
-/**
- @abstract Sets the block of code to be executed when the ad triggers an IAP opportunity.
- @discussion Note that the associated code block will be dispatched on the main thread.
- @param iapOpportunity The block of code to be executed.
- */
-- (void)setIapOpportunity:(nullable void (^)(NSString *iapProductID, AdColonyIAPEngagement engagement))iapOpportunity;
 
 /** @name Ad Playback */
 
@@ -197,11 +223,123 @@ typedef NS_ENUM(NSUInteger, AdColonyIAPEngagement) {
  */
 - (void)cancel;
 
-@end
+/** @name Ad Event Handlers */
 
 /**
- The AdColony interface constists of a set of static methods for interacting with the SDK.
+ @abstract Sets the block of code to be executed when the interstitial is displayed to the user.
+ @discussion Note that the associated code block will be dispatched on the main thread.
+ @param open The block of code to be executed.
  */
+- (void)setOpen:(nullable void (^)(void))open __attribute__((deprecated("Deprecated in v4.0.0, use delegate")));
+
+/**
+ @abstract Sets the block of code to be executed when the interstitial is removed from the view hierarchy. It's recommended to request a new ad within this callback.
+ @discussion Note that the associated code block will be dispatched on the main thread.
+ @param close The block of code to be executed.
+ */
+- (void)setClose:(nullable void (^)(void))close __attribute__((deprecated("Deprecated in v4.0.0, use delegate")));
+
+/**
+ @abstract Sets the block of code to be executed when an interstitial expires and is no longer valid for playback. This does not get triggered when the expired flag is set because it has been viewed. It's recommended to request a new ad within this callback.
+ @discussion Note that the associated code block will be dispatched on the main thread.
+ @param expire The block of code to be executed.
+ */
+- (void)setExpire:(nullable void (^)(void))expire __attribute__((deprecated("Deprecated in v4.0.0, use delegate")));
+
+/**
+ @abstract Sets the block of code to be executed when an action causes the user to leave the application.
+ @discussion Note that the associated code block will be dispatched on the main thread.
+ @param leftApplication The block of code to be executed.
+ */
+- (void)setLeftApplication:(nullable void (^)(void))leftApplication __attribute__((deprecated("Deprecated in v4.0.0, use delegate")));
+
+/**
+ @abstract Sets the block of code to be executed when the user taps on the interstitial ad, causing an action to be taken.
+ @discussion Note that the associated code block will be dispatched on the main thread.
+ @param click The block of code to be executed.
+ */
+- (void)setClick:(nullable void (^)(void))click __attribute__((deprecated("Deprecated in v4.0.0, use delegate")));
+
+/** @name Videos For Purchase (V4P) */
+
+/**
+ @abstract Sets the block of code to be executed when the ad triggers an IAP opportunity.
+ @discussion Note that the associated code block will be dispatched on the main thread.
+ @param iapOpportunity The block of code to be executed.
+ */
+- (void)setIapOpportunity:(nullable void (^)(NSString *iapProductID, AdColonyIAPEngagement engagement))iapOpportunity __attribute__((deprecated("Deprecated in v4.0.0, use delegate")));
+
+/**
+ @abstract Sets the block of code to be executed when the interstitial begins playing audio.
+ @discussion Note that the associated code block will be dispatched on the main thread.
+ @param audioStart The block of code to be executed.
+ */
+- (void)setAudioStart:(nullable void (^)(void))audioStart __attribute__((deprecated("Deprecated in v3.3.6, use the open callback")));
+
+/**
+ @abstract Sets the block of code to be executed when the interstitial stops playing audio.
+ @discussion Note that the associated code block will be dispatched on the main thread.
+ @param audioStop The block of code to be executed.
+ */
+- (void)setAudioStop:(nullable void (^)(void))audioStop __attribute__((deprecated("Deprecated in v3.3.6, use the close callback")));
+
+@end
+
+
+/**
+ @struct AdColonyAdSize
+ @abstract Size for banner ads
+ */
+
+
+/** AdColony ad size */
+typedef struct AdColonyAdSize AdColonyAdSize;
+
+/**
+ @function AdColonyAdSizeMake
+ @abstract Get a custom AdColonyAdSize
+ @discussion Use this method if you want to display non-standard ad size banner. Otherwise, use one of the standard size constants.
+ @param width height for a banner ad.
+ @param height width for a banner ad.
+ */
+extern AdColonyAdSize AdColonyAdSizeMake(CGFloat width, CGFloat height);
+
+/**
+ @function AdColonyAdSizeFromCGSize
+ @abstract Get a custom AdColonyAdSize from CGSize.
+ @discussion Use this method if you want to display non-standard ad size banner. Otherwise, use one of the standard size constants.
+ @param size The size for a banner ad.
+ */
+extern AdColonyAdSize AdColonyAdSizeFromCGSize(CGSize size);
+
+/**
+ @const kAdColonyAdSizeBanner
+ @abstract 320 x 50
+ @discussion The constant for a banner with 320 in width and 50 in height.
+ */
+extern AdColonyAdSize const kAdColonyAdSizeBanner;
+
+/**
+ @const kAdColonyAdSizeMediumRectangle
+ @abstract 300 x 250
+ @discussion The constant for a banner with 300 in width and 250 in height.
+ */
+extern AdColonyAdSize const kAdColonyAdSizeMediumRectangle;
+
+/**
+ @const kAdColonyAdSizeLeaderboard
+ @abstract 728 x 90
+ @discussion The constant for a banner with 728 in width and 90 in height.
+ */
+extern AdColonyAdSize const kAdColonyAdSizeLeaderboard;
+
+/**
+ @const kAdColonyAdSizeSkyscraper
+ @abstract 160 x 600
+ @discussion The constant for a banner with 160 in width and 600 in height.
+ */
+extern AdColonyAdSize const kAdColonyAdSizeSkyscraper;
+
 @interface AdColony : NSObject
 
 /** @name Starting AdColony */
@@ -238,7 +376,22 @@ typedef NS_ENUM(NSUInteger, AdColonyIAPEngagement) {
  @see AdColonyInterstitial
  @see AdColonyAdRequestError
  */
-+ (void)requestInterstitialInZone:(NSString *)zoneID options:(nullable AdColonyAdOptions *)options success:(void (^)(AdColonyInterstitial *ad))success failure:(nullable void (^)(AdColonyAdRequestError *error))failure;
++ (void)requestInterstitialInZone:(NSString *)zoneID options:(nullable AdColonyAdOptions *)options success:(void (^)(AdColonyInterstitial *ad))success failure:(nullable void (^)(AdColonyAdRequestError *error))failure __attribute__((deprecated("Deprecated in v4.0.0, use delgate object instead of callback blocks.")));
+
+/**
+ @abstract Requests an AdColonyInterstitial.
+ @discussion This method returns immediately, before the ad request completes.
+ If the request is successful, an AdColonyInterstitial object will be passed to the success block.
+ If the request is unsuccessful, the failure block will be called and an AdColonyAdRequestError will be passed to the handler.
+ @param zoneID The AdColony zone identifier string indicating which zone the ad request is for.
+ @param options An AdColonyAdOptions object used to set configurable aspects of the ad request.
+ @param delegate Interstitial delegate object
+ @see AdColonyAdOptions
+ @see AdColonyInterstitial
+ @see AdColonyInterstitialDelegate
+ @see AdColonyAdRequestError
+ */
++ (void)requestInterstitialInZone:(NSString *)zoneID options:(nullable AdColonyAdOptions *)options andDelegate:(id<AdColonyInterstitialDelegate> _Nonnull)delegate;
 
 /**
  @abstract Requests an AdColonyNativeAdView.
@@ -341,7 +494,6 @@ typedef NS_ENUM(NSUInteger, AdColonyIAPEngagement) {
  */
 + (NSString *)getSDKVersion;
 @end
-
 NS_ASSUME_NONNULL_END
 
 #endif /* OMAdColonyClass_h */

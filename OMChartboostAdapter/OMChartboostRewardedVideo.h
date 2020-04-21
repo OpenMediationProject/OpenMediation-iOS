@@ -2,14 +2,15 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import <Foundation/Foundation.h>
-#import "OMChartboostRouter.h"
+#import "OMChartboostClass.h"
 #import "OMRewardedVideoCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMChartboostRewardedVideo : NSObject <OMChartboostAdapterDelegate,OMRewardedVideoCustomEvent>
+@interface OMChartboostRewardedVideo : NSObject <CHBRewardedDelegate,OMRewardedVideoCustomEvent>
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;
+@property (nonatomic,strong)  CHBRewarded *chbRewarded;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
 - (void)loadAd;

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -146,6 +146,14 @@
 		0C981BFC23D6DB4E0074B43A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C981BFB23D6DB4E0074B43A /* MainViewController.m */; };
 		0CF1EEEB23D30C0E00D98999 /* NSData+OMGzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CF1EEE923D30C0D00D98999 /* NSData+OMGzip.h */; };
 		0CF1EEEC23D30C0E00D98999 /* NSData+OMGzip.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CF1EEEA23D30C0D00D98999 /* NSData+OMGzip.m */; };
+		4904DFFF244F19E7007E80C4 /* OMUnityBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 4904DFFC244F19E6007E80C4 /* OMUnityBanner.m */; };
+		4904E000244F19E7007E80C4 /* OMUnityBannerClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 4904DFFD244F19E6007E80C4 /* OMUnityBannerClass.h */; };
+		4904E001244F19E7007E80C4 /* OMUnityBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 4904DFFE244F19E6007E80C4 /* OMUnityBanner.h */; };
+		4904E004244F19F1007E80C4 /* OMVungleBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 4904E002244F19F1007E80C4 /* OMVungleBanner.h */; };
+		4904E005244F19F1007E80C4 /* OMVungleBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 4904E003244F19F1007E80C4 /* OMVungleBanner.m */; };
+		4904E009244F3A53007E80C4 /* OMAppLovinBannerClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 4904E006244F3A52007E80C4 /* OMAppLovinBannerClass.h */; };
+		4904E00A244F3A53007E80C4 /* OMAppLovinBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 4904E007244F3A53007E80C4 /* OMAppLovinBanner.h */; };
+		4904E00B244F3A53007E80C4 /* OMAppLovinBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 4904E008244F3A53007E80C4 /* OMAppLovinBanner.m */; };
 		49097843240383EA00D39DF5 /* OMUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 49097842240383EA00D39DF5 /* OMUnit.m */; };
 		490978452403841300D39DF5 /* NSError+OMExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 490978442403841300D39DF5 /* NSError+OMExtension.m */; };
 		492018D023F6C20C007C5EA4 /* OMLoad.h in Headers */ = {isa = PBXBuildFile; fileRef = 492018CE23F6C20C007C5EA4 /* OMLoad.h */; };
@@ -238,11 +246,9 @@
 		49A90F4C2418999000DF2351 /* OMChartboostClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 49A90F432418998F00DF2351 /* OMChartboostClass.h */; };
 		49A90F4D2418999000DF2351 /* OMChartboostAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49A90F442418998F00DF2351 /* OMChartboostAdapter.h */; };
 		49A90F4E2418999000DF2351 /* OMChartboostAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49A90F452418998F00DF2351 /* OMChartboostAdapter.m */; };
-		49A90F4F2418999000DF2351 /* OMChartboostRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49A90F462418998F00DF2351 /* OMChartboostRouter.m */; };
 		49A90F502418999000DF2351 /* OMChartboostInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 49A90F472418999000DF2351 /* OMChartboostInterstitial.h */; };
 		49A90F512418999000DF2351 /* OMChartboostInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 49A90F482418999000DF2351 /* OMChartboostInterstitial.m */; };
 		49A90F522418999000DF2351 /* OMChartboostRewardedVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 49A90F492418999000DF2351 /* OMChartboostRewardedVideo.h */; };
-		49A90F532418999000DF2351 /* OMChartboostRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49A90F4A2418999000DF2351 /* OMChartboostRouter.h */; };
 		49A90F5D241899A400DF2351 /* OMTikTokAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49A90F54241899A300DF2351 /* OMTikTokAdapter.m */; };
 		49A90F5E241899A400DF2351 /* OMTikTokRewardedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 49A90F55241899A300DF2351 /* OMTikTokRewardedVideo.m */; };
 		49A90F5F241899A400DF2351 /* OMTikTokInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 49A90F56241899A400DF2351 /* OMTikTokInterstitial.h */; };
@@ -567,6 +573,14 @@
 		0C981BFB23D6DB4E0074B43A /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		0CF1EEE923D30C0D00D98999 /* NSData+OMGzip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+OMGzip.h"; sourceTree = "<group>"; };
 		0CF1EEEA23D30C0D00D98999 /* NSData+OMGzip.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+OMGzip.m"; sourceTree = "<group>"; };
+		4904DFFC244F19E6007E80C4 /* OMUnityBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMUnityBanner.m; sourceTree = "<group>"; };
+		4904DFFD244F19E6007E80C4 /* OMUnityBannerClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMUnityBannerClass.h; sourceTree = "<group>"; };
+		4904DFFE244F19E6007E80C4 /* OMUnityBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMUnityBanner.h; sourceTree = "<group>"; };
+		4904E002244F19F1007E80C4 /* OMVungleBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMVungleBanner.h; sourceTree = "<group>"; };
+		4904E003244F19F1007E80C4 /* OMVungleBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMVungleBanner.m; sourceTree = "<group>"; };
+		4904E006244F3A52007E80C4 /* OMAppLovinBannerClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAppLovinBannerClass.h; sourceTree = "<group>"; };
+		4904E007244F3A53007E80C4 /* OMAppLovinBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAppLovinBanner.h; sourceTree = "<group>"; };
+		4904E008244F3A53007E80C4 /* OMAppLovinBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMAppLovinBanner.m; sourceTree = "<group>"; };
 		49097842240383EA00D39DF5 /* OMUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMUnit.m; sourceTree = "<group>"; };
 		490978442403841300D39DF5 /* NSError+OMExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+OMExtension.m"; sourceTree = "<group>"; };
 		492018CE23F6C20C007C5EA4 /* OMLoad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMLoad.h; sourceTree = "<group>"; };
@@ -671,11 +685,9 @@
 		49A90F432418998F00DF2351 /* OMChartboostClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMChartboostClass.h; sourceTree = "<group>"; };
 		49A90F442418998F00DF2351 /* OMChartboostAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMChartboostAdapter.h; sourceTree = "<group>"; };
 		49A90F452418998F00DF2351 /* OMChartboostAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMChartboostAdapter.m; sourceTree = "<group>"; };
-		49A90F462418998F00DF2351 /* OMChartboostRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMChartboostRouter.m; sourceTree = "<group>"; };
 		49A90F472418999000DF2351 /* OMChartboostInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMChartboostInterstitial.h; sourceTree = "<group>"; };
 		49A90F482418999000DF2351 /* OMChartboostInterstitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMChartboostInterstitial.m; sourceTree = "<group>"; };
 		49A90F492418999000DF2351 /* OMChartboostRewardedVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMChartboostRewardedVideo.h; sourceTree = "<group>"; };
-		49A90F4A2418999000DF2351 /* OMChartboostRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMChartboostRouter.h; sourceTree = "<group>"; };
 		49A90F54241899A300DF2351 /* OMTikTokAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMTikTokAdapter.m; sourceTree = "<group>"; };
 		49A90F55241899A300DF2351 /* OMTikTokRewardedVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMTikTokRewardedVideo.m; sourceTree = "<group>"; };
 		49A90F56241899A400DF2351 /* OMTikTokInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMTikTokInterstitial.h; sourceTree = "<group>"; };
@@ -1237,6 +1249,9 @@
 			isa = PBXGroup;
 			children = (
 				49A90F012418994000DF2351 /* OMUnityAdapter.h */,
+				4904DFFE244F19E6007E80C4 /* OMUnityBanner.h */,
+				4904DFFC244F19E6007E80C4 /* OMUnityBanner.m */,
+				4904DFFD244F19E6007E80C4 /* OMUnityBannerClass.h */,
 				49A90F032418994000DF2351 /* OMUnityAdapter.m */,
 				49A90F002418994000DF2351 /* OMUnityClass.h */,
 				49A90F022418994000DF2351 /* OMUnityRewardedVideo.h */,
@@ -1251,6 +1266,8 @@
 		4959CE7423EBEDDF00A433A8 /* OMVungleAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				4904E002244F19F1007E80C4 /* OMVungleBanner.h */,
+				4904E003244F19F1007E80C4 /* OMVungleBanner.m */,
 				49A90F0E2418994F00DF2351 /* OMVungleAdapter.h */,
 				49A90F0F2418994F00DF2351 /* OMVungleAdapter.m */,
 				49A90F122418995000DF2351 /* OMVungleClass.h */,
@@ -1279,6 +1296,9 @@
 		4959CE9623EBEE5100A433A8 /* OMAppLovinAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				4904E007244F3A53007E80C4 /* OMAppLovinBanner.h */,
+				4904E008244F3A53007E80C4 /* OMAppLovinBanner.m */,
+				4904E006244F3A52007E80C4 /* OMAppLovinBannerClass.h */,
 				49A90F272418996E00DF2351 /* OMAppLovinAdapter.h */,
 				49A90F2B2418996F00DF2351 /* OMAppLovinAdapter.m */,
 				49A90F2A2418996F00DF2351 /* OMAppLovinClass.h */,
@@ -1316,8 +1336,6 @@
 				49A90F482418999000DF2351 /* OMChartboostInterstitial.m */,
 				49A90F492418999000DF2351 /* OMChartboostRewardedVideo.h */,
 				49A90F422418998F00DF2351 /* OMChartboostRewardedVideo.m */,
-				49A90F4A2418999000DF2351 /* OMChartboostRouter.h */,
-				49A90F462418998F00DF2351 /* OMChartboostRouter.m */,
 				4959CEBA23EBEE7300A433A8 /* Info.plist */,
 			);
 			path = OMChartboostAdapter;
@@ -1568,8 +1586,10 @@
 			files = (
 				49A90F082418994000DF2351 /* OMUnityAdapter.h in Headers */,
 				49A90F092418994000DF2351 /* OMUnityRewardedVideo.h in Headers */,
+				4904E001244F19E7007E80C4 /* OMUnityBanner.h in Headers */,
 				49A90F072418994000DF2351 /* OMUnityClass.h in Headers */,
 				49A90F0D2418994000DF2351 /* OMUnityRouter.h in Headers */,
+				4904E000244F19E7007E80C4 /* OMUnityBannerClass.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1578,6 +1598,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49A90F1B2418995000DF2351 /* OMVungleRouter.h in Headers */,
+				4904E004244F19F1007E80C4 /* OMVungleBanner.h in Headers */,
 				49A90F192418995000DF2351 /* OMVungleClass.h in Headers */,
 				49A90F152418995000DF2351 /* OMVungleAdapter.h in Headers */,
 				49A90F1A2418995000DF2351 /* OMVungleRewardedVideo.h in Headers */,
@@ -1601,6 +1622,8 @@
 				49A90F372418996F00DF2351 /* OMAppLovinRewardedVideoClass.h in Headers */,
 				49A90F352418996F00DF2351 /* OMAppLovinInterstitialClass.h in Headers */,
 				49A90F302418996F00DF2351 /* OMAppLovinAdapter.h in Headers */,
+				4904E00A244F3A53007E80C4 /* OMAppLovinBanner.h in Headers */,
+				4904E009244F3A53007E80C4 /* OMAppLovinBannerClass.h in Headers */,
 				49A90F312418996F00DF2351 /* OMAppLovinInterstitial.h in Headers */,
 				49A90F332418996F00DF2351 /* OMAppLovinClass.h in Headers */,
 				49A90F322418996F00DF2351 /* OMAppLovinRewardedVideo.h in Headers */,
@@ -1624,7 +1647,6 @@
 				49A90F502418999000DF2351 /* OMChartboostInterstitial.h in Headers */,
 				49A90F4C2418999000DF2351 /* OMChartboostClass.h in Headers */,
 				49A90F4D2418999000DF2351 /* OMChartboostAdapter.h in Headers */,
-				49A90F532418999000DF2351 /* OMChartboostRouter.h in Headers */,
 				49A90F522418999000DF2351 /* OMChartboostRewardedVideo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2239,6 +2261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49A90F0A2418994000DF2351 /* OMUnityAdapter.m in Sources */,
+				4904DFFF244F19E7007E80C4 /* OMUnityBanner.m in Sources */,
 				49A90F0B2418994000DF2351 /* OMUnityRewardedVideo.m in Sources */,
 				49A90F0C2418994000DF2351 /* OMUnityRouter.m in Sources */,
 			);
@@ -2250,6 +2273,7 @@
 			files = (
 				49A90F172418995000DF2351 /* OMVungleRewardedVideo.m in Sources */,
 				49A90F182418995000DF2351 /* OMVungleRouter.m in Sources */,
+				4904E005244F19F1007E80C4 /* OMVungleBanner.m in Sources */,
 				49A90F162418995000DF2351 /* OMVungleAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2267,6 +2291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4904E00B244F3A53007E80C4 /* OMAppLovinBanner.m in Sources */,
 				49A90F342418996F00DF2351 /* OMAppLovinAdapter.m in Sources */,
 				49A90F2F2418996F00DF2351 /* OMAppLovinInterstitial.m in Sources */,
 				49A90F362418996F00DF2351 /* OMAppLovinRewardedVideo.m in Sources */,
@@ -2287,7 +2312,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				49A90F4E2418999000DF2351 /* OMChartboostAdapter.m in Sources */,
-				49A90F4F2418999000DF2351 /* OMChartboostRouter.m in Sources */,
 				49A90F512418999000DF2351 /* OMChartboostInterstitial.m in Sources */,
 				49A90F4B2418999000DF2351 /* OMChartboostRewardedVideo.m in Sources */,
 			);

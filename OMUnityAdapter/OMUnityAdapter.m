@@ -13,8 +13,8 @@
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     NSString *key = [configuration objectForKey:@"appKey"];
     Class unityClass = NSClassFromString(@"UnityAds");
-    if (unityClass && [unityClass respondsToSelector:@selector(initialize:delegate:)] && [key length]>0) {
-        [unityClass initialize:key delegate:[OMUnityRouter sharedInstance]];
+    if (unityClass && [unityClass respondsToSelector:@selector(initialize:)] && [key length]>0) {
+        [unityClass initialize:key];
         completionHandler(nil);
     } else {
         NSError *error = [[NSError alloc] initWithDomain:@"com.om.mediation"

@@ -7,73 +7,75 @@
 - (instancetype)initWithParameter:(NSDictionary*)adParameter {
     if (self = [super init]) {
         _pid = [adParameter objectForKey:@"pid"];
-        [[OMChartboostRouter sharedInstance]registerPidDelegate:_pid delegate:self];
     }
     return self;
 }
 
 - (void)loadAd {
-    [[OMChartboostRouter sharedInstance]loadChartboostInterstitial:_pid];
+    Class CHBInterstitialClass = NSClassFromString(@"CHBInterstitial");
+    if (CHBInterstitialClass && [[CHBInterstitialClass alloc] respondsToSelector:@selector(initWithLocation:delegate:)]) {
+        _chbInterstitial = [[CHBInterstitialClass alloc] initWithLocation:_pid delegate:self];
+    }
+    if (_chbInterstitial) {
+        [_chbInterstitial cache];
+    }
 }
 
 - (BOOL)isReady {
     BOOL isReady = NO;
-    Class chartboostClass = NSClassFromString(@"Chartboost");
-    if (chartboostClass && [chartboostClass respondsToSelector:@selector(hasInterstitial:)]) {
-        isReady = [chartboostClass hasInterstitial:_pid];
+    if(_chbInterstitial && [_chbInterstitial respondsToSelector:@selector(isCached)]){
+        isReady = _chbInterstitial.isCached;
     }
     return isReady;
 }
 
 - (void)show:(UIViewController *)vc {
     if ([self isReady]) {
-        Class chartboostClass = NSClassFromString(@"Chartboost");
-        if (chartboostClass && [chartboostClass respondsToSelector:@selector(showInterstitial:)]) {
-            [chartboostClass showInterstitial:_pid];
+        if(_chbInterstitial && [_chbInterstitial respondsToSelector:@selector(showFromViewController:)]){
+            [_chbInterstitial showFromViewController:vc];
         }
     }
 }
 
-- (void)omChartboostDidload {
-    if ([self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+- (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error{
+    if([self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]){
         [_delegate customEvent:self didLoadAd:nil];
     }
-}
-
-- (void)omChartboostDidFailToLoad:(nonnull NSError *)error {
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
-        [_delegate customEvent:self didFailToLoadWithError:error];
+    
+    if (error) {
+        if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]){
+            NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.ads" code:error.code userInfo:@{@"msg":@"There are no ads fill"}];
+            [_delegate customEvent:self didFailToLoadWithError:cerror];
+        }
     }
 }
 
-- (void)omChartboostDidStart {
-    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
+- (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error{
+    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]){
         [_delegate interstitialCustomEventDidOpen:self];
     }
-    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]) {
+    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]){
         [_delegate interstitialCustomEventDidShow:self];
+    }
+    
+    if (error) {
+        if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]){
+            NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.ads" code:error.code userInfo:@{@"msg":@"The ad failed to show"}];
+            [_delegate interstitialCustomEventDidFailToShow:self error:cerror];
+        }
     }
 }
 
-- (void)omChartboostDidClick {
-    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClick:)]) {
+- (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error{
+    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClick:)]){
         [_delegate interstitialCustomEventDidClick:self];
     }
 }
 
-- (void)omChartboostDidFinish {
-    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClose:)]) {
+- (void)didDismissAd:(CHBDismissEvent *)event{
+    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClose:)]){
         [_delegate interstitialCustomEventDidClose:self];
     }
-}
-
-- (void)omChartboostDidReceiveReward {
-    
-}
-
-
-- (void)omChartboostRewardedVideoEnd {
-    
 }
 
 @end
