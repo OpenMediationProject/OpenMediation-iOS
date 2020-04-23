@@ -126,6 +126,12 @@ Pod::Spec.new do |s|
     ss.public_header_files  = ''
   end
 
+  s.subspec 'TencentAdAdapter' do |ss|
+    ss.dependency             'OpenMediation/Mediation'    
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMTencentAdAdapter'
+    ss.public_header_files  = ''
+  end
+
   s.subspec 'AdColonyAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
     ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMAdColonyAdapter'
@@ -135,6 +141,12 @@ Pod::Spec.new do |s|
   s.subspec 'AppLovinAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'
     ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMAppLovinAdapter'
+    ss.public_header_files  = ''
+  end  
+
+  s.subspec 'MoPubAdapter' do |ss|
+    ss.dependency             'OpenMediation/Mediation'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMMopubAdapter'
     ss.public_header_files  = ''
   end  
 
@@ -161,5 +173,17 @@ Pod::Spec.new do |s|
     ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMMintegralAdapter'
     ss.public_header_files  = ''
   end 
+
+  s.subspec 'IronSourceAdapter' do |ss|
+    ss.dependency             'OpenMediation/Mediation'    
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMIronSourceAdapter'
+    ss.public_header_files  = ''
+  end
+
+  s.subspec 'FyberAdapter' do |ss|
+    ss.dependency             'OpenMediation/Mediation'    
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMFyberAdapter'
+    ss.public_header_files  = ''
+  end
 
 end

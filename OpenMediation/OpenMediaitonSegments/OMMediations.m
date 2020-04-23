@@ -36,6 +36,23 @@
 @property (nonatomic, copy, readonly, class) NSString *SDKVersion;
 @end;
 
+@interface MoPub : NSObject
+- (NSString *)version;
+@end
+
+@interface GDTSDKConfig : NSObject
++ (NSString *)sdkVersion;
+@end
+
+@interface IASDKCore : NSObject
++ (instancetype _Null_unspecified)sharedInstance;
+- (NSString * _Null_unspecified)version;
+@end
+
+@interface IronSource : NSObject
++ (NSString *)sdkVersion;
+@end
+
 static OMMediations *_instance = nil;
 
 @implementation OMMediations
@@ -95,12 +112,16 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkFacebook):@"Facebook",
             @(OMAdNetworkUnityAds):@"Unity",
             @(OMAdNetworkVungle):@"Vungle",
+            @(OMAdNetworkTencentAd):@"TencentAd",
             @(OMAdNetworkAdColony):@"AdColony",
             @(OMAdNetworkAppLovin):@"AppLovin",
+            @(OMAdNetworkMopub):@"Mopub",
             @(OMAdNetworkTapjoy):@"Tapjoy",
             @(OMAdNetworkChartboost):@"Chartboost",
             @(OMAdNetworkTikTok):@"TikTok",
             @(OMAdNetworkMintegral):@"Mintegral",
+            @(OMAdNetworkIronSource):@"IronSource",
+            @(OMAdNetworkFyber):@"Fyber",
         };
         
         _adnSdkClassMap = @{
@@ -109,16 +130,20 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkFacebook):@"FBAdSettings",
             @(OMAdNetworkUnityAds):@"UnityAds",
             @(OMAdNetworkVungle):@"VungleSDK",
+            @(OMAdNetworkTencentAd):@"GDTSDKConfig",
             @(OMAdNetworkAdColony):@"AdColony",
             @(OMAdNetworkAppLovin):@"ALSdk",
+            @(OMAdNetworkMopub):@"MoPub",
             @(OMAdNetworkTapjoy):@"Tapjoy",
             @(OMAdNetworkChartboost):@"Chartboost",
             @(OMAdNetworkTikTok):@"BUAdSDKManager",
             @(OMAdNetworkMintegral):@"MTGSDK",
+            @(OMAdNetworkIronSource):@"IronSource",
+            @(OMAdNetworkFyber):@"IASDKCore",
         };
         
         _adnSDKInitState = [NSMutableDictionary dictionary];
-
+        
         
     }
     return self;
@@ -191,6 +216,16 @@ static OMMediations *_instance = nil;
             }
         }
             break;
+        case OMAdNetworkMopub:
+        {
+            if (sdkClass && [sdkClass respondsToSelector:@selector(sharedInstance)]) {
+                MoPub *mopub = [sdkClass sharedInstance];
+                if ([mopub respondsToSelector:@selector(version)]) {
+                    sdkVersion = [mopub version];
+                }
+            }
+        }
+            break;
         case OMAdNetworkTapjoy:
         {
             if (sdkClass && [sdkClass respondsToSelector:@selector(getVersion)]) {
@@ -215,6 +250,31 @@ static OMMediations *_instance = nil;
         case OMAdNetworkMintegral:
         {
             // mintegral
+        }
+            break;
+        case OMAdNetworkTencentAd:
+        {
+            if(sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]){
+                sdkVersion = [sdkClass sdkVersion];
+                
+            }
+        }
+            break;
+        case OMAdNetworkIronSource:
+        {
+            if(sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]){
+                sdkVersion = [sdkClass sdkVersion];
+            }
+        }
+            break;
+        case OMAdNetworkFyber:
+        {
+            if (sdkClass && [sdkClass respondsToSelector:@selector(sharedInstance)]) {
+                IASDKCore *fyberCore = [sdkClass sharedInstance];
+                if ([fyberCore respondsToSelector:@selector(version)]) {
+                    sdkVersion = [fyberCore version];
+                }
+            }
         }
             break;
         default:
@@ -278,4 +338,5 @@ static OMMediations *_instance = nil;
     }
     return _adNetworkInfo;
 }
+
 @end

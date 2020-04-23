@@ -1,5 +1,5 @@
 # OpenMediation SDK for iOS
-[![CocoaPods Compatible](http://img.shields.io/badge/pod-v1.0.2-blue.svg)](https://github.com/AdTiming/OpenMediation-iOS)
+[![CocoaPods Compatible](http://img.shields.io/badge/pod-v1.0.3-blue.svg)](https://github.com/AdTiming/OpenMediation-iOS)
 [![Platform](https://img.shields.io/badge/platform-iOS%209%2B-brightgreen.svg?style=flat)](https://github.com/AdTiming/OpenMediation-iOS)
 [![License](https://img.shields.io/github/license/AdTiming/OpenMediation-iOS)](https://github.com/AdTiming/OpenMediation-iOS/blob/master/LICENSE)
 
@@ -30,7 +30,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 
 target 'TargetName' do
-    pod 'OpenMediation', '~> 1.0.2'
+    pod 'OpenMediation', '~> 1.0.3'
 end
 ```
 
@@ -46,12 +46,15 @@ pod 'OpenMediation/AdMobAdapter'
 pod 'OpenMediation/FacebookAdapter'
 pod 'OpenMediation/UnityAdapter'
 pod 'OpenMediation/VungleAdapter'
+pod 'OpenMediation/TencentAdAdapter'
 pod 'OpenMediation/AdColonyAdapter'
 pod 'OpenMediation/AppLovinAdapter'
 pod 'OpenMediation/TapjoyAdapter'
 pod 'OpenMediation/ChartboostAdapter'
 pod 'OpenMediation/TikTokAdapter'
 pod 'OpenMediation/MintegralAdapter'
+pod 'OpenMediation/IronSourceAdapter'
+pod 'OpenMediation/FyberAdapter'
 ```
 
 Then, run the following command:

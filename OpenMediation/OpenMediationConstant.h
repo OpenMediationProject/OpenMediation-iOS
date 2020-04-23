@@ -12,12 +12,16 @@ typedef NS_ENUM(NSInteger, OMAdNetwork) {
     OMAdNetworkFacebook = 3,
     OMAdNetworkUnityAds = 4,
     OMAdNetworkVungle = 5,
+    OMAdNetworkTencentAd = 6,
     OMAdNetworkAdColony = 7,
     OMAdNetworkAppLovin = 8,
+    OMAdNetworkMopub = 9,
     OMAdNetworkTapjoy = 11,
     OMAdNetworkChartboost = 12,
     OMAdNetworkTikTok = 13,
     OMAdNetworkMintegral = 14,
+    OMAdNetworkIronSource = 15,
+    OMAdNetworkFyber = 16,
 };
 
 #endif /* OpenMediationConstant_h */
