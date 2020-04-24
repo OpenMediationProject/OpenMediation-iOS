@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Parameter frame: the OMNativeView frame.
 - (instancetype)initWithFrame:(CGRect)frame;
 
-- (void)setFbNativeClickableViews:(NSArray<UIView *> *)clickableViews;
+- (void)setClickableViews:(NSArray<UIView *> *)clickableViews; //for Facebook TencentAd
 
 @end
 

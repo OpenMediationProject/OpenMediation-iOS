@@ -62,7 +62,7 @@
     _iconView.image =[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.nativeAd.iconUrl]]];
     _titleLabel.text = self.nativeAd.title;
     _bodyLabel.text = self.nativeAd.body;
-    [_nativeView setFbNativeClickableViews:@[_iconView,_titleLabel]];
+    [_nativeView setClickableViews:@[_iconView,_titleLabel]];
 }
 
 -(void)removeItemAction {

@@ -2,20 +2,20 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import <Foundation/Foundation.h>
-#import "OMMopubNativeClass.h"
 #import "OMNativeCustomEvent.h"
+#import "OMTikTokNativeClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMMopubNative : NSObject <OMNativeCustomEvent,MPNativeAdDelegate>
-@property (nonatomic, strong) MPImageDownloadQueue *imageDownloadQueue;
-@property (nonatomic, strong) MPNativeAdRequest *adLoader;
-@property (nonatomic, strong) MPNativeAd *nativeAd;
-@property (nonatomic, weak) UIViewController *rootVC;
+@interface OMTikTokNative : NSObject<OMNativeCustomEvent,BUNativeAdDelegate,BUVideoAdViewDelegate>
+
+@property (nonatomic, strong) BUNativeAd *adLoader;
+@property (nonatomic, weak, readwrite) UIViewController *rootVC;
 @property (nonatomic, weak) id<nativeCustomEventDelegate> delegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter rootVC:(UIViewController*)rootViewController;
 - (void)loadAd;
+
 @end
 
 NS_ASSUME_NONNULL_END

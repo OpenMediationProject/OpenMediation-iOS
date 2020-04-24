@@ -155,6 +155,11 @@ static OMMediations *_instance = nil;
     return NSClassFromString([NSString stringWithFormat:@"OM%@Adapter",adnName]);
 }
 
+- (Class)adnInitClass:(OMAdNetwork)adnID {
+    NSString *adnName = [[OMConfig sharedInstance].adnNameMap objectForKey:@(adnID)];
+    return NSClassFromString([NSString stringWithFormat:@"OM%@Adapter",adnName]);
+}
+
 - (NSString*)adnSDKVersion:(OMAdNetwork)adnID {
     NSString *sdkVersion = @"";
     Class sdkClass = nil;
@@ -286,12 +291,12 @@ static OMMediations *_instance = nil;
 
 - (void)initAdNetworkSDKWithId:(OMAdNetwork)adnID completionHandler:(OMMediationInitCompletionBlock)completionHandler {
     OMConfig *config = [OMConfig sharedInstance];
-    Class adnAdapterClass = [self adnAdapterClass:adnID];
+    Class adapterInitClass = [self adnInitClass:adnID];
     NSString *key = [config adnAppKey:adnID];
     NSArray *pids = [config adnPlacements:adnID];
-    if ([key length]>0 && [adnAdapterClass respondsToSelector:@selector(initSDKWithConfiguration:completionHandler:)]) {
+    if ([key length]>0 && [adapterInitClass respondsToSelector:@selector(initSDKWithConfiguration:completionHandler:)]) {
         __weak __typeof(self) weakSelf = self;
-        [adnAdapterClass initSDKWithConfiguration:@{@"appKey":key,@"pids":pids} completionHandler:^(NSError * _Nullable error) {
+        [adapterInitClass initSDKWithConfiguration:@{@"appKey":key,@"pids":pids} completionHandler:^(NSError * _Nullable error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     OMAdnSDKInitState state = error?OMAdnSDKInitStateDefault:OMAdnSDKInitStateInitialized;
                     [weakSelf.adnSDKInitState setObject:[NSNumber numberWithInteger:state] forKey:[NSString stringWithFormat:@"%zd",adnID]];

@@ -1,5 +1,5 @@
 # OpenMediation SDK for iOS
-[![CocoaPods Compatible](http://img.shields.io/badge/pod-v1.0.3-blue.svg)](https://github.com/AdTiming/OpenMediation-iOS)
+[![CocoaPods Compatible](http://img.shields.io/badge/pod-v1.0.4-blue.svg)](https://github.com/AdTiming/OpenMediation-iOS)
 [![Platform](https://img.shields.io/badge/platform-iOS%209%2B-brightgreen.svg?style=flat)](https://github.com/AdTiming/OpenMediation-iOS)
 [![License](https://img.shields.io/github/license/AdTiming/OpenMediation-iOS)](https://github.com/AdTiming/OpenMediation-iOS/blob/master/LICENSE)
 
@@ -9,10 +9,6 @@ Thanks for taking a look at OpenMediation! We offers diversified and competitive
 
 - If you **found a bug**, _and can provide steps to reliably reproduce it_, open an issue.
 - If you **have a feature request**, open an issue.
-
-## Installation
-
-The OpenMediation SDK supports multiple methods for installing the library in a project.
 
 ### Installation with CocoaPods
 
@@ -30,7 +26,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 
 target 'TargetName' do
-    pod 'OpenMediation', '~> 1.0.3'
+    pod 'OpenMediation', '~> 1.0.4'
 end
 ```
 
@@ -62,22 +58,6 @@ Then, run the following command:
 ```bash
 $ pod install
 ```
-### Manual Integration with static Framework
-
-OpenMediation provides a prepackaged archive of the static framework:
-
-- **[OpenMediation SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.1/OpenMediation-iOS-1.0.1.zip)**
-- **[AdTimingAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.1/OMAdTimingAdapter-iOS-1.0.1.zip)**
-- **[AdMobAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMAdMobAdapter-iOS-1.0.0.zip)**
-- **[FacebookAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMFacebookAdapter-iOS-1.0.0.zip)**
-- **[UnityAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMUnityAdapter-iOS-1.0.0.zip)**
-- **[VungleAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMVungleAdapter-iOS-1.0.0.zip)**
-- **[AdColonyAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMAdColonyAdapter-iOS-1.0.0.zip)**
-- **[AppLovinAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMAppLovinAdapter-iOS-1.0.0.zip)**
-- **[ChartboostAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMChartboostAdapter-iOS-1.0.0.zip)**
-- **[TapjoyAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMTapjoyAdapter-iOS-1.0.0.zip)**
-- **[TikTokAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMTikTokAdapter-iOS-1.0.0.zip)**
-- **[MintegralAdapter SDK](https://github.com/AdTiming/OpenMediation-iOS/releases/download/1.0.0/OMMintegralAdapter-iOS-1.0.0.zip)**
 
 ## Requirements
 

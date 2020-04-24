@@ -16,6 +16,7 @@
 
 @interface OMNativeView()
 @property (nonatomic, strong) UIView *currentNativeView;
+@property (nonatomic, strong) UIView *currentMediaView;
 @property (nonatomic, strong) NSMutableArray *addedSubviews;
 @end
 
@@ -50,12 +51,14 @@
                 [view removeFromSuperview];
                 [_currentNativeView addSubview:view];
             }
+            
+            [_currentMediaView removeFromSuperview];
             id<OMNativeViewCustomEvent> customEventNativeView = (id<OMNativeViewCustomEvent>)_currentNativeView;
             if (_mediaView && _mediaView.superview) {
                 [customEventNativeView setMediaViewWithFrame:_mediaView.bounds];
-                [_mediaView addSubview:customEventNativeView.mediaView];
-                [customEventNativeView.mediaView addConstraintEqualSuperView];
-                [_mediaView addConstraintEqualSuperView];
+                _currentMediaView = customEventNativeView.mediaView;
+                [_mediaView addSubview:_currentMediaView];
+                [_currentMediaView addConstraintEqualSuperView];
             }
             [customEventNativeView setNativeAd:nativeAd.mediatedAd];
             
@@ -87,7 +90,7 @@
 }
 
 
-- (void)setFbNativeClickableViews:(NSArray<UIView *> *)clickableViews {
+- (void)setClickableViews:(NSArray<UIView *> *)clickableViews {
     
     Class nativeViewClass = NSClassFromString(_nativeAd.mediatedAd.nativeViewClass);
     if (nativeViewClass && [nativeViewClass instancesRespondToSelector:@selector(setClickableViews:)]) {

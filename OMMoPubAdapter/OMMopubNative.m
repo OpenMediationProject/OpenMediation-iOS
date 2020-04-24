@@ -24,7 +24,7 @@ NSString *const kAdPrivacyIconClickUrlKey = @"privacyclkurl";
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter rootVC:(UIViewController*)rootViewController {
     if (self = [super init]) {
-        _rootController = rootViewController;
+        _rootVC = rootViewController;
         Class downloadClass = NSClassFromString(@"MPImageDownloadQueue");
         if (downloadClass) {
             _imageDownloadQueue = [[downloadClass alloc] init];
@@ -117,7 +117,7 @@ NSString *const kAdPrivacyIconClickUrlKey = @"privacyclkurl";
 }
 
 - (UIViewController *)viewControllerForPresentingModalView {
-    return _rootController;
+    return _rootVC;
 }
 
 - (void)mopubAd:(id<MPMoPubAd>)ad didTrackImpressionWithImpressionData:(MPImpressionData * _Nullable)impressionData {
