@@ -6,13 +6,13 @@
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController {
     if (self = [super initWithFrame:frame]) {
         Class fbAdView = NSClassFromString(@"FBAdView");
-        struct FBAdSize adsize = {CGSizeMake(-1, 50)};
+        struct FBAdSize adsize = {CGSizeMake(-1, frame.size.height)};
         if (fbAdView && adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
             _facebookBannerView = [[fbAdView alloc] initWithPlacementID:([adParameter objectForKey:@"pid"]?[adParameter objectForKey:@"pid"]:@"")
                                                                  adSize:adsize
                                                      rootViewController:rootViewController];
         }
-        _facebookBannerView.frame = frame;
+        _facebookBannerView.frame = CGRectMake(frame.size.width/2.0-_facebookBannerView.frame.size.width/2.0, frame.size.height-_facebookBannerView.frame.size.height, _facebookBannerView.frame.size.width, _facebookBannerView.frame.size.height);;
         _facebookBannerView.delegate = self;
         [self addSubview:_facebookBannerView];
     }

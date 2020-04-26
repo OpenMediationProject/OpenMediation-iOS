@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<bannerCustomEventDelegate> delegate;
 @property (nonatomic, strong, nullable) ISBannerView *bannerView;
-@property (nonatomic, strong) UIViewController *showVC;
+@property (nonatomic, weak) UIViewController *showVC;
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController;
 - (void)loadAd;
 

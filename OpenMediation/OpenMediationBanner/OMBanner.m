@@ -152,10 +152,10 @@
 #pragma mark BannerMethod
 - (CGSize)getBannerSizeWithBannerType:(OMBannerType)type {
     switch (type) {
-        case OMBannerTypeLarge:
-            return CGSizeMake(320, 100);
-        case OMBannerTypeSmart:
-            return CGSizeMake([UIScreen mainScreen].bounds.size.width, 50);
+        case OMBannerTypeMediumRectangle:
+            return CGSizeMake(300, 50);
+        case OMBannerTypeLeaderboard:
+            return CGSizeMake(728,90);
         case OMBannerTypeDefault:
             return CGSizeMake(320, 50);
     }

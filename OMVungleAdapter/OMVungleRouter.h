@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedInstance;
 - (void)registerPidDelegate:(NSString*)pid delegate:(id)delegate;
 - (void)loadPlacmentID:(NSString *)pid;
-- (void)loadBannerWithPlacementID:(NSString*)pid;
+- (void)loadBannerWithsize:(CGSize)size PlacementID:(NSString*)pid;
 - (BOOL)isAdAvailableForPlacementID:(NSString *) pid;
 - (void)showAdFromViewController:(UIViewController *)viewController forPlacementId:(NSString *)placementID;
 

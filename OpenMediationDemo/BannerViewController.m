@@ -14,7 +14,7 @@
 
 - (void)loadAd {
     if (!_banner) {
-        _banner = [[OMBanner alloc] initWithBannerType:OMBannerTypeDefault placementID:self.loadID];
+        _banner = [[OMBanner alloc] initWithBannerType:([[UIDevice currentDevice].model isEqualToString:@"iPad"]?OMBannerTypeLeaderboard:OMBannerTypeDefault) placementID:self.loadID];
         [_banner addLayoutAttribute:OMBannerLayoutAttributeHorizontally constant:0];
         [_banner addLayoutAttribute:OMBannerLayoutAttributeVertically constant:0];
         _banner.delegate = self;

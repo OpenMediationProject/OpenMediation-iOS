@@ -37,10 +37,20 @@ static OMVungleRouter * _instance = nil;
     }
 }
 
-- (void)loadBannerWithPlacementID:(NSString*)pid {
+- (VungleAdSize)convertWithSize:(CGSize)size {
+    if (size.width == 300 && size.height == 250) {
+        return VungleAdSizeBannerShort;
+    } else if (size.width == 728 && size.height == 90) {
+        return VungleAdSizeBannerLeaderboard;
+    } else  {
+        return VungleAdSizeBanner;
+    }
+}
+
+- (void)loadBannerWithsize:(CGSize)size PlacementID:(NSString*)pid {
     NSError *error = nil;
     if (_vungleSDK && [_vungleSDK respondsToSelector:@selector(loadPlacementWithID:withSize:error:)]) {
-        [_vungleSDK loadPlacementWithID:pid withSize:VungleAdSizeBanner error:&error];
+        [_vungleSDK loadPlacementWithID:pid withSize:[self convertWithSize:size] error:&error];
     }
 }
 

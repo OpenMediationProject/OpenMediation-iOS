@@ -9,14 +9,24 @@
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController {
     if (self = [super initWithFrame:frame]) {
         Class MTGBannerAdViewClass = NSClassFromString(@"MTGBannerAdView");
-        if (MTGBannerAdViewClass && [MTGBannerAdViewClass instancesRespondToSelector:@selector(initBannerAdViewWithAdSize:placementId:unitId:rootViewController:)]) {
-            _bannerAdView = [[MTGBannerAdViewClass alloc]initBannerAdViewWithAdSize:frame.size placementId:@"" unitId:[adParameter objectForKey:@"pid"]?[adParameter objectForKey:@"pid"]:@""  rootViewController:rootViewController];
+        if (MTGBannerAdViewClass && [MTGBannerAdViewClass instancesRespondToSelector:@selector(initBannerAdViewWithBannerSizeType:placementId:unitId:rootViewController:)]) {
+            _bannerAdView = [[MTGBannerAdViewClass alloc] initBannerAdViewWithBannerSizeType:[self convertWithSize:frame.size] placementId:@"" unitId:[adParameter objectForKey:@"pid"]?[adParameter objectForKey:@"pid"]:@"" rootViewController:rootViewController];
             _bannerAdView.frame = CGRectMake(frame.size.width/2.0-_bannerAdView.frame.size.width/2.0, frame.size.height-_bannerAdView.frame.size.height, _bannerAdView.frame.size.width, _bannerAdView.frame.size.height);
             _bannerAdView.delegate = self;
             [self addSubview:_bannerAdView];
         }
     }
     return self;
+}
+
+- (MTGBannerSizeType )convertWithSize:(CGSize)size {
+    if(size.width == 320 && size.height == 50) {
+        return MTGStandardBannerType320x50;
+    } else if (size.width == 300 && size.height == 250) {
+        return MTGMediumRectangularBanner300x250;
+    } else  {
+        return MTGSmartBannerType;
+    }
 }
 
 - (void)loadAd {

@@ -51,12 +51,7 @@ static OMMintegralRouter * _instance = nil;
     }
     return isReady;
 }
-//- (void)showVideoWithPlacementId:(nullable NSString *)placementId
-//        unitId:(nonnull NSString *)unitId
-//  withRewardId:(nullable NSString *)rewardId
-//        userId:(nullable NSString *)userId
-//      delegate:(nullable id <MTGRewardAdShowDelegate>)delegate
-//viewController:(nonnull UIViewController*)viewController;
+
 - (void)showVideo:(NSString *)pid withVC:(UIViewController*)vc {
     if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(showVideoWithPlacementId:unitId:withRewardId:userId:delegate:viewController:)]) {
         [_mintegralSDK showVideoWithPlacementId:@"" unitId:pid withRewardId:@"" userId:@"" delegate:self viewController:vc];
@@ -64,14 +59,14 @@ static OMMintegralRouter * _instance = nil;
 }
 
 #pragma mark - MTGRewardAdLoadDelegate
-- (void)onVideoAdLoadSuccess:(nullable NSString *)unitId {
+- (void)onVideoAdLoadSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
     id<OMMintegralAdapterDelegate> delegate = [_placementDelegateMap objectForKey:unitId];
        if ([self isReady:unitId] && delegate && [delegate respondsToSelector:@selector(omMintegralDidload)] ) {
            [delegate omMintegralDidload];
        }
 }
 
-- (void)onVideoAdLoadFailed:(nullable NSString *)unitId error:(nonnull NSError *)error {
+- (void)onVideoAdLoadFailed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId error:(nonnull NSError *)error {
     id<OMMintegralAdapterDelegate> delegate = [_placementDelegateMap objectForKey:unitId];
    if (delegate && [delegate respondsToSelector:@selector(omMintegralDidFailToLoad:)]) {
        [delegate omMintegralDidFailToLoad:error];
@@ -81,7 +76,7 @@ static OMMintegralRouter * _instance = nil;
 #pragma mark - MTGRewardAdShowDelegate Delegate
 
 //Show Reward Video Ad Success Delegate
-- (void)onVideoAdShowSuccess:(NSString *)unitId {
+- (void)onVideoAdShowSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
     id<OMMintegralAdapterDelegate> delegate = [_placementDelegateMap objectForKey:unitId];
     if (delegate && [delegate respondsToSelector:@selector(omMintegralDidStart)]) {
         [delegate omMintegralDidStart];
@@ -90,13 +85,13 @@ static OMMintegralRouter * _instance = nil;
 
 
 //Show Reward Video Ad Failed Delegate
-- (void)onVideoAdShowFailed:(NSString *)unitId withError:(NSError *)error {
+- (void)onVideoAdShowFailed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId withError:(nonnull NSError *)error {
    
 }
 
 
 //About RewardInfo Delegate
-- (void)onVideoAdDismissed:(NSString *)unitId withConverted:(BOOL)converted withRewardInfo:(MTGRewardAdInfo *)rewardInfo {
+- (void)onVideoAdDismissed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId withConverted:(BOOL)converted withRewardInfo:(nullable MTGRewardAdInfo *)rewardInfo {
     id<OMMintegralAdapterDelegate> delegate = [_placementDelegateMap objectForKey:unitId];
     if (rewardInfo) {
         if (delegate && [delegate respondsToSelector:@selector(omMintegralDidReceiveReward)]) {
@@ -105,28 +100,28 @@ static OMMintegralRouter * _instance = nil;
     }
 }
 
-- (void)onVideoAdDidClosed:(nullable NSString *)unitId {
+- (void)onVideoAdDidClosed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
     id<OMMintegralAdapterDelegate> delegate = [_placementDelegateMap objectForKey:unitId];
     if (delegate && [delegate respondsToSelector:@selector(omMintegralDidFinish:)]) {
         [delegate omMintegralDidFinish:NO];
     }
 }
 
-- (void)onVideoAdClicked:(nullable NSString *)unitId {
+- (void)onVideoAdClicked:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
     id<OMMintegralAdapterDelegate> delegate = [_placementDelegateMap objectForKey:unitId];
     if (delegate && [delegate respondsToSelector:@selector(omMintegralDidClick)]) {
         [delegate omMintegralDidClick];
     }
 }
 
-- (void) onVideoPlayCompleted:(nullable NSString *)unitId {
+- (void) onVideoPlayCompleted:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
     id<OMMintegralAdapterDelegate> delegate = [_placementDelegateMap objectForKey:unitId];
     if (delegate && [delegate respondsToSelector:@selector(omMintegralRewardedVideoEnd)]) {
         [delegate omMintegralRewardedVideoEnd];
     }
 }
 
-- (void) onVideoEndCardShowSuccess:(nullable NSString *)unitId {
+- (void) onVideoEndCardShowSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
     
 }
 

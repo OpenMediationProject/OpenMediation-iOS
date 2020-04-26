@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, OMAdNetwork) {
     OMAdNetworkTikTok = 13,
     OMAdNetworkMintegral = 14,
     OMAdNetworkIronSource = 15,
-    OMAdNetworkFyber = 16,
+    OMAdNetworkFyber = 30,
 };
 
 #endif /* OpenMediationConstant_h */

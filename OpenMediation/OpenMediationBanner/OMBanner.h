@@ -13,9 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Banner Ad Size
 typedef NS_ENUM(NSInteger, OMBannerType) {
-    OMBannerTypeDefault = 0,       ///ad size: 320 x 50
-    OMBannerTypeLarge = 1,         ///ad size: 320 x 100
-    OMBannerTypeSmart = 2          ///ad size: screen.width x 50
+    OMBannerTypeDefault = 0,        ///ad size: 320 x 50
+    OMBannerTypeMediumRectangle = 1,///ad size: 300 x 250
+    OMBannerTypeLeaderboard = 2     ///ad size: 728x90
 };
 
 /// Banner Ad layout attribute

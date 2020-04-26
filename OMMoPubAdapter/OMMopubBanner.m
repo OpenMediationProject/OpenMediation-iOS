@@ -47,7 +47,7 @@
 }
 
 - (void)adViewDidLoadAd:(MPAdView *)view adSize:(CGSize)adSize {
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+    if ( adSize.height == self.frame.size.height && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
 }

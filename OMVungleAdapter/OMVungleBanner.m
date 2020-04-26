@@ -15,7 +15,7 @@
 
 - (void)loadAd {
     _adShow = NO;
-    [[OMVungleRouter sharedInstance]loadBannerWithPlacementID:_pid];
+    [[OMVungleRouter sharedInstance]loadBannerWithsize:self.frame.size PlacementID:_pid];
 }
 
 - (void)renderBanner {

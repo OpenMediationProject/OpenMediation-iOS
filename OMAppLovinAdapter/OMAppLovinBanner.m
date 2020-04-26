@@ -12,7 +12,7 @@
         Class ALAdViewClass = NSClassFromString(@"ALAdView");
         Class adSize = NSClassFromString(@"ALAdSize");
         if (adParameter && [adParameter isKindOfClass:[NSDictionary class]] && ALAdViewClass && [[ALAdViewClass alloc] respondsToSelector:@selector(initWithSdk:size:zoneIdentifier:)] && adSize && [adSize banner]) {
-            _bannerAdView = [[ALAdViewClass alloc] initWithSdk:sdk size:[adSize banner] zoneIdentifier:[adParameter objectForKey:@"pid"]];
+            _bannerAdView = [[ALAdViewClass alloc] initWithSdk:sdk size:[self convertWithSize:frame.size] zoneIdentifier:[adParameter objectForKey:@"pid"]];
             _bannerAdView.adLoadDelegate = self;
             _bannerAdView.adDisplayDelegate = self;
             _bannerAdView.adEventDelegate = self;
@@ -22,6 +22,17 @@
         }
     }
     return self;
+}
+
+- (ALAdSize*)convertWithSize:(CGSize)size {
+    Class adSize = NSClassFromString(@"ALAdSize");
+    if (size.width == 300 && size.height == 250) {
+        return [adSize mrec];
+    } else if (size.width == 728 && size.height == 90) {
+        return [adSize leader];
+    } else  {
+        return [adSize banner];
+    }
 }
 
 - (void)loadAd{
@@ -67,9 +78,6 @@
 
 - (void)ad:(ALAd *)ad didPresentFullscreenForAdView:(ALAdView *)adView
 {
-    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillPresentScreen:)]){
-        [_delegate bannerCustomEventWillPresentScreen:self];
-    }
 }
 
 - (void)ad:(ALAd *)ad willDismissFullscreenForAdView:(ALAdView *)adView
@@ -78,16 +86,10 @@
 
 - (void)ad:(ALAd *)ad didDismissFullscreenForAdView:(ALAdView *)adView
 {
-    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDismissScreen:)]){
-        [_delegate bannerCustomEventDismissScreen:self];
-    }
 }
 
 - (void)ad:(ALAd *)ad willLeaveApplicationForAdView:(ALAdView *)adView
 {
-    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillLeaveApplication:)]){
-        [_delegate bannerCustomEventWillLeaveApplication:self];
-    }
 }
 
 - (void)ad:(ALAd *)ad didFailToDisplayInAdView:(ALAdView *)adView withError:(ALAdViewDisplayErrorCode)code

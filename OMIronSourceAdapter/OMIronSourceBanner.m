@@ -26,10 +26,20 @@
             self.bannerView = nil;
         }
         if (self.showVC && IronSourceClass && [IronSourceClass respondsToSelector:@selector(loadBannerWithViewController:size:)]) {
-            [IronSourceClass loadBannerWithViewController:self.showVC size:ISBannerSize_BANNER];
+            [IronSourceClass loadBannerWithViewController:self.showVC size:[self convertWithSize:self.frame.size]];
         }
     });
 
+}
+
+- (ISBannerSize* )convertWithSize:(CGSize)size {
+    if (size.width == 320 && size.height == 50) {
+        return ISBannerSize_BANNER;
+    } else if (size.width == 300 && size.height == 250) {
+        return ISBannerSize_RECTANGLE;
+    } else  {
+        return ISBannerSize_SMART;
+    }
 }
 
 #pragma mark - Banner Delegate Functions
