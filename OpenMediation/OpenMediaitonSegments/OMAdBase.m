@@ -468,7 +468,6 @@
 - (void)showInstance:(id)instanceID {
     if (!OM_STR_EMPTY(instanceID)) {
         [[OMInstanceContainer sharedInstance]removeImpressionInstance:instanceID];
-        [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
         [self addEvent:INSTANCE_SHOW instance:instanceID extraData:nil];
     }
 }
@@ -487,9 +486,12 @@
 }
 
 - (void)adShowFail:(id)instanceAdapter {
+    self.adLoader.adShow = NO;
     NSString *instanceID = [self checkInstanceIDWithAdapter:instanceAdapter];
     OMLogD(@"%@ instance %@ show fail",self.pid,OM_SAFE_STRING(instanceID));
     [self addEvent:INSTANCE_SHOW_FAILED instance:instanceID extraData:nil];
+    [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
+    [self loadAd:_adFormat actionType:OMLoadActionCloseEvent];
 }
 
 - (void)adClick:(id)instanceAdapter {
@@ -522,6 +524,7 @@
     NSString *instanceID = [self checkInstanceIDWithAdapter:instanceAdapter];
     OMLogD(@"%@ instance %@ close",self.pid,OM_SAFE_STRING(instanceID));
     [self addEvent:INSTANCE_CLOSED instance:instanceID extraData:nil];
+    [self.adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
     [self loadAd:_adFormat actionType:OMLoadActionCloseEvent];
 }
 

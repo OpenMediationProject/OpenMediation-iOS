@@ -223,12 +223,12 @@ static OMMediations *_instance = nil;
             break;
         case OMAdNetworkMopub:
         {
-            if (sdkClass && [sdkClass respondsToSelector:@selector(sharedInstance)]) {
-                MoPub *mopub = [sdkClass sharedInstance];
-                if ([mopub respondsToSelector:@selector(version)]) {
-                    sdkVersion = [mopub version];
-                }
-            }
+//            if (sdkClass && [sdkClass respondsToSelector:@selector(sharedInstance)]) {
+//                MoPub *mopub = [sdkClass sharedInstance];
+//                if ([mopub respondsToSelector:@selector(version)]) {
+//                    sdkVersion = [mopub version];
+//                }
+//            }
         }
             break;
         case OMAdNetworkTapjoy:
