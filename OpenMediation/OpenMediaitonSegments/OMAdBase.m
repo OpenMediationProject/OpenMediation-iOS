@@ -346,7 +346,7 @@
 }
 
 - (void)instanceLoadBlockWithError:(OMErrorCode)errorType instanceID:(NSString*)instanceID {
-    OMLogD(@"%@ load instance block:%zd",self.pid,errorType);
+    OMLogD(@"%@ load instance %@ block:%zd",self.pid,instanceID,errorType);
     [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateFail];
 }
 

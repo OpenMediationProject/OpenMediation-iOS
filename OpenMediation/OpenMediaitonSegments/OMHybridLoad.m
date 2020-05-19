@@ -14,9 +14,6 @@
             OMLogD(@"%@ batch size use default %zd",self.pid,self.batchSize);
         } else {
             _batchSize = unit.batchSize;
-        }
-        
-        if (!unit ) {
             _fanoutType = unit.fanout;
         }
     }
@@ -87,8 +84,9 @@
 - (void)addLoadingInstance {
     if (!self.notifyLoadResult) {
         BOOL groupLoadFinish = YES;
-        if (self.loadIndex < self.loadGroups.count) {
-            NSArray *group = self.loadGroups[self.loadIndex];
+        NSInteger loadingGroupIndex = self.loadIndex -1 ;
+        if (loadingGroupIndex < self.loadGroups.count) {
+            NSArray *group = self.loadGroups[loadingGroupIndex];
             for (NSString *instanceID in group) {
                 OMInstanceLoadState loadState = [self.instanceLoadState[instanceID]integerValue];
                 if (loadState <= OMInstanceLoadStateLoading) {
