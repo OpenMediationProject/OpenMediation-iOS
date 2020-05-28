@@ -11,10 +11,12 @@
 @implementation OMWaterfallRequest
 
 + (void)requestDataWithPid:(NSString *)pid
+                      size:(CGSize)size
                 actionType:(NSInteger)actionType
               bidResponses:(NSArray*)bidResponses
+                    tokens:(NSArray*)tokens
          completionHandler:(wfCompletionHandler)completionHandler {
-    NSDictionary *parameters = [self wfParametersWithPid:pid actionType:actionType bidResponses:bidResponses];
+    NSDictionary *parameters = [self wfParametersWithPid:pid size:size actionType:actionType bidResponses:bidResponses tokens:tokens];
     NSError *jsonError;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:&jsonError];
     if (jsonData && !jsonError && [[OMConfig sharedInstance].clUrl length]>0) {
@@ -37,15 +39,22 @@
 }
 
 + (NSDictionary*)wfParametersWithPid:(NSString*)pid
+                                size:(CGSize)size
                           actionType:(NSInteger)actionType
-                        bidResponses:(NSArray*)bidResponses {
+                        bidResponses:(NSArray*)bidResponses
+                              tokens:(NSArray*)tokens {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:[OMRequest commonDeviceInfo]];
     parameters[@"pid"] = @([pid integerValue]);
+    parameters[@"width"] = [NSNumber numberWithInt:size.width];
+    parameters[@"height"] = [NSNumber numberWithInt:size.height];
     parameters[@"iap"] = [NSNumber numberWithFloat:[OMAudience sharedInstance].purchaseAmount];
     parameters[@"imprTimes"] = [NSNumber numberWithInteger:[[OMLoadFrequencryControl sharedInstance]todayimprCountOnPlacment:pid]];
     parameters[@"act"] = [NSNumber numberWithInteger:actionType];
     if (bidResponses.count>0) {
-        parameters[@"bid"] = bidResponses;
+        parameters[@"bidc2s"] = bidResponses;
+    }
+    if (tokens.count>0) {
+        parameters[@"bids2s"] = tokens;
     }
     return [parameters copy];
 }

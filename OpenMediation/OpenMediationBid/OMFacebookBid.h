@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMFacebookBid : NSObject
 + (void)bidWithNetworkItem:(OMBidNetworkItem*)networkItem adFormat:(OpenMediationAdFormat)format responseCallback:(void(^)(OMBidResponse *bidResponse))callback;
-
++ (NSString*)bidderToken;
 @end
 
 NS_ASSUME_NONNULL_END

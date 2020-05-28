@@ -26,6 +26,19 @@
 }
 
 
+- (BOOL)isReady {
+    BOOL isReady = NO;
+    self.optimalFillInstance = @"";
+    for (NSString *instanceID in self.priorityList) {
+        OMInstanceLoadState loadState = [self.instanceLoadState[instanceID]integerValue];
+        if (loadState == OMInstanceLoadStateSuccess && [self.delegate omCheckInstanceReady:instanceID]) {
+            self.optimalFillInstance =  instanceID;
+            isReady = YES;
+            break;
+        }
+    }
+    return isReady;
+}
 
 - (void)loadWithPriority:(NSArray *)insPriority {
     [super loadWithPriority:insPriority];

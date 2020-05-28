@@ -63,7 +63,7 @@
     
     self.loadID = [[NSUserDefaults standardUserDefaults] valueForKey:[NSString stringWithFormat:@"AdFormat%zdUnitId",self.adFormat]];
 
-    if (self.adFormat <= OpenMediationAdFormatNative) {
+    if (self.adFormat <= OpenMediationAdFormatNative || self.adFormat == OpenMediationAdFormatSplash ) {
         if (!self.loadID || self.loadID.length == 0) {
             self.loadID = [[OMConfig sharedInstance]defaultUnitIDForAdFormat:self.adFormat];
         }

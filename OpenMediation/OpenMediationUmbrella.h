@@ -15,4 +15,5 @@
 #import <OpenMediation/OMNativeMediaView.h>
 
 #import <OpenMediation/OMRewardedVideo.h>
-
+#import <OpenMediation/OMSplash.h>
+#import <OpenMediation/OMSplashDelegate.h>

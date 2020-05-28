@@ -7,7 +7,7 @@
 #import "OMConfig.h"
 #import "OMMediations.h"
 
-#define OPENMEDIATION_INIT_HOST     @"https://omdemoserver.adtiming.com"
+#define OPENMEDIATION_INIT_HOST     @"https://omtest.adtiming.com"
 
 @implementation OMInitRequest
 

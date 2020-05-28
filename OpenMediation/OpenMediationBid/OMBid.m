@@ -12,6 +12,7 @@
 - (void)bidWithNetworkItems:(NSArray*)networkItems adFormat:(OpenMediationAdFormat)format completionHandler:(bidCompletionHandler)completionHandler {
     _bidNetworkItems = networkItems;
     _completionHandler = completionHandler;
+    _bidTokens = [NSMutableDictionary dictionary];
     _bidResponses = [NSMutableDictionary dictionary];
 
     
@@ -29,16 +30,24 @@
                 if (bidMaxTimeOut < networkMaxTimeOut) {
                     bidMaxTimeOut = networkMaxTimeOut;
                 }
-                dispatch_group_enter(group);
-                
-                [bidClass bidWithNetworkItem:networkItem adFormat:format responseCallback:^(OMBidResponse *bidResponse) {
+                if ([bidClass respondsToSelector:@selector(bidderToken)]) {
                     if (weakSelf) {
                         @synchronized (weakSelf) {
-                            [weakSelf.bidResponses setObject:bidResponse forKey:networkItem.extraData[@"instanceID"] ];
+                            [weakSelf.bidTokens setObject:[bidClass bidderToken] forKey:networkItem.extraData[@"instanceID"] ];
                         }
                     }
-                    dispatch_group_leave(group);
-                }];
+                } else {
+                    dispatch_group_enter(group);
+                    
+                    [bidClass bidWithNetworkItem:networkItem adFormat:format responseCallback:^(OMBidResponse *bidResponse) {
+                        if (weakSelf) {
+                            @synchronized (weakSelf) {
+                                [weakSelf.bidResponses setObject:bidResponse forKey:networkItem.extraData[@"instanceID"] ];
+                            }
+                        }
+                        dispatch_group_leave(group);
+                    }];
+                }
                 
             }
         }
@@ -80,7 +89,7 @@
             _bidTimer = nil;
         }
         if (self.completionHandler) {
-            self.completionHandler([self.bidResponses copy]);
+            self.completionHandler([self.bidTokens copy],[self.bidResponses copy]);
             self.completionHandler = nil;
         }
     }

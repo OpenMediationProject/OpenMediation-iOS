@@ -10,8 +10,14 @@
 }
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
-    completionHandler(nil);
-    
+    NSString *key = [configuration objectForKey:@"appKey"];
+    Class GDTClass = NSClassFromString(@"GDTSDKConfig");
+    if (GDTClass && [GDTClass respondsToSelector:@selector(registerAppId:)]) {
+        BOOL result = [GDTClass registerAppId:key];
+        if (result) {
+            completionHandler(nil);
+        }
+    }
 }
 
 @end

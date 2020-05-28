@@ -10,9 +10,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OMWaterfallRequest : NSObject
 
 + (void)requestDataWithPid:(NSString *)pid
-       actionType:(NSInteger)actionType
-     bidResponses:(NSArray*)bidResponses
-completionHandler:(wfCompletionHandler)completionHandler;
+                      size:(CGSize)size
+                actionType:(NSInteger)actionType
+              bidResponses:(NSArray*)bidResponses
+                    tokens:(NSArray*)tokens
+         completionHandler:(wfCompletionHandler)completionHandler;
 
 @end
 

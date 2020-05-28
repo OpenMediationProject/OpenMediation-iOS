@@ -130,12 +130,5 @@ static OMVungleRouter * _instance = nil;
     }
 }
 
-#pragma mark - VungleSDKNativeAds delegate methods
-- (void)nativeAdsPlacementWillTriggerURLLaunch:(NSString *)placement {
-    id<OMVungleAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placement];
-    if (delegate && [delegate respondsToSelector:@selector(omVungleWillLeaveApplication)]) {
-         [delegate omVungleWillLeaveApplication];
-    }
-}
 
 @end

@@ -6,6 +6,9 @@
 
 @interface GDTSDKConfig : NSObject
 + (NSString *)sdkVersion;
++ (BOOL)registerAppId:(NSString *)appId;
 @end
+
+
 
 #endif /* AdTimingGdtClass_h */

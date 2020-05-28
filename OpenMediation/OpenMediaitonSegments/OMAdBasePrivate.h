@@ -33,8 +33,8 @@ typedef void(^hbRequestCompletionHandler)(NSArray *bidInstances);
 
 //for bid
 @property (nonatomic, strong) OMBid *bid;
-@property (nonatomic, strong) NSDictionary *clBidResponse;
-@property (nonatomic, strong) NSMutableDictionary *loadBidResponse;
+@property (nonatomic, strong) NSDictionary *bidInstances;
+@property (nonatomic, strong) NSMutableDictionary *bidLoadInstances;
 
 @property (nonatomic, strong) NSArray *testInstance;
 

@@ -94,6 +94,13 @@ typedef NS_ENUM(NSInteger, FBAdBidAuctionType) {
 
 @end
 
+
+@interface FBAdSettings : NSObject
+
+@property (class, nonatomic, copy, readonly) NSString *bidderToken;
+
+@end;
+
 NS_ASSUME_NONNULL_END
 
 #endif /* OMFacebookBidClass_h */

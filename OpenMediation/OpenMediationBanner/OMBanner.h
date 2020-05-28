@@ -1,9 +1,5 @@
-//
-//  OMBanner.h
-//  OpenMediation SDK
-//
-//  Copyright 2017 OM Inc. All rights reserved.
-//
+// Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
+// Licensed under the GNU Lesser General Public License Version 3
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>

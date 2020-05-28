@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const GdtAdapterVersion = @"3.0.0";
+static NSString * const GdtAdapterVersion = @"1.2.0";
 
 @interface OMTencentAdAdapter : NSObject<OMMediationAdapter>
 + (NSString*)adapterVerison;

@@ -9,6 +9,7 @@ typedef NS_ENUM(NSInteger, OpenMediationAdFormat) {
     OpenMediationAdFormatNative = (1 << 1),
     OpenMediationAdFormatRewardedVideo = (1 << 2),
     OpenMediationAdFormatInterstitial = (1 << 3),
+    OpenMediationAdFormatSplash = (1 << 4),
 };
 
 #endif /* OpenMediationAdFormats_h */

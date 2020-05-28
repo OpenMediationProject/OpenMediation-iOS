@@ -9,6 +9,7 @@
 
 @interface OMCustomEventBid : NSObject
 + (void)bidWithNetworkItem:(OMBidNetworkItem*)networkItem adFormat:(OpenMediationAdFormat)format responseCallback:(void(^)(OMBidResponse *bidResponse))callback;
++ (NSString*)bidderToken;
 @end
 
 #endif /* OMBidCustomEvent_h */

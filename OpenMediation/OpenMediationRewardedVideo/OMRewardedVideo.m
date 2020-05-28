@@ -117,11 +117,15 @@ static OMRewardedVideo * _instance = nil;
 - (void)rewardedVideoChangedAvailability:(OMRewardedVideoAd *)video newValue:(BOOL)available {
     for (id<OMRewardedVideoPrivateDelegate> delegate in self.delegates) {
         if (delegate && [delegate respondsToSelector:@selector(omRewardedVideoChangedAvailability:)]) {
-            [self addAdEvent:CALLBACK_LOAD_SUCCESS placementID:video.placementID scene:nil extraMsg:nil];
+            if (available) {
+                [self addAdEvent:CALLBACK_LOAD_SUCCESS placementID:video.placementID scene:nil extraMsg:nil];
+            }
             [delegate omRewardedVideoChangedAvailability:available];
         }
         if (delegate && [delegate respondsToSelector:@selector(omRewardedVideoChangedAvailability:newValue:)]) {
-            [self addAdEvent:CALLBACK_LOAD_SUCCESS placementID:video.placementID scene:nil extraMsg:nil];
+            if (available) {
+                [self addAdEvent:CALLBACK_LOAD_SUCCESS placementID:video.placementID scene:nil extraMsg:nil];
+            }
             [delegate omRewardedVideoChangedAvailability:video.placementID newValue:available];
         }
     }

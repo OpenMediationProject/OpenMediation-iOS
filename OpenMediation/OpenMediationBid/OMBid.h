@@ -8,11 +8,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^bidCompletionHandler)(NSDictionary *bidResponses);
+typedef void(^bidCompletionHandler)(NSDictionary *bidTokens,NSDictionary *bidResponses);
 
 @interface OMBid : NSObject
 @property (nonatomic, strong) NSArray *bidNetworkItems;
 @property (nonatomic, copy, nullable)  bidCompletionHandler completionHandler;
+@property (nonatomic, strong) NSMutableDictionary *bidTokens;
 @property (nonatomic, strong) NSMutableDictionary *bidResponses;
 @property (nonatomic, strong) NSTimer *bidTimer;
 

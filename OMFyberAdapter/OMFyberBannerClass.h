@@ -203,7 +203,6 @@ typedef void (^IAAdSpotAdResponseBlock)(IAAdSpot * _Nullable adSpot, IAAdModel *
  *  @discussion This callback is called for all type of the rewarded content, both HTML/JS and video (VAST/VPAID).
  */
 - (void)IAAdDidReward:(IAUnitController * _Nullable)unitController;
-#warning in order to use the rewarded callback for all available rewarded content, you will have to implement this method (not the `IAVideoCompleted:`;
 
 - (void)IAUnitControllerWillPresentFullscreen:(IAUnitController * _Nullable)unitController;
 - (void)IAUnitControllerDidPresentFullscreen:(IAUnitController * _Nullable)unitController;

@@ -20,7 +20,6 @@
             NSError *error = nil;
             BOOL start = [vungle startWithAppId:key error:&error];
             vungle.delegate = [OMVungleRouter sharedInstance];
-            vungle.nativeAdsDelegate = [OMVungleRouter sharedInstance];
             if (start) {
                 completionHandler(nil);
             } else {

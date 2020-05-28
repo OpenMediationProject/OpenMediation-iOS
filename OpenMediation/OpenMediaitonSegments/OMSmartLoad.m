@@ -63,7 +63,7 @@
     self.optimalFillInstance = @"";
     for (NSString *instanceID in self.priorityList) {
         OMInstanceLoadState loadState = [self.instanceLoadState[instanceID]integerValue];
-        if (loadState == OMInstanceLoadStateSuccess) {
+        if (loadState == OMInstanceLoadStateSuccess && [self.delegate omCheckInstanceReady:instanceID]) {
             self.optimalFillInstance =  instanceID;
             isReady = YES;
             break;

@@ -98,4 +98,13 @@ NSString * const OMFbBidError = @"com.om.fbbid";
 
 }
 
++ (NSString*)bidderToken {
+    NSString *token = @"";
+    Class fbSetting = NSClassFromString(@"FBAdSettings");
+    if (fbSetting && [fbSetting respondsToSelector:@selector(bidderToken)]) {
+        token = [fbSetting bidderToken];
+    }
+    return token;
+}
+
 @end

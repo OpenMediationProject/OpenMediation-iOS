@@ -5,6 +5,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+typedef NS_ENUM (NSInteger, OMBidLossedReasonCode) {
+    
+    OMBidLossedReasonCodeInternalError    = 1,
+    OMBidLossedReasonCodeTimeOut          = 2,
+    OMBidLossedReasonCodeInvalidBid       = 3,
+    OMBidLossedReasonCodeNotHiggestBidder = 102,
+    OMBidLossedReasonCodeNotShow          = 4902,
+};
+
+
 @interface OMBidResponse : NSObject
 
 @property (nonatomic, assign) BOOL isSuccess;
@@ -21,11 +32,15 @@ NS_ASSUME_NONNULL_BEGIN
 + (OMBidResponse *)buildResponseWithPrice:(double)price
                                    currency:(NSString *)currency
                                     payLoad:(NSObject *)payLoad
-                                notifyWin:(void (^)(void))win
-                                     notifyLoss:(void (^)(void))loss;
-- (void)loss;
+                                  notifyWin:(void (^)(void))win
+                                 notifyLoss:(void (^)(void))loss;
+
++ (OMBidResponse *)buildResponseWithData:(NSDictionary*)responseData;
+
 
 - (void)win;
+
+- (void)notifyLossWithReasonCode:(OMBidLossedReasonCode)lossReasonCode;
 
 @end
 

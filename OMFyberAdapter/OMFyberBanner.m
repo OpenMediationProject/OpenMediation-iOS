@@ -32,8 +32,6 @@ extern NSString * const kIASDKOMAdapterErrorDomain;
     _isIABanner =
     ((size.width == kIADefaultIPhoneBannerWidth) && (size.height == kIADefaultIPhoneBannerHeight)) ||
     ((size.width == kIADefaultIPadBannerWidth) && (size.height == kIADefaultIPadBannerHeight));
-
-#warning Set your spotID or define it @MoPub console inside the "extra" JSON:
     NSString *spotID = @"";
 
     if (info && [info isKindOfClass:NSDictionary.class] && info.count) {
@@ -46,7 +44,6 @@ extern NSString * const kIASDKOMAdapterErrorDomain;
     Class IAUserClass = NSClassFromString(@"IAUserData");
     
     IAUserData *userData = [IAUserClass build:^(id<IAUserDataBuilder>  _Nonnull builder) {
-#warning Set up targeting in order to increase revenue:
         /*
          builder.age = 34;
          builder.gender = IAUserGenderTypeMale;
@@ -57,7 +54,7 @@ extern NSString * const kIASDKOMAdapterErrorDomain;
     Class requestClass = NSClassFromString(@"IAAdRequest");
 
     IAAdRequest *request = [requestClass build:^(id<IAAdRequestBuilder>  _Nonnull builder) {
-#warning In case of using ATS in order to allow only secure connections, please set to YES 'useSecureConnections' property:
+
         builder.useSecureConnections = NO;
         builder.spotID = spotID;
         builder.timeout = BANNER_TIMEOUT_INTERVAL - 1;
@@ -70,16 +67,16 @@ extern NSString * const kIASDKOMAdapterErrorDomain;
     Class unitControllerClass = NSClassFromString(@"IAViewUnitController");
     
     self.videoContentController = [videoControllerClass build:^(id<IAVideoContentControllerBuilder>  _Nonnull builder) {
-        builder.videoContentDelegate = self;
+        builder.videoContentDelegate = (id<IAVideoContentDelegate>)self;
     }];
 
     self.MRAIDContentController = [mraidControllerClass build:^(id<IAMRAIDContentControllerBuilder>  _Nonnull builder) {
-        builder.MRAIDContentDelegate = self;
+        builder.MRAIDContentDelegate =  (id<IAMRAIDContentDelegate>)self;;
         builder.contentAwareBackground = YES;
     }];
 
     self.bannerUnitController = [unitControllerClass build:^(id<IAViewUnitControllerBuilder>  _Nonnull builder) {
-        builder.unitDelegate = self;
+        builder.unitDelegate =  (id<IAUnitDelegate>)self;
 
         [builder addSupportedContentController:self.videoContentController];
         [builder addSupportedContentController:self.MRAIDContentController];
@@ -169,17 +166,7 @@ extern NSString * const kIASDKOMAdapterErrorDomain;
 }
 
 - (void)IAUnitControllerDidPresentFullscreen:(IAUnitController * _Nullable)unitController {
-    UIView *view = self.bannerUnitController.adView;
-    
-//    while (view.superview) {
-//        if ([view.superview isKindOfClass:MPAdView.class]) {
-//            self.moPubAdView = (MPAdView *)view.superview;
-//            [self.moPubAdView stopAutomaticallyRefreshingContents];
-//            break;
-//        } else {
-//            view = view.superview;
-//        }
-//    }
+
 }
 
 - (void)IAUnitControllerWillDismissFullscreen:(IAUnitController * _Nullable)unitController {

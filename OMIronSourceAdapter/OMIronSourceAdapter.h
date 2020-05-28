@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const IronSourceAdapterVersion = @"3.0.0";
+static NSString * const IronSourceAdapterVersion = @"1.2.0";
 
 @interface OMIronSourceAdapter : NSObject<OMMediationAdapter>
 + (NSString*)adapterVerison;

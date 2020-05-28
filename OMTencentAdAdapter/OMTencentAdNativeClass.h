@@ -247,13 +247,7 @@ extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
 - (void)gdt_unifiedNativeAdDetailViewWillPresentScreen:(GDTUnifiedNativeAdView *)unifiedNativeAdView;
 
 
-/**
- 视频广告播放状态更改回调
 
- @param nativeExpressAdView GDTUnifiedNativeAdView 实例
- @param status 视频广告播放状态
- @param userInfo 视频广告信息
- */
 - (void)gdt_unifiedNativeAdView:(GDTUnifiedNativeAdView *)unifiedNativeAdView playerStatusChanged:(GDTMediaPlayerStatus)status userInfo:(NSDictionary *)userInfo;
 @end
 

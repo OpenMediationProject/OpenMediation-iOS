@@ -3,6 +3,7 @@
 #ifndef OMMopubClass_h
 #define OMMopubClass_h
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface MPMoPubConfiguration : NSObject
 
@@ -45,5 +46,7 @@
 - (NSString * _Nonnull)bundleIdentifier;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* OMMopubClass_h */

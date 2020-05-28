@@ -113,7 +113,9 @@ static OMInterstitial * _instance = nil;
 - (void)interstitialChangedAvailability:(OMInterstitialAd*)interstitial newValue:(BOOL)available{
     for (id<OMInterstitialPrivateDelegate> delegate in self.delegates) {
         if (delegate && [delegate respondsToSelector:@selector(omInterstitialChangedAvailability:)]) {
-            [self addAdEvent:CALLBACK_LOAD_SUCCESS placementID:interstitial.placementID scene:nil extraMsg:nil];
+            if (available) {
+                [self addAdEvent:CALLBACK_LOAD_SUCCESS placementID:interstitial.placementID scene:nil extraMsg:nil];
+            }
             [delegate omInterstitialChangedAvailability:available];
         }
     }

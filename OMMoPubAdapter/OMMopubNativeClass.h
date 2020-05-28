@@ -6,6 +6,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class MPNativeAd;
 @class MPNativeAdRequest;
 @class MPNativeAdRequestTargeting;
@@ -539,7 +541,7 @@ typedef void(^MPNativeAdRequestHandler)(MPNativeAdRequest *request,
 
 @protocol MPNativeAdDelegate;
 
-@interface MPNativeAd : NSObject <MPMoPubAd>
+@interface MPNativeAd : NSObject
 
 /** @name Ad Resources */
 
@@ -752,5 +754,7 @@ typedef void (^MPImageDownloadQueueCompletionBlock)(NSDictionary <NSURL *, UIIma
 + (UINib *)nibForAd;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* OMMopubNativeClass_h */

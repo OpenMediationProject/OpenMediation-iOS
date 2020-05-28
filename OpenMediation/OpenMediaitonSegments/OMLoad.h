@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger, OMInstanceLoadState) {
 - (void)omLoadNoFill;
 - (void)omLoadEnd;
 - (void)omLoadAddEvent:(NSInteger)eventID extraData:data;
+- (BOOL)omCheckInstanceReady:(NSString*)instanceID;
 @end
 
 @interface OMLoad : NSObject

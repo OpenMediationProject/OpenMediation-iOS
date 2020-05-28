@@ -6,6 +6,7 @@
 #import "NativeViewController.h"
 #import "InterstitialViewController.h"
 #import "RewardedVideoViewController.h"
+#import "SplashViewController.h"
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
@@ -61,7 +62,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return 5;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -80,6 +81,9 @@
             cell.textLabel.text = @"RewardedVideo";
             break;
         case 4:
+            cell.textLabel.text = @"Splash";
+            break;
+        case 5:
             cell.textLabel.text = @"Iap test";
             break;
         default:
@@ -92,7 +96,7 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSArray *vcGroup = @[@"BannerViewController",@"NativeViewController",@"InterstitialViewController",@"RewardedVideoViewController"];
+    NSArray *vcGroup = @[@"BannerViewController",@"NativeViewController",@"InterstitialViewController",@"RewardedVideoViewController",@"SplashViewController"];
     if (indexPath.row < vcGroup.count) {
         Class vcClass = NSClassFromString(vcGroup[indexPath.row]);
         UIViewController *vc = [[vcClass alloc] init];
