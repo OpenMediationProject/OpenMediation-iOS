@@ -5,12 +5,11 @@
 
 @implementation OMTikTokSplash
 
-- (instancetype)initWithParameter:(NSDictionary *)adParameter adSize:(CGSize)size fetchTime:(CGFloat)fetchTime {
+- (instancetype)initWithParameter:(NSDictionary *)adParameter adSize:(CGSize)size {
     if (self = [super init]) {
         if (adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
             _pid = [adParameter objectForKey:@"pid"];
             _AdFrame = CGRectMake(0, 0, size.width, size.height);
-            _fetchTime = fetchTime;
         }
     }
     return self;
@@ -21,7 +20,6 @@
     if (TikTokSplashClass && [[TikTokSplashClass alloc] respondsToSelector:@selector(initWithSlotID:frame:)]) {
         _splashView = [[TikTokSplashClass alloc] initWithSlotID:_pid frame:_AdFrame];
         _splashView.delegate = self;
-        _splashView.tolerateTimeout = self.fetchTime;
     }
     if (_splashView) {
         [_splashView loadAdData];

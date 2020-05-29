@@ -17,7 +17,7 @@
 }
 
 - (void)loadAd{
-    _splash = [[OMSplash alloc] initWithPlacementId:self.loadID adSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height) fetchTime:5];
+    _splash = [[OMSplash alloc] initWithPlacementId:self.loadID adSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)];
     _splash.delegate = self;
     [_splash loadAd];
 }

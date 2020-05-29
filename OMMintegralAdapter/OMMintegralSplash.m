@@ -5,11 +5,11 @@
 
 @implementation OMMintegralSplash
 
-- (instancetype)initWithParameter:(NSDictionary *)adParameter adSize:(CGSize)size fetchTime:(CGFloat)fetchTime {
+- (instancetype)initWithParameter:(NSDictionary *)adParameter adSize:(CGSize)size {
     if (self = [self init]) {
         if (adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
             _pid = [adParameter objectForKey:@"pid"];
-            _fetchTime = fetchTime;
+            _adSize = size;
         }
     }
     return self;
@@ -18,7 +18,7 @@
 - (void)loadAd{
     Class MTGSplashClass = NSClassFromString(@"MTGSplashAD");
     if (MTGSplashClass && [[MTGSplashClass alloc] respondsToSelector:@selector(initWithPlacementID:unitID:countdown:allowSkip:)]) {
-        _splashAD = [[MTGSplashClass alloc] initWithPlacementID:@"" unitID:_pid countdown:_fetchTime allowSkip:YES];
+        _splashAD = [[MTGSplashClass alloc] initWithPlacementID:@"" unitID:_pid countdown:5 allowSkip:YES];
         _splashAD.delegate = self;
     }
     if (_splashAD) {

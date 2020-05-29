@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMSplashAd : OMAdBase<splashCustomEventDelegate>
 @property (nonatomic, weak)id<splashDelegate>delegate;
-@property (nonatomic, assign) CGFloat fetchTime;
 - (void)showWithWindow:(UIWindow *)window customView:(UIView *)customView;
 
 @end

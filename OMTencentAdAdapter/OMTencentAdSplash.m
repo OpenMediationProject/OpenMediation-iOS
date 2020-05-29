@@ -5,11 +5,10 @@
 
 @implementation OMTencentAdSplash
 
-- (instancetype)initWithParameter:(NSDictionary *)adParameter adSize:(CGSize)size fetchTime:(CGFloat)fetchTime {
+- (instancetype)initWithParameter:(NSDictionary *)adParameter adSize:(CGSize)size{
     if (self = [super init]) {
         if (adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
             _pid = [adParameter objectForKey:@"pid"];
-            _fetchTime = fetchTime;
         }
     }
     return self;
@@ -20,7 +19,6 @@
     if (GDTSplashClass && [[GDTSplashClass alloc] respondsToSelector:@selector(initWithPlacementId:)]) {
         _splashAd = [[GDTSplashClass alloc] initWithPlacementId:_pid];
         _splashAd.delegate = self;
-        _splashAd.fetchDelay = self.fetchTime;
     }
     if (_splashAd) {
         [_splashAd loadAd];

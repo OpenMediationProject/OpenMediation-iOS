@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak)id<OMSplashDelegate> delegate;
 
-- (instancetype)initWithPlacementId:(NSString *)placementId adSize:(CGSize)size fetchTime:(CGFloat)fetchTime;
+- (instancetype)initWithPlacementId:(NSString *)placementId adSize:(CGSize)size;
 
 - (void)loadAd;
 

@@ -20,8 +20,8 @@
         if ([mediationName length] > 0) {
             NSString *className = [NSString stringWithFormat:@"OM%@Splash",mediationName];
             Class adapterClass = NSClassFromString(className);
-            if (adapterClass && [adapterClass conformsToProtocol:@protocol(OMSplashCustomEvent)] && [adapterClass instancesRespondToSelector:@selector(initWithParameter:adSize:fetchTime:)]) {
-                id <OMSplashCustomEvent> splashAdapter = [[adapterClass alloc] initWithParameter:@{@"pid":mediationPid,@"appKey":[[OMConfig sharedInstance] adnAppKey:adnID]} adSize:self.size fetchTime:self.fetchTime];
+            if (adapterClass && [adapterClass conformsToProtocol:@protocol(OMSplashCustomEvent)] && [adapterClass instancesRespondToSelector:@selector(initWithParameter:adSize:)]) {
+                id <OMSplashCustomEvent> splashAdapter = [[adapterClass alloc] initWithParameter:@{@"pid":mediationPid,@"appKey":[[OMConfig sharedInstance] adnAppKey:adnID]} adSize:self.size];
                 
                 if ([splashAdapter respondsToSelector:@selector(setDelegate:)]) {
                     splashAdapter.delegate = self;

@@ -13,11 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, strong) BUSplashAdView *splashView;
 
-@property (nonatomic, assign) CGFloat fetchTime;
-
 @property (nonatomic, assign) CGRect AdFrame;
 
-- (instancetype)initWithParameter:(NSDictionary *)adParameter adSize:(CGSize)size fetchTime:(CGFloat)fetchTime;
+- (instancetype)initWithParameter:(NSDictionary *)adParameter adSize:(CGSize)size;
 - (void)loadAd;
 - (BOOL)isReady;
 - (void)showWithWindow:(UIWindow *)window customView:(UIView *)customView;

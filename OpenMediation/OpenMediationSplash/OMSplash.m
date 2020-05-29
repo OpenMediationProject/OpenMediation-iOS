@@ -12,11 +12,10 @@
 
 @implementation OMSplash
 
-- (instancetype)initWithPlacementId:(NSString *)placementId adSize:(CGSize)size fetchTime:(CGFloat)fetchTime {
+- (instancetype)initWithPlacementId:(NSString *)placementId adSize:(CGSize)size {
     if (self = [super init]) {
         self.splashAd = [[OMSplashAd alloc] initWithPlacementID:placementId size:size];
         self.splashAd.delegate = self;
-        self.splashAd.fetchTime = fetchTime;
     }
     return self;
 }
