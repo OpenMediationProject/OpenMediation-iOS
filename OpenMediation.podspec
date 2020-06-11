@@ -63,12 +63,16 @@ Pod::Spec.new do |s|
     ss.dependency             'OpenMediation/FacebookAdapter'
     ss.dependency             'OpenMediation/UnityAdapter'
     ss.dependency             'OpenMediation/VungleAdapter'
+    ss.dependency             'OpenMediation/TencentAdAdapter'
     ss.dependency             'OpenMediation/AdColonyAdapter'
     ss.dependency             'OpenMediation/AppLovinAdapter'
+    ss.dependency             'OpenMediation/MoPubAdapter'  
     ss.dependency             'OpenMediation/ChartboostAdapter'
     ss.dependency             'OpenMediation/TapjoyAdapter'
     ss.dependency             'OpenMediation/TikTokAdapter' 
-    ss.dependency             'OpenMediation/MintegralAdapter'    
+    ss.dependency             'OpenMediation/MintegralAdapter'
+    ss.dependency             'OpenMediation/IronSourceAdapter'
+    ss.dependency             'OpenMediation/FyberAdapter'        
   end
 
 
