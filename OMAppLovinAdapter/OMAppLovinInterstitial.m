@@ -60,6 +60,9 @@
     if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
         [_delegate interstitialCustomEventDidOpen:self];
     }
+    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]) {
+        [_delegate interstitialCustomEventDidShow:self];
+    }
 }
 
 - (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
@@ -77,9 +80,7 @@
 
 
 - (void)videoPlaybackBeganInAd:(ALAd *)ad {
-    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]) {
-        [_delegate interstitialCustomEventDidShow:self];
-    }
+    
 }
 
 // end

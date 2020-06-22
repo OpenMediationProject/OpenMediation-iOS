@@ -187,6 +187,8 @@
 		4959CEBE23EBEE7300A433A8 /* OMChartboostAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959CEB723EBEE7300A433A8 /* OMChartboostAdapter.framework */; };
 		4959CECF23EBEE8100A433A8 /* OMTikTokAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959CEC823EBEE8100A433A8 /* OMTikTokAdapter.framework */; };
 		4959CEE023EBEE9400A433A8 /* OMMintegralAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959CED923EBEE9400A433A8 /* OMMintegralAdapter.framework */; };
+		499E082024A0B6FB00084BFB /* OMVungleSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = 499E081E24A0B6FA00084BFB /* OMVungleSplash.m */; };
+		499E082124A0B6FB00084BFB /* OMVungleSplash.h in Headers */ = {isa = PBXBuildFile; fileRef = 499E081F24A0B6FB00084BFB /* OMVungleSplash.h */; };
 		49A90EC7241898C800DF2351 /* OMAdMobAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49A90EB4241898C600DF2351 /* OMAdMobAdapter.h */; };
 		49A90EC8241898C800DF2351 /* OMAdMobInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 49A90EB5241898C600DF2351 /* OMAdMobInterstitial.h */; };
 		49A90EC9241898C800DF2351 /* OMAdMobBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 49A90EB6241898C600DF2351 /* OMAdMobBanner.h */; };
@@ -740,6 +742,8 @@
 		4959CED923EBEE9400A433A8 /* OMMintegralAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMMintegralAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4959CEDC23EBEE9400A433A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4959CEFD23EC40D000A433A8 /* OpenMediation.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = OpenMediation.modulemap; sourceTree = "<group>"; };
+		499E081E24A0B6FA00084BFB /* OMVungleSplash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMVungleSplash.m; sourceTree = "<group>"; };
+		499E081F24A0B6FB00084BFB /* OMVungleSplash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMVungleSplash.h; sourceTree = "<group>"; };
 		49A90EB4241898C600DF2351 /* OMAdMobAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobAdapter.h; sourceTree = "<group>"; };
 		49A90EB5241898C600DF2351 /* OMAdMobInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobInterstitial.h; sourceTree = "<group>"; };
 		49A90EB6241898C600DF2351 /* OMAdMobBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobBanner.h; sourceTree = "<group>"; };
@@ -1524,13 +1528,15 @@
 		4959CE7423EBEDDF00A433A8 /* OMVungleAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				4904E002244F19F1007E80C4 /* OMVungleBanner.h */,
-				4904E003244F19F1007E80C4 /* OMVungleBanner.m */,
 				49A90F0E2418994F00DF2351 /* OMVungleAdapter.h */,
 				49A90F0F2418994F00DF2351 /* OMVungleAdapter.m */,
+				4904E002244F19F1007E80C4 /* OMVungleBanner.h */,
+				4904E003244F19F1007E80C4 /* OMVungleBanner.m */,
 				49A90F122418995000DF2351 /* OMVungleClass.h */,
 				49A90F132418995000DF2351 /* OMVungleRewardedVideo.h */,
 				49A90F102418995000DF2351 /* OMVungleRewardedVideo.m */,
+				499E081F24A0B6FB00084BFB /* OMVungleSplash.h */,
+				499E081E24A0B6FA00084BFB /* OMVungleSplash.m */,
 				49A90F142418995000DF2351 /* OMVungleRouter.h */,
 				49A90F112418995000DF2351 /* OMVungleRouter.m */,
 				4959CE7623EBEDDF00A433A8 /* Info.plist */,
@@ -1968,6 +1974,7 @@
 			files = (
 				49A90F1B2418995000DF2351 /* OMVungleRouter.h in Headers */,
 				4904E004244F19F1007E80C4 /* OMVungleBanner.h in Headers */,
+				499E082124A0B6FB00084BFB /* OMVungleSplash.h in Headers */,
 				49A90F192418995000DF2351 /* OMVungleClass.h in Headers */,
 				49A90F152418995000DF2351 /* OMVungleAdapter.h in Headers */,
 				49A90F1A2418995000DF2351 /* OMVungleRewardedVideo.h in Headers */,
@@ -2837,6 +2844,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				499E082024A0B6FB00084BFB /* OMVungleSplash.m in Sources */,
 				49A90F172418995000DF2351 /* OMVungleRewardedVideo.m in Sources */,
 				49A90F182418995000DF2351 /* OMVungleRouter.m in Sources */,
 				4904E005244F19F1007E80C4 /* OMVungleBanner.m in Sources */,

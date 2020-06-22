@@ -86,7 +86,7 @@ static OMVungleRouter * _instance = nil;
     
     id<OMVungleAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementID];
     
-    if(isAdPlayable && _vungleSDK && [_vungleSDK respondsToSelector:@selector(isAdCachedForPlacementID:)] && [_vungleSDK isAdCachedForPlacementID:placementID] ) {
+    if(![self isAdPlaying] && isAdPlayable && _vungleSDK && [_vungleSDK respondsToSelector:@selector(isAdCachedForPlacementID:)] && [_vungleSDK isAdCachedForPlacementID:placementID] ) {
         if (delegate && [delegate respondsToSelector:@selector(omVungleDidload)]) {
             [delegate omVungleDidload];
         }

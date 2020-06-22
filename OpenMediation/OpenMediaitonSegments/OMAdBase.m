@@ -356,6 +356,7 @@
     if (adapter && [adapter respondsToSelector:@selector(isReady)] && [adapter isReady]) {
         OMLogD(@"%@ load instance %@ ready true",self.pid,instanceID);
         [self addEvent:INSTANCE_LOAD instance:instanceID extraData:nil];
+        [OMLrRequest postWithType:OMLRTypeInstanceLoad pid:self.pid adnID:adnID instanceID:instanceID action:_loadAction scene:@"" abt:self.abTest];//lr load;
         [self addEvent:INSTANCE_LOAD_SUCCESS instance:instanceID extraData:nil];
         [OMLrRequest postWithType:OMLRTypeInstanceReady pid:self.pid adnID:adnID instanceID:instanceID action:_loadAction scene:@"" abt:self.abTest];//lr ready;
         [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateSuccess];
