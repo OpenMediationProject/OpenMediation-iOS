@@ -9,7 +9,7 @@
     if(self = [super initWithFrame:frame]){
         Class gdtClass = NSClassFromString(@"GDTUnifiedBannerView");
         if (gdtClass && adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
-            _gdtBannerView = [[gdtClass alloc] initWithFrame:[self convertWithFrame:frame] appId:OM_SAFE_STRING([adParameter objectForKey:@"appKey"]) placementId:OM_SAFE_STRING([adParameter objectForKey:@"pid"]) viewController:rootViewController];
+            _gdtBannerView = [[gdtClass alloc] initWithFrame:[self convertWithFrame:frame] placementId:OM_SAFE_STRING([adParameter objectForKey:@"pid"]) viewController:rootViewController];
             _gdtBannerView.delegate = self;
             _gdtBannerView.center = CGPointMake(CGRectGetWidth(frame)/2.0, CGRectGetHeight(frame)/2.0);
             [self addSubview:_gdtBannerView];
