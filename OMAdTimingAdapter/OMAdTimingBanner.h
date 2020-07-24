@@ -7,10 +7,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMAdTimingBanner : UIView<OMBannerCustomEvent,AdTimingBannerDelegate>
+@interface OMAdTimingBanner : UIView<OMBannerCustomEvent,AdTimingAdsBannerDelegate>
 
 @property(nonatomic, weak, nullable) id<bannerCustomEventDelegate> delegate;
-@property (nonatomic, strong) AdTimingBanner *banner;
+@property (nonatomic, strong) AdTimingAdsBanner *banner;
 @property (nonatomic, assign) BOOL impr;
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController;
 - (void)loadAd;

@@ -11,8 +11,20 @@ typedef void (^OMMediationAdapterInitCompletionBlock)(NSError *_Nullable error);
 @protocol OMMediationAdapter <NSObject>
 
 + (NSString*)adapterVerison;
+
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration
              completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
+
+
+@optional
+
++ (void)setConsent:(BOOL)consent;
+
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit;
+
++ (void)setUserAge:(NSInteger)userAge;
+
++ (void)setUserGender:(NSInteger)userGender;
 
 @end
 

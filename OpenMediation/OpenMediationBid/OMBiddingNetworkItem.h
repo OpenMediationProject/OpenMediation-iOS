@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMBidNetworkItem : NSObject
+@interface OMBiddingNetworkItem : NSObject
 
 @property (nonatomic, strong) NSString *adnName;
 @property (nonatomic, strong) NSString *appKey;
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL testMode;
 @property (nonatomic, strong) NSDictionary *extraData;
 
-+ (OMBidNetworkItem *)networkItemWithName:(NSString*)adnName
++ (OMBiddingNetworkItem *)networkItemWithName:(NSString*)adnName
                                    appKey:(NSString*)key
                               placementID:(NSString*)placementID
                                   timeOut:(NSInteger)maxTimeoutMS

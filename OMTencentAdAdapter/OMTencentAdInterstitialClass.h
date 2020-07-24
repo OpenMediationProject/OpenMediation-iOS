@@ -187,10 +187,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  构造方法
+ *  详解：placementId - 广告位 ID
+ */
+- (instancetype)initWithPlacementId:(NSString *)placementId;
+
+/**
+ *  构造方法
  *  详解：appId - 媒体 ID
  *       placementId - 广告位 ID
  */
-- (instancetype)initWithAppId:(NSString *)appId placementId:(NSString *)placementId;
+- (instancetype)initWithAppId:(NSString *)appId placementId:(NSString *)placementId GDT_DEPRECATED_MSG_ATTRIBUTE("接口即将废弃，请使用 initWithPlacementId:");
 
 /**
  *  广告发起请求方法

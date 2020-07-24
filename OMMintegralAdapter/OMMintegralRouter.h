@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedInstance;
 - (void)registerPidDelegate:(NSString*)pid delegate:(id)delegate;
 - (void)loadPlacmentID:(NSString *)pid;
+- (void)loadPlacmentID:(NSString *)pid withBidPayload:(NSString *)bidPayload;
 - (BOOL)isReady:(NSString *)pid;
 - (void)showVideo:(NSString *)pid withVC:(UIViewController*)vc;
 @end

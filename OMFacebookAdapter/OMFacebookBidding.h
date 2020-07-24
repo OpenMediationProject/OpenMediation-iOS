@@ -4,13 +4,13 @@
 #import <Foundation/Foundation.h>
 #import "OpenMediationConstant.h"
 #import "OpenMediationAdFormats.h"
-#import "OMBidResponse.h"
-#import "OMBidNetworkItem.h"
+#import "OMBiddingResponse.h"
+#import "OMBiddingNetworkItem.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMFacebookBid : NSObject
-+ (void)bidWithNetworkItem:(OMBidNetworkItem*)networkItem adFormat:(OpenMediationAdFormat)format responseCallback:(void(^)(OMBidResponse *bidResponse))callback;
+@interface OMFacebookBidding : NSObject
++ (void)bidWithNetworkItem:(OMBiddingNetworkItem*)networkItem adFormat:(OpenMediationAdFormat)format responseCallback:(void(^)(OMBiddingResponse *bidResponse))callback;
 + (NSString*)bidderToken;
 @end
 

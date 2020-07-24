@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol AdTimingMediatedInterstitialDelegate <NSObject>
+@protocol AdTimingAdsInterstitialDelegate <NSObject>
 
 @optional
 
@@ -34,19 +34,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface AdTimingInterstitial : NSObject
+@interface AdTimingAdsInterstitial : NSObject
 
 /// Returns the singleton instance.
 + (instancetype)sharedInstance;
 
 /// Add delegate
-- (void)addDelegate:(id<AdTimingMediatedInterstitialDelegate>)delegate;
+- (void)addDelegate:(id<AdTimingAdsInterstitialDelegate>)delegate;
 
 /// Remove delegate
-- (void)removeDelegate:(id<AdTimingMediatedInterstitialDelegate>)delegate;
+- (void)removeDelegate:(id<AdTimingAdsInterstitialDelegate>)delegate;
 
 /// loadAd
 - (void)loadWithPlacementID:(NSString*)placementID;
+
+///load ad with bid payload
+- (void)loadWithPlacementID:(NSString*)placementID payLoad:(NSString*)bidPayload;
 
 /// Indicates whether the interstitial video is ready to show ad.
 - (BOOL)isReady:(NSString*)placementID;

@@ -45,6 +45,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString * _Nonnull)version;
 - (NSString * _Nonnull)bundleIdentifier;
 
+/**
+ * Grants consent on behalf of the current user. If you do not have permission from MoPub to use a custom consent
+ * interface, this method will always fail to grant consent.
+ */
+- (void)grantConsent;
+
+/**
+ * Revokes consent on behalf of the current user.
+ */
+- (void)revokeConsent;
+
 @end
 
 NS_ASSUME_NONNULL_END

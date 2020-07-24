@@ -121,6 +121,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkTikTok):@"TikTok",
             @(OMAdNetworkMintegral):@"Mintegral",
             @(OMAdNetworkIronSource):@"IronSource",
+            @(OMAdNetworkChartboostBid):@"ChartboostBid",
             @(OMAdNetworkFyber):@"Fyber",
         };
         
@@ -139,6 +140,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkTikTok):@"BUAdSDKManager",
             @(OMAdNetworkMintegral):@"MTGSDK",
             @(OMAdNetworkIronSource):@"IronSource",
+            @(OMAdNetworkChartboostBid):@"HeliumSdk",
             @(OMAdNetworkFyber):@"IASDKCore",
         };
         
@@ -152,11 +154,6 @@ static OMMediations *_instance = nil;
 
 - (Class)adnAdapterClass:(OMAdNetwork)adnID {
     NSString *adnName = [[OMMediations sharedInstance].adnNameMap objectForKey:@(adnID)];
-    return NSClassFromString([NSString stringWithFormat:@"OM%@Adapter",adnName]);
-}
-
-- (Class)adnInitClass:(OMAdNetwork)adnID {
-    NSString *adnName = [[OMConfig sharedInstance].adnNameMap objectForKey:@(adnID)];
     return NSClassFromString([NSString stringWithFormat:@"OM%@Adapter",adnName]);
 }
 
@@ -291,24 +288,73 @@ static OMMediations *_instance = nil;
 
 - (void)initAdNetworkSDKWithId:(OMAdNetwork)adnID completionHandler:(OMMediationInitCompletionBlock)completionHandler {
     OMConfig *config = [OMConfig sharedInstance];
-    Class adapterInitClass = [self adnInitClass:adnID];
+    Class adapterClass = [self adnAdapterClass:adnID];
     NSString *key = [config adnAppKey:adnID];
     NSArray *pids = [config adnPlacements:adnID];
-    if ([key length]>0 && [adapterInitClass respondsToSelector:@selector(initSDKWithConfiguration:completionHandler:)]) {
+    if (adapterClass && [adapterClass respondsToSelector:@selector(initSDKWithConfiguration:completionHandler:)]) {
         __weak __typeof(self) weakSelf = self;
-        [adapterInitClass initSDKWithConfiguration:@{@"appKey":key,@"pids":pids} completionHandler:^(NSError * _Nullable error) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    OMAdnSDKInitState state = error?OMAdnSDKInitStateDefault:OMAdnSDKInitStateInitialized;
-                    [weakSelf.adnSDKInitState setObject:[NSNumber numberWithInteger:state] forKey:[NSString stringWithFormat:@"%zd",adnID]];
-                    if (completionHandler) {
-                        completionHandler(error);
-                    }
-                });
-        }];
+        
+        if (![self adnSDKInitializing:adnID]) {
+            if (adnID == OMAdNetworkMopub && [pids count]>0) {
+                
+                ///MoPub need init first
+                [_adnSDKInitState setObject:[NSNumber numberWithInteger:OMAdnSDKInitStateInitializing] forKey:[NSString stringWithFormat:@"%zd",adnID]];
+                
+                [adapterClass initSDKWithConfiguration:@{@"appKey":key,@"pids":pids} completionHandler:^(NSError * _Nullable error) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            OMAdnSDKInitState state = error?OMAdnSDKInitStateDefault:OMAdnSDKInitStateInitialized;
+                            [weakSelf.adnSDKInitState setObject:[NSNumber numberWithInteger:state] forKey:[NSString stringWithFormat:@"%zd",adnID]];
+                            if (completionHandler) {
+                                completionHandler(error);
+                            }
+                        });
+                }];
+                if (config.consent >=0 && [adapterClass respondsToSelector:@selector(setConsent:)]) {
+                    [adapterClass setConsent:(BOOL)config.consent];
+                }
+                if (config.USPrivacy && [adapterClass respondsToSelector:@selector(setUSPrivacyLimit:)]) {
+                    [adapterClass setUSPrivacyLimit:config.USPrivacy];
+                }
+                
+                if (config.userAge && [adapterClass respondsToSelector:@selector(setUserAge:)]) {
+                    [adapterClass setUserAge:config.userAge];
+                }
+                if (config.userGender && [adapterClass respondsToSelector:@selector(setUserGender:)]) {
+                    [adapterClass setUserGender:config.userGender];
+                }
+            } else {
+                if (config.consent >=0 && [adapterClass respondsToSelector:@selector(setConsent:)]) {
+                    [adapterClass setConsent:(BOOL)config.consent];
+                }
+                if (config.USPrivacy && [adapterClass respondsToSelector:@selector(setUSPrivacyLimit:)]) {
+                    [adapterClass setUSPrivacyLimit:config.USPrivacy];
+                }
+                
+                if (config.userAge && [adapterClass respondsToSelector:@selector(setUserAge:)]) {
+                    [adapterClass setUserAge:config.userAge];
+                }
+                if (config.userGender && [adapterClass respondsToSelector:@selector(setUserGender:)]) {
+                    [adapterClass setUserGender:config.userGender];
+                }
+                
+                [_adnSDKInitState setObject:[NSNumber numberWithInteger:OMAdnSDKInitStateInitializing] forKey:[NSString stringWithFormat:@"%zd",adnID]];
+                
+                [adapterClass initSDKWithConfiguration:@{@"appKey":key,@"pids":pids} completionHandler:^(NSError * _Nullable error) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            OMAdnSDKInitState state = error?OMAdnSDKInitStateDefault:OMAdnSDKInitStateInitialized;
+                            [weakSelf.adnSDKInitState setObject:[NSNumber numberWithInteger:state] forKey:[NSString stringWithFormat:@"%zd",adnID]];
+                            if (completionHandler) {
+                                completionHandler(error);
+                            }
+                        });
+                }];
+            }
+        }
+        
     }else {
         NSError *error = [[NSError alloc] initWithDomain:@"com.om.mediations"
             code:400
-        userInfo:@{NSLocalizedDescriptionKey:@"Failed,key empty or adapter not found"}];
+        userInfo:@{NSLocalizedDescriptionKey:@"Failed,adapter not found"}];
         completionHandler(error);
     }
 }
@@ -316,6 +362,11 @@ static OMMediations *_instance = nil;
 - (BOOL)adnSDKInitialized:(OMAdNetwork)adnID {
     OMAdnSDKInitState initState = [[self.adnSDKInitState objectForKey:[NSString stringWithFormat:@"%zd",adnID]]integerValue];
     return (initState == OMAdnSDKInitStateInitialized);
+}
+
+- (BOOL)adnSDKInitializing:(OMAdNetwork)adnID {
+    OMAdnSDKInitState initState = [[self.adnSDKInitState objectForKey:[NSString stringWithFormat:@"%zd",adnID]]integerValue];
+    return (initState == OMAdnSDKInitStateInitializing);
 }
 
 

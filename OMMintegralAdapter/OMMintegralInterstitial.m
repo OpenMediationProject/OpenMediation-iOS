@@ -26,16 +26,31 @@
     }
 }
 
+- (void)loadAdWithBidPayload:(NSString *)bidPayload {
+    Class MTGBidInterstitialVideoAdManagerClass = NSClassFromString(@"MTGBidInterstitialVideoAdManager");
+    if (MTGBidInterstitialVideoAdManagerClass && [MTGBidInterstitialVideoAdManagerClass instancesRespondToSelector:@selector(initWithPlacementId:unitId:delegate:)]) {
+        _ivBidAdManager = [[MTGBidInterstitialVideoAdManagerClass alloc] initWithPlacementId:@"" unitId:_pid delegate:self];
+        _ivBidAdManager.delegate = self;
+    }
+    if (_ivBidAdManager) {
+        [_ivBidAdManager loadAdWithBidToken:bidPayload];
+    }
+}
+
 -(BOOL)isReady {
     if (_ivAdManager) {
         return [_ivAdManager isVideoReadyToPlayWithPlacementId:@"" unitId:_pid];
+    }else if (_ivBidAdManager){
+        return [_ivBidAdManager isVideoReadyToPlayWithPlacementId:@"" unitId:_pid];
     }
     return NO;
 }
 
 - (void)show:(UIViewController *)vc {
-    if ([self isReady]) {
+    if (_ivAdManager && [self isReady]) {
         [_ivAdManager showFromViewController:vc];
+    }else if (_ivBidAdManager && [self isReady]){
+        [_ivBidAdManager showFromViewController:vc];
     }
 }
 

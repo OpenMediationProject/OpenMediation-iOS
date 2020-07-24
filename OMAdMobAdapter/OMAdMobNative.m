@@ -1,6 +1,7 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
+#import "OMAdMobAdapter.h"
 #import "OMAdMobNative.h"
 #import "OMAdMobNativeAd.h"
 
@@ -48,6 +49,11 @@
     }
     if (_adLoader && requestClass && [requestClass respondsToSelector:@selector(request)] && _canLoadRequest) {
         GADRequest *request  = [requestClass request];
+        if (![OMAdMobAdapter npaAd] && NSClassFromString(@"GADExtras")) {
+            GADExtras *extras = [[NSClassFromString(@"GADExtras") alloc] init];
+            extras.additionalParameters = @{@"npa": @"1"};
+            [request registerAdNetworkExtras:extras];
+        }
         [self.adLoader loadRequest:request];
         _canLoadRequest = NO;
     }

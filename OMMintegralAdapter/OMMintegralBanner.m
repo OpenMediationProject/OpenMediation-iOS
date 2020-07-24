@@ -33,6 +33,10 @@
     [_bannerAdView loadBannerAd];
 }
 
+- (void)loadAdWithBidPayload:(NSString *)bidPayload {
+    [_bannerAdView loadBannerAdWithBidToken:bidPayload];
+}
+
 #pragma mark MTGBannerAdViewDelegate
 - (void)adViewLoadSuccess:(MTGBannerAdView *)adView {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {

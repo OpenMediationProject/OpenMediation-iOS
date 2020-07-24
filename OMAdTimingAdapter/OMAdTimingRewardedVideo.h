@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMAdTimingRewardedVideo : NSObject<AdTimingMediatedRewardedVideoDelegate,OMRewardedVideoCustomEvent>
+@interface OMAdTimingRewardedVideo : NSObject<AdTimingAdsRewardedVideoDelegate,OMRewardedVideoCustomEvent>
 
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;

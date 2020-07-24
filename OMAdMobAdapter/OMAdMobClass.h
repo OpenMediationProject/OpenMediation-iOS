@@ -6,10 +6,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GADRequest : NSObject
+@protocol GADAdNetworkExtras <NSObject>
+@end
 
+@interface GADExtras : NSObject <GADAdNetworkExtras>
+
+/// Additional parameters to be sent to Google networks.
+@property(nonatomic, copy, nullable) NSDictionary *additionalParameters;
+
+@end
+
+@interface GADRequest : NSObject<NSCopying>
+
++ (nonnull NSString *)sdkVersion;
 + (instancetype)request;
 + (Class)shimmedClass;
+- (void)registerAdNetworkExtras:(nonnull id<GADAdNetworkExtras>)extras;
 
 @end
 
@@ -21,13 +33,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^GADInitializationCompletionHandler)(GADInitializationStatus *_Nonnull status);
 
-@interface GADMobileAds : NSObject
+@interface GADRequestConfiguration : NSObject
+- (void)tagForUnderAgeOfConsent:(BOOL)underAgeOfConsent;
+@end
 
+@interface GADMobileAds : NSObject
 + (nonnull GADMobileAds *)sharedInstance;
+@property(nonatomic, readonly, strong, nonnull) GADRequestConfiguration *requestConfiguration;
 + (void)configureWithApplicationID:(NSString *)applicationID;
 - (void)startWithCompletionHandler:(nullable GADInitializationCompletionHandler)completionHandler;
-
 @end
+
+
+
 NS_ASSUME_NONNULL_END
 
 #endif /* OMAdMobClass_h */

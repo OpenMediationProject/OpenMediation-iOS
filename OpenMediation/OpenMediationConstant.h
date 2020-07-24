@@ -4,7 +4,7 @@
 #ifndef OpenMediationConstant_h
 #define OpenMediationConstant_h
 
-#define OPENMEDIATION_SDK_VERSION    @"1.2.1"
+#define OPENMEDIATION_SDK_VERSION    @"1.3.0"
 
 typedef NS_ENUM(NSInteger, OMAdNetwork) {
     OMAdNetworkAdTiming = 1,
@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, OMAdNetwork) {
     OMAdNetworkTikTok = 13,
     OMAdNetworkMintegral = 14,
     OMAdNetworkIronSource = 15,
+    OMAdNetworkChartboostBid = 17,
     OMAdNetworkFyber = 30,
 };
 

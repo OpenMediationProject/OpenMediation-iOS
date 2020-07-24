@@ -28,7 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 instanceID:(NSString *)instanceID
     action:(NSInteger)action
      scene:(NSString *)sceneID
-       abt:(NSInteger)abTest;
+       abt:(NSInteger)abTest
+       bid:(BOOL)bid;
 @end
 
 NS_ASSUME_NONNULL_END

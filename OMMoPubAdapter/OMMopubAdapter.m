@@ -10,11 +10,56 @@
     return MopubAdapterVersion;
 }
 
+
++ (NSString*)adNetworkVersion {
+    NSString *sdkVersion = @"";
+    Class sdkClass = NSClassFromString(@"MoPub");
+    if (sdkClass && [sdkClass respondsToSelector:@selector(sharedInstance)]) {
+        MoPub *mopub = [sdkClass sharedInstance];
+        if ([mopub respondsToSelector:@selector(version)]) {
+            sdkVersion = [mopub version];
+        }
+    }
+    return sdkVersion;
+}
+
++ (NSString*)minimumSupportVersion {
+    return @"5.5.0";
+}
+
++ (void)setConsent:(BOOL)consent {
+    
+    Class MoPubClass = NSClassFromString(@"MoPub");
+    if (consent && MoPubClass && [MoPubClass instancesRespondToSelector:@selector(grantConsent)]) {
+        [[MoPubClass sharedInstance] grantConsent];
+    } else if(MoPubClass && [MoPubClass instancesRespondToSelector:@selector(grantConsent)]) {
+        [[MoPubClass sharedInstance] revokeConsent];
+    }
+}
+
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     
     NSArray *pids = [configuration objectForKey:@"pids"];
     Class MPConfigClass = NSClassFromString(@"MPMoPubConfiguration");
     Class MoPubClass = NSClassFromString(@"MoPub");
+    
+    
+    if (!MoPubClass) {
+        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.mopubadapter"
+                                                    code:404
+                                                userInfo:@{NSLocalizedDescriptionKey:@"MoPub SDK not found"}];
+        completionHandler(error);
+        return;
+    }
+    
+    if ([[self adNetworkVersion]compare:[self minimumSupportVersion]options:NSNumericSearch] == NSOrderedAscending) {
+        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.mopubadapter"
+                                                    code:505
+                                                userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"The current ad network(%@) is below the minimum required version(%@)",[self adNetworkVersion],[self minimumSupportVersion]]}];
+        completionHandler(error);
+        return;
+    }
+    
     
     if ([pids count]>0 && MPConfigClass && [MPConfigClass instancesRespondToSelector:@selector(initWithAdUnitIdForAppInitialization:)] && MoPubClass && [MoPubClass instancesRespondToSelector:@selector(initializeSdkWithConfiguration:completion:)] ) {
         

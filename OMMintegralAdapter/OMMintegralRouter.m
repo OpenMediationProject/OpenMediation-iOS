@@ -16,10 +16,6 @@ static OMMintegralRouter * _instance = nil;
 
 - (instancetype)init {
     if (self = [super init]) {
-        Class MTGRewardAdManagerClass = NSClassFromString(@"MTGRewardAdManager");
-        if (MTGRewardAdManagerClass && [MTGRewardAdManagerClass respondsToSelector:@selector(sharedInstance)]) {
-            _mintegralSDK = [MTGRewardAdManagerClass sharedInstance];
-        }
         _placementDelegateMap = [NSMutableDictionary dictionary];
     }
     return self;
@@ -39,8 +35,22 @@ static OMMintegralRouter * _instance = nil;
 }
 
 - (void)loadPlacmentID:(NSString *)pid {
+    Class MTGRewardAdManagerClass = NSClassFromString(@"MTGRewardAdManager");
+    if (MTGRewardAdManagerClass && [MTGRewardAdManagerClass respondsToSelector:@selector(sharedInstance)]) {
+        _mintegralSDK = [MTGRewardAdManagerClass sharedInstance];
+    }
     if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(loadVideoWithPlacementId:unitId:delegate:)]) {
         [_mintegralSDK loadVideoWithPlacementId:@"" unitId:pid delegate:self];
+    }
+}
+
+- (void)loadPlacmentID:(NSString *)pid withBidPayload:(NSString *)bidPayload {
+    Class MTGBidRewardAdManagerClass = NSClassFromString(@"MTGBidRewardAdManager");
+    if (MTGBidRewardAdManagerClass && [MTGBidRewardAdManagerClass respondsToSelector:@selector(sharedInstance)]) {
+        _mintegralSDK = [MTGBidRewardAdManagerClass sharedInstance];
+    }
+    if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(loadVideoWithBidToken:placementId:unitId:delegate:)]) {
+        [_mintegralSDK loadVideoWithBidToken:bidPayload placementId:@"" unitId:pid delegate:self];
     }
 }
 
@@ -61,16 +71,16 @@ static OMMintegralRouter * _instance = nil;
 #pragma mark - MTGRewardAdLoadDelegate
 - (void)onVideoAdLoadSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId {
     id<OMMintegralAdapterDelegate> delegate = [_placementDelegateMap objectForKey:unitId];
-       if ([self isReady:unitId] && delegate && [delegate respondsToSelector:@selector(omMintegralDidload)] ) {
-           [delegate omMintegralDidload];
-       }
+    if ([self isReady:unitId] && delegate && [delegate respondsToSelector:@selector(omMintegralDidload)] ) {
+        [delegate omMintegralDidload];
+    }
 }
 
 - (void)onVideoAdLoadFailed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId error:(nonnull NSError *)error {
     id<OMMintegralAdapterDelegate> delegate = [_placementDelegateMap objectForKey:unitId];
-   if (delegate && [delegate respondsToSelector:@selector(omMintegralDidFailToLoad:)]) {
-       [delegate omMintegralDidFailToLoad:error];
-   }
+    if (delegate && [delegate respondsToSelector:@selector(omMintegralDidFailToLoad:)]) {
+        [delegate omMintegralDidFailToLoad:error];
+    }
 }
 
 #pragma mark - MTGRewardAdShowDelegate Delegate
@@ -86,7 +96,7 @@ static OMMintegralRouter * _instance = nil;
 
 //Show Reward Video Ad Failed Delegate
 - (void)onVideoAdShowFailed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId withError:(nonnull NSError *)error {
-   
+    
 }
 
 

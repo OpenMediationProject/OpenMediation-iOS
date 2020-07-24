@@ -42,6 +42,7 @@
     } else {
         [request setValue:@"application/octet-stream" forHTTPHeaderField:@"Content-Type"];
     }
+    //[request setValue:@"1" forHTTPHeaderField:@"debug"];
     
     dispatch_queue_t requestQueue = dispatch_queue_create("com.om.request", DISPATCH_QUEUE_SERIAL);
     dispatch_async(requestQueue, ^{

@@ -1,31 +1,31 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#import "OMFacebookBid.h"
-#import "OMFacebookBidClass.h"
+#import "OMFacebookBidding.h"
+#import "OMFacebookBiddingClass.h"
 #import "OMToolUmbrella.h"
 
 
 
-NSString * const OMFbBidError = @"com.om.fbbid";
+NSString * const OMFbBiddingError = @"com.om.fbbid";
 
-@implementation OMFacebookBid
+@implementation OMFacebookBidding
 
-+ (void)bidWithNetworkItem:(OMBidNetworkItem*)networkItem adFormat:(OpenMediationAdFormat)format responseCallback:(void(^)(OMBidResponse *bidResponse))callback {
++ (void)bidWithNetworkItem:(OMBiddingNetworkItem*)networkItem adFormat:(OpenMediationAdFormat)format responseCallback:(void(^)(OMBiddingResponse *bidResponse))callback {
      NSString *appKey = networkItem.appKey;
      NSString *placementID = networkItem.placementID;
      NSInteger maxTimeoutMS = networkItem.maxTimeOutMS;
      BOOL testMode = networkItem.testMode;
     
     if (![appKey length] || ![placementID length]) {
-        OMBidResponse *bidResponse = [OMBidResponse buildResponseWithError:@"Required input params(appID placementID) for Facebook bidding is invalid"];
+        OMBiddingResponse *bidResponse = [OMBiddingResponse buildResponseWithError:@"Required input params(appID placementID) for Facebook bidding is invalid"];
         callback(bidResponse);
         return;
     }
     
     FBAdBidFormat fbAdFormat = [self convertWithFormat:format];
     if (fbAdFormat < 0) {
-        OMBidResponse *bidResponse = [OMBidResponse buildResponseWithError:@"current network still not support this adType"];
+        OMBiddingResponse *bidResponse = [OMBiddingResponse buildResponseWithError:@"current network still not support this adType"];
         callback(bidResponse);
         return;
     }
@@ -39,14 +39,14 @@ NSString * const OMFbBidError = @"com.om.fbbid";
     if (testMode && fbSetting && [fbSetting respondsToSelector:bidUrlSelector] && fbBidRequest && [fbBidRequest respondsToSelector:testBidSelector] ) {
         [fbBidRequest getAudienceNetworkTestBidForAppID:appKey placementID:placementID platformID:appKey adFormat:fbAdFormat maxTimeoutMS:maxTimeoutMS responseCallback:^(FBAdBidResponse *fbBidResponse) {
             if (fbBidResponse.isSuccess) {
-                OMBidResponse *bidResponse = [OMBidResponse buildResponseWithPrice:fbBidResponse.getPrice currency:fbBidResponse.getCurrency payLoad:fbBidResponse.getPayload notifyWin:^{
+                OMBiddingResponse *bidResponse = [OMBiddingResponse buildResponseWithPrice:fbBidResponse.getPrice currency:fbBidResponse.getCurrency payLoad:fbBidResponse.getPayload notifyWin:^{
                     [fbBidResponse notifyWin];
                 } notifyLoss:^{
                     [fbBidResponse notifyLoss];
                 }];
                 callback(bidResponse);
             } else {
-                OMBidResponse *bidResponse = [OMBidResponse buildResponseWithError:fbBidResponse.getErrorMessage];
+                OMBiddingResponse *bidResponse = [OMBiddingResponse buildResponseWithError:fbBidResponse.getErrorMessage];
                 callback(bidResponse);
             }
         }];
@@ -54,19 +54,19 @@ NSString * const OMFbBidError = @"com.om.fbbid";
     } else if (fbSetting && [fbSetting respondsToSelector:bidUrlSelector] && fbBidRequest && [fbBidRequest respondsToSelector:bidSelector]) {
         [fbBidRequest getAudienceNetworkBidForAppID:appKey placementID:placementID platformID:appKey adFormat:fbAdFormat maxTimeoutMS:maxTimeoutMS coppa:NO auctionType:FBAdBidAuctionType_First_Price doNotTrack:NO responseCallback:^(FBAdBidResponse *fbBidResponse) {
             if (fbBidResponse.isSuccess) {
-                OMBidResponse *bidResponse = [OMBidResponse buildResponseWithPrice:fbBidResponse.getPrice currency:fbBidResponse.getCurrency payLoad:fbBidResponse.getPayload notifyWin:^{
+                OMBiddingResponse *bidResponse = [OMBiddingResponse buildResponseWithPrice:fbBidResponse.getPrice currency:fbBidResponse.getCurrency payLoad:fbBidResponse.getPayload notifyWin:^{
                     [fbBidResponse notifyWin];
                 } notifyLoss:^{
                     [fbBidResponse notifyLoss];
                 }];
                 callback(bidResponse);
             } else {
-                OMBidResponse *bidResponse = [OMBidResponse buildResponseWithError:fbBidResponse.getErrorMessage];
+                OMBiddingResponse *bidResponse = [OMBiddingResponse buildResponseWithError:fbBidResponse.getErrorMessage];
                 callback(bidResponse);
             }
         }];
     } else {
-        OMBidResponse *bidResponse = [OMBidResponse buildResponseWithError:@"fb adnetwork not support bid kit"];
+        OMBiddingResponse *bidResponse = [OMBiddingResponse buildResponseWithError:@"fb adnetwork not support bid kit"];
         callback(bidResponse);
         return;
     }

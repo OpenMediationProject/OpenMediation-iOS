@@ -2,6 +2,7 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMTencentAdRewardedVideo.h"
+#import "OMTencentAdClass.h"
 
 @implementation OMTencentAdRewardedVideo
 
@@ -17,7 +18,7 @@
 -(void)loadAd{
     Class GDTRewardedVideoAdClass = NSClassFromString(@"GDTRewardVideoAd");
     if (GDTRewardedVideoAdClass && GDTRewardedVideoAdClass && [GDTRewardedVideoAdClass instancesRespondToSelector:@selector(initWithAppId:placementId:)]) {
-        _rewardedVideoAd = [[GDTRewardedVideoAdClass alloc] initWithAppId:_appID placementId:_pid];
+        _rewardedVideoAd = [[GDTRewardedVideoAdClass alloc] initWithPlacementId:_pid];
         _rewardedVideoAd.delegate = self;
     }
     if (_rewardedVideoAd) {
@@ -33,6 +34,12 @@
 }
 
 - (void)show:(UIViewController *)vc{
+    
+    Class sdkClass = NSClassFromString(@"GDTSDKConfig");
+    if (sdkClass && [sdkClass respondsToSelector:@selector(enableDefaultAudioSessionSetting:)]) {
+        [sdkClass enableDefaultAudioSessionSetting:NO];
+    }
+    
     if ([self isReady]) {
         [_rewardedVideoAd showAdFromRootViewController:vc];
     }

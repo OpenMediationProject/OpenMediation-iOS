@@ -10,7 +10,7 @@
 #import "OMLoadFrequencryControl.h"
 #import "OMCustomEventDelegate.h"
 #import "OpenMediationAdFormats.h"
-#import "OMBid.h"
+#import "OMBidding.h"
 #import "OMLoad.h"
 
 typedef void(^hbRequestCompletionHandler)(NSArray *bidInstances);
@@ -32,7 +32,7 @@ typedef void(^hbRequestCompletionHandler)(NSArray *bidInstances);
 @property (nonatomic, assign) BOOL adAvailable;
 
 //for bid
-@property (nonatomic, strong) OMBid *bid;
+@property (nonatomic, strong) OMBidding *bid;
 @property (nonatomic, strong) NSDictionary *bidInstances;
 @property (nonatomic, strong) NSMutableDictionary *bidLoadInstances;
 

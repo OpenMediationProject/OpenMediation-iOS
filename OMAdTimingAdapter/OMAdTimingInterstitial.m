@@ -13,7 +13,7 @@
 }
 
 - (void)loadAd {
-    Class interstitialClass = NSClassFromString(@"AdTimingInterstitial");
+    Class interstitialClass = NSClassFromString(@"AdTimingAdsInterstitial");
     if (interstitialClass && [interstitialClass respondsToSelector:@selector(sharedInstance)] && [interstitialClass instancesRespondToSelector:@selector(loadWithPlacementID:)] && [_pid length]>0) {
         [[interstitialClass sharedInstance]loadWithPlacementID:_pid];
         if (interstitialClass && [interstitialClass respondsToSelector:@selector(sharedInstance)] && [interstitialClass instancesRespondToSelector:@selector(addDelegate:)]) {
@@ -23,9 +23,19 @@
 
 }
 
+- (void)loadAdWithBidPayload:(NSString *)bidPayload {
+    Class interstitialClass = NSClassFromString(@"AdTimingAdsInterstitial");
+    if (interstitialClass && [interstitialClass respondsToSelector:@selector(sharedInstance)] && [interstitialClass instancesRespondToSelector:@selector(loadWithPlacementID:)] && [_pid length]>0) {
+        [[interstitialClass sharedInstance]loadWithPlacementID:_pid payLoad:bidPayload];
+        if (interstitialClass && [interstitialClass respondsToSelector:@selector(sharedInstance)] && [interstitialClass instancesRespondToSelector:@selector(addDelegate:)]) {
+            [[interstitialClass sharedInstance]addDelegate:self];
+        }
+    }
+}
+
 - (BOOL)isReady {
     BOOL isReady = NO;
-    Class interstitialClass = NSClassFromString(@"AdTimingInterstitial");
+    Class interstitialClass = NSClassFromString(@"AdTimingAdsInterstitial");
     if (interstitialClass && [interstitialClass respondsToSelector:@selector(sharedInstance)] && [interstitialClass instancesRespondToSelector:@selector(isReady:)] && [_pid length]>0) {
         isReady = [[interstitialClass sharedInstance]isReady:_pid];
     }
@@ -33,7 +43,7 @@
 }
 
 - (void)show:(UIViewController *)vc {
-    Class interstitialClass = NSClassFromString(@"AdTimingInterstitial");
+    Class interstitialClass = NSClassFromString(@"AdTimingAdsInterstitial");
     if ([self isReady]) {
         if (interstitialClass && [interstitialClass respondsToSelector:@selector(sharedInstance)] && [interstitialClass instancesRespondToSelector:@selector(showAdFromRootViewController:placementID:)]) {
             [[interstitialClass sharedInstance]showAdFromRootViewController:vc placementID:_pid];

@@ -14,7 +14,7 @@
 }
 
 -(void)loadAd {
-    Class rewardedVideoClass = NSClassFromString(@"AdTimingRewardedVideo");
+    Class rewardedVideoClass = NSClassFromString(@"AdTimingAdsRewardedVideo");
     if (rewardedVideoClass && [rewardedVideoClass respondsToSelector:@selector(sharedInstance)] && [rewardedVideoClass instancesRespondToSelector:@selector(loadWithPlacementID:)] && [_pid length]>0) {
         [[rewardedVideoClass sharedInstance]loadWithPlacementID:_pid];
         if (rewardedVideoClass && [rewardedVideoClass respondsToSelector:@selector(sharedInstance)] && [rewardedVideoClass instancesRespondToSelector:@selector(addDelegate:)]) {
@@ -23,9 +23,19 @@
     }
 }
 
+- (void)loadAdWithBidPayload:(NSString *)bidPayload {
+    Class rewardedVideoClass = NSClassFromString(@"AdTimingAdsRewardedVideo");
+    if (rewardedVideoClass && [rewardedVideoClass respondsToSelector:@selector(sharedInstance)] && [rewardedVideoClass instancesRespondToSelector:@selector(loadWithPlacementID:)] && [_pid length]>0) {
+        [[rewardedVideoClass sharedInstance]loadWithPlacementID:_pid payLoad:bidPayload];
+        if (rewardedVideoClass && [rewardedVideoClass respondsToSelector:@selector(sharedInstance)] && [rewardedVideoClass instancesRespondToSelector:@selector(addDelegate:)]) {
+            [[rewardedVideoClass sharedInstance]addDelegate:self];
+        }
+    }
+}
+
 -(BOOL)isReady {
     BOOL isReady = NO;
-    Class rewardedVideoClass = NSClassFromString(@"AdTimingRewardedVideo");
+    Class rewardedVideoClass = NSClassFromString(@"AdTimingAdsRewardedVideo");
     if (rewardedVideoClass && [rewardedVideoClass respondsToSelector:@selector(sharedInstance)] && [rewardedVideoClass instancesRespondToSelector:@selector(isReady:)] && [_pid length]>0) {
         isReady = [[rewardedVideoClass sharedInstance]isReady:_pid];
     }
@@ -33,7 +43,7 @@
 }
 
 - (void)show:(UIViewController *)vc {
-    Class rewardedVideoClass = NSClassFromString(@"AdTimingRewardedVideo");
+    Class rewardedVideoClass = NSClassFromString(@"AdTimingAdsRewardedVideo");
     if ([self isReady]) {
         if (rewardedVideoClass && [rewardedVideoClass respondsToSelector:@selector(sharedInstance)] && [rewardedVideoClass instancesRespondToSelector:@selector(showAdFromRootViewController:placementID:)]) {
             [[rewardedVideoClass sharedInstance]showAdFromRootViewController:vc placementID:_pid];

@@ -18,6 +18,10 @@
     [[OMMintegralRouter sharedInstance] loadPlacmentID:_pid];
 }
 
+- (void)loadAdWithBidPayload:(NSString *)bidPayload {
+    [[OMMintegralRouter sharedInstance] loadPlacmentID:_pid withBidPayload:bidPayload];
+}
+
 -(BOOL)isReady {
     return [[OMMintegralRouter sharedInstance] isReady:_pid];
 }
@@ -58,8 +62,7 @@
 
 - (void)omMintegralDidFailToLoad:(NSError*)error {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
-        NSError *cerror = [[NSError alloc] initWithDomain:@"" code:error.code userInfo:@{@"msg":@"There are no ads to show now"}];
-        [_delegate customEvent:self didFailToLoadWithError:cerror];
+        [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 

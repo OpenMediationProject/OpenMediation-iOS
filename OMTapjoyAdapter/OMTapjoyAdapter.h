@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const TapjoyAdapterVersion = @"1.2.0";
+static NSString * const TapjoyAdapterVersion = @"3.1.0";
 
 @interface OMTapjoyAdapter : NSObject<OMMediationAdapter>
 @property (nonatomic, copy, nullable) OMMediationAdapterInitCompletionBlock initBlock;
@@ -15,6 +15,7 @@ static NSString * const TapjoyAdapterVersion = @"1.2.0";
 + (NSString*)adapterVerison;
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 + (instancetype)sharedInstance;
++ (void)setConsent:(BOOL)consent;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -102,19 +102,67 @@ static NSTimer *SDKInitCheckTimer = nil;
 
 }
 
-/// current SDK version
-+ (NSString *)SDKVersion {
-    return OPENMEDIATION_SDK_VERSION;
-}
-
 /// Check that `OpenMediation` has been initialized
 + (BOOL)isInitialized {
     return [OMConfig sharedInstance].initSuccess;
 }
 
-/// setUserConsent @"0" is Refuse，@"1" is Accepted. Default is @"1"//GDPR
-+ (void)setUserConsent:(NSString *)consent {
-    [[OMConfig sharedInstance] setConsent:[consent isEqualToString:@"0"] ? NO:YES ];
+#pragma mark - Segments
+/// user in-app purchase
++ (void)userPurchase:(CGFloat)amount currency:(NSString*)currencyUnit {
+
+     [[OMAudience sharedInstance]userPurchase:amount currency:currencyUnit];
+}
+
++ (void)setUserAge:(NSInteger)userAge {
+    [[OMConfig sharedInstance] setUserAge:userAge];
+    //pass user age to adn
+    OMConfig *config = [OMConfig sharedInstance];
+    for (NSString *adnID in config.adnAppkeyMap) {
+        
+        Class adapterClass = [[OMMediations sharedInstance] adnAdapterClass:[adnID integerValue]];
+        
+        if (adapterClass && [adapterClass respondsToSelector:@selector(setUserAge:)]) {
+            [adapterClass setUserAge:[OMConfig sharedInstance].userAge];
+        }
+    }
+
+}
+
++ (void)setUserGender:(OMGender)userGender {
+    [[OMConfig sharedInstance] setUserGender:(NSInteger)userGender];
+    
+    //pass user gender to adn
+    OMConfig *config = [OMConfig sharedInstance];
+    for (NSString *adnID in config.adnAppkeyMap) {
+        
+        Class adapterClass = [[OMMediations sharedInstance] adnAdapterClass:[adnID integerValue]];
+        
+        if (adapterClass && [adapterClass respondsToSelector:@selector(setUserGender:)]) {
+            [adapterClass setUserGender:[OMConfig sharedInstance].userAge];
+        }
+    }
+}
+
+#pragma mark - GDPR/CCPA
++ (void)setGDPRConsent:(BOOL)consent {
+    [[OMConfig sharedInstance] setConsent:consent];
+}
+
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit {
+    [[OMConfig sharedInstance] setUSPrivacy:privacyLimit];
+    
+}
+
+#pragma mark - Debug
+/// current SDK version
++ (NSString *)SDKVersion {
+    return OPENMEDIATION_SDK_VERSION;
+}
+
+/// A tool to verify a successful integration of the OpenMediation SDK and any additional adapters.
++ (void)validateIntegration{
+    [OMMediations validateIntegration];
 }
 
 /// log enable,default is YES
@@ -122,15 +170,6 @@ static NSTimer *SDKInitCheckTimer = nil;
     [OMLogMoudle openLog:logEnable];
 }
 
-/// user in-app purchase
-+ (void)userPurchase:(CGFloat)amount currency:(NSString*)currencyUnit {
 
-     [[OMAudience sharedInstance]userPurchase:amount currency:currencyUnit];
-}
-
-/// A tool to verify a successful integration of the OpenMediation SDK and any additional adapters.
-+ (void)validateIntegration{ 
-    [OMMediations validateIntegration];
-}
 
 @end

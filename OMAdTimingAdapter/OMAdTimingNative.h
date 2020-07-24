@@ -7,9 +7,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMAdTimingNative : NSObject<OMNativeCustomEvent,AdTimingNativeDelegate>
+@interface OMAdTimingNative : NSObject<OMNativeCustomEvent,AdTimingAdsNativeDelegate>
 
-@property (nonatomic, strong) AdTimingNative *native;
+@property (nonatomic, strong) AdTimingAdsNative *native;
 @property (nonatomic, strong) NSString *pid;
 @property (nonatomic, weak) id<nativeCustomEventDelegate> delegate;
 @property (nonatomic, weak) UIViewController *rootVC;

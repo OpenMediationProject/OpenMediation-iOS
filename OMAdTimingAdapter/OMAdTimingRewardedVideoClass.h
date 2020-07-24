@@ -6,7 +6,7 @@
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol AdTimingMediatedRewardedVideoDelegate <NSObject>
+@protocol AdTimingAdsRewardedVideoDelegate <NSObject>
 
 @optional
 
@@ -40,19 +40,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface AdTimingRewardedVideo : NSObject
+@interface AdTimingAdsRewardedVideo : NSObject
 
 /// Returns the singleton instance.
 + (instancetype)sharedInstance;
 
 /// Add delegate
-- (void)addDelegate:(id<AdTimingMediatedRewardedVideoDelegate>)delegate;
+- (void)addDelegate:(id<AdTimingAdsRewardedVideoDelegate>)delegate;
 
 /// Remove delegate
-- (void)removeDelegate:(id<AdTimingMediatedRewardedVideoDelegate>)delegate;
+- (void)removeDelegate:(id<AdTimingAdsRewardedVideoDelegate>)delegate;
 
 /// loadAd
 - (void)loadWithPlacementID:(NSString*)placementID;
+
+///load ad with bid payload
+- (void)loadWithPlacementID:(NSString*)placementID payLoad:(NSString*)bidPayload;
 
 /// Indicates whether the rewarded video is ready to show ad.
 - (BOOL)isReady:(NSString*)placementID;

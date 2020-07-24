@@ -18,7 +18,7 @@
 
 - (void)loadAd {
     
-    id adtNativeClass = NSClassFromString(@"AdTimingNative");
+    id adtNativeClass = NSClassFromString(@"AdTimingAdsNative");
     if (adtNativeClass && [adtNativeClass instancesRespondToSelector:@selector(initWithPlacementID:)] && _pid) {
         _native = [[adtNativeClass alloc] initWithPlacementID:_pid];
         _native.delegate = self;
@@ -27,9 +27,18 @@
     
 }
 
+- (void)loadAdWithBidPayload:(NSString *)bidPayload {
+    id adtNativeClass = NSClassFromString(@"AdTimingAdsNative");
+    if (adtNativeClass && [adtNativeClass instancesRespondToSelector:@selector(initWithPlacementID:)] && _pid) {
+        _native = [[adtNativeClass alloc] initWithPlacementID:_pid];
+        _native.delegate = self;
+        [_native loadAdWithPayLoad:bidPayload];
+    }
+}
+
 #pragma mark -- AdTimingNativeDelegate
 
-- (void)adtimingNative:(AdTimingNative*)native didLoad:(AdTimingNativeAd*)nativeAd {
+- (void)adtimingNative:(AdTimingAdsNative*)native didLoad:(AdTimingAdsNativeAd*)nativeAd {
     
     OMAdTimingNativeAd *adtNativeAd = [[OMAdTimingNativeAd alloc]initWithAdTimingNativeAd:nativeAd];
     
@@ -38,19 +47,19 @@
     }
 }
 
-- (void)adtimingNative:(AdTimingNative*)native didFailWithError:(NSError*)error {
+- (void)adtimingNativeDidFailToLoad:(AdTimingAdsNative*)native withError:(NSError*)error {
     if (error && _delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 
-- (void)adtimingNativeWillExposure:(AdTimingNative*)native {
+- (void)adtimingNativeWillExposure:(AdTimingAdsNative*)native {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
         [_delegate nativeCustomEventWillShow:self];
     }
 }
 
-- (void)adtimingNativeDidClick:(AdTimingNative*)native {
+- (void)adtimingNativeDidClick:(AdTimingAdsNative*)native {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
         [_delegate nativeCustomEventDidClick:self];
     }

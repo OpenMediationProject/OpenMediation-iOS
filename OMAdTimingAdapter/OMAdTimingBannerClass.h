@@ -4,78 +4,78 @@
 #ifndef OMAdTimingBannerClass_h
 #define OMAdTimingBannerClass_h
 
-@class AdTimingBanner;
+@class AdTimingAdsBanner;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /// Banner Ad Size
-typedef NS_ENUM(NSInteger, AdTimingBannerType) {
-    AdTimingBannerTypeDefault = 0,       ///ad size: 320 x 50
-    AdTimingBannerTypeLarge = 1,         ///ad size: 320 x 100
-    AdTimingBannerTypeSmart = 2          ///ad size: screen.width x 50
+typedef NS_ENUM(NSInteger, AdTimingAdsBannerType) {
+    AdTimingAdsBannerTypeDefault = 0,       ///ad size: 320 x 50
+    AdTimingAdsBannerTypeLarge = 1,         ///ad size: 320 x 100
+    AdTimingAdsBannerTypeLeaderboard = 2    ///ad size: 728x90
 };
 
 /// Banner Ad layout attribute
-typedef NS_ENUM(NSInteger, AdTimingBannerLayoutAttribute) {
-    AdTimingBannerLayoutAttributeTop = 0,
-    AdTimingBannerLayoutAttributeLeft = 1,
-    AdTimingBannerLayoutAttributeBottom = 2,
-    AdTimingBannerLayoutAttributeRight = 3,
-    AdTimingBannerLayoutAttributeHorizontally = 4,
-    AdTimingBannerLayoutAttributeVertically = 5
+typedef NS_ENUM(NSInteger, AdTimingAdsBannerLayoutAttribute) {
+    AdTimingAdsBannerLayoutAttributeTop = 0,
+    AdTimingAdsBannerLayoutAttributeLeft = 1,
+    AdTimingAdsBannerLayoutAttributeBottom = 2,
+    AdTimingAdsBannerLayoutAttributeRight = 3,
+    AdTimingAdsBannerLayoutAttributeHorizontally = 4,
+    AdTimingAdsBannerLayoutAttributeVertically = 5
 };
 
 /// The methods declared by the AdTimingBannerDelegate protocol allow the adopting delegate to respond to messages from the AdTimingBanner class and thus respond to operations such as whether the ad has been loaded, the person has clicked the ad.
-@protocol AdTimingBannerDelegate<NSObject>
+@protocol AdTimingAdsBannerDelegate<NSObject>
 
 @optional
 
 /// Sent when an ad has been successfully loaded.
-- (void)adtimingBannerDidLoad:(AdTimingBanner *)banner;
+- (void)adtimingBannerDidLoad:(AdTimingAdsBanner *)banner;
 
-/// Sent after an AdTimingBanner fails to load the ad.
-- (void)adtimingBanner:(AdTimingBanner *)banner didFailWithError:(NSError *)error;
+/// Sent after an AdTimingAdsBanner fails to load the ad.
+- (void)adtimingBannerDidFailToLoad:(AdTimingAdsBanner *)banner withError:(NSError *)error;
 
-/// Sent immediately before the impression of an AdTimingBanner object will be logged.
-- (void)adtimingBannerWillExposure:(AdTimingBanner *)banner;
+/// Sent immediately before the impression of an AdTimingAdsBanner object will be logged.
+- (void)adtimingBannerWillExposure:(AdTimingAdsBanner *)banner;
 
 /// Sent after an ad has been clicked by the person.
-- (void)adtimingBannerDidClick:(AdTimingBanner *)banner;
+- (void)adtimingBannerDidClick:(AdTimingAdsBanner *)banner;
 
 /// Sent when a banner is about to present a full screen content
-- (void)adtimingBannerWillPresentScreen:(AdTimingBanner *)banner;
+- (void)adtimingBannerWillPresentScreen:(AdTimingAdsBanner *)banner;
 
 /// Sent after a full screen content has been dismissed.
-- (void)adtimingBannerDidDismissScreen:(AdTimingBanner *)banner;
+- (void)adtimingBannerDidDismissScreen:(AdTimingAdsBanner *)banner;
 
  /// Sent when a user would be taken out of the application context.
-- (void)adtimingBannerWillLeaveApplication:(AdTimingBanner *)banner;
+- (void)adtimingBannerWillLeaveApplication:(AdTimingAdsBanner *)banner;
 
 @end
 
 /// A customized UIView to represent a AdTimingiming ad (banner ad).
-@interface AdTimingBanner : UIView
+@interface AdTimingAdsBanner : UIView
 
 @property(nonatomic, readonly, nullable) NSString *placementID;
 
 /// the delegate
-@property (nonatomic, weak)id<AdTimingBannerDelegate> delegate;
+@property (nonatomic, weak)id<AdTimingAdsBannerDelegate> delegate;
 
 /// The banner's ad placement ID.
 - (NSString*)placementID;
 
+- (instancetype)initWithBannerType:(AdTimingAdsBannerType)type placementID:(NSString *)placementID;
 
-/// This is a method to initialize an AdTimingBanner.
-/// type: The size of the ad. Default is AdTimingBannerTypeDefault.
-/// placementID: Typed access to the id of the ad placement.
-- (instancetype)initWithBannerType:(AdTimingBannerType)type placementID:(NSString *)placementID;
+- (instancetype)initWithBannerType:(AdTimingAdsBannerType)type placementID:(NSString *)placementID rootViewController:rootViewController;
 
 /// set the banner position.
-- (void)addLayoutAttribute:(AdTimingBannerLayoutAttribute)attribute constant:(CGFloat)constant;
+- (void)addLayoutAttribute:(AdTimingAdsBannerLayoutAttribute)attribute constant:(CGFloat)constant;
 
-/// Begins loading the AdTimingBanner content. And to show with default controller([UIApplication sharedApplication].keyWindow.rootViewController) when load success.
+/// Begins loading the AdTimingAdsBanner content. And to show with default controller([UIApplication sharedApplication].keyWindow.rootViewController) when load success.
 - (void)loadAndShow;
 
+///load ad with bid payload
+- (void)loadAndShowWithPayLoad:(NSString*)bidPayload;
 @end
 
 

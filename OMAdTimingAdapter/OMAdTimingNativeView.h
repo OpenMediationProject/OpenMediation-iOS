@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OMAdTimingNativeView : UIView<OMNativeViewCustomEvent>
 
 @property (nonatomic, strong) OMAdTimingNativeAd *nativeAd;
-@property (nonatomic, strong) AdTimingNativeView *adtNativeView;
-@property (nonatomic, strong) AdTimingNativeMediaView *mediaView;
+@property (nonatomic, strong) AdTimingAdsNativeView *adtNativeView;
+@property (nonatomic, strong) AdTimingAdsNativeMediaView *mediaView;
 
 /// This is a method to initialize an AdTimingNativeView.
 /// Parameter frame: the AdTimingNativeView frame.

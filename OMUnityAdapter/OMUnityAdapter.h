@@ -4,10 +4,12 @@
 #import <Foundation/Foundation.h>
 #import "OMMediationAdapter.h"
 
-static NSString * const UnityAdapterVersion = @"1.2.0";
+static NSString * const UnityAdapterVersion = @"3.1.0";
 
 @interface OMUnityAdapter : NSObject<OMMediationAdapter>
 
 + (NSString*)adapterVerison;
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
++ (void)setConsent:(BOOL)consent;
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit;
 @end

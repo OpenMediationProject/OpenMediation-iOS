@@ -52,8 +52,7 @@
 
 - (void)OMIronSourceDidFailToLoad:(nonnull NSError *)error {
     if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]){
-        NSError *cerror = [[NSError alloc] initWithDomain:@"" code:error.code userInfo:@{@"msg":@"There are no ads to show now"}];
-        [_delegate customEvent:self didFailToLoadWithError:cerror];
+        [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 

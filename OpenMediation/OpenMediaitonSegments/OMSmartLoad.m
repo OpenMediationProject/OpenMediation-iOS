@@ -25,17 +25,43 @@
         } else {
             self.cacheCount = unit.cacheCount;
         }
-
-        if (unit && unit.cacheReloadTime>0) {
-            self.checkCacheTimer = [NSTimer scheduledTimerWithTimeInterval:unit.cacheReloadTime target:[OMWeakObject proxyWithTarget:self] selector:@selector(checkCache) userInfo:nil repeats:YES];
-            [[NSRunLoop currentRunLoop] addTimer:self.checkCacheTimer forMode:NSRunLoopCommonModes];
-            OMLogD(@"%@  auto load timer start interval %zd",self.pid,unit.cacheReloadTime);
-        }
+        [self addCheckCacheTimer];
     }
     return self;
 }
 
+- (void)addCheckCacheTimer {
+    if (self.checkCacheTimer) {
+        [self.checkCacheTimer invalidate];
+        self.checkCacheTimer = nil;
+    }
+    
+    OMUnit *unit = [[OMConfig sharedInstance].adUnitMap objectForKey:self.pid];
+    if (unit) {
+        NSInteger refreshLevel = 0;
+        for (refreshLevel=0; (refreshLevel<unit.refreshLevels.count); refreshLevel++) {
+            if (self.replenishCacheNofillCount < [unit.refreshLevels[refreshLevel] integerValue]) {
+                break;
+            }
+        }
+        refreshLevel = (refreshLevel < unit.refreshTimes.count)?refreshLevel:unit.refreshTimes.count-1;
+        
+        if (refreshLevel >=0 && refreshLevel < unit.refreshTimes.count) {
+            NSInteger refreshSecond = [unit.refreshTimes[refreshLevel] integerValue];
+               if (refreshSecond >0 ) {
+                   self.checkCacheTimer = [NSTimer scheduledTimerWithTimeInterval:refreshSecond target:[OMWeakObject proxyWithTarget:self] selector:@selector(checkCache) userInfo:nil repeats:NO];
+                   [[NSRunLoop currentRunLoop] addTimer:self.checkCacheTimer forMode:NSRunLoopCommonModes];
+                   OMLogD(@"%@  refresh level %zd timer interval %zd",self.pid,refreshLevel,refreshSecond);
+               }
+        }
+    }
+
+}
+
+
+
 - (void)checkCache {
+    [self addCheckCacheTimer];
     [self addEvent:ATTEMPT_TO_BRING_NEW_FEED extraData:nil];
     [self loadWithAction:OMLoadActionTimer];
 }
@@ -141,6 +167,8 @@
     if ([self.optimalFillInstance length]>0) {
         [self notifyOptimalFill];
         [self notifyFill:self.optimalFillInstance];
+        self.replenishCacheNofillCount = 0;//reset replenishCacheNofillCount
+        OMLogD(@"%@ reset replenish no fill count 0",self.pid);
         if (_loadSuccessCount >= self.cacheCount) {
             OMLogD(@"%@ cache full,success %zd cache %zd",self.pid,_loadSuccessCount,self.cacheCount);
             [self notifyLoadEnd];
@@ -149,7 +177,11 @@
     
     if (_loadingCount == 0 && self.loadIndex >= self.priorityList.count) {
         if (![self.optimalFillInstance length]) {
+            if (!self.notifyLoadResult) {
+                self.replenishCacheNofillCount++;
+            }
             [self notifyNoFill];
+
         }
         [self notifyLoadEnd];
     }

@@ -1,3 +1,4 @@
+#import "OMAdMobAdapter.h"
 #import "OMAdMobInterstitial.h"
 
 @implementation OMAdMobInterstitial
@@ -24,6 +25,11 @@
         _admobInterstitial = [[GADInterstitialClass alloc] initWithAdUnitID:_pid];
         _admobInterstitial.delegate = self;
         GADRequest *request  = [GADRequestClass request];
+        if (![OMAdMobAdapter npaAd] && NSClassFromString(@"GADExtras")) {
+            GADExtras *extras = [[NSClassFromString(@"GADExtras") alloc] init];
+            extras.additionalParameters = @{@"npa": @"1"};
+            [request registerAdNetworkExtras:extras];
+        }
         [_admobInterstitial loadRequest:request];
         
     }

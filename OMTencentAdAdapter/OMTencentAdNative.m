@@ -11,7 +11,7 @@
     if (self = [super init]) {
         Class gdtNativeAdClass = NSClassFromString(@"GDTUnifiedNativeAd");
         if (gdtNativeAdClass && adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
-            _gdtNativeAd = [[gdtNativeAdClass alloc] initWithAppId:[adParameter objectForKey:@"appKey"] placementId:[adParameter objectForKey:@"pid"]];
+            _gdtNativeAd = [[gdtNativeAdClass alloc] initWithPlacementId:[adParameter objectForKey:@"pid"]];
             _gdtNativeAd.delegate = self;
             _rootVC = rootViewController;
         }

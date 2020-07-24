@@ -8,6 +8,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, OMGender) {
+    OMGenderUnknown,
+    OMGenderMale,
+    OMGenderFemale,
+};
+
 typedef void(^initCompletionHandler)(NSError *_Nullable error);
 
 ///OpenMeidation init success notification
@@ -24,20 +30,30 @@ extern NSString *kOpenMediatonInitSuccessNotification;
 /// Check that `OpenMediation` has been initialized
 + (BOOL)isInitialized;
 
-/// current SDK version
-+ (NSString *)SDKVersion;
-
-/// setUserConsent @"0" is Refuse，@"1" is Accepted. Default is @"1"//GDPR
-+ (void)setUserConsent:(NSString *)consent;
-
-/// log enable,default is YES
-+ (void)setLogEnable:(BOOL)logEnable;
-
 /// user in-app purchase
 + (void)userPurchase:(CGFloat)amount currency:(NSString*)currencyUnit;
 
+/// Set this property to configure the user's age.
++ (void)setUserAge:(NSInteger)userAge;
+
+/// Set the gender of the current user
++ (void)setUserGender:(OMGender)userGender;
+
+/// setUserConsent "NO" is Refuse，"YES" is Accepted. //GDPR
+/// According to the GDPR, set method of this property must be called before "initWithAppKey:", or by default will collect user's information.
++ (void)setGDPRConsent:(BOOL)consent;
+
+///According to the CCPA, set method of this property must be called before "initWithAppKey:", or by default will collect user's information.
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit;
+
+/// current SDK version
++ (NSString *)SDKVersion;
+
 /// A tool to verify a successful integration of the OpenMediation SDK and any additional adapters.
 + (void)validateIntegration;
+
+/// log enable,default is YES
++ (void)setLogEnable:(BOOL)logEnable;
 
 @end
 

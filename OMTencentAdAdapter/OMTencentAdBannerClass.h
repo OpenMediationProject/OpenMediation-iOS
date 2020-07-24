@@ -102,5 +102,4 @@
 
 @end
 
-
 #endif /* OMTencentBannerClass_h */

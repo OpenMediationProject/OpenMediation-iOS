@@ -1,8 +1,8 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#ifndef OMFacebookBidClass_h
-#define OMFacebookBidClass_h
+#ifndef OMFacebookBiddingClass_h
+#define OMFacebookBiddingClass_h
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -103,4 +103,4 @@ typedef NS_ENUM(NSInteger, FBAdBidAuctionType) {
 
 NS_ASSUME_NONNULL_END
 
-#endif /* OMFacebookBidClass_h */
+#endif /* OMFacebookBiddingClass_h */

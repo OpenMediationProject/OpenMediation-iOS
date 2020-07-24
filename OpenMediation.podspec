@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'OpenMediation'
-  s.version      = '1.2.1'
+  s.version      = '1.3.0'
   s.summary      = 'OpenMediation SDK for iOS'
   s.homepage     = 'https://github.com/AdTiming/OpenMediation-iOS'
   s.description  = <<-DESC
@@ -183,6 +183,12 @@ Pod::Spec.new do |s|
   s.subspec 'IronSourceAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
     ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMIronSourceAdapter'
+    ss.public_header_files  = ''
+  end
+
+  s.subspec 'ChartboostBidAdapter' do |ss|
+    ss.dependency             'OpenMediation/Mediation'    
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMChartboostBidAdapter'
     ss.public_header_files  = ''
   end
 

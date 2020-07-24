@@ -2,14 +2,14 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMTencentAdBanner.h"
-#import "OMToolUmbrella.h"
+
 @implementation OMTencentAdBanner
 
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController{
     if(self = [super initWithFrame:frame]){
         Class gdtClass = NSClassFromString(@"GDTUnifiedBannerView");
         if (gdtClass && adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
-            _gdtBannerView = [[gdtClass alloc] initWithFrame:[self convertWithFrame:frame] placementId:OM_SAFE_STRING([adParameter objectForKey:@"pid"]) viewController:rootViewController];
+            _gdtBannerView = [[gdtClass alloc] initWithFrame:[self convertWithFrame:frame] placementId:([adParameter objectForKey:@"pid"]?[adParameter objectForKey:@"pid"]:@"") viewController:rootViewController];
             _gdtBannerView.delegate = self;
             _gdtBannerView.center = CGPointMake(CGRectGetWidth(frame)/2.0, CGRectGetHeight(frame)/2.0);
             [self addSubview:_gdtBannerView];

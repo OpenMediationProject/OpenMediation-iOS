@@ -3,7 +3,6 @@
 
 #import "OMTencentAdNativeView.h"
 #import "OMTencentAdNative.h"
-#import "OMToolUmbrella.h"
 @implementation OMTencentAdNativeView
 
 - (instancetype)initWithFrame:(CGRect)frame{
@@ -12,7 +11,7 @@
         if (gdtNativeAdViewClass) {
             _gdtNativeView = [[gdtNativeAdViewClass alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
             [self addSubview:_gdtNativeView];
-            [_gdtNativeView addConstraintEqualSuperView];
+            [self addConstraintEqualSuperView:_gdtNativeView];
         }
     }
     return self;
@@ -109,5 +108,22 @@
         [_gdtNativeView registerDataObject:_nativeAd.gdtDataObject clickableViews:clickableViews];
     }
 }
+
+- (void)addConstraintEqualSuperView:(UIView*)view {
+    [view setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    NSLayoutConstraint *topCos = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+    [view.superview addConstraint:topCos];
+    
+    NSLayoutConstraint *bootomCos = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+    [view.superview addConstraint:bootomCos];
+    
+    NSLayoutConstraint *leftCos = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
+    [view.superview addConstraint:leftCos];
+    
+    NSLayoutConstraint *rightCos = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
+    [view.superview addConstraint:rightCos];
+}
+
 
 @end

@@ -6,13 +6,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const AdmobAdapterVersion = @"1.2.0";
-
 @interface OMAdMobAdapter : NSObject<OMMediationAdapter>
 
 + (NSString*)adapterVerison;
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
-
++ (void)setConsent:(BOOL)consent;
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit;
++ (BOOL)npaAd;
 @end
 
 NS_ASSUME_NONNULL_END

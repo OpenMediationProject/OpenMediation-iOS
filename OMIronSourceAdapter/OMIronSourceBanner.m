@@ -9,7 +9,6 @@
     if (self = [super initWithFrame:frame]) {
         Class IronSourceClass = NSClassFromString(@"IronSource");
         if (IronSourceClass && [IronSourceClass respondsToSelector:@selector(initWithAppKey:)] && [IronSourceClass respondsToSelector:@selector(setBannerDelegate:)]) {
-            [IronSourceClass initWithAppKey:[adParameter objectForKey:@"appKey"]];
             [IronSourceClass setBannerDelegate:self];
             self.showVC = rootViewController;
         }

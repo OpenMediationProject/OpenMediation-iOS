@@ -4,12 +4,14 @@
 #import <UIKit/UIKit.h>
 #import "OMMediationAdapter.h"
 
-static NSString * const VungleAdapterVersion = @"1.2.1";
+static NSString * const VungleAdapterVersion = @"3.1.1";
 
 @interface OMVungleAdapter : NSObject<OMMediationAdapter>
 
 + (NSString*)adapterVerison;
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
+
++ (void)setConsent:(BOOL)consent;
 
 @end

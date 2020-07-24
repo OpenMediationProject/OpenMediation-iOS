@@ -4,22 +4,6 @@
 #import "OMMopubNative.h"
 #import "OMMopubNativeAd.h"
 
-NSString *const kAdTitleKey               = @"title";
-NSString *const kAdTextKey                = @"text";
-NSString *const kAdIconImageKey           = @"iconimage";
-NSString *const kAdIconImageViewKey       = @"iconimageview";
-NSString *const kAdMainImageKey           = @"mainimage";
-NSString *const kAdSponsoredByCompanyKey  = @"sponsored";
-NSString *const kAdMainMediaViewKey       = @"mainmediaview";
-NSString *const kAdCTATextKey             = @"ctatext";
-NSString *const kAdStarRatingKey          = @"starrating";
-NSString *const kVideoConfigKey           = @"videoconfig";
-NSString *const kVASTVideoKey             = @"video";
-NSString *const kNativeAdConfigKey        = @"nativeadconfig";
-NSString *const kAdPrivacyIconImageUrlKey = @"privacyicon";
-NSString *const kAdPrivacyIconUIImageKey  = @"privacyiconuiimage";
-NSString *const kAdPrivacyIconClickUrlKey = @"privacyclkurl";
-
 @implementation OMMopubNative
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter rootVC:(UIViewController*)rootViewController {
@@ -55,7 +39,7 @@ NSString *const kAdPrivacyIconClickUrlKey = @"privacyclkurl";
         MPNativeAdRequestTargeting *targeting = [targetClass targeting];
 
         NSSet<NSString *> *desiredAssets = [NSSet
-            setWithObjects:kAdTitleKey, kAdTextKey, kAdIconImageKey, kAdMainImageKey, kAdCTATextKey, nil];
+            setWithObjects:@"title", @"text", @"iconimage", @"mainimage",  @"ctatext", nil];
         targeting.desiredAssets = desiredAssets;
         _adLoader.targeting = targeting;
         __weak __typeof(self) weakSelf = self;
@@ -94,7 +78,7 @@ NSString *const kAdPrivacyIconClickUrlKey = @"privacyclkurl";
 
 - (void)preCacheNativeImagesWithCompletionHandler:(void (^)(NSError* error))completionHandler {
     
-    NSString *mainImageUrl = _nativeAd.properties[kAdMainImageKey];
+    NSString *mainImageUrl = _nativeAd.properties[@"mainimage"];
     NSURL *imageURL = [NSURL URLWithString:mainImageUrl];
     NSData *imageData = [[NSClassFromString(@"MPNativeCache") sharedCache]
         retrieveDataForKey:imageURL.absoluteString];

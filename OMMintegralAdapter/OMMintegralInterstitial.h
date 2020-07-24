@@ -8,11 +8,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMMintegralInterstitial : NSObject<OMInterstitialCustomEvent,MTGInterstitialVideoDelegate>
+@interface OMMintegralInterstitial : NSObject<OMInterstitialCustomEvent,MTGInterstitialVideoDelegate,MTGBidInterstitialVideoDelegate>
 
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, copy) NSString *appID;
-@property (nonatomic,strong)  MTGInterstitialVideoAdManager *ivAdManager;
+@property (nonatomic, strong) MTGInterstitialVideoAdManager *ivAdManager;
+@property (nonatomic, strong) MTGBidInterstitialVideoAdManager *ivBidAdManager;
 @property (nonatomic, weak) id<interstitialCustomEventDelegate> delegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;

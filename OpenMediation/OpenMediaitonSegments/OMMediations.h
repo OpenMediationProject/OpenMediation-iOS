@@ -28,7 +28,9 @@ typedef NS_ENUM(NSInteger, OMAdnSDKInitState) {
 + (instancetype)sharedInstance;
 - (void)initAdNetworkSDKWithId:(OMAdNetwork)adnID completionHandler:(OMMediationInitCompletionBlock)completionHandler;
 
+- (Class)adnAdapterClass:(OMAdNetwork)adnID;
 - (BOOL)adnSDKInitialized:(OMAdNetwork)adnID;
+- (BOOL)adnSDKInitializing:(OMAdNetwork)adnID;
 
 @end
 

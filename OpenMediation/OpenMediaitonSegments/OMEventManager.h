@@ -61,6 +61,11 @@
 
 #define INSTANCE_BID_LOSE           274
 
+#define INSTANCE_PAYLOAD_REQUEST    275
+
+#define INSTANCE_PAYLOAD_SUCCESS    276
+
+#define INSTANCE_PAYLOAD_FAIL       277
 
 /********************************InstanceEvent********************************/
 

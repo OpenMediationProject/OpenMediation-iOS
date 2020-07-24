@@ -14,6 +14,29 @@ NS_ASSUME_NONNULL_BEGIN
 @class AdColonyAppOptions;
 @class AdColonyNativeAdView;
 
+
+
+
+
+@interface AdColonyUserMetadata : NSObject
+
+/** @name Pre-defined Aspects of User Metadata */
+
+/**
+ @abstract Configures the user's age.
+ @discussion Set this property to configure the user's age.
+ */
+@property (nonatomic) NSInteger userAge;
+
+/**
+ @abstract Configures the user's gender.
+ @discussion Set this property to configure the user's gender.
+ Note that you should use one of the pre-defined constants below to configure this property.
+ */
+@property (nonatomic, strong, nullable) NSString *userGender;
+
+@end
+
 /**
  AdColonyOptions is a superclass for all types of AdColonyOptions.
  Note that AdColonyOptions classes should never be instantiated directly.
@@ -75,6 +98,35 @@ NS_ASSUME_NONNULL_BEGIN
  @see AdColonyAdOptions
  */
 - (nullable NSNumber *)getNumericOptionWithKey:(NSString *)key;
+@end
+
+
+@interface AdColonyAppOptions : AdColonyOptions
+
+@property (nonatomic, assign) BOOL gdprRequired;
+
+@property (nonatomic, nullable, strong) NSString *gdprConsentString;
+
+@end
+
+@interface AdColonyAdOptions : AdColonyOptions
+
+/** @name Properties */
+
+/**
+ @abstract Enables reward dialogs to be shown before an advertisement.
+ @discussion These popups are disabled by default.
+ Set this property with a corresponding value of `YES` to enable.
+ */
+@property (nonatomic) BOOL showPrePopup;
+
+/**
+ @abstract Enables reward dialogs to be shown after an advertisement.
+ @discussion These popups are disabled by default.
+ Set this property with a corresponding value of `YES` to enable.
+ */
+@property (nonatomic) BOOL showPostPopup;
+
 @end
 
 /**

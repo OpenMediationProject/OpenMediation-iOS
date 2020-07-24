@@ -18,10 +18,10 @@
         _batchTimeout = [[unitData objectForKey:@"pt"]integerValue];
         _fanout = [[unitData objectForKey:@"fo"]boolValue];
         _cacheCount = [[unitData objectForKey:@"cs"]integerValue];
-        _cacheReloadTime = [[unitData objectForKey:@"rf"]integerValue];
         _waterfallReloadTime = [[unitData objectForKey:@"rlw"]integerValue];
         _hb = [[unitData objectForKey:@"hb"] integerValue];
         _instanceList = [NSMutableArray array];
+        _hbInstances = [NSMutableArray array];
         _instanceMap = [NSMutableDictionary dictionary];
         NSArray *instances = [unitData objectForKey:@"ins"];
         if (instances && [instances isKindOfClass:[NSArray class]] && [instances count]>0 ) {
@@ -29,6 +29,9 @@
                 OMInstance *instance = [[OMInstance alloc]initWithUnitID:_unitID instanceData:unitData];
                 [_instanceList addObject:instance];
                 [_instanceMap setObject:instance forKey:instance.instanceID];
+                if (instance.hb) {
+                    [_hbInstances addObject:instance.instanceID];
+                }
             }
         }
         _sceneList = [NSMutableArray array];
@@ -46,8 +49,36 @@
                 }
             }
         }
+        [self sortRefreshLevel:unitData[@"rfs"]];
     }
     return self;
+}
+
+- (void)sortRefreshLevel:(NSDictionary*)levelDict {
+    self.refreshLevels = @[];
+    self.refreshTimes = @[];
+    
+    if (levelDict && [levelDict isKindOfClass:[NSDictionary class]]) {
+        NSArray *refreshLevels = [levelDict allKeys];
+        refreshLevels = [refreshLevels sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            if ([obj1 integerValue] < [obj2 integerValue])
+            {
+                return NSOrderedAscending;
+            }
+            else
+            {
+                return NSOrderedDescending;
+            }
+        }];
+        
+        NSMutableArray *refreshTimes = [NSMutableArray array];
+        for (id level in refreshLevels) {
+            [refreshTimes addObject:[levelDict objectForKey:level]];
+        }
+        self.refreshLevels = refreshLevels;
+        self.refreshTimes = refreshTimes;
+    }
+
 }
 
 - (OMScene*)getSceneById:(NSString*)sceneID {

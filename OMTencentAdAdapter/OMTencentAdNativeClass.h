@@ -66,6 +66,7 @@ typedef NS_ENUM(NSUInteger, GDTMediaPlayerStatus) {
 
 NS_ASSUME_NONNULL_BEGIN
 
+
 @interface GDTUnifiedNativeAdDataObject : NSObject
 
 /**
@@ -190,16 +191,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)equalsAdData:(GDTUnifiedNativeAdDataObject *)dataObject;
 
-/**
- 可选方法，请根据场景酌情上报，用于提高广告预估准确性，提高 ecpm。
- 使用场景：当广告为视频广告，且开发者自行渲染视频广告封面图，开发者点击封面进入下一页才展示视频广告容器时，其他场景无需使用。
- 上报时机：开发者自行渲染的视频广告封面图展示给用户时。
-*/
-- (void)videoCoverExpose;
-
-
 @end
-
 
 //视频广告时长Key
 extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
@@ -247,7 +239,13 @@ extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
 - (void)gdt_unifiedNativeAdDetailViewWillPresentScreen:(GDTUnifiedNativeAdView *)unifiedNativeAdView;
 
 
+/**
+ 视频广告播放状态更改回调
 
+ @param unifiedNativeAdView GDTUnifiedNativeAdView 实例
+ @param status 视频广告播放状态
+ @param userInfo 视频广告信息
+ */
 - (void)gdt_unifiedNativeAdView:(GDTUnifiedNativeAdView *)unifiedNativeAdView playerStatusChanged:(GDTMediaPlayerStatus)status userInfo:(NSDictionary *)userInfo;
 @end
 
@@ -388,11 +386,19 @@ extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
 /**
  构造方法
 
+ @param placementId 广告位ID
+ @return GDTUnifiedNativeAd 实例
+ */
+- (instancetype)initWithPlacementId:(NSString *)placementId;
+
+/**
+ 构造方法
+
  @param appId 媒体ID
  @param placementId 广告位ID
  @return GDTUnifiedNativeAd 实例
  */
-- (instancetype)initWithAppId:(NSString *)appId placementId:(NSString *)placementId;
+- (instancetype)initWithAppId:(NSString *)appId placementId:(NSString *)placementId GDT_DEPRECATED_MSG_ATTRIBUTE("接口即将废弃，请使用 initWithPlacementId:");
 
 /**
  加载广告
@@ -499,7 +505,6 @@ extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
 @property (nonatomic, assign) BOOL videoMuted GDT_DEPRECATED_ATTRIBUTE;
 
 @end
-
 
 NS_ASSUME_NONNULL_END
 

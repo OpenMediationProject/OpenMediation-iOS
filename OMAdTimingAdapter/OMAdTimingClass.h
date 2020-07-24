@@ -7,6 +7,7 @@
 @interface AdTiming : NSObject
 + (NSString *)SDKVersion;
 + (void)initWithAppKey:(NSString*)appKey;
++ (NSString*)bidderToken;
 @end
 
 #endif /* OMAdTimingClass_h */

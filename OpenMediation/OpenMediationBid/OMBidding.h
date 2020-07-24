@@ -2,15 +2,15 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import <Foundation/Foundation.h>
-#import "OMBidResponse.h"
-#import "OMBidCustomEvent.h"
+#import "OMBiddingResponse.h"
+#import "OMBiddingCustomEvent.h"
 #import "OpenMediationAdFormats.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^bidCompletionHandler)(NSDictionary *bidTokens,NSDictionary *bidResponses);
 
-@interface OMBid : NSObject
+@interface OMBidding : NSObject
 @property (nonatomic, strong) NSArray *bidNetworkItems;
 @property (nonatomic, copy, nullable)  bidCompletionHandler completionHandler;
 @property (nonatomic, strong) NSMutableDictionary *bidTokens;

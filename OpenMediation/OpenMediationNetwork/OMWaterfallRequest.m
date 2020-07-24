@@ -51,7 +51,7 @@
     parameters[@"imprTimes"] = [NSNumber numberWithInteger:[[OMLoadFrequencryControl sharedInstance]todayimprCountOnPlacment:pid]];
     parameters[@"act"] = [NSNumber numberWithInteger:actionType];
     if (bidResponses.count>0) {
-        parameters[@"bidc2s"] = bidResponses;
+        parameters[@"bid"] = bidResponses;
     }
     if (tokens.count>0) {
         parameters[@"bids2s"] = tokens;

@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)connect:(NSString *)sdkKey;
 + (void)limitedConnect:(NSString *)sdkKey;
 + (NSString*)getVersion;
++ (void)setUserConsent:(NSString*) value;
 @end
 
 typedef enum TJCActionRequestTypeEnum {

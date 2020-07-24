@@ -112,13 +112,15 @@ static OMEventManager * _instance = nil;
 }
 
 - (void)addEvent:(NSInteger)eventID extraData:(NSDictionary*_Nullable)data {
+    [self saveEventTime:eventID extraData:data];
     NSNumber *eventIDNumber = [NSNumber numberWithInteger:eventID];
     if (![OpenMediation isInitialized] || [_uploadEventIds containsObject:eventIDNumber]) {//未初始化前的event全部加入，在初始化成功后检查后如无需上报remove
         NSMutableDictionary *eventDic = [NSMutableDictionary dictionary];
         [eventDic setValue:[UIDevice omTimeStamp] forKey:@"ts"];
         [eventDic setValue:eventIDNumber forKey:@"eid"];
-        if ([self eventDuration:eventID extraData:data] != 0) {
-            [eventDic setValue:[NSNumber numberWithInteger:[self eventTime:eventID extraData:data]] forKey:@"duration"];
+        NSInteger duration = [self eventDuration:eventID extraData:data];
+        if ( duration > 0) {
+            [eventDic setValue:[NSNumber numberWithInteger:duration] forKey:@"duration"];
         }
         if (data) {
             [eventDic addEntriesFromDictionary:data];

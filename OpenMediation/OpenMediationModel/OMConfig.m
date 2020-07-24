@@ -48,9 +48,33 @@ static OMConfig *_instance = nil;
         _adUnitMap = [NSMutableDictionary dictionary];
         _instanceMap = [NSMutableDictionary dictionary];
         _adnPlacementMap = [NSMutableDictionary dictionary];
+        
+        _consent = -1;
+        _userAge = 0;
+        _userGender = 0;
     }
     return self;
 }
+
+- (NSString *)adFormatName:(OpenMediationAdFormat)adFormat {
+    return OM_SAFE_STRING([_adFormats objectForKey:@(adFormat)]);
+}
+
+- (BOOL)initSuccess {
+    return (_initState == OMInitStateInitialized);
+}
+
+
+- (void)setInitState:(OMInitState)initState {
+    _initState = initState;
+    if (_initState == OMInitStateInitializing) {
+        [[OMEventManager sharedInstance]addEvent:INIT_START extraData:nil];
+    } else if (_initState == OMInitStateInitialized) {
+        [[OMEventManager sharedInstance]initSuccess];
+        [[NSNotificationCenter defaultCenter]postNotificationName:kOpenMediatonInitSuccessNotification object:nil];
+    }
+}
+
 
 - (void)loadCongifData:(NSDictionary *)configData {
     _openDebug = [[configData objectForKey:@"d"]boolValue];
@@ -110,7 +134,7 @@ static OMConfig *_instance = nil;
     }
 }
 
-
+#pragma mark AdNetwork
 
 - (NSString *)adnName:(OMAdNetwork)adnID {
     NSString *appKey = @"";
@@ -129,39 +153,18 @@ static OMConfig *_instance = nil;
     return appKey;
 }
 
-- (NSArray *)allInstanceInAdUnit:(NSString*)unitID {
-    NSArray *instances = @[];
-    OMUnit *adUnit = [_adUnitMap objectForKey:unitID];
-    if (adUnit) {
-        instances = adUnit.instanceList;
+- (NSArray *)adnPlacements:(OMAdNetwork)adnID {
+    NSMutableArray *pids = [NSMutableArray array];
+    NSArray *instances = [_instanceMap allValues];
+    for (OMInstance* instance in instances) {
+        if (instance.adnID == adnID) {
+            [pids addObject:instance.adnPlacementID];
+        }
     }
-    return instances;
-    
+    return [pids copy];
 }
 
-
-- (OMInstance *)getInstanceByinstanceID:(NSString*)instanceID {
-    return [_instanceMap objectForKey:instanceID];
-}
-
-- (NSString *)getInstanceAdnPlacementID:(NSString*)instanceID {
-    NSString *mediationPlacementID = @"";
-    OMInstance *instance = [self getInstanceByinstanceID:instanceID];
-    if (instance) {
-        mediationPlacementID = instance.adnPlacementID;
-    }
-    return mediationPlacementID;
-}
-
-- (OMAdNetwork)getInstanceAdNetwork:(NSString*)instanceID {
-    OMAdNetwork adnID = 0;
-    OMInstance *instance = [self getInstanceByinstanceID:instanceID];
-    if (instance) {
-        adnID = instance.adnID;
-    }
-    return adnID;
-}
-
+#pragma mark Scene
 - (OMScene *)getSceneWithSceneID:(NSString*)sceneID inAdUnit:(NSString*)unitID {
     OMScene *scene = nil;
     OMUnit *adUnit = [[OMConfig sharedInstance].adUnitMap objectForKey:unitID];
@@ -190,9 +193,36 @@ static OMConfig *_instance = nil;
     return sceneID;
 }
 
+
+#pragma mark AdUnit
+
 - (BOOL)configContainAdUnit:(NSString*)unitID {
     OMUnit *unit = [self.adUnitMap objectForKey:unitID];
     return (unit?YES:NO);
+}
+
+- (OpenMediationAdFormat)adUnitFormat:(NSString*)unitID {
+    OpenMediationAdFormat adFormat = -1;
+    OMUnit *adUnit = [_adUnitMap objectForKey:unitID];
+    if (adUnit) {
+        adFormat = adUnit.adFormat;
+    }
+    return adFormat;
+}
+
+- (NSString*)defaultUnitIDForAdFormat:(OpenMediationAdFormat)adFormat {
+    NSString *unitID = @"";
+    for (OMUnit *unit in _adUnitList) {
+        if (unit.adFormat == adFormat) {
+            if (OM_STR_EMPTY(unitID)) {
+                unitID = unit.unitID;
+            }
+            if (unit.main) {
+                unitID = unit.unitID;
+            }
+        }
+    }
+    return unitID;
 }
 
 - (BOOL)isValidAdUnitId:(NSString*)unitID forAdFormat:(OpenMediationAdFormat)adFormat {
@@ -217,39 +247,47 @@ static OMConfig *_instance = nil;
     return [adUnits copy];
 }
 
-- (NSString*)defaultUnitIDForAdFormat:(OpenMediationAdFormat)adFormat {
-    NSString *unitID = @"";
-    for (OMUnit *unit in _adUnitList) {
-        if (unit.adFormat == adFormat) {
-            if (OM_STR_EMPTY(unitID)) {
-                unitID = unit.unitID;
-            }
-            if (unit.main) {
-                unitID = unit.unitID;
-            }
-        }
-    }
-    return unitID;
-}
+#pragma mark Instance
 
-- (OpenMediationAdFormat)adUnitFormat:(NSString*)unitID {
-    OpenMediationAdFormat adFormat = -1;
+- (NSArray *)allInstanceInAdUnit:(NSString*)unitID {
+    NSArray *instances = @[];
     OMUnit *adUnit = [_adUnitMap objectForKey:unitID];
     if (adUnit) {
-        adFormat = adUnit.adFormat;
+        instances = adUnit.instanceList;
     }
-    return adFormat;
+    return instances;
+    
 }
 
-- (NSArray *)adnPlacements:(OMAdNetwork)adnID {
-    NSMutableArray *pids = [NSMutableArray array];
-    NSArray *instances = [_instanceMap allValues];
-    for (OMInstance* instance in instances) {
-        if (instance.adnID == adnID) {
-            [pids addObject:instance.adnPlacementID];
-        }
+- (OMInstance *)getInstanceByinstanceID:(NSString*)instanceID {
+    return [_instanceMap objectForKey:instanceID];
+}
+
+- (BOOL)isHBInstance:(NSString*)instanceID {
+    BOOL hb = NO;
+    OMInstance *instance = [self getInstanceByinstanceID:instanceID];
+    if (instance) {
+        hb = instance.hb;
     }
-    return [pids copy];
+    return hb;
+}
+
+- (NSString *)getInstanceAdnPlacementID:(NSString*)instanceID {
+    NSString *mediationPlacementID = @"";
+    OMInstance *instance = [self getInstanceByinstanceID:instanceID];
+    if (instance) {
+        mediationPlacementID = instance.adnPlacementID;
+    }
+    return mediationPlacementID;
+}
+
+- (OMAdNetwork)getInstanceAdNetwork:(NSString*)instanceID {
+    OMAdNetwork adnID = 0;
+    OMInstance *instance = [self getInstanceByinstanceID:instanceID];
+    if (instance) {
+        adnID = instance.adnID;
+    }
+    return adnID;
 }
 
 - (NSString *)checkinstanceIDWithAdNetwork:(OMAdNetwork)adnID adnPlacementID:(NSString *)placementID {
@@ -261,49 +299,5 @@ static OMConfig *_instance = nil;
     }
     return instanceID;
 }
-
-- (NSString *)checkAdUnitIdWithAdNetwork:(OMAdNetwork)adnID adnPlacementID:(NSString *)placementID {
-    NSString *unitID = @"";
-    NSString *mKey = [NSString stringWithFormat:@"%@_%@",[NSString stringWithFormat:@"%zd",adnID],placementID];
-    OMInstance *instance = [_adnPlacementMap objectForKey:mKey];
-    if (instance) {
-        unitID = [NSString stringWithFormat:@"%@",instance.unitID];
-    }
-    return unitID;
-}
-
-- (NSString *)adFormatName:(OpenMediationAdFormat)adFormat {
-    return OM_SAFE_STRING([_adFormats objectForKey:@(adFormat)]);
-}
-
-- (BOOL)initSuccess {
-    return (_initState == OMInitStateInitialized);
-}
-
-// 设置SDK初始化状态
-- (void)setInitState:(OMInitState)initState {
-    _initState = initState;
-    if (_initState == OMInitStateInitializing) {
-        [[OMEventManager sharedInstance]addEvent:INIT_START extraData:nil];
-    } else if (_initState == OMInitStateInitialized) {
-        [[OMEventManager sharedInstance]initSuccess];
-        [[NSNotificationCenter defaultCenter]postNotificationName:kOpenMediatonInitSuccessNotification object:nil];
-    }
-}
-
-- (OMInstance*)getAdNetworkBidInstance:(OMAdNetwork)adnID inAdUnit:(NSString*)unitID {
-    OMInstance *bidInstance = nil;
-    OMUnit *unit = [_adUnitMap objectForKey:unitID];
-    if (unit) {
-        for (OMInstance *instance in unit.instanceList) {
-            if (instance.adnID == adnID && instance.hb) {
-                bidInstance = instance;
-                break;
-            }
-        }
-    }
-    return bidInstance;
-}
-
 
 @end

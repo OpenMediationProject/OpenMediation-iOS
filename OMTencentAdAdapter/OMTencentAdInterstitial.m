@@ -2,6 +2,7 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMTencentAdInterstitial.h"
+#import "OMTencentAdClass.h"
 
 @implementation OMTencentAdInterstitial
 
@@ -20,7 +21,7 @@
 - (void)loadAd{
     Class GDTInterstitialClass = NSClassFromString(@"GDTUnifiedInterstitialAd");
     if (GDTInterstitialClass && [[GDTInterstitialClass alloc] respondsToSelector:@selector(initWithAppId:placementId:)]) {
-        _interstitial = [[GDTInterstitialClass alloc] initWithAppId:_appID placementId:_pid];
+        _interstitial = [[GDTInterstitialClass alloc] initWithPlacementId:_pid];
         _interstitial.delegate = self;
     }
     if (_interstitial) {
@@ -36,6 +37,12 @@
 }
 
 - (void)show:(UIViewController *)vc{
+    
+    Class sdkClass = NSClassFromString(@"GDTSDKConfig");
+    if (sdkClass && [sdkClass respondsToSelector:@selector(enableDefaultAudioSessionSetting:)]) {
+        [sdkClass enableDefaultAudioSessionSetting:NO];
+    }
+    
     if ([self isReady]) {
         [_interstitial presentFullScreenAdFromRootViewController:vc];
     }

@@ -14,12 +14,13 @@
               instanceID:(NSString *)instanceID
                   action:(NSInteger)action
                    scene:(NSString *)sceneID
-                 abt:(NSInteger)abTest {
+                 abt:(NSInteger)abTest
+                 bid:(BOOL)bid {
     
     if ((type == OMLRTypeSDKInit || type == OMLRTypeWaterfallLoad)) {
         return;
     }
-    NSDictionary *parameters = [self lrParametersWithType:type pid:pid adnID:adnID instanceID:instanceID action:action scene:sceneID abt:abTest];
+    NSDictionary *parameters = [self lrParametersWithType:type pid:pid adnID:adnID instanceID:instanceID action:action scene:sceneID abt:abTest bid:bid];
     NSError *jsonError;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:&jsonError];
     if (!jsonError && jsonData && [[OMConfig sharedInstance].lrUrl length]>0) {
@@ -44,7 +45,9 @@
                             instanceID:(NSString *)instanceID
                                 action:(NSInteger)action
                                  scene:(NSString *)sceneID
-                                   abt:(NSInteger)abTest {
+                                   abt:(NSInteger)abTest
+                                   bid:(BOOL)bid
+{
     NSMutableDictionary *lrParameters = [NSMutableDictionary dictionaryWithDictionary:[OMRequest commonDeviceInfo]];
     if (type<OMLRTypeSDKInit || type>OMLRTypeVideoComplete) {
         NSLog(@"invalid lr type = %zd",type);
@@ -62,6 +65,9 @@
     }
     if (abTest>0) {
         lrParameters[@"abt"] = @(abTest);
+    }
+    if (bid) {
+        lrParameters[@"bid"] = @(1);
     }
     
     return [lrParameters copy];

@@ -59,8 +59,46 @@
     [deviceInfo setValue:[NSNumber numberWithInt:(int)[UIDevice omLowPowerMode]] forKey:@"lowp"];
     [deviceInfo setValue:[NSNumber numberWithLongLong:[UIDevice omRamSize]] forKey:@"ram"];
     [deviceInfo setValue:[NSNumber numberWithLongLong:[UIDevice omBootTime]] forKey:@"btime"];
+    
+    if ([self regs]) {
+        [deviceInfo setValue:[self regs] forKey:@"regs"];
+    }
+    
+    if([OMConfig sharedInstance].userAge) {
+         [deviceInfo setValue:[NSNumber numberWithInteger:[OMConfig sharedInstance].userAge] forKey:@"age"];
+    }
+
+    if([OMConfig sharedInstance].userGender) {
+        [deviceInfo setValue:[NSNumber numberWithInteger:[OMConfig sharedInstance].userGender] forKey:@"gender"];
+    }
+
+    
     return [deviceInfo copy];
 }
+
+
++ (NSDictionary*)regs {
+    NSMutableDictionary *regs = [NSMutableDictionary dictionary];
+    OMConfig *config = [OMConfig sharedInstance];
+    if (!config.consent) {
+        regs[@"gdpr"] =  [NSNumber numberWithInt:1];
+    }
+    
+    if (config.childrenApp) {
+        regs[@"coppa"] =  [NSNumber numberWithInt:1];
+    }
+    
+    if (config.USPrivacy) {
+        regs[@"ccpa"] =  [NSNumber numberWithInt:1];
+    }
+    
+    if (regs.count > 0) {
+        return [regs copy];
+    } else {
+        return nil;
+    }
+}
+
 
 + (NSData*)encryptBody:(NSData*)body type:(OMRequestType)type {
     if (type == OMRequestTypeJsonGzipToJson) {

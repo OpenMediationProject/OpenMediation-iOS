@@ -37,11 +37,19 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 @property(nonatomic, strong)NSDictionary *configData;
 @property(nonatomic, assign)BOOL clickOpenAppStore;
 
-@property(nonatomic, assign)BOOL consent;//gdpr
+@property (nonatomic, assign)   NSInteger consent;//gdpr -1,0,1
+@property (nonatomic, assign)   BOOL childrenApp;//coppa
+@property (nonatomic, assign)   BOOL USPrivacy;//CCPA
+
+@property (nonatomic, assign) NSInteger userAge; // age
+@property (nonatomic, assign) NSInteger userGender; // 0:unknown,1:male,2:female
+
 
 
 
 + (instancetype)sharedInstance;
+
+- (NSString *)adFormatName:(OpenMediationAdFormat)adFormat;
 
 - (void)loadCongifData:(NSDictionary *)configData;
 
@@ -49,29 +57,14 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 
 - (void)loadMediation:(NSArray *)mediationData;
 
-- (void)loadAdUnits:(NSArray *)adUnits;
-
 - (NSString *)adnName:(OMAdNetwork)adnID;
 
 - (NSString *)adnAppKey:(OMAdNetwork)adnID;
 
-- (NSArray *)allInstanceInAdUnit:(NSString*)unitID;
-
-- (OMInstance *)getInstanceByinstanceID:(NSString*)instanceID;
-
-- (NSString *)getInstanceAdnPlacementID:(NSString*)instanceID;
-
-- (OMAdNetwork)getInstanceAdNetwork:(NSString*)instanceID;
-
-- (OMScene *)getSceneWithSceneID:(NSString*)sceneID inAdUnit:(NSString*)unitID;
-
-- (OMScene *)getSceneWithSceneName:(NSString*)sceneName inAdUnit:(NSString*)unitID;
-
-- (NSString *)getSceneIDWithSceneName:(NSString*)sceneName inAdUnit:(NSString*)unitID;
+//MARK: - AdUinit
+- (void)loadAdUnits:(NSArray *)adUnits;
 
 - (BOOL)configContainAdUnit:(NSString*)unitID;
-
-- (BOOL)isValidAdUnitId:(NSString*)unitID forAdFormat:(OpenMediationAdFormat)adFormat;
 
 - (NSArray*)adFormatUnits:(OpenMediationAdFormat)adFormat;
 
@@ -79,13 +72,31 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 
 - (OpenMediationAdFormat)adUnitFormat:(NSString*)unitID;
 
-- (NSArray *)adnPlacements:(OMAdNetwork)adnID;
+- (BOOL)isValidAdUnitId:(NSString*)unitID forAdFormat:(OpenMediationAdFormat)adFormat;
+
+//MARK: - Instance
+- (NSArray *)allInstanceInAdUnit:(NSString*)unitID;
+
+- (BOOL)isHBInstance:(NSString*)instanceID;
+
+- (OMInstance *)getInstanceByinstanceID:(NSString*)instanceID;
+
+- (NSString *)getInstanceAdnPlacementID:(NSString*)instanceID;
+
+- (OMAdNetwork)getInstanceAdNetwork:(NSString*)instanceID;
 
 - (NSString *)checkinstanceIDWithAdNetwork:(OMAdNetwork)adnID adnPlacementID:(NSString *)placementID;
 
-- (NSString *)checkAdUnitIdWithAdNetwork:(OMAdNetwork)adnID adnPlacementID:(NSString *)placementID;
+//MARK: - Scene
+- (OMScene *)getSceneWithSceneID:(NSString*)sceneID inAdUnit:(NSString*)unitID;
 
-- (NSString *)adFormatName:(OpenMediationAdFormat)adFormat;
+- (OMScene *)getSceneWithSceneName:(NSString*)sceneName inAdUnit:(NSString*)unitID;
+
+- (NSString *)getSceneIDWithSceneName:(NSString*)sceneName inAdUnit:(NSString*)unitID;
+
+
+//MARK: - AdNetwork Placements
+- (NSArray *)adnPlacements:(OMAdNetwork)adnID;
 
 @end
 

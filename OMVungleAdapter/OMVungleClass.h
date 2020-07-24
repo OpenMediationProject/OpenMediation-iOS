@@ -311,6 +311,11 @@ typedef NS_ENUM (NSInteger, VungleAdSize) {
  */
 - (void)updateConsentStatus:(VungleConsentStatus)status consentMessageVersion:(NSString *)version;
 
+
+//Vungle SDK v6.2.0 cannot pass the consent message version, use the following APIs
+- (void)updateConsentStatus:(VungleConsentStatus)status;
+
+
 /**
  * This method returns the current consent status for the user recorded in the SDK. If no status is found,
  *  the method returns 0.

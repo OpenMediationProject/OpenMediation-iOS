@@ -8,8 +8,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OMSmartLoad : OMLoad
 
 @property (nonatomic, assign) NSInteger maxParallelLoadCount;
-@property (nonatomic, assign) NSInteger cacheFreshSecond;
-@property (nonatomic, strong) NSTimer *checkCacheTimer;
+@property (nonatomic, assign) NSInteger replenishCacheNofillCount;
+@property (nonatomic, strong, nullable) NSTimer *checkCacheTimer;
 
 @property (nonatomic, assign) NSInteger loadingCount;
 @property (nonatomic, assign) NSInteger loadSuccessCount;

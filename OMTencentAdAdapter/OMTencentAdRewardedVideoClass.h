@@ -3,8 +3,26 @@
 
 #ifndef OMTencentAdRewardedVideoClass_h
 #define OMTencentAdRewardedVideoClass_h
-
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
+
+#if defined(__has_attribute)
+#if __has_attribute(deprecated)
+#define GDT_DEPRECATED_MSG_ATTRIBUTE(s) __attribute__((deprecated(s)))
+#define GDT_DEPRECATED_ATTRIBUTE __attribute__((deprecated))
+#else
+#define GDT_DEPRECATED_MSG_ATTRIBUTE(s)
+#define GDT_DEPRECATED_ATTRIBUTE
+#endif
+#else
+#define GDT_DEPRECATED_MSG_ATTRIBUTE(s)
+#define GDT_DEPRECATED_ATTRIBUTE
+#endif
+
+#define GDTScreenHeight ([UIScreen mainScreen].bounds.size.height)
+#define GDTScreenWidth  ([UIScreen mainScreen].bounds.size.width)
+#define GDTTangramSchemePrefix  @"gdtmsg://e.qq.com/"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +35,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) NSInteger expiredTimestamp;
 @property (nonatomic, weak) id <GDTRewardedVideoAdDelegate> delegate;
 @property (nonatomic, readonly) NSString *placementId;
-@property (nonatomic, readonly) NSString *adId;
+
+/**
+ 构造方法
+ 
+ @param placementId - 广告位 ID
+ @return GDTRewardVideoAd 实例
+ */
+- (instancetype)initWithPlacementId:(NSString *)placementId;
+
+
 /**
  构造方法
 
@@ -25,7 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param placementId - 广告位 ID
  @return GDTRewardVideoAd 实例
  */
-- (instancetype)initWithAppId:(NSString *)appId placementId:(NSString *)placementId;
+- (instancetype)initWithAppId:(NSString *)appId placementId:(NSString *)placementId GDT_DEPRECATED_MSG_ATTRIBUTE("接口即将废弃，请使用 initWithPlacementId:");
+
 /**
  加载广告方法 支持 iOS8.1 及以上系统
  */
@@ -134,7 +162,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)gdt_rewardVideoAdDidPlayFinish:(GDTRewardVideoAd *)rewardedVideoAd;
 
 @end
-
 NS_ASSUME_NONNULL_END
 
 

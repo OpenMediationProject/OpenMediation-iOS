@@ -2,7 +2,7 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMAdColonyRewardedVideo.h"
-
+#import "OMAdColonyAdapter.h"
 
 @implementation OMAdColonyRewardedVideo
 
@@ -17,6 +17,28 @@
     
     Class adColonyClass = NSClassFromString(@"AdColony");
     if(adColonyClass && [adColonyClass respondsToSelector:@selector(requestInterstitialInZone:options:andDelegate:)]){
+        
+        AdColonyAdOptions *options = [NSClassFromString(@"AdColonyAdOptions") new];
+
+        if ([OMAdColonyAdapter getUserAge]) {
+            if (!options.userMetadata) {
+                Class userClass = NSClassFromString(@"AdColonyUserMetadata");
+                if (userClass) {
+                    options.userMetadata = [[userClass alloc]init];
+                }
+            }
+            options.userMetadata.userAge = [OMAdColonyAdapter getUserAge];
+        }
+        if ([OMAdColonyAdapter getUserGender]) {
+            if (!options.userMetadata) {
+                Class userClass = NSClassFromString(@"AdColonyUserMetadata");
+                if (userClass) {
+                    options.userMetadata = [[userClass alloc]init];
+                }
+            }
+            options.userMetadata.userGender = (([OMAdColonyAdapter getUserGender]==1)?@"male":@"female");
+        }
+        
         [adColonyClass requestInterstitialInZone:_pid options:nil andDelegate:self];
     }
     

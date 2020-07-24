@@ -150,6 +150,14 @@
 }
 
 #pragma mark BannerMethod
+- (BOOL)isPad {
+    NSString *type = [UIDevice currentDevice].model;
+    if([type isEqualToString:@"iPad"]) {
+        return YES;
+    }
+    return NO;
+}
+
 - (CGSize)getBannerSizeWithBannerType:(OMBannerType)type {
     switch (type) {
         case OMBannerTypeMediumRectangle:
@@ -158,9 +166,18 @@
             return CGSizeMake(728,90);
         case OMBannerTypeDefault:
             return CGSizeMake(320, 50);
+        case OMBannerTypeSmart: {
+            if ([self isPad]) {
+                return CGSizeMake(728, 90);
+            } else{
+                return CGSizeMake(320, 50);
+            }
+        }
     }
 }
 
+
+    
 - (void)addBannerEvent:(NSInteger)eventID extraData:data {
     NSMutableDictionary *wrapperData = [NSMutableDictionary dictionary];
     if (data) {

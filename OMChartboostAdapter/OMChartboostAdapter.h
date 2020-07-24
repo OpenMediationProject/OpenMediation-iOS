@@ -7,12 +7,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const ChartboostAdapterVersion = @"1.2.0";
+static NSString * const ChartboostAdapterVersion = @"3.1.0";
 
 @interface OMChartboostAdapter : NSObject<OMMediationAdapter>
 
 + (NSString*)adapterVerison;
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
++ (void)setConsent:(BOOL)consent;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -6,41 +6,41 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-typedef NS_ENUM (NSInteger, OMBidLossedReasonCode) {
+typedef NS_ENUM (NSInteger, OMBiddingLossedReasonCode) {
     
-    OMBidLossedReasonCodeInternalError    = 1,
-    OMBidLossedReasonCodeTimeOut          = 2,
-    OMBidLossedReasonCodeInvalidBid       = 3,
-    OMBidLossedReasonCodeNotHiggestBidder = 102,
-    OMBidLossedReasonCodeNotShow          = 4902,
+    OMBiddingLossedReasonCodeInternalError    = 1,
+    OMBiddingLossedReasonCodeTimeOut          = 2,
+    OMBiddingLossedReasonCodeInvalidBid       = 3,
+    OMBiddingLossedReasonCodeNotHiggestBidder = 102,
+    OMBiddingLossedReasonCodeNotShow          = 4902,
 };
 
 
-@interface OMBidResponse : NSObject
+@interface OMBiddingResponse : NSObject
 
 @property (nonatomic, assign) BOOL isSuccess;
 @property (nonatomic, copy) NSString *errorMsg;
-@property (nonatomic, assign) double price;
+@property (nonatomic, assign) float price;
 @property (nonatomic, copy) NSString *currency;
 @property (nonatomic, copy) NSObject *payLoad;
 
 @property (nonatomic,copy, nullable) void(^notifyWin)(void);
 @property (nonatomic,copy, nullable) void(^notifyLoss)(void);
 
-+ (OMBidResponse *)buildResponseWithError:(NSString *)errorMsg;
++ (OMBiddingResponse *)buildResponseWithError:(NSString *)errorMsg;
 
-+ (OMBidResponse *)buildResponseWithPrice:(double)price
++ (OMBiddingResponse *)buildResponseWithPrice:(double)price
                                    currency:(NSString *)currency
                                     payLoad:(NSObject *)payLoad
                                   notifyWin:(void (^)(void))win
                                  notifyLoss:(void (^)(void))loss;
 
-+ (OMBidResponse *)buildResponseWithData:(NSDictionary*)responseData;
++ (OMBiddingResponse *)buildResponseWithData:(NSDictionary*)responseData;
 
 
 - (void)win;
 
-- (void)notifyLossWithReasonCode:(OMBidLossedReasonCode)lossReasonCode;
+- (void)notifyLossWithReasonCode:(OMBiddingLossedReasonCode)lossReasonCode;
 
 @end
 
