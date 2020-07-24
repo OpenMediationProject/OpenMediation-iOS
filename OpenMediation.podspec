@@ -72,6 +72,7 @@ Pod::Spec.new do |s|
     ss.dependency             'OpenMediation/TikTokAdapter' 
     ss.dependency             'OpenMediation/MintegralAdapter'
     ss.dependency             'OpenMediation/IronSourceAdapter'
+    ss.dependency             'OpenMediation/ChartboostBidAdapter'
     ss.dependency             'OpenMediation/FyberAdapter'        
   end
 
