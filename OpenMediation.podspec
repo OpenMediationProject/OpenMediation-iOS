@@ -153,7 +153,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'MoPubAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMMopubAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/MopubAdapter'
     ss.public_header_files  = ''
   end  
 
