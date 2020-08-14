@@ -147,6 +147,18 @@ static NSTimer *SDKInitCheckTimer = nil;
 #pragma mark - GDPR/CCPA
 + (void)setGDPRConsent:(BOOL)consent {
     [[OMConfig sharedInstance] setConsent:consent];
+    [[NSUserDefaults standardUserDefaults] setBool:consent forKey:@"OMConsentStatus"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (OMConsentStatus)currentConsentStatus {
+    if (OM_IS_NULL([[NSUserDefaults standardUserDefaults] stringForKey:@"OMConsentStatus"])) {
+        return OMConsentStatusUnknown;
+    }else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"OMConsentStatus"] == YES){
+        return OMConsentStatusConsented;
+    }else{
+        return OMConsentStatusDenied;
+    }
 }
 
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit {

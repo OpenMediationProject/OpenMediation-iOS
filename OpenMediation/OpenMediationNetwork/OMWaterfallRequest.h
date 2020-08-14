@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
                 actionType:(NSInteger)actionType
               bidResponses:(NSArray*)bidResponses
                     tokens:(NSArray*)tokens
+             instanceState:(NSArray*)instanceState
          completionHandler:(wfCompletionHandler)completionHandler;
 
 @end

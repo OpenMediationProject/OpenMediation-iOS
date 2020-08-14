@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OpenMediationAdFormats.h"
-#import "OMBidding.h"
+#import "OMBid.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

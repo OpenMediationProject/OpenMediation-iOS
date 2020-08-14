@@ -15,8 +15,9 @@
                 actionType:(NSInteger)actionType
               bidResponses:(NSArray*)bidResponses
                     tokens:(NSArray*)tokens
+             instanceState:(NSArray*)instanceState
          completionHandler:(wfCompletionHandler)completionHandler {
-    NSDictionary *parameters = [self wfParametersWithPid:pid size:size actionType:actionType bidResponses:bidResponses tokens:tokens];
+    NSDictionary *parameters = [self wfParametersWithPid:pid size:size actionType:actionType bidResponses:bidResponses tokens:tokens instanceState:instanceState];
     NSError *jsonError;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:&jsonError];
     if (jsonData && !jsonError && [[OMConfig sharedInstance].clUrl length]>0) {
@@ -42,7 +43,8 @@
                                 size:(CGSize)size
                           actionType:(NSInteger)actionType
                         bidResponses:(NSArray*)bidResponses
-                              tokens:(NSArray*)tokens {
+                              tokens:(NSArray*)tokens
+                       instanceState:(NSArray*)instanceState {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:[OMRequest commonDeviceInfo]];
     parameters[@"pid"] = @([pid integerValue]);
     parameters[@"width"] = [NSNumber numberWithInt:size.width];
@@ -56,6 +58,10 @@
     if (tokens.count>0) {
         parameters[@"bids2s"] = tokens;
     }
+    if (instanceState.count>0) {
+        parameters[@"ils"] = instanceState;
+    }
+    
     return [parameters copy];
 }
 

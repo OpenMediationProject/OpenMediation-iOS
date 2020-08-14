@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'OpenMediation'
-  s.version      = '1.3.0'
+  s.version      = '1.3.1'
   s.summary      = 'OpenMediation SDK for iOS'
   s.homepage     = 'https://github.com/AdTiming/OpenMediation-iOS'
   s.description  = <<-DESC
@@ -105,49 +105,49 @@ Pod::Spec.new do |s|
 
   s.subspec 'AdTimingAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMAdTimingAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/AdTimingAdapter'
     ss.public_header_files  = ''
   end
 
   s.subspec 'AdMobAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMAdMobAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/AdmobAdapter'
     ss.public_header_files  = ''
   end
 
   s.subspec 'FacebookAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMFacebookAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/FacebookAdapter'
     ss.public_header_files  = ''
   end
 
   s.subspec 'UnityAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMUnityAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/UnityAdapter'
     ss.public_header_files  = ''
   end
 
   s.subspec 'VungleAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMVungleAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/VungleAdapter'
     ss.public_header_files  = ''
   end
 
   s.subspec 'TencentAdAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMTencentAdAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/TencentAdAdapter'
     ss.public_header_files  = ''
   end
 
   s.subspec 'AdColonyAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMAdColonyAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/AdColonyAdapter'
     ss.public_header_files  = ''
   end 
 
   s.subspec 'AppLovinAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMAppLovinAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/AppLovinAdapter'
     ss.public_header_files  = ''
   end  
 
@@ -159,43 +159,43 @@ Pod::Spec.new do |s|
 
   s.subspec 'TapjoyAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMTapjoyAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/TapjoyAdapter'
     ss.public_header_files  = ''
   end      
 
   s.subspec 'ChartboostAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMChartboostAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/ChartboostAdapter'
     ss.public_header_files  = ''
   end     
 
   s.subspec 'TikTokAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMTikTokAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/TikTokAdapter'
     ss.public_header_files  = ''
   end   
 
   s.subspec 'MintegralAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMMintegralAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/MintegralAdapter'
     ss.public_header_files  = ''
   end 
 
   s.subspec 'IronSourceAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMIronSourceAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/IronSourceAdapter'
     ss.public_header_files  = ''
   end
 
   s.subspec 'ChartboostBidAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMChartboostBidAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/ChartboostBidAdapter'
     ss.public_header_files  = ''
   end
 
   s.subspec 'FyberAdapter' do |ss|
     ss.dependency             'OpenMediation/Mediation'    
-    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'OMFyberAdapter'
+    ss.source_files         = 'OpenMediation/OpenMediationCustomEvent', 'Adapters/FyberAdapter'
     ss.public_header_files  = ''
   end
 

@@ -14,6 +14,12 @@ typedef NS_ENUM(NSInteger, OMGender) {
     OMGenderFemale,
 };
 
+typedef NS_ENUM(NSInteger, OMConsentStatus) {
+    OMConsentStatusUnknown,
+    OMConsentStatusDenied,
+    OMConsentStatusConsented,
+};
+
 typedef void(^initCompletionHandler)(NSError *_Nullable error);
 
 ///OpenMeidation init success notification
@@ -42,6 +48,9 @@ extern NSString *kOpenMediatonInitSuccessNotification;
 /// setUserConsent "NO" is Refuse，"YES" is Accepted. //GDPR
 /// According to the GDPR, set method of this property must be called before "initWithAppKey:", or by default will collect user's information.
 + (void)setGDPRConsent:(BOOL)consent;
+
+/// Get the GDPR current consent status of this user.
++ (OMConsentStatus)currentConsentStatus;
 
 ///According to the CCPA, set method of this property must be called before "initWithAppKey:", or by default will collect user's information.
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit;

@@ -14,15 +14,15 @@
 #import "OMLrRequest.h"
 #import "OMEventManager.h"
 #import "OpenMediation.h"
-#import "OMBidding.h"
+#import "OMBid.h"
 
-@protocol OMBiddingCustomEvent<NSObject>
+@protocol OMBidCustomEvent<NSObject>
 - (void)loadAdWithBidPayload:(NSString *)bidPayload;
 @end
 
 #define OMDefaultMaxTimeoutMS     5000
 
-#define OMBiddingTest   YES //for bid
+#define OMBidTest   YES //for bid
 
 @implementation OMAdBase
 
@@ -39,7 +39,7 @@
         self.instanceAdapters = [NSMutableDictionary dictionary];
         self.didLoadAdObjects = [NSMutableDictionary dictionary];
         self.bidLoadInstances = [NSMutableDictionary dictionary];
-        self.bid = [[OMBidding alloc]init];
+        self.bid = [[OMBid alloc]init];
     }
     return self;
 }
@@ -130,7 +130,7 @@
             if (!(adapter && [adapter respondsToSelector:@selector(isReady)] && [adapter isReady] )) {
                 NSString *adnName = [config.adnNameMap objectForKey:@(bidInstance.adnID)];
                 NSString *appKey = [config.adnAppkeyMap objectForKey:@(bidInstance.adnID)];
-                OMBiddingNetworkItem *bidNetworkItem = [OMBiddingNetworkItem networkItemWithName:adnName appKey:appKey placementID:bidInstance.adnPlacementID timeOut:((bidInstance.hbt<1000)?OMDefaultMaxTimeoutMS:bidInstance.hbt) test:OMBiddingTest extra:@{@"instanceID":bidInstance.instanceID}];
+                OMBidNetworkItem *bidNetworkItem = [OMBidNetworkItem networkItemWithName:adnName appKey:appKey placementID:bidInstance.adnPlacementID timeOut:((bidInstance.hbt<1000)?OMDefaultMaxTimeoutMS:bidInstance.hbt) test:OMBidTest extra:@{@"instanceID":bidInstance.instanceID,@"platformID":[NSNumber numberWithInteger:bidInstance.adnID],@"prefix":@"OM"}];
                 [bidItems addObject:bidNetworkItem];
                 [self addEvent:INSTANCE_BID_REQUEST instance:bidInstance.instanceID extraData:nil];
             }
@@ -153,7 +153,7 @@
                 [bidRequestInstances addObject:instanceID];
             }
         }
-        [self.bid bidWithNetworkItems:[self bidNetworkItmes:bidRequestInstances] adFormat:self.adFormat completionHandler:^(NSDictionary * _Nonnull bidTokens, NSDictionary * _Nonnull bidResponses) {
+        [self.bid bidWithNetworkItems:[self bidNetworkItmes:bidRequestInstances] adFormat:[[OMConfig sharedInstance]adFormatName:self.adFormat] completionHandler:^(NSDictionary * _Nonnull bidTokens, NSDictionary * _Nonnull bidResponses) {
             //for s2s
             NSArray *allS2sIns = [bidTokens allKeys];
             for (NSString *instanceID in allS2sIns) {
@@ -165,7 +165,7 @@
 
             NSArray *allBidIns = [bidResponses allKeys];
             for (NSString *instanceID in allBidIns) {
-                OMBiddingResponse *bidResponse = [bidResponses objectForKey:instanceID];
+                OMBidResponse *bidResponse = [bidResponses objectForKey:instanceID];
                 if (bidResponse.isSuccess) {
                     [self addEvent:INSTANCE_BID_RESPONSE instance:instanceID extraData:@{@"bid":[NSNumber numberWithInt:1],@"price":[NSNumber numberWithDouble:bidResponse.price],@"cur":bidResponse.currency}];
                     OMLogD(@"instance %@ bid response price %lf cur %@",instanceID,bidResponse.price,bidResponse.currency);
@@ -192,10 +192,10 @@
     [bidInstances removeObjectsInArray:loadInstances];
     
     for (NSString *instanceID in bidInstances) {
-        OMBiddingResponse *bidResponse = [_bidInstances objectForKey:instanceID];
-        [bidResponse notifyLossWithReasonCode:OMBiddingLossedReasonCodeNotHiggestBidder];
+        OMBidResponse *bidResponse = [_bidInstances objectForKey:instanceID];
+        [bidResponse notifyLossWithReasonCode:OMBidLossedReasonCodeNotHiggestBidder];
         [self.bidLoadInstances removeObjectForKey:instanceID];
-        OMLogD(@"%@ bid loss %zd",instanceID,OMBiddingLossedReasonCodeNotHiggestBidder);
+        OMLogD(@"%@ bid loss %zd",instanceID,OMBidLossedReasonCodeNotHiggestBidder);
         [self addEvent:INSTANCE_BID_LOSE instance:instanceID extraData:nil];
     }
 }
@@ -217,7 +217,7 @@
         NSMutableArray *bids = [NSMutableArray array];
         
         for (NSString *instanceID in self.bidInstances) {
-            OMBiddingResponse *bidResponse = [self.bidInstances objectForKey:instanceID];
+            OMBidResponse *bidResponse = [self.bidInstances objectForKey:instanceID];
             NSDictionary *bidData = @{@"iid":instanceID,@"price":[NSNumber numberWithFloat:bidResponse.price],@"cur":bidResponse.currency};
             [bids addObject:bidData];
         }
@@ -229,7 +229,7 @@
         [self addEvent:LOAD instance:nil extraData:nil];//load event
         
         
-        [OMWaterfallRequest requestDataWithPid:self.pid size:self.size actionType:action bidResponses:bids tokens:tokens completionHandler:^(NSDictionary * _Nullable ins, NSError * _Nullable error) {
+        [OMWaterfallRequest requestDataWithPid:self.pid size:self.size actionType:action bidResponses:bids tokens:tokens instanceState:[self allInstanceState] completionHandler:^(NSDictionary * _Nullable ins, NSError * _Nullable error) {
             if (!error) {
                 self.abTest = [[ins objectForKey:@"abt"]boolValue];
                 
@@ -240,7 +240,7 @@
                     for (NSDictionary *bidResponseData in responses) {
                         NSString *instanceID = [NSString stringWithFormat:@"%@",bidResponseData[@"iid"]];
                         if ([bidResponseData objectForKey:@"adm"]) {
-                            OMBiddingResponse *response = [OMBiddingResponse buildResponseWithData:bidResponseData];
+                            OMBidResponse *response = [OMBidResponse buildResponseWithData:bidResponseData];
                             [addBidResponse setObject:response forKey:instanceID];
                             
                             OMLogD(@"instance %@ bid response price %lf cur %@",instanceID,response.price,response.currency);
@@ -327,7 +327,7 @@
 }
 
 - (void)loadInstance:(NSString*)instanceID {
-    OMBiddingResponse *instanceBidResponse = [self.bidInstances objectForKey:instanceID];
+    OMBidResponse *instanceBidResponse = [self.bidInstances objectForKey:instanceID];
     id adapter = [_instanceAdapters objectForKey:instanceID];
     OMAdNetwork adnID = [[OMConfig sharedInstance]getInstanceAdNetwork:instanceID];
     
@@ -361,6 +361,7 @@
         [self addEvent:INSTANCE_LOAD instance:instanceID extraData:nil];
         [adapter loadAd];
     }
+    [self saveInstanceLoadTime:instanceID];
 }
 
 - (void)omLoadInstanceTimeout:(NSString *)instanceID {
@@ -416,11 +417,11 @@
     }
     if (!instanceReady) {
         [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];//instance available state changed
-        OMBiddingResponse *bidResponse = [self.bidLoadInstances objectForKey:instanceID];
+        OMBidResponse *bidResponse = [self.bidLoadInstances objectForKey:instanceID];
         if (bidResponse) {
-            [bidResponse notifyLossWithReasonCode:OMBiddingLossedReasonCodeNotShow];
+            [bidResponse notifyLossWithReasonCode:OMBidLossedReasonCodeNotShow];
             [self addEvent:INSTANCE_BID_LOSE instance:instanceID extraData:nil];
-            OMLogD(@"%@ bid loss %zd",instanceID,OMBiddingLossedReasonCodeNotShow);
+            OMLogD(@"%@ bid loss %zd",instanceID,OMBidLossedReasonCodeNotShow);
         }
         [self.bidLoadInstances removeObjectForKey:instanceID];
     }
@@ -460,6 +461,106 @@
     OMLogD(@"%@ change available:%zd",self.pid,(NSInteger)available);
 }
 
+#pragma mark - Instance State
+
+- (void)saveInstanceLoadTime:(NSString*)instanceID {
+
+    NSMutableDictionary *allInstanceState = [NSMutableDictionary dictionary];
+    
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"OMInstanceLoadState"]) {
+        allInstanceState = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"OMInstanceLoadState"]];
+    }
+        
+    NSMutableDictionary *instanceState = [NSMutableDictionary dictionary];
+    
+    if ([allInstanceState objectForKey:instanceID]) {
+        instanceState = [NSMutableDictionary dictionaryWithDictionary:[allInstanceState objectForKey:instanceID]];
+        
+    }
+    
+    [instanceState setObject:[NSNumber numberWithInteger:[instanceID integerValue]] forKey:@"iid"];
+    NSInteger timeStamp = (NSInteger)[NSDate date].timeIntervalSince1970;
+    
+    
+    [instanceState setObject:[NSNumber numberWithInteger:timeStamp] forKey:@"lts"];//last time stamp
+
+    
+    [allInstanceState setObject:instanceState forKey:instanceID];
+    [[NSUserDefaults standardUserDefaults]setObject:allInstanceState forKey:@"OMInstanceLoadState"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
+    OMLogD(@"instance state save %@ load time %@",instanceID,[NSDate date]);
+    
+}
+
+- (void)removeSuccessInstance:(NSString*)instanceID {
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"OMInstanceLoadState"]) {
+        NSMutableDictionary *allInstanceState = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"OMInstanceLoadState"]];
+        [allInstanceState removeObjectForKey:instanceID];
+        [[NSUserDefaults standardUserDefaults]setObject:allInstanceState forKey:@"OMInstanceLoadState"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        OMLogD(@"instance state remove success instance %@ ",instanceID);
+    }
+}
+
+- (void)saveInstanceLoadError:(NSString*)instanceID errorCode:(NSString*)code codeMsg:(NSString*)msg {
+    NSMutableDictionary *allInstanceState = [NSMutableDictionary dictionary];
+    
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"OMInstanceLoadState"]) {
+        allInstanceState = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"OMInstanceLoadState"]];
+    }
+        
+    NSMutableDictionary *instanceState = [NSMutableDictionary dictionary];
+    
+    if ([allInstanceState objectForKey:instanceID]) {
+        instanceState = [NSMutableDictionary dictionaryWithDictionary:[allInstanceState objectForKey:instanceID]];
+        
+    }
+    
+    [instanceState setObject:[NSNumber numberWithInteger:[instanceID integerValue]] forKey:@"iid"];
+    
+    NSInteger timeStamp = (NSInteger)[NSDate date].timeIntervalSince1970;
+    
+    NSInteger startTime = [[instanceState objectForKey:@"lts"]integerValue];//last time stamp
+    
+    [instanceState setObject:[NSNumber numberWithInteger:(timeStamp - startTime)] forKey:@"dur"]; //duration
+
+    [instanceState setObject:code forKey:@"code"];
+    
+    if (!OM_STR_EMPTY(msg)) {
+        [instanceState setObject:msg forKey:@"msg"];
+    }
+        
+    [allInstanceState setObject:instanceState forKey:instanceID];
+    [[NSUserDefaults standardUserDefaults]setObject:allInstanceState forKey:@"OMInstanceLoadState"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
+    OMLogD(@"instance state save instance %@ error %@ ",instanceID,instanceState);
+}
+
+- (NSArray *)allInstanceState {
+    NSMutableDictionary *allInstanceState = [NSMutableDictionary dictionary];
+    
+    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"OMInstanceLoadState"]) {
+        allInstanceState = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults]objectForKey:@"OMInstanceLoadState"]];
+    }
+    
+    NSMutableArray *allInstanceStateInUnit = [NSMutableArray array];
+    
+    NSArray *instancesInUnit = [[OMConfig sharedInstance]allInstanceInAdUnit:_pid];
+    
+    for (OMInstance *instance in instancesInUnit) {
+        if ([allInstanceState objectForKey:instance.instanceID]) {
+            [allInstanceStateInUnit  addObject:[allInstanceState objectForKey:instance.instanceID]];
+        }
+    }
+    
+    OMLogD(@"%@ instance state all %@",_pid,allInstanceStateInUnit);
+    return [allInstanceStateInUnit copy];
+      
+}
+
 #pragma mark - isReady
 
 - (BOOL)isReady {
@@ -492,25 +593,33 @@
             [_didLoadAdObjects setObject:didLoadAd forKey:instanceID];
         }
         [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateSuccess];
+        
+        [self removeSuccessInstance:instanceID];
     }
 }
 
 - (void)customEvent:(id)adapter didFailToLoadWithError:(NSError*)error {
     NSString *instanceID = [self checkInstanceIDWithAdapter:adapter];
     if (instanceID) {
-        OMBiddingResponse *bidResponse = [self.bidLoadInstances objectForKey:instanceID];
+        OMBidResponse *bidResponse = [self.bidLoadInstances objectForKey:instanceID];
         if (bidResponse) {
-            [bidResponse notifyLossWithReasonCode:OMBiddingLossedReasonCodeInternalError];
+            [bidResponse notifyLossWithReasonCode:OMBidLossedReasonCodeInternalError];
             [self addEvent:INSTANCE_BID_LOSE instance:instanceID extraData:nil];
-            OMLogD(@"%@ bid loss %zd",instanceID,OMBiddingLossedReasonCodeInternalError);
+            OMLogD(@"%@ bid loss %zd",instanceID,OMBidLossedReasonCodeInternalError);
         }
         [self.bidLoadInstances removeObjectForKey:instanceID];
-        NSString *errorMsg = [error isKindOfClass:[NSError class]]?[error description]:@"";
-        OMLogD(@"%@ instance %@ load fail error %@",self.pid,instanceID,errorMsg);
+        
+        NSString *code = [NSString stringWithFormat:@"%zd",error.code];
+        NSString *msg = [error isKindOfClass:[NSError class]]?OM_SAFE_STRING(error.localizedDescription):@"";
+
+        OMLogD(@"%@ instance %@ load fail error %@",self.pid,instanceID,msg);
+        
+        [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateFail];
+        
+        [self saveInstanceLoadError:instanceID errorCode:code codeMsg:msg];
         
         OMInstance *instance = [[OMConfig sharedInstance]getInstanceByinstanceID:instanceID];
-        [self addEvent:(instance.hb?INSTANCE_PAYLOAD_FAIL:INSTANCE_LOAD_ERROR) instance:instanceID extraData:@{@"msg":OM_SAFE_STRING([error localizedDescription]),@"code":[NSString stringWithFormat:@"%zd",error.code]}];
-        [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateFail];
+        [self addEvent:(instance.hb?INSTANCE_PAYLOAD_FAIL:INSTANCE_LOAD_ERROR) instance:instanceID extraData:@{@"msg":msg,@"code":code}];
     }
 }
 
@@ -520,7 +629,7 @@
 
 - (void)showInstance:(id)instanceID {
     if (!OM_STR_EMPTY(instanceID)) {
-        OMBiddingResponse *bidResponse = [self.bidLoadInstances objectForKey:instanceID];
+        OMBidResponse *bidResponse = [self.bidLoadInstances objectForKey:instanceID];
         if (bidResponse) {
             [bidResponse win];
             [self addEvent:INSTANCE_BID_WIN instance:instanceID extraData:nil];
@@ -636,7 +745,7 @@
         [wrapperData setObject:[NSNumber omStr2Number:instanceID] forKey:@"iid"];
         [wrapperData setObject:[NSNumber numberWithInteger:adnID] forKey:@"mid"];
         if([self.bidLoadInstances objectForKey:instanceID]){
-            OMBiddingResponse *bidResponse = [self.bidLoadInstances objectForKey:instanceID];
+            OMBidResponse *bidResponse = [self.bidLoadInstances objectForKey:instanceID];
             if(bidResponse){
                 [wrapperData setObject:[NSNumber numberWithInt:1] forKey:@"bid"];
                 [wrapperData setObject:[NSNumber numberWithDouble:bidResponse.price] forKey:@"price"];
