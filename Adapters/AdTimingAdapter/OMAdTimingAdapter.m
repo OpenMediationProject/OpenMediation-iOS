@@ -22,4 +22,32 @@
     }
 }
 
++ (void)setConsent:(BOOL)consent {
+    Class adtimingClass = NSClassFromString(@"AdTiming");
+    if (adtimingClass && [adtimingClass respondsToSelector:@selector(setGDPRConsent:)]) {
+        [adtimingClass setGDPRConsent:consent];
+    }
+}
+
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit {
+    Class adtimingClass = NSClassFromString(@"AdTiming");
+    if (adtimingClass && [adtimingClass respondsToSelector:@selector(setUSPrivacyLimit:)]) {
+        [adtimingClass setUSPrivacyLimit:privacyLimit];
+    }
+}
+
++ (void)setUserAge:(NSInteger)userAge {
+    Class adtimingClass = NSClassFromString(@"AdTiming");
+    if (adtimingClass && [adtimingClass respondsToSelector:@selector(setUserAge:)]) {
+        [adtimingClass setUserAge:userAge];
+    }
+}
+
++ (void)setUserGender:(NSInteger)userGender {
+    Class adtimingClass = NSClassFromString(@"AdTiming");
+    if (adtimingClass && [adtimingClass respondsToSelector:@selector(setUserGender:)]) {
+        [adtimingClass setUserGender:userGender];
+    }
+}
+
 @end

@@ -33,12 +33,21 @@
     Class vungleClass = NSClassFromString(@"VungleSDK");
     if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)]) {
         VungleSDK *vungle = [vungleClass sharedSDK];
-        if (vungle && [vungle respondsToSelector:@selector(updateConsentStatus:)]) {
-            [vungle updateConsentStatus:(consent?VungleConsentAccepted:VungleConsentDenied)];
+        if (vungle && [vungle respondsToSelector:@selector(updateConsentStatus:consentMessageVersion:)]) {
+            [vungle updateConsentStatus:(consent?VungleConsentAccepted:VungleConsentDenied) consentMessageVersion:@"6.7.0"];
         }
     }
 }
 
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit {
+    Class vungleClass = NSClassFromString(@"VungleSDK");
+    if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)]) {
+        VungleSDK *vungle = [vungleClass sharedSDK];
+        if (vungle && [vungle respondsToSelector:@selector(updateCCPAStatus:)]) {
+            [vungle updateCCPAStatus:(privacyLimit?VungleCCPAAccepted:VungleCCPADenied)];
+        }
+    }
+}
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     NSString *key = [configuration objectForKey:@"appKey"];

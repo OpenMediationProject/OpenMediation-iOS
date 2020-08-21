@@ -78,6 +78,7 @@
     
     if(ironsourceClass && [ironsourceClass respondsToSelector:@selector(initISDemandOnly:adUnits:)]){
         [ironsourceClass initISDemandOnly:key adUnits:@[IS_REWARDED_VIDEO,IS_INTERSTITIAL]];
+        //[ironsourceClass initWithAppKey:key adUnits:@[IS_BANNER]]; // Banner
         completionHandler(nil);
     }else{
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.ironsourceadapter"

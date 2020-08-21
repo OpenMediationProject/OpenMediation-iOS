@@ -108,7 +108,7 @@ static OMVungleRouter * _instance = nil;
 }
 
 
-- (void)vungleWillCloseAdWithViewInfo:(nonnull VungleViewInfo *)info placementID:(nonnull NSString *)placementID {
+- (void)vungleWillCloseAdForPlacementID:(nonnull NSString *)placementID {
     id<OMVungleAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementID];
     
     if (delegate && [delegate respondsToSelector:@selector(omVungleRewardedVideoEnd)]) {
@@ -118,15 +118,25 @@ static OMVungleRouter * _instance = nil;
 }
 
 
-- (void)vungleDidCloseAdWithViewInfo:(nonnull VungleViewInfo *)info placementID:(nonnull NSString *)placementID {
+- (void)vungleDidCloseAdForPlacementID:(nonnull NSString *)placementID {
     id<OMVungleAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementID];
-    if ([info.didDownload isEqual:@YES]) {
-        if (delegate && [delegate respondsToSelector:@selector(omVungleDidClick)]) {
-            [delegate omVungleDidClick];
-        }
-    }
+    
     if (delegate && [delegate respondsToSelector:@selector(omVungleDidFinish:)]) {
-        [delegate omVungleDidFinish:!((BOOL)[info.completedView integerValue])];
+        [delegate omVungleDidFinish:NO];
+    }
+}
+
+- (void)vungleTrackClickForPlacementID:(nullable NSString *)placementID {
+    id<OMVungleAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementID];
+    if (delegate && [delegate respondsToSelector:@selector(omVungleDidClick)]) {
+        [delegate omVungleDidClick];
+    }
+}
+
+- (void)vungleRewardUserForPlacementID:(nullable NSString *)placementID {
+    id<OMVungleAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementID];
+    if (delegate && [delegate respondsToSelector:@selector(omVungleDidReceiveReward)]) {
+        [delegate omVungleDidReceiveReward];
     }
 }
 

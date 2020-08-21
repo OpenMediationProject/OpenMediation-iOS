@@ -60,13 +60,14 @@
 }
 
 - (void)omVungleDidFinish:(BOOL)skipped {
-    if (!skipped) {
-        if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
-            [_delegate rewardedVideoCustomEventDidReceiveReward:self];
-        }
-    }
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]) {
         [_delegate rewardedVideoCustomEventDidClose:self];
+    }
+}
+
+- (void)omVungleDidReceiveReward {
+    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
+        [_delegate rewardedVideoCustomEventDidReceiveReward:self];
     }
 }
 

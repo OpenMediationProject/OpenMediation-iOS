@@ -8,6 +8,10 @@
 + (NSString *)SDKVersion;
 + (void)initWithAppKey:(NSString*)appKey;
 + (NSString*)bidderToken;
++ (void)setGDPRConsent:(BOOL)consent;
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit;
++ (void)setUserAge:(NSInteger)userAge;
++ (void)setUserGender:(NSInteger)userGender;
 @end
 
 #endif /* OMAdTimingClass_h */

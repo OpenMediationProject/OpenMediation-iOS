@@ -13,5 +13,5 @@ static NSString * const VungleAdapterVersion = @"3.1.1";
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 
 + (void)setConsent:(BOOL)consent;
-
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit;
 @end

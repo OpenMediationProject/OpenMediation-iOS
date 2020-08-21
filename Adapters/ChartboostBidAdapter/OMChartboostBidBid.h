@@ -6,7 +6,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMChartboostBidBid : NSObject
+@protocol OMBidCustomEvent <NSObject>
+
+@optional
+
++ (void)bidWithNetworkItem:(id)networkItem adFormat:(NSString*)format responseCallback:(void(^)(NSDictionary *bidResponseData))callback;
+
++ (NSString*)bidderToken;
+
+@end
+
+@interface OMChartboostBidBid : NSObject<OMBidCustomEvent>
 + (void)bidWithNetworkItem:(id)networkItem adFormat:(NSString*)format responseCallback:(void(^)(NSDictionary *bidResponseData))callback;
 
 @end
