@@ -24,7 +24,7 @@
     }
     if (requestClass && [requestClass respondsToSelector:@selector(request)]) {
         GADRequest *request  = [requestClass request];
-        if (![OMAdMobAdapter npaAd] && NSClassFromString(@"GADExtras")) {
+        if ([OMAdMobAdapter npaAd] && NSClassFromString(@"GADExtras")) {
             GADExtras *extras = [[NSClassFromString(@"GADExtras") alloc] init];
             extras.additionalParameters = @{@"npa": @"1"};
             [request registerAdNetworkExtras:extras];

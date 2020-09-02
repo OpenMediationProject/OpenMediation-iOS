@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'OpenMediation'
-  s.version      = '1.3.2'
+  s.version      = '1.3.3'
   s.summary      = 'OpenMediation SDK for iOS'
   s.homepage     = 'https://github.com/AdTiming/OpenMediation-iOS'
   s.description  = <<-DESC

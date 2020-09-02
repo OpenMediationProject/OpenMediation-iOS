@@ -4,7 +4,7 @@
 #import "OMAdMobAdapter.h"
 #import "OMAdMobClass.h"
 
-static NSString * const AdmobAdapterVersion = @"3.1.0";
+static NSString * const AdmobAdapterVersion = @"3.1.1";
 static BOOL admobNpaAd = NO;
 
 @implementation OMAdMobAdapter
@@ -15,15 +15,18 @@ static BOOL admobNpaAd = NO;
 
 + (NSString*)adNetworkVersion {
     NSString *sdkVersion = @"";
-    Class sdkClass = NSClassFromString(@"GADRequest");
-    if(sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]){
-        sdkVersion = [sdkClass sdkVersion];
+    Class admobClass = NSClassFromString(@"GADMobileAds");
+    if (admobClass && [admobClass respondsToSelector:@selector(sharedInstance)]) {
+        GADMobileAds *admob = [admobClass sharedInstance];
+        if(admob && [admob respondsToSelector:@selector(sdkVersion)]){
+            sdkVersion = [admob sdkVersion];
+        }
     }
     return sdkVersion;
 }
 
 + (NSString*)minimumSupportVersion {
-    return @"7.42.0";
+    return @"afma-sdk-i-v7.42.0";
 }
 
 

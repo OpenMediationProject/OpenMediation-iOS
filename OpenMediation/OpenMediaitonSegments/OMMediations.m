@@ -11,8 +11,9 @@
 + (NSString *)SDKVersion;
 @end
 
-@interface GADRequest : NSObject <NSCopying>
-+ (NSString *)sdkVersion;
+@interface GADMobileAds : NSObject
++ (nonnull GADMobileAds *)sharedInstance;
+@property(nonatomic, nonnull, readonly) NSString *sdkVersion;
 @end
 
 @interface VungleSDK : NSObject
@@ -127,7 +128,7 @@ static OMMediations *_instance = nil;
         
         _adnSdkClassMap = @{
             @(OMAdNetworkAdTiming):@"AdTiming",
-            @(OMAdNetworkAdMob):@"GADRequest",
+            @(OMAdNetworkAdMob):@"GADMobileAds",
             @(OMAdNetworkFacebook):@"FBAdSettings",
             @(OMAdNetworkUnityAds):@"UnityAds",
             @(OMAdNetworkVungle):@"VungleSDK",
@@ -174,8 +175,11 @@ static OMMediations *_instance = nil;
             break;
         case OMAdNetworkAdMob:
         {
-            if (sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]) {
-                sdkVersion = [sdkClass sdkVersion];
+            if (sdkClass && [sdkClass respondsToSelector:@selector(sharedInstance)]) {
+                GADMobileAds *admob = [sdkClass sharedInstance];
+                if(admob && [admob respondsToSelector:@selector(sdkVersion)]){
+                    sdkVersion = [admob sdkVersion];
+                }
             }
         }
             break;

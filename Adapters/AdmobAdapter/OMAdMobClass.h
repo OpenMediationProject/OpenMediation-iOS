@@ -39,6 +39,7 @@ typedef void (^GADInitializationCompletionHandler)(GADInitializationStatus *_Non
 
 @interface GADMobileAds : NSObject
 + (nonnull GADMobileAds *)sharedInstance;
+@property(nonatomic, nonnull, readonly) NSString *sdkVersion;
 @property(nonatomic, readonly, strong, nonnull) GADRequestConfiguration *requestConfiguration;
 + (void)configureWithApplicationID:(NSString *)applicationID;
 - (void)startWithCompletionHandler:(nullable GADInitializationCompletionHandler)completionHandler;
