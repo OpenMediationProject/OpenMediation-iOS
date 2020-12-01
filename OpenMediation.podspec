@@ -96,6 +96,8 @@ Pod::Spec.new do |s|
                               'OpenMediation/OpenMediationRewardedVideo/OMRewardedVideoDelegate.h',
                               'OpenMediation/OpenMediationSplash/OMSplash.h',
                               'OpenMediation/OpenMediationSplash/OMSplashDelegate.h',
+                              'OpenMediation/OpenMediationCrossPromotion/OMCrossPromotion.h',
+                              'OpenMediation/OpenMediationCrossPromotion/OMCrossPromotionDelegate.h',
                               'OpenMediation/OpenMediaitonSegments/OMAdSingletonInterface.h',
                               'OpenMediation/OpenMediaitonSegments/OMAdbase.h',
                               'OpenMediation/OpenMediationModel/OMScene.h',
