@@ -19,7 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol OMSplashCustomEvent<NSObject>
 @property(nonatomic, weak, nullable) id<splashCustomEventDelegate> delegate;
 - (instancetype)initWithParameter:(NSDictionary *)adParameter adSize:(CGSize)size;
+@optional
 - (void)loadAd;
+- (void)loadAdWithBidPayload:(NSString*)bidPayload;
 - (BOOL)isReady;
 - (void)showWithWindow:(UIWindow *)window customView:(UIView *)customView;
 @end

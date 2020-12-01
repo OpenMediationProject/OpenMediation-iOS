@@ -17,6 +17,10 @@
     [[OMVungleRouter sharedInstance]loadPlacmentID:_pid];
 }
 
+- (void)loadAdWithBidPayload:(NSString *)bidPayload {
+    [self loadAd];
+}
+
 - (BOOL)isReady {
     return [[OMVungleRouter sharedInstance]isAdAvailableForPlacementID:_pid];
 }
@@ -42,7 +46,7 @@
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
         [_delegate rewardedVideoCustomEventDidOpen:self];
     }
-    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
+    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoStart:)]) {
         [_delegate rewardedVideoCustomEventVideoStart:self];
     }
 }

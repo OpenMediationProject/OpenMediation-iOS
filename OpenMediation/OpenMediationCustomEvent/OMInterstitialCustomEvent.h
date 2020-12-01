@@ -21,7 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol OMInterstitialCustomEvent<NSObject>
 @property(nonatomic, weak, nullable) id<interstitialCustomEventDelegate> delegate;
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
+@optional
 - (void)loadAd;
+- (void)loadAdWithBidPayload:(NSString*)bidPayload;
 - (BOOL)isReady;
 - (void)show:(UIViewController*)rootViewController;
 @end

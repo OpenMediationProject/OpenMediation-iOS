@@ -3,25 +3,22 @@
 
 #import "OMIronSourceAdapter.h"
 
+static NSString * const IronSourceAdapterVersion = @"3.1.2";
+static BOOL _mediationAPI = NO;
+
 @implementation OMIronSourceAdapter
 
 + (NSString *)adapterVerison{
     return IronSourceAdapterVersion;
 }
 
-+ (NSString*)adNetworkVersion {
-    NSString *sdkVersion = @"";
-    Class sdkClass = NSClassFromString(@"IronSource");
-    if (sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]) {
-        sdkVersion = [sdkClass sdkVersion];
-    }
-    return sdkVersion;
++ (BOOL)mediationAPI {
+    return _mediationAPI;
 }
 
-+ (NSString*)minimumSupportVersion {
-    return @"6.15.0";
++ (void)setMediationAPI:(BOOL)mediationAPI {
+    _mediationAPI = mediationAPI;
 }
-
 
 + (void)setConsent:(BOOL)consent {
     Class ironsourceClass = NSClassFromString(@"IronSource");
@@ -49,7 +46,7 @@
     if (ironsourceClass && [ironsourceClass respondsToSelector:@selector(setGender:)]) {
         if (userGender == 0) {
             [ironsourceClass setGender:IRONSOURCE_USER_UNKNOWN];
-        }else if (userGender == 1){
+        }else if (userGender == 1) {
             [ironsourceClass setGender:IRONSOURCE_USER_MALE];
         }else{
             [ironsourceClass setGender:IRONSOURCE_USER_FEMALE];
@@ -68,17 +65,12 @@
         return;
     }
     
-    if ([[self adNetworkVersion]compare:[self minimumSupportVersion]options:NSNumericSearch] == NSOrderedAscending) {
-        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.ironsourceadapter"
-                                                    code:505
-                                                userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"The current ad network(%@) is below the minimum required version(%@)",[self adNetworkVersion],[self minimumSupportVersion]]}];
-        completionHandler(error);
-        return;
-    }
-    
-    if(ironsourceClass && [ironsourceClass respondsToSelector:@selector(initISDemandOnly:adUnits:)]){
-        [ironsourceClass initISDemandOnly:key adUnits:@[IS_REWARDED_VIDEO,IS_INTERSTITIAL]];
-        //[ironsourceClass initWithAppKey:key adUnits:@[IS_BANNER]]; // Banner
+    if(ironsourceClass && [ironsourceClass respondsToSelector:@selector(initISDemandOnly:adUnits:)]) {
+        if ([OMIronSourceAdapter mediationAPI]) {
+            [ironsourceClass initWithAppKey:key adUnits:@[IS_BANNER,IS_REWARDED_VIDEO,IS_INTERSTITIAL]];
+        } else {
+            [ironsourceClass initISDemandOnly:key adUnits:@[IS_REWARDED_VIDEO,IS_INTERSTITIAL]];
+        }
         completionHandler(nil);
     }else{
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.ironsourceadapter"

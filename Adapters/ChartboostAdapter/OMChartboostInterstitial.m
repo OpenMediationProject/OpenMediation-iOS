@@ -23,7 +23,7 @@
 
 - (BOOL)isReady {
     BOOL isReady = NO;
-    if(_chbInterstitial && [_chbInterstitial respondsToSelector:@selector(isCached)]){
+    if(_chbInterstitial && [_chbInterstitial respondsToSelector:@selector(isCached)]) {
         isReady = _chbInterstitial.isCached;
     }
     return isReady;
@@ -31,19 +31,19 @@
 
 - (void)show:(UIViewController *)vc {
     if ([self isReady]) {
-        if(_chbInterstitial && [_chbInterstitial respondsToSelector:@selector(showFromViewController:)]){
+        if(_chbInterstitial && [_chbInterstitial respondsToSelector:@selector(showFromViewController:)]) {
             [_chbInterstitial showFromViewController:vc];
         }
     }
 }
 
 - (void)didCacheAd:(CHBCacheEvent *)event error:(nullable CHBCacheError *)error{
-    if([self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]){
+    if([self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
     
     if (error) {
-        if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]){
+        if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
             NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.ads" code:error.code userInfo:@{@"msg":@"There are no ads fill"}];
             [_delegate customEvent:self didFailToLoadWithError:cerror];
         }
@@ -51,15 +51,15 @@
 }
 
 - (void)didShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error{
-    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
         [_delegate interstitialCustomEventDidOpen:self];
     }
-    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]) {
         [_delegate interstitialCustomEventDidShow:self];
     }
     
     if (error) {
-        if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]){
+        if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]) {
             NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.ads" code:error.code userInfo:@{@"msg":@"The ad failed to show"}];
             [_delegate interstitialCustomEventDidFailToShow:self error:cerror];
         }
@@ -67,13 +67,13 @@
 }
 
 - (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error{
-    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClick:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClick:)]) {
         [_delegate interstitialCustomEventDidClick:self];
     }
 }
 
 - (void)didDismissAd:(CHBDismissEvent *)event{
-    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClose:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClose:)]) {
         [_delegate interstitialCustomEventDidClose:self];
     }
 }

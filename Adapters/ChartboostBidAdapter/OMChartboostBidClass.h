@@ -1,10 +1,5 @@
-//
-//  OMChartboostBidClass.h
-//  AdTiming
-//
-//  Created by ylm on 2020/6/18.
-//  Copyright © 2020 AdTiming. All rights reserved.
-//
+// Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
+// Licensed under the GNU Lesser General Public License Version 3
 
 #ifndef OMChartboostBidClass_h
 #define OMChartboostBidClass_h

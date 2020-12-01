@@ -7,11 +7,10 @@
 #import "OMConfig.h"
 #import "OMMediations.h"
 
-#define OPENMEDIATION_INIT_HOST     @"https://omtest.adtiming.com"
 
 @implementation OMInitRequest
 
-+(void)configureWithAppKey:(NSString *)appKey completionHandler:(configureCompletionHandler)completionHandler {
++(void)configureWithAppKey:(NSString *)appKey baseHost:(NSString*)host completionHandler:(configureCompletionHandler)completionHandler {
     if (!appKey) {
         OMLogD(@"appkey nil");
         return;
@@ -19,6 +18,7 @@
     
     [OMConfig sharedInstance].initState = OMInitStateInitializing;
     OMLogD(@"init key = %@" ,appKey);
+    [OMConfig sharedInstance].baseHost = host;
     [OMConfig sharedInstance].appKey = appKey;
     [UIDevice omStoreSessionID];
     NSDictionary *parameters = [self initParameters];
@@ -43,7 +43,7 @@
 }
 
 + (NSString*)initUrl {
-    return [NSString stringWithFormat:@"%@/init?v=1&plat=0&sdkv=%@&k=%@",OPENMEDIATION_INIT_HOST,OPENMEDIATION_SDK_VERSION,[OMConfig sharedInstance].appKey];
+    return [NSString stringWithFormat:@"%@/init?v=1&plat=0&sdkv=%@&k=%@",[OMConfig sharedInstance].baseHost,OPENMEDIATION_SDK_VERSION,[OMConfig sharedInstance].appKey];
 }
 
 

@@ -55,6 +55,7 @@
 }
 
 - (void)omMintegralDidload {
+    NSLog(@"mintegral %@ did load",self.pid);
         if ([self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }

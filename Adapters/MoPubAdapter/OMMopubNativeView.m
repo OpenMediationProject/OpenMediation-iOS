@@ -6,7 +6,7 @@
 @implementation OMMopubNativeView
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    if(self = [super initWithFrame:frame]){
+    if(self = [super initWithFrame:frame]) {
         _mediaView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
         [self addGestureRecognizer:tap];

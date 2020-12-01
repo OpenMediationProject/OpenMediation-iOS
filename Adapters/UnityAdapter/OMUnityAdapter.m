@@ -10,19 +10,6 @@
     return UnityAdapterVersion;
 }
 
-+ (NSString*)adNetworkVersion {
-    NSString *sdkVersion = @"";
-    Class sdkClass = NSClassFromString(@"UnityAds");
-    if(sdkClass && [sdkClass respondsToSelector:@selector(getVersion)]){
-        sdkVersion = [sdkClass getVersion];
-    }
-    return sdkVersion;
-}
-
-+ (NSString*)minimumSupportVersion {
-    return @"3.0.0";
-}
-
 + (void)setConsent:(BOOL)consent {
     
     Class metaDataClass = NSClassFromString(@"UADSMetaData");
@@ -49,14 +36,6 @@
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.unityadapter"
                                                     code:404
                                                 userInfo:@{NSLocalizedDescriptionKey:@"Unity SDK not found"}];
-        completionHandler(error);
-        return;
-    }
-    
-    if ([[self adNetworkVersion]compare:[self minimumSupportVersion]options:NSNumericSearch] == NSOrderedAscending) {
-        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.unityadapter"
-                                                    code:505
-                                                userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"The current ad network(%@) is below the minimum required version(%@)",[self adNetworkVersion],[self minimumSupportVersion]]}];
         completionHandler(error);
         return;
     }

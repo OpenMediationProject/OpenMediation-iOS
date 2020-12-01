@@ -6,7 +6,7 @@
 #import "OMMediationAdapter.h"
 #import "OMMopubClass.h"
 
-static NSString * const MopubAdapterVersion = @"3.1.0";
+static NSString * const MopubAdapterVersion = @"3.1.2";
 
 @interface OMMopubAdapter : NSObject<OMMediationAdapter>
 

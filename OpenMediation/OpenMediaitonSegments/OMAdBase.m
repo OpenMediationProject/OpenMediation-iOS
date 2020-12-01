@@ -15,10 +15,7 @@
 #import "OMEventManager.h"
 #import "OpenMediation.h"
 #import "OMBid.h"
-
-@protocol OMBidCustomEvent<NSObject>
-- (void)loadAdWithBidPayload:(NSString *)bidPayload;
-@end
+#import "OMInterstitialCustomEvent.h"
 
 #define OMDefaultMaxTimeoutMS     5000
 
@@ -92,7 +89,7 @@
             [self loadAdWithAction:action];
         }
     } realTaskCheckValues:@[@"0"] realTask:^{
-        [OpenMediation initWithAppKey:[OMConfig sharedInstance].appKey];
+        [OpenMediation initWithAppKey:[OMConfig sharedInstance].appKey baseHost:[OMConfig sharedInstance].baseHost];
     }];
 }
 
@@ -126,12 +123,11 @@
     for (NSString *instanceID in intances) {
         OMInstance *bidInstance = [config getInstanceByinstanceID:[NSString stringWithFormat:@"%@",instanceID]];
         if (bidInstance) {
-            id adapter = [_instanceAdapters objectForKey:bidInstance.instanceID];
-            if (!(adapter && [adapter respondsToSelector:@selector(isReady)] && [adapter isReady] )) {
-                NSString *adnName = [config.adnNameMap objectForKey:@(bidInstance.adnID)];
-                NSString *appKey = [config.adnAppkeyMap objectForKey:@(bidInstance.adnID)];
-                OMBidNetworkItem *bidNetworkItem = [OMBidNetworkItem networkItemWithName:adnName appKey:appKey placementID:bidInstance.adnPlacementID timeOut:((bidInstance.hbt<1000)?OMDefaultMaxTimeoutMS:bidInstance.hbt) test:OMBidTest extra:@{@"instanceID":bidInstance.instanceID,@"platformID":[NSNumber numberWithInteger:bidInstance.adnID],@"prefix":@"OM"}];
-                [bidItems addObject:bidNetworkItem];
+            NSString *adnName = [config.adnNameMap objectForKey:@(bidInstance.adnID)];
+            NSString *appKey = [config.adnAppkeyMap objectForKey:@(bidInstance.adnID)];
+            OMBidNetworkItem *bidNetworkItem = [OMBidNetworkItem networkItemWithName:adnName appKey:appKey placementID:bidInstance.adnPlacementID timeOut:((bidInstance.hbt<1000)?OMDefaultMaxTimeoutMS:bidInstance.hbt) test:OMBidTest extra:@{@"instanceID":bidInstance.instanceID,@"adnID":[NSNumber numberWithInteger:bidInstance.adnID],@"prefix":@"OM"}];
+            [bidItems addObject:bidNetworkItem];
+            if (bidInstance.adnID == OMAdNetworkChartboostBid) {
                 [self addEvent:INSTANCE_BID_REQUEST instance:bidInstance.instanceID extraData:nil];
             }
         }
@@ -147,9 +143,13 @@
     if (unit) {
         NSMutableArray *bidRequestInstances = [NSMutableArray array];
         for (NSString *instanceID in unit.hbInstances) {
-            if ( (unit.adFormat == OpenMediationAdFormatRewardedVideo || unit.adFormat == OpenMediationAdFormatInterstitial) && [self.bidLoadInstances objectForKey:instanceID]) {
+            OMBidResponse *bidResponse = [self.bidLoadInstances objectForKey:instanceID];
+            if ( (unit.adFormat == OpenMediationAdFormatRewardedVideo || unit.adFormat == OpenMediationAdFormatInterstitial) && (bidResponse && (bidResponse.expire <= 0 || (bidResponse.expire > (NSInteger)([NSDate date].timeIntervalSince1970*1000))))) {
                 [bidSuccessResponses setObject:[self.bidLoadInstances objectForKey:instanceID] forKey:instanceID];
             } else {
+                if (bidResponse) {
+                    [bidResponse notifyLossWithReasonCode:OMBidLossedReasonCodeNotHiggestBidder];
+                }
                 [bidRequestInstances addObject:instanceID];
             }
         }
@@ -208,6 +208,11 @@
     if (action == OMLoadActionTimer) {
         self.replenishLoad = YES;
     }
+    if (_adFormat == OpenMediationAdFormatCrossPromotion) {
+        [self.adLoader loadWithPriority:@[[[OMConfig sharedInstance]checkinstanceIDWithAdNetwork:OMAdNetworkCrossPromotion adnPlacementID:self.pid]]]; //交叉推广不请求wf接口
+        return;
+    }
+    
     [self getBidResponses:action completionHandler:^(NSArray * _Nonnull tokens,NSDictionary * _Nonnull bidResponses) {
         
         self.bidInstances = [bidResponses copy];
@@ -232,6 +237,9 @@
         [OMWaterfallRequest requestDataWithPid:self.pid size:self.size actionType:action bidResponses:bids tokens:tokens instanceState:[self allInstanceState] completionHandler:^(NSDictionary * _Nullable ins, NSError * _Nullable error) {
             if (!error) {
                 self.abTest = [[ins objectForKey:@"abt"]boolValue];
+                
+                [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:self.abTest] forKey:[NSString stringWithFormat:@"%@_abt",self.pid]];
+                [[NSUserDefaults standardUserDefaults]synchronize];
                 
                 NSMutableDictionary *addBidResponse = [NSMutableDictionary dictionary];
                 if ([ins objectForKey:@"bidresp"] && [[ins objectForKey:@"bidresp"]isKindOfClass:[NSArray class]] ) {
@@ -296,7 +304,7 @@
         [self addEvent:INSTANCE_NOT_FOUND instance:instanceID extraData:nil];
         [self instanceLoadBlockWithError:OMErrorLoadInstanceNotFound instanceID:instanceID];
     } else {
-        if ([[config adnAppKey:adnID]length]>0 || adnID == OMAdNetworkMopub) {
+        if ([[config adnAppKey:adnID]length]>0 || adnID == OMAdNetworkMopub || adnID == OMAdNetworkCrossPromotion) {
             if (![[OMMediations sharedInstance]adnSDKInitialized:adnID]) {
                 //mediation init
                 [self addEvent:INSTANCE_INIT_START instance:instanceID extraData:nil];
@@ -310,7 +318,7 @@
                     } else {
                         //init failed
                         OMLogD(@"%@ %@ init failed: %@",self.pid,instanceID,error);
-                        [self addEvent:INSTANCE_INIT_FAILED instance:instanceID extraData:@{@"msg":[error description]}];
+                        [self addEvent:INSTANCE_INIT_FAILED instance:instanceID extraData:@{@"msg":OM_SAFE_STRING([error description])}];
                         [weakSelf instanceLoadBlockWithError:OMErrorLoadInitFailed instanceID:instanceID];
                     }
                 }];
@@ -333,7 +341,7 @@
     
     if (adapter && [adapter respondsToSelector:@selector(isReady)] && [adapter isReady]) {
         OMLogD(@"%@ load instance %@ ready true",self.pid,instanceID);
-        if (instanceBidResponse && (adnID == OMAdNetworkChartboostBid)) {
+        if (instanceBidResponse && (adnID == OMAdNetworkChartboostBid || adnID == OMAdNetworkVungle)) {
             @synchronized (self) {
                 [_bidLoadInstances setObject:instanceBidResponse forKey:instanceID];
             }
@@ -384,14 +392,13 @@
     if ((_adFormat < OpenMediationAdFormatRewardedVideo) || (_adFormat == OpenMediationAdFormatSplash)) {
         [self omDidLoad];
     } else {
-        [self addEvent:AVAILABLE_FROM_CACHE instance:instanceID extraData:nil];
         [self notifyAvailable:YES];
     }
 }
 
 - (void)omLoadOptimalFill:(NSString*)instanceID {
     OMLogD(@"%@ Optimal fill instance %@",self.pid,instanceID);
-    [self notifyAvailable:YES];
+//    [self notifyAvailable:YES];
 }
 
 - (void)omLoadNoFill {
@@ -638,6 +645,8 @@
         [[OMInstanceContainer sharedInstance]removeImpressionInstance:instanceID];
         [self addEvent:INSTANCE_SHOW instance:instanceID extraData:nil];
     }
+    [[NSUserDefaults standardUserDefaults]setObject:OM_SAFE_STRING(self.showSceneID) forKey:[NSString stringWithFormat:@"%@_scene",self.pid]];
+    [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
 - (void)adshow:(id)instanceAdapter {
@@ -729,6 +738,15 @@
 
 #pragma mark - addEvent
 
+- (void)customEventAddEvent:(NSObject*)adapter event:(NSDictionary*)body {
+    if([body isKindOfClass:[NSDictionary class]]&& [body objectForKey:@"eid"]) {
+        NSInteger eid = [[body objectForKey:@"eid"]integerValue];
+        NSString *adapterInstanceID = [self checkInstanceIDWithAdapter:adapter];
+        [self addEvent:eid instance:adapterInstanceID extraData:[body copy]];
+    }
+}
+
+
 - (void)addEvent:(NSInteger)eventID instance:(NSString*)instanceID extraData:data {
     
     NSMutableDictionary *wrapperData = [NSMutableDictionary dictionary];
@@ -744,9 +762,9 @@
         OMAdNetwork adnID = [config getInstanceAdNetwork:instanceID];
         [wrapperData setObject:[NSNumber omStr2Number:instanceID] forKey:@"iid"];
         [wrapperData setObject:[NSNumber numberWithInteger:adnID] forKey:@"mid"];
-        if([self.bidLoadInstances objectForKey:instanceID]){
+        if([self.bidLoadInstances objectForKey:instanceID]) {
             OMBidResponse *bidResponse = [self.bidLoadInstances objectForKey:instanceID];
-            if(bidResponse){
+            if(bidResponse) {
                 [wrapperData setObject:[NSNumber numberWithInt:1] forKey:@"bid"];
                 [wrapperData setObject:[NSNumber numberWithDouble:bidResponse.price] forKey:@"price"];
                 [wrapperData setObject:bidResponse.currency forKey:@"cur"];

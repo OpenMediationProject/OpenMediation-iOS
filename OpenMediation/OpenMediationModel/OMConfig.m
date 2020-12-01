@@ -29,13 +29,14 @@ static OMConfig *_instance = nil;
                            @(OpenMediationAdFormatNative):@"Native",\
                            @(OpenMediationAdFormatInterstitial):@"Interstitial",\
                            @(OpenMediationAdFormatRewardedVideo):@"RewardedVideo"};
+        _baseHost = @"";
         _appKey = @"";
         _hbUrl = @"";
-        _clUrl = @"";
         _lrUrl = @"";
         _icUrl = @"";
         _iapUrl = @"";
         _erUrl = @"";
+        _cdUrl = @"";
         _openDebug = YES;
         _adnNameMap = [NSMutableDictionary dictionary];
         _adnAppkeyMap = [NSMutableDictionary dictionary];
@@ -96,11 +97,14 @@ static OMConfig *_instance = nil;
 
 - (void)loadApi:(NSDictionary*)apiData {
     _hbUrl = OM_SAFE_STRING([apiData objectForKey:@"hb"]);
-    _clUrl = OM_SAFE_STRING([apiData objectForKey:@"wf"]);
+    _wfUrl = OM_SAFE_STRING([apiData objectForKey:@"wf"]);
     _lrUrl = OM_SAFE_STRING([apiData objectForKey:@"lr"]);
     _icUrl = OM_SAFE_STRING([apiData objectForKey:@"ic"]);
     _iapUrl = OM_SAFE_STRING([apiData objectForKey:@"iap"]);
     _erUrl = OM_SAFE_STRING([apiData objectForKey:@"er"]);
+    _cdUrl = OM_SAFE_STRING([apiData objectForKey:@"cd"]);
+    _clUrl = OM_SAFE_STRING([apiData objectForKey:@"cpcl"]);
+    _plUrl = OM_SAFE_STRING([apiData objectForKey:@"cppl"]);
 }
 
 - (void)loadMediation:(NSArray *)mediationData {

@@ -34,8 +34,8 @@
 
 - (void)show:(UIViewController*)vc {
     Class mopubClass = NSClassFromString(@"MPRewardedVideo");
-    if (mopubClass && [mopubClass respondsToSelector:@selector(presentRewardedVideoAdForAdUnitID:fromViewController:withReward:)]) {
-        [mopubClass presentRewardedVideoAdForAdUnitID:_pid fromViewController:vc withReward:nil];
+    if (mopubClass && [mopubClass respondsToSelector:@selector(presentRewardedVideoAdForAdUnitID:fromViewController:withReward:)] && [mopubClass respondsToSelector:@selector(availableRewardsForAdUnitID:)]) {
+        [mopubClass presentRewardedVideoAdForAdUnitID:_pid fromViewController:vc withReward:[mopubClass availableRewardsForAdUnitID:_pid][0]];
     }
 }
 

@@ -37,12 +37,8 @@
     [request setHTTPMethod:httpMethod];
     [request setHTTPBody:body];
     
-    if (requestType == OMRequestTypeNormal) {
-        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    } else {
-        [request setValue:@"application/octet-stream" forHTTPHeaderField:@"Content-Type"];
-    }
-    //[request setValue:@"1" forHTTPHeaderField:@"debug"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:@"gzip" forHTTPHeaderField:@"Content-Encoding"];
     
     dispatch_queue_t requestQueue = dispatch_queue_create("com.om.request", DISPATCH_QUEUE_SERIAL);
     dispatch_async(requestQueue, ^{

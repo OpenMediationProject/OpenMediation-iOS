@@ -10,25 +10,6 @@
     return VungleAdapterVersion;
 }
 
-+ (NSString*)adNetworkVersion {
-    NSString *sdkVersion = @"";
-    Class sdkClass = NSClassFromString(@"VungleSDK");
-    if (sdkClass && [sdkClass respondsToSelector:@selector(sharedSDK)]) {
-        VungleSDK *vungle = [sdkClass sharedSDK];
-        if (vungle && [vungle respondsToSelector:@selector(debugInfo)]) {
-            NSDictionary *dic = [vungle debugInfo];
-            if (dic[@"version"]) {
-                sdkVersion = dic[@"version"];
-            }
-        }
-    }
-    return sdkVersion;
-}
-
-+ (NSString*)minimumSupportVersion {
-    return @"6.3.2";
-}
-
 + (void)setConsent:(BOOL)consent {
     Class vungleClass = NSClassFromString(@"VungleSDK");
     if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)]) {
@@ -61,21 +42,24 @@
         return;
     }
     
-    if ([[self adNetworkVersion]compare:[self minimumSupportVersion]options:NSNumericSearch] == NSOrderedAscending) {
-        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.vungleadapter"
-                                                    code:505
-                                                userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"The current ad network(%@) is below the minimum required version(%@)",[self adNetworkVersion],[self minimumSupportVersion]]}];
-        completionHandler(error);
-        return;
-    }
-    
-    if(vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)] && [key length]>0){
+    if(vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)] && [key length]>0) {
         VungleSDK *vungle = [vungleClass sharedSDK];
-        if(vungle && [vungle respondsToSelector:@selector(startWithAppId:error:)]){
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        SEL setPluginNameSelecotr = @selector(setPluginName:version:);
+        if ([vungle respondsToSelector:setPluginNameSelecotr]) {
+            [vungle performSelector: setPluginNameSelecotr
+                                                    withObject: @"vunglehbs"
+                                                    withObject: @"1.0.0"];
+
+        }
+#pragma clang diagnostic pop
+        if(vungle && [vungle respondsToSelector:@selector(startWithAppId:error:)]) {
             NSError *error = nil;
             BOOL start = [vungle startWithAppId:key error:&error];
             vungle.delegate = [OMVungleRouter sharedInstance];
-            if(start){
+            if(start) {
                 completionHandler(nil);
             }else{
                 completionHandler(error);

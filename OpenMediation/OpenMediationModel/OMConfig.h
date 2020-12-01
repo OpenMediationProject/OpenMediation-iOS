@@ -18,15 +18,19 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 @property(nonatomic, assign) OMInitState initState;
 @property(nonatomic, assign) BOOL initSuccess;
 
+@property(nonatomic, copy) NSString *baseHost;
 @property(nonatomic, copy) NSString *appKey;
 
 @property(nonatomic, assign) BOOL openDebug;
-@property(nonatomic, copy) NSString *clUrl;
+@property(nonatomic, copy) NSString *wfUrl;
 @property(nonatomic, copy) NSString *lrUrl;
 @property(nonatomic, copy) NSString *icUrl;
 @property(nonatomic, copy) NSString *iapUrl;
 @property(nonatomic, copy) NSString *erUrl;
+@property(nonatomic, copy) NSString *cdUrl;
 @property(nonatomic, copy) NSString *hbUrl;
+@property(nonatomic, copy) NSString *clUrl;
+@property(nonatomic, copy) NSString *plUrl;
 
 @property(nonatomic, strong) NSMutableDictionary *adnNameMap;
 @property(nonatomic, strong) NSMutableDictionary *adnAppkeyMap;

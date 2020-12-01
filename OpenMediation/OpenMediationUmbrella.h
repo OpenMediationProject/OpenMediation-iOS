@@ -18,3 +18,6 @@
 
 #import <OpenMediation/OMSplash.h>
 #import <OpenMediation/OMSplashDelegate.h>
+
+#import <OpenMediation/OMCrossPromotion.h>
+#import <OpenMediation/OMCrossPromotionDelegate.h>

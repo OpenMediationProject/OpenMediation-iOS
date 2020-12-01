@@ -28,10 +28,10 @@ extern NSString *kOpenMediatonInitSuccessNotification;
 @interface OpenMediation : NSObject
 
 /// Initializes OpenMediation's SDK with all the ad types that are defined in the platform.
-+ (void)initWithAppKey:(NSString*)appKey;
++ (void)initWithAppKey:(NSString*)appKey baseHost:(NSString*)host;
 
 /// Initializes OpenMediation's SDK with the requested ad types.
-+ (void)initWithAppKey:(NSString *)appKey adFormat:(OpenMediationAdFormat)initAdFormats;
++ (void)initWithAppKey:(NSString *)appKey baseHost:(NSString*)host adFormat:(OpenMediationAdFormat)initAdFormats ;
 
 /// Check that `OpenMediation` has been initialized
 + (BOOL)isInitialized;
@@ -44,6 +44,12 @@ extern NSString *kOpenMediatonInitSuccessNotification;
 
 /// Set the gender of the current user
 + (void)setUserGender:(OMGender)userGender;
+
+///Send conversion attribution data to server
++ (void)sendAFConversionData:(NSDictionary*)conversionInfo;
+
+///Send  deep link attribution data to server
++ (void)sendAFDeepLinkData:(NSDictionary*)attributionData;
 
 /// setUserConsent "NO" is Refuse，"YES" is Accepted. //GDPR
 /// According to the GDPR, set method of this property must be called before "initWithAppKey:", or by default will collect user's information.

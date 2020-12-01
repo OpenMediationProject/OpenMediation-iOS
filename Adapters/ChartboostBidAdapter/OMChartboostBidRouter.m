@@ -1,10 +1,5 @@
-//
-//  OMChartboostBidRouter.m
-//  AdTimingChartboostBidAdapter
-//
-//  Created by ylm on 2020/6/30.
-//  Copyright © 2020 AdTiming. All rights reserved.
-//
+// Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
+// Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMChartboostBidRouter.h"
 
@@ -74,7 +69,7 @@ static OMChartboostBidRouter * _instance = nil;
 - (void)showAd:(NSString *)pid withVC:(UIViewController*)vc {
     if ([self isReady:pid]) {
         id <HeliumInterstitialAd> heliumInterstitial = [_placementAdMap objectForKey:pid];
-        if(heliumInterstitial && [heliumInterstitial respondsToSelector:@selector(showAdWithViewController:)]){
+        if(heliumInterstitial && [heliumInterstitial respondsToSelector:@selector(showAdWithViewController:)]) {
             [heliumInterstitial showAdWithViewController:vc];
         }
     }

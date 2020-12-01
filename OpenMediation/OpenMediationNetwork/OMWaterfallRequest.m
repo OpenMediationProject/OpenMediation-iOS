@@ -20,7 +20,7 @@
     NSDictionary *parameters = [self wfParametersWithPid:pid size:size actionType:actionType bidResponses:bidResponses tokens:tokens instanceState:instanceState];
     NSError *jsonError;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:&jsonError];
-    if (jsonData && !jsonError && [[OMConfig sharedInstance].clUrl length]>0) {
+    if (jsonData && !jsonError && [[OMConfig sharedInstance].wfUrl length]>0) {
         [OMRequest postWithUrl:[self waterfallUrl] data:jsonData completionHandler:^(NSObject *object, NSError *error) {
             if (!error) {
                 if ([object isKindOfClass:[NSDictionary class]]) {
@@ -36,7 +36,7 @@
 }
 
 + (NSString*)waterfallUrl {
-    return [NSString stringWithFormat:@"%@?v=1&plat=0&sdkv=%@",[OMConfig sharedInstance].clUrl,OPENMEDIATION_SDK_VERSION];
+    return [NSString stringWithFormat:@"%@?v=1&plat=0&sdkv=%@",[OMConfig sharedInstance].wfUrl,OPENMEDIATION_SDK_VERSION];
 }
 
 + (NSDictionary*)wfParametersWithPid:(NSString*)pid

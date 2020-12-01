@@ -46,6 +46,7 @@ typedef NS_ENUM(NSInteger, OMInstanceLoadState) {
 @property (nonatomic, assign) OpenMediationAdFormat adFormat;
 @property (nonatomic, assign) OMLoadAction loadAction;
 
+@property (nonatomic, assign) NSInteger configCacheCount;
 @property (nonatomic, assign) NSInteger cacheCount;
 @property (nonatomic, assign) NSInteger timeoutSecond;
 @property (nonatomic, strong) NSArray *priorityList;

@@ -32,12 +32,15 @@
 
 @interface MainViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *mainTableView;
+@property(nonatomic,strong) NSArray *titles;
+@property(nonatomic,strong) NSArray *controllers;
 @end
 
 @implementation MainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.titles = @[@"Banner",@"Native",@"Interstitial",@"RewardedVideo",@"Splash",@"CrossPromotion"];
     self.title = @"Main";
     self.view.backgroundColor = [UIColor whiteColor];
     [self createViews];
@@ -62,33 +65,12 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return self.titles.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
-    switch (indexPath.row) {
-        case 0:
-            cell.textLabel.text = @"Banner";
-            break;
-        case 1:
-            cell.textLabel.text = @"Native";
-            break;
-        case 2:
-            cell.textLabel.text = @"Interstitial";
-            break;
-        case 3:
-            cell.textLabel.text = @"RewardedVideo";
-            break;
-        case 4:
-            cell.textLabel.text = @"Splash";
-            break;
-        case 5:
-            cell.textLabel.text = @"Iap test";
-            break;
-        default:
-            break;
-    }
+    cell.textLabel.text = self.titles[indexPath.row];
     return cell;
 }
 
@@ -96,7 +78,7 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSArray *vcGroup = @[@"BannerViewController",@"NativeViewController",@"InterstitialViewController",@"RewardedVideoViewController",@"SplashViewController"];
+    NSArray *vcGroup = @[@"BannerViewController",@"NativeViewController",@"InterstitialViewController",@"RewardedVideoViewController",@"SplashViewController",@"CrossPromotionViewController"];
     if (indexPath.row < vcGroup.count) {
         Class vcClass = NSClassFromString(vcGroup[indexPath.row]);
         UIViewController *vc = [[vcClass alloc] init];

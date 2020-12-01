@@ -17,7 +17,7 @@ static OMIronSourceRouter * _instance = nil;
 - (instancetype)init{
     if (self = [super init]) {
         Class IronSourceClass = NSClassFromString(@"IronSource");
-        if (IronSourceClass && [IronSourceClass respondsToSelector:@selector(setISDemandOnlyInterstitialDelegate:)] && [IronSourceClass respondsToSelector:@selector(setISDemandOnlyRewardedVideoDelegate:)]){
+        if (IronSourceClass && [IronSourceClass respondsToSelector:@selector(setISDemandOnlyInterstitialDelegate:)] && [IronSourceClass respondsToSelector:@selector(setISDemandOnlyRewardedVideoDelegate:)]) {
             [IronSourceClass setISDemandOnlyInterstitialDelegate:self];
             [IronSourceClass setISDemandOnlyRewardedVideoDelegate:self];
         }
@@ -38,7 +38,7 @@ static OMIronSourceRouter * _instance = nil;
  */
 - (void)interstitialDidLoad:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidload)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidload)]) {
         [delegate OMIronSourceDidload];
     }
 }
@@ -50,7 +50,7 @@ static OMIronSourceRouter * _instance = nil;
  */
 - (void)interstitialDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidFailToLoad:)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidFailToLoad:)]) {
         [delegate OMIronSourceDidFailToLoad:error];
     }
 }
@@ -60,7 +60,7 @@ static OMIronSourceRouter * _instance = nil;
  */
 - (void)interstitialDidOpen:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidStart)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidStart)]) {
         [delegate OMIronSourceDidStart];
     }
 }
@@ -70,7 +70,7 @@ static OMIronSourceRouter * _instance = nil;
  */
 - (void)interstitialDidClose:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidFinish)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidFinish)]) {
         [delegate OMIronSourceDidFinish];
     }
 }
@@ -82,7 +82,7 @@ static OMIronSourceRouter * _instance = nil;
  */
 - (void)interstitialDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidFailToShow:)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidFailToShow:)]) {
         [delegate OMIronSourceDidFailToShow:error];
     }
 }
@@ -92,7 +92,7 @@ static OMIronSourceRouter * _instance = nil;
  */
 - (void)didClickInterstitial:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidClick)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidClick)]) {
         [delegate OMIronSourceDidClick];
     }
 }
@@ -102,52 +102,52 @@ static OMIronSourceRouter * _instance = nil;
 
 - (void)rewardedVideoDidLoad:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidload)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidload)]) {
         [delegate OMIronSourceDidload];
     }
 }
 
 - (void)rewardedVideoDidFailToLoadWithError:(NSError *)error instanceId:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidFailToLoad:)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidFailToLoad:)]) {
         [delegate OMIronSourceDidFailToLoad:error];
     }
 }
 
 - (void)rewardedVideoDidOpen:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidStart)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidStart)]) {
         [delegate OMIronSourceDidStart];
     }
 }
 
 - (void)rewardedVideoDidClose:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceVideoEnd)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceVideoEnd)]) {
         [delegate OMIronSourceVideoEnd];
     }
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidFinish)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidFinish)]) {
         [delegate OMIronSourceDidFinish];
     }
 }
 
 - (void)rewardedVideoDidFailToShowWithError:(NSError *)error instanceId:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidFailToShow:)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidFailToShow:)]) {
         [delegate OMIronSourceDidFailToShow:error];
     }
 }
 
 - (void)rewardedVideoDidClick:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidClick)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidClick)]) {
         [delegate OMIronSourceDidClick];
     }
 }
 
 - (void)rewardedVideoAdRewarded:(NSString *)instanceId{
     id<OMIronSourceAdapterDelegate> delegate = [_placementDelegateMap objectForKey:instanceId];
-    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidReceiveReward)]){
+    if(delegate && [delegate respondsToSelector:@selector(OMIronSourceDidReceiveReward)]) {
         [delegate OMIronSourceDidReceiveReward];
     }
 }

@@ -27,20 +27,6 @@ static NSString *mtgUserGender;
     return MyTargetAdapterVersion;
 }
 
-+ (NSString*)adNetworkVersion {
-    NSString *sdkVersion = @"";
-    Class sdkClass = NSClassFromString(@"MTRGVersion");
-    if (sdkClass && [sdkClass respondsToSelector:@selector(currentVersion)]) {
-        sdkVersion = [sdkClass currentVersion];
-    }
-    return sdkVersion;
-}
-
-+ (NSString*)minimumSupportVersion {
-    return @"5.4.8";
-}
-
-
 + (void)setConsent:(BOOL)consent {
     Class privacyClass = NSClassFromString(@"MTRGPrivacy");
     if (privacyClass && [privacyClass respondsToSelector:@selector(setConsent:)]) {
@@ -72,14 +58,6 @@ static NSString *mtgUserGender;
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.mytargetadapter"
                                                     code:404
                                                 userInfo:@{NSLocalizedDescriptionKey:@"MyTarget SDK not found"}];
-        completionHandler(error);
-        return;
-    }
-    
-    if ([[self adNetworkVersion]compare:[self minimumSupportVersion]options:NSNumericSearch] == NSOrderedAscending) {
-        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.mytargetadapter"
-                                                    code:505
-                                                userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"The current ad network(%@) is below the minimum required version(%@)",[self adNetworkVersion],[self minimumSupportVersion]]}];
         completionHandler(error);
         return;
     }

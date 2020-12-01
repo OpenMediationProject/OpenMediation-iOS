@@ -9,7 +9,6 @@
 - (instancetype)initWithUnitID:(NSString *)unitID sceneData:(NSDictionary *)sceneData {
     if (self = [super init]) {
         _unitID = unitID;
-        _sceneID = [NSString stringWithFormat:@"%@", sceneData[@"id"]];
         _sceneID = [NSString stringWithFormat:@"%@",sceneData[@"id"]];
         _sceneName = OM_SAFE_STRING(sceneData[@"n"]);
         _defaultScene = [sceneData[@"isd"]boolValue];

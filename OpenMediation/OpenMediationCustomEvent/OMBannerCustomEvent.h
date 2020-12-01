@@ -18,7 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol OMBannerCustomEvent<NSObject>
 @property(nonatomic, weak, nullable) id<bannerCustomEventDelegate> delegate;
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController;
+@optional
 - (void)loadAd;
+- (void)loadAdWithBidPayload:(NSString*)bidPayload;
 @end
 
 NS_ASSUME_NONNULL_END

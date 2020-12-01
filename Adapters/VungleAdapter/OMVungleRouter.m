@@ -3,6 +3,7 @@
 
 #import "OMVungleRouter.h"
 
+
 static OMVungleRouter * _instance = nil;
 
 
@@ -20,6 +21,7 @@ static OMVungleRouter * _instance = nil;
         Class vungleClass = NSClassFromString(@"VungleSDK");
         if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)]) {
             _vungleSDK = [vungleClass sharedSDK];
+            ((VungleSDK*)_vungleSDK).headerBiddingDelegate = self;
         }
         _placementDelegateMap = [NSMutableDictionary dictionary];
     }
@@ -83,6 +85,8 @@ static OMVungleRouter * _instance = nil;
 
 #pragma mark -- VungleSDKDelegate
 - (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable placementID:(nullable NSString *)placementID error:(nullable NSError *)error {
+    
+    NSLog(@"vungle bid %@ isadplayable %zd",placementID, (NSInteger)isAdPlayable);
     
     id<OMVungleAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementID];
     
@@ -148,4 +152,24 @@ static OMVungleRouter * _instance = nil;
     }
 }
 
+#pragma mark - VungleSDKHeaderBidding
+
+- (void)placementWillBeginCaching:(NSString *)placement
+                     withBidToken:(NSString *)bidToken {
+    NSLog(@"vungle bid begin cache %@ token %@",placement, bidToken);
+}
+
+- (void)placementPrepared:(NSString *)placement
+             withBidToken:(NSString *)bidToken {
+    NSLog(@"vungle bid preload %@ token %@",placement, bidToken);
+}
+
+- (void)vungleSDKDidInitialize {
+    NSString *token = @"";
+    Class vungleSDK = NSClassFromString(@"VungleSDK");
+    if (vungleSDK &&  [vungleSDK respondsToSelector:@selector(sharedSDK)] && [vungleSDK instancesRespondToSelector:@selector(currentSuperToken)]) {
+        token = [[vungleSDK sharedSDK] currentSuperToken];
+    }
+
+}
 @end

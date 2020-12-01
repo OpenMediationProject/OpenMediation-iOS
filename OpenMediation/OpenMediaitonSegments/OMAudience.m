@@ -27,7 +27,7 @@ static OMAudience * _instance = nil;
     __weak __typeof(self) weakSelf = self;
     [OMIAPRequest iapWithPurchase:amout total:_purchaseAmount currency:currencyUnit completionHandler:^(NSDictionary * _Nullable object, NSError * _Nullable error) {
         if (!error && [object isKindOfClass:[NSDictionary class]] && weakSelf) {
-            weakSelf.purchaseAmount = [[object objectForKey:@"iap_usd"]floatValue];
+            weakSelf.purchaseAmount = [[object objectForKey:@"iapUsd"]floatValue];
             [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithFloat:weakSelf.purchaseAmount] forKey:@"iap_usd"];
             [[NSUserDefaults standardUserDefaults]synchronize];
         }

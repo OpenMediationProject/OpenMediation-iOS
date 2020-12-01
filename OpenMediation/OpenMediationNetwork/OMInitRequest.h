@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMInitRequest : NSObject
 
-+(void)configureWithAppKey:(NSString *)appKey completionHandler:(configureCompletionHandler)completionHandler;
++(void)configureWithAppKey:(NSString *)appKey baseHost:(NSString*)host completionHandler:(configureCompletionHandler)completionHandler;
 
 @end
 

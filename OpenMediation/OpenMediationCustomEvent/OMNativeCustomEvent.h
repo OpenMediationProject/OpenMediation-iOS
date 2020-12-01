@@ -18,7 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol OMNativeCustomEvent<NSObject>
 @property (nonatomic, weak) id<nativeCustomEventDelegate> delegate;
 - (instancetype)initWithParameter:(NSDictionary*)adParameter rootVC:(UIViewController*)rootViewController;
+@optional
 - (void)loadAd;
+- (void)loadAdWithBidPayload:(NSString*)bidPayload;
 @end
 
 NS_ASSUME_NONNULL_END

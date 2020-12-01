@@ -1,10 +1,5 @@
-//
-//  OMChartboostBidRewardedVideo.m
-//  AdTimingHeliumAdapter
-//
-//  Created by ylm on 2020/6/18.
-//  Copyright © 2020 AdTiming. All rights reserved.
-//
+// Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
+// Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMChartboostBidRewardedVideo.h"
 
@@ -58,22 +53,22 @@
 
 - (void)omChartboostBidDidShowWithError:(HeliumError *)error {
     if (error) {
-        if(error && _delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]){
+        if(error && _delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
             NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.bid" code:error.errorCode userInfo:@{@"msg":@"The ad failed to show"}];
             [_delegate rewardedVideoCustomEventDidFailToShow:self withError:cerror];
         }
     } else {
-        if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]){
+        if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
             [_delegate rewardedVideoCustomEventDidOpen:self];
         }
-        if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoStart:)]){
+        if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoStart:)]) {
             [_delegate rewardedVideoCustomEventVideoStart:self];
         }
     }
 }
 
 - (void)omChartboostBidDidClickWithError:(HeliumError *)error {
-    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
         [_delegate rewardedVideoCustomEventDidClick:self];
     }
     
@@ -81,17 +76,17 @@
 
 - (void)omChartboostBidDidCloseWithError:(HeliumError *)error {
     
-    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]) {
         [_delegate rewardedVideoCustomEventVideoEnd:self];
     }
     
-    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]) {
         [_delegate rewardedVideoCustomEventDidClose:self];
     }
 }
 
 - (void)omChartboostBidDidGetReward:(NSInteger)reward {
-    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
         [_delegate rewardedVideoCustomEventDidReceiveReward:self];
     }
 }

@@ -57,8 +57,12 @@
     [deviceInfo setValue:[NSNumber numberWithInteger:[UIDevice omFreeRamSize]] forKey:@"fm"];
     [deviceInfo setValue:[NSNumber numberWithInteger:[UIDevice omBatteryLevel]] forKey:@"battery"];
     [deviceInfo setValue:[NSNumber numberWithInt:(int)[UIDevice omLowPowerMode]] forKey:@"lowp"];
-    [deviceInfo setValue:[NSNumber numberWithLongLong:[UIDevice omRamSize]] forKey:@"ram"];
+    [deviceInfo setValue:[NSNumber numberWithLongLong:[UIDevice omMemorySize]] forKey:@"ram"];
     [deviceInfo setValue:[NSNumber numberWithLongLong:[UIDevice omBootTime]] forKey:@"btime"];
+    
+    if (!OM_STR_EMPTY([UIDevice omAFUid])) {
+        [deviceInfo setValue:[UIDevice omAFUid] forKey:@"afid"];
+    }
     
     if ([self regs]) {
         [deviceInfo setValue:[self regs] forKey:@"regs"];

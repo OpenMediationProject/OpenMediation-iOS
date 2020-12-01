@@ -9,7 +9,7 @@
 - (instancetype)initWithParameter:(NSDictionary*)adParameter
 {
     if (self = [super init]) {
-        if(adParameter && [adParameter isKindOfClass:[NSDictionary class]]){
+        if(adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
             _pid = [adParameter objectForKey:@"pid"];
             _appID = [adParameter objectForKey:@"appKey"];
         }
@@ -66,23 +66,23 @@
 }
 
 - (void)unifiedInterstitialDidPresentScreen:(GDTUnifiedInterstitialAd *)unifiedInterstitial{
-    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
         [_delegate interstitialCustomEventDidOpen:self];
     }
-    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]) {
         [_delegate interstitialCustomEventDidShow:self];
     }
 }
 
 - (void)unifiedInterstitialFailToPresent:(GDTUnifiedInterstitialAd *)unifiedInterstitial error:(NSError *)error{
-    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]) {
         [_delegate interstitialCustomEventDidFailToShow:self error:error];
     }
 }
 
 - (void)unifiedInterstitialDidDismissScreen:(GDTUnifiedInterstitialAd *)unifiedInterstitial{
     // 广告结束
-    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClose:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClose:)]) {
         [_delegate interstitialCustomEventDidClose:self];
     }
 }

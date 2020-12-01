@@ -7,10 +7,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMIronSourceInterstitial : NSObject<OMInterstitialCustomEvent,OMIronSourceAdapterDelegate>
+@interface OMIronSourceInterstitial : NSObject<OMInterstitialCustomEvent,ISInterstitialDelegate>
 
 @property (nonatomic, copy) NSString *pid;
-@property (nonatomic, copy) NSString *appID;
 @property (nonatomic, weak) id<interstitialCustomEventDelegate> delegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;

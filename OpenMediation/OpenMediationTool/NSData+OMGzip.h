@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSData *)omGzipData;
 - (NSData *)omUnzipData;
 - (BOOL)omIsGzippedData;
-
+- (NSData *)omZlibInflate;
+- (NSData *)omZlibDeflate;
 @end
 
 NS_ASSUME_NONNULL_END

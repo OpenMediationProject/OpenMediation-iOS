@@ -9,7 +9,6 @@
     if (self = [super init]) {
         if (adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
             _pid = [adParameter objectForKey:@"pid"];
-            _appID = @"";
         }
     }
     return self;
@@ -40,7 +39,7 @@
 -(BOOL)isReady {
     if (_ivAdManager) {
         return [_ivAdManager isVideoReadyToPlayWithPlacementId:@"" unitId:_pid];
-    }else if (_ivBidAdManager){
+    }else if (_ivBidAdManager) {
         return [_ivBidAdManager isVideoReadyToPlayWithPlacementId:@"" unitId:_pid];
     }
     return NO;
@@ -49,7 +48,7 @@
 - (void)show:(UIViewController *)vc {
     if (_ivAdManager && [self isReady]) {
         [_ivAdManager showFromViewController:vc];
-    }else if (_ivBidAdManager && [self isReady]){
+    }else if (_ivBidAdManager && [self isReady]) {
         [_ivBidAdManager showFromViewController:vc];
     }
 }

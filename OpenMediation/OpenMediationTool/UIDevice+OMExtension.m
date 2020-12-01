@@ -16,6 +16,11 @@
 #include <mach/mach_host.h>
 #include <sys/sysctl.h>
 
+@interface AppsFlyerTracker : NSObject
++ (id)sharedTracker;
+- (NSString *)getAppsFlyerUID;
+@end
+
 @implementation UIDevice (OMExtension)
 
 + (NSNumber*)omTimeStamp {
@@ -138,6 +143,10 @@
     NSString *carrierName = [carrier carrierName];
     NSString *carrierInfo = [[NSString alloc] initWithFormat:@"%@%@%@",OM_SAFE_STRING(carrierMCC),OM_SAFE_STRING(carrierMNC),OM_SAFE_STRING(carrierName)];
     return carrierInfo;
+}
+
++ (long long)omMemorySize {
+    return [NSProcessInfo processInfo].physicalMemory;
 }
 
 + (long long)omRamSize {
@@ -416,6 +425,16 @@
     OMLogV(@"first launch ts %@",ts);
     return [NSNumber numberWithInteger:[ts integerValue]];
 
+}
+
++ (NSString*)omAFUid {
+    NSString *uid = @"";
+    Class af = NSClassFromString(@"AppsFlyerTracker");
+    if (af && [af respondsToSelector:@selector(sharedTracker)] && [af instancesRespondToSelector:@selector(getAppsFlyerUID)] ) {
+        AppsFlyerTracker *sdk = [af sharedTracker];
+        uid = OM_SAFE_STRING([sdk getAppsFlyerUID]);
+    }
+    return uid;
 }
 
 + (long long)omBootTime {

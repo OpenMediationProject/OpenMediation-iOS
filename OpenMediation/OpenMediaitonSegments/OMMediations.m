@@ -26,7 +26,7 @@
 @end
 
 @interface ALSdk : NSObject
-@property (class, nonatomic, assign, readonly) NSUInteger versionCode;
+@property (class, nonatomic, copy, readonly) NSString *version;
 @end
 
 @interface Chartboost : NSObject
@@ -177,7 +177,7 @@ static OMMediations *_instance = nil;
         {
             if (sdkClass && [sdkClass respondsToSelector:@selector(sharedInstance)]) {
                 GADMobileAds *admob = [sdkClass sharedInstance];
-                if(admob && [admob respondsToSelector:@selector(sdkVersion)]){
+                if(admob && [admob respondsToSelector:@selector(sdkVersion)]) {
                     sdkVersion = [admob sdkVersion];
                 }
             }
@@ -217,8 +217,8 @@ static OMMediations *_instance = nil;
             break;
         case OMAdNetworkAppLovin:
         {
-            if (sdkClass && [sdkClass respondsToSelector:@selector(versionCode)]) {
-                sdkVersion = [NSString stringWithFormat:@"%zd",[sdkClass versionCode]];
+            if(sdkClass && [sdkClass respondsToSelector:@selector(version)]) {
+                sdkVersion = [sdkClass performSelector:@selector(version)];
             }
         }
             break;
@@ -260,7 +260,7 @@ static OMMediations *_instance = nil;
             break;
         case OMAdNetworkTencentAd:
         {
-            if(sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]){
+            if(sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]) {
                 sdkVersion = [sdkClass sdkVersion];
                 
             }
@@ -268,7 +268,7 @@ static OMMediations *_instance = nil;
             break;
         case OMAdNetworkIronSource:
         {
-            if(sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]){
+            if(sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]) {
                 sdkVersion = [sdkClass sdkVersion];
             }
         }
@@ -364,8 +364,12 @@ static OMMediations *_instance = nil;
 }
 
 - (BOOL)adnSDKInitialized:(OMAdNetwork)adnID {
-    OMAdnSDKInitState initState = [[self.adnSDKInitState objectForKey:[NSString stringWithFormat:@"%zd",adnID]]integerValue];
-    return (initState == OMAdnSDKInitStateInitialized);
+    if(adnID == OMAdNetworkCrossPromotion) {
+        return YES;
+    }else{
+        OMAdnSDKInitState initState = [[self.adnSDKInitState objectForKey:[NSString stringWithFormat:@"%zd",adnID]]integerValue];
+        return (initState == OMAdnSDKInitStateInitialized);
+    }
 }
 
 - (BOOL)adnSDKInitializing:(OMAdNetwork)adnID {

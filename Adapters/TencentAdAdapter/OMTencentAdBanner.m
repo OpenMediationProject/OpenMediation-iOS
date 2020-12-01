@@ -6,7 +6,7 @@
 @implementation OMTencentAdBanner
 
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController{
-    if(self = [super initWithFrame:frame]){
+    if(self = [super initWithFrame:frame]) {
         Class gdtClass = NSClassFromString(@"GDTUnifiedBannerView");
         if (gdtClass && adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
             _gdtBannerView = [[gdtClass alloc] initWithFrame:[self convertWithFrame:frame] placementId:([adParameter objectForKey:@"pid"]?[adParameter objectForKey:@"pid"]:@"") viewController:rootViewController];
@@ -29,25 +29,25 @@
 }
 
 - (void)unifiedBannerViewDidLoad:(GDTUnifiedBannerView *)unifiedBannerView{
-    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
 }
 
 - (void)unifiedBannerViewFailedToLoad:(GDTUnifiedBannerView *)unifiedBannerView error:(NSError *)error{
-    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
            [_delegate customEvent:self didFailToLoadWithError:error];
        }
 }
 
 - (void)unifiedBannerViewWillExpose:(GDTUnifiedBannerView *)unifiedBannerView{
-    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillPresentScreen:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillPresentScreen:)]) {
         [_delegate bannerCustomEventWillPresentScreen:self];
     }
 }
 
 - (void)unifiedBannerViewClicked:(GDTUnifiedBannerView *)unifiedBannerView{
-    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]) {
         [_delegate bannerCustomEventDidClick:self];
     }
 }

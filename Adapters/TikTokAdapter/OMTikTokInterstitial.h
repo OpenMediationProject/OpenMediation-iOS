@@ -10,8 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OMTikTokInterstitial : NSObject<OMInterstitialCustomEvent,BUFullscreenVideoAdDelegate>
 
 @property (nonatomic, copy) NSString *pid;
-@property (nonatomic, copy) NSString *appID;
-@property (nonatomic, getter=isAdValid, readonly) BOOL adValid;
+@property (nonatomic, assign) BOOL adReadyFlag;
 @property (nonatomic, strong) BUFullscreenVideoAd *fullscreenVideoAd;
 @property (nonatomic, weak) id<interstitialCustomEventDelegate> delegate;
 

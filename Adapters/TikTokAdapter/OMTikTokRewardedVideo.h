@@ -10,9 +10,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMTikTokRewardedVideo : NSObject<BURewardedVideoAdDelegate,OMRewardedVideoCustomEvent>
 @property (nonatomic, copy) NSString *pid;
-@property (nonatomic, copy) NSString *appID;
 @property (nonatomic, strong) BURewardedVideoAd *rewardedVideoAd;
-@property (nonatomic, getter=isAdValid, readonly) BOOL adValid;
+@property (nonatomic, assign) BOOL adReadyFlag;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;

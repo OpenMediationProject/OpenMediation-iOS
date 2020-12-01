@@ -19,8 +19,7 @@
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:[WelcomeViewController alloc]]init];
     [self.window makeKeyAndVisible];
     
-    [OpenMediation initWithAppKey:@"mN5ML6VCxGbcmHZvW8tWVN8mkALGGnoW"];
-    
+    [OpenMediation initWithAppKey:@"mN5ML6VCxGbcmHZvW8tWVN8mkALGGnoW" baseHost:@"https://omtest.adtiming.com"];
     return YES;
 }
 

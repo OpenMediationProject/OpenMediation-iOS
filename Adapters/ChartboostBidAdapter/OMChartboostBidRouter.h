@@ -1,10 +1,5 @@
-//
-//  OMChartboostBidRouter.h
-//  AdTimingChartboostBidAdapter
-//
-//  Created by ylm on 2020/6/30.
-//  Copyright © 2020 AdTiming. All rights reserved.
-//
+// Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
+// Licensed under the GNU Lesser General Public License Version 3
 
 #import <Foundation/Foundation.h>
 #import "OMChartboostBidClass.h"

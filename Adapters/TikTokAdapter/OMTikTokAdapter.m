@@ -3,24 +3,22 @@
 
 #import "OMTikTokAdapter.h"
 
+static BOOL _expressAdAPI = NO;
+
 @implementation OMTikTokAdapter
 
 + (NSString*)adapterVerison {
     return TikTokAdapterVersion;
 }
 
-+ (NSString*)adNetworkVersion {
-    NSString *sdkVersion = @"";
-    Class sdkClass = NSClassFromString(@"BUAdSDKManager");
-    if (sdkClass && [sdkClass respondsToSelector:@selector(SDKVersion)]) {
-        sdkVersion = [sdkClass SDKVersion];
-    }
-    return sdkVersion;
++ (BOOL)expressAdAPI {
+    return _expressAdAPI;
 }
 
-+ (NSString*)minimumSupportVersion {
-    return @"1.9.8";
++ (void)setExpressAdAPI:(BOOL)expressAdAPI {
+    _expressAdAPI = expressAdAPI;
 }
+
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
 
@@ -34,15 +32,7 @@
         return;
     }
     
-    if ([[self adNetworkVersion]compare:[self minimumSupportVersion]options:NSNumericSearch] == NSOrderedAscending) {
-        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.pangleadapter"
-                                                    code:505
-                                                userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"The current ad network(%@) is below the minimum required version(%@)",[self adNetworkVersion],[self minimumSupportVersion]]}];
-        completionHandler(error);
-        return;
-    }
-    
-    if(buadClass && [buadClass respondsToSelector:@selector(setAppID:)]){
+    if(buadClass && [buadClass respondsToSelector:@selector(setAppID:)]) {
         [buadClass setAppID:key];
         completionHandler(nil);
     }else{

@@ -14,19 +14,6 @@ static NSInteger omAdcUserGender;
     return AdColonyAdapterVersion;
 }
 
-+ (NSString*)adNetworkVersion {
-    NSString *sdkVersion = @"";
-    Class sdkClass = NSClassFromString(@"AdColony");
-    if (sdkClass && [sdkClass respondsToSelector:@selector(getSDKVersion)]) {
-        sdkVersion = [sdkClass getSDKVersion];
-    }
-    return sdkVersion;
-}
-
-+ (NSString*)minimumSupportVersion {
-    return @"3.3.6";
-}
-
 + (void)setConsent:(BOOL)consent {
     gdprConsentString = (consent?@"1":@"0");
 }
@@ -57,14 +44,6 @@ static NSInteger omAdcUserGender;
             NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.adcolonyadapter"
                                                         code:404
                                                     userInfo:@{NSLocalizedDescriptionKey:@"AdColony SDK not found"}];
-            completionHandler(error);
-            return;
-        }
-        
-        if ([[self adNetworkVersion]compare:[self minimumSupportVersion]options:NSNumericSearch] == NSOrderedAscending) {
-            NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.adcolonyadapter"
-                                                        code:505
-                                                    userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"The current ad network(%@) is below the minimum required version(%@)",[self adNetworkVersion],[self minimumSupportVersion]]}];
             completionHandler(error);
             return;
         }

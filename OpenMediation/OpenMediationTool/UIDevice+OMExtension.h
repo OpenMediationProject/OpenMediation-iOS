@@ -48,6 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString*)omCarrierInfo;
 
++ (long long)omMemorySize;
+
 + (long long)omRamSize;
 
 + (NSInteger)omFreeRamSize;
@@ -91,6 +93,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSNumber*)omInstallTime;
 
 + (NSNumber*)omFirstLaunchTime;
+
++ (NSString*)omAFUid;
 
 + (long long)omBootTime;
 

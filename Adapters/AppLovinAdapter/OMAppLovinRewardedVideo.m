@@ -36,7 +36,7 @@
 }
 
 - (void)show:(UIViewController*)vc {
-    if(_alAd && [_alAd respondsToSelector:@selector(showAd:andNotify:)] && _ad){
+    if(_alAd && [_alAd respondsToSelector:@selector(showAd:andNotify:)] && _ad) {
         [_alAd showAd:_ad andNotify:nil];
     }
 }

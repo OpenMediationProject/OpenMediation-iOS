@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OMVungleClass.h"
+#import "OMVungleBidClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface OMVungleRouter : NSObject<VungleSDKDelegate>
+@interface OMVungleRouter : NSObject<VungleSDKDelegate,VungleSDKHeaderBidding>
 
 @property (nonatomic, assign) BOOL isAdPlaying;
 @property (nonatomic, strong) NSMutableDictionary *placementDelegateMap;

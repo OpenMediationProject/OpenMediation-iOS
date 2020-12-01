@@ -58,7 +58,11 @@ static OMMintegralRouter * _instance = nil;
     BOOL isReady = NO;
     if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(isVideoReadyToPlayWithPlacementId:unitId:)]) {
         isReady = [_mintegralSDK isVideoReadyToPlayWithPlacementId:@"" unitId:pid];
+        NSLog(@"mintegral %@ ready %zd",pid,(NSInteger)isReady);
     }
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)1*NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+//        NSLog(@"call test %zd",(NSInteger)[self isReady:pid]); 
+//    });
     return isReady;
 }
 

@@ -25,25 +25,25 @@
 
 
 -(void)bannerViewDidLoad:(UADSBannerView *)bannerView{
-    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
 }
 
 - (void)bannerViewDidError:(UADSBannerView *)bannerView error:(UADSBannerError *)error{
-    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 
 -(void)bannerViewDidClick:(UADSBannerView *)bannerView{
-    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]) {
         [_delegate bannerCustomEventDidClick:self];
     }
 }
 
 - (void)bannerViewDidLeaveApplication:(UADSBannerView *)bannerView{
-    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillLeaveApplication:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillLeaveApplication:)]) {
         [_delegate bannerCustomEventWillLeaveApplication:self];
     }
 }

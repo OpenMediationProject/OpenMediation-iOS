@@ -43,14 +43,14 @@
 
 - (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
 {
-    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
 }
 
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code
 {
-    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:[NSError errorWithDomain:@"com.applovin.ads" code:code userInfo:nil]];
     }
 }
@@ -69,7 +69,7 @@
 
 - (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view
 {
-    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]) {
         [_delegate bannerCustomEventDidClick:self];
     }
 }

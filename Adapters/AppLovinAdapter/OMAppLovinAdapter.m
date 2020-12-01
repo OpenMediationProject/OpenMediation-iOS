@@ -10,20 +10,6 @@ static ALSdk *alShareSDK = nil;
     return AppLovinAdapterVersion;
 }
 
-+ (NSString*)adNetworkVersion {
-    NSString *sdkVersion = @"";
-    Class sdkClass = NSClassFromString(@"ALSdk");
-    if (sdkClass && [sdkClass respondsToSelector:@selector(versionCode)]) {
-        sdkVersion = [NSString stringWithFormat:@"%zd",[sdkClass versionCode]];
-    }
-    return sdkVersion;
-}
-
-+ (NSString*)minimumSupportVersion {
-    return @"6.1.1";
-}
-
-
 + (void)setConsent:(BOOL)consent {
     
     Class privacySettings = NSClassFromString(@"ALPrivacySettings");
@@ -53,15 +39,7 @@ static ALSdk *alShareSDK = nil;
         return;
     }
     
-    if ([[self adNetworkVersion]compare:[self minimumSupportVersion]options:NSNumericSearch] == NSOrderedAscending) {
-        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.applovinadapter"
-                                                    code:505
-                                                userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"The current ad network(%@) is below the minimum required version(%@)",[self adNetworkVersion],[self minimumSupportVersion]]}];
-        completionHandler(error);
-        return;
-    }
-    
-    if(applovinClass && [applovinClass respondsToSelector:@selector(sharedWithKey:)]){
+    if(applovinClass && [applovinClass respondsToSelector:@selector(sharedWithKey:)]) {
         alShareSDK = [applovinClass sharedWithKey:key];
         completionHandler(nil);
     }else{
@@ -78,10 +56,10 @@ static ALSdk *alShareSDK = nil;
 
 + (UIWindow *)currentWindow{
     UIWindow * window = [[UIApplication sharedApplication] keyWindow];
-    if (window.windowLevel != UIWindowLevelNormal){
+    if (window.windowLevel != UIWindowLevelNormal) {
         NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(UIWindow * tmpWin in windows){
-            if (tmpWin.windowLevel == UIWindowLevelNormal){
+        for(UIWindow * tmpWin in windows) {
+            if (tmpWin.windowLevel == UIWindowLevelNormal) {
                 window = tmpWin;
                 break;
             }

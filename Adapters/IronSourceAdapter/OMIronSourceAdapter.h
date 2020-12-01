@@ -7,9 +7,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const IronSourceAdapterVersion = @"3.1.0";
 
 @interface OMIronSourceAdapter : NSObject<OMMediationAdapter>
+@property (class, nonatomic) BOOL mediationAPI;
 + (NSString*)adapterVerison;
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 + (void)setConsent:(BOOL)consent;

@@ -13,8 +13,8 @@
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     NSString *key = [configuration objectForKey:@"appKey"];
     Class adtimingClass = NSClassFromString(@"AdTiming");
-    if (adtimingClass && [adtimingClass respondsToSelector:@selector(initWithAppKey:)]) {
-        [adtimingClass initWithAppKey:key];
+    if (adtimingClass && [adtimingClass respondsToSelector:@selector(initWithAppKey:adType:)]) {
+        [adtimingClass initWithAppKey:key adType:0];
         completionHandler(nil);
     } else {
         NSError *error = [[NSError alloc] initWithDomain:@"com.om.mediation" code:400 userInfo:@{NSLocalizedDescriptionKey:@"Failed,check init method and key"}];

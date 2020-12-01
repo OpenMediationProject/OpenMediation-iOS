@@ -9,7 +9,6 @@
     if (self = [super initWithFrame:frame]) {
         Class IronSourceClass = NSClassFromString(@"IronSource");
         if (IronSourceClass && [IronSourceClass respondsToSelector:@selector(initWithAppKey:)] && [IronSourceClass respondsToSelector:@selector(setBannerDelegate:)]) {
-            [IronSourceClass initWithAppKey:[adParameter objectForKey:@"appKey"]];
             [IronSourceClass setBannerDelegate:self];
             self.showVC = rootViewController;
         }
@@ -21,10 +20,8 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         Class IronSourceClass = NSClassFromString(@"IronSource");
-        if (self.bannerView) {
             [IronSourceClass destroyBanner:self.bannerView];
             self.bannerView = nil;
-        }
         if (self.showVC && IronSourceClass && [IronSourceClass respondsToSelector:@selector(loadBannerWithViewController:size:)]) {
             [IronSourceClass loadBannerWithViewController:self.showVC size:[self convertWithSize:self.frame.size]];
         }
@@ -55,20 +52,20 @@
         [self addSubview:self.bannerView];
     });
     
-    if(self.delegate && [self.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]){
+    if(self.delegate && [self.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [self.delegate customEvent:self didLoadAd:nil];
     }
     
 }
 
 - (void)bannerDidFailToLoadWithError:(NSError *)error {
-    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 
 - (void)didClickBanner {
-    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]) {
         [_delegate bannerCustomEventDidClick:self];
     }
 }

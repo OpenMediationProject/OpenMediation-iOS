@@ -6,7 +6,7 @@
 @implementation OMTencentAdNativeView
 
 - (instancetype)initWithFrame:(CGRect)frame{
-    if(self = [super initWithFrame:frame]){
+    if(self = [super initWithFrame:frame]) {
         Class gdtNativeAdViewClass = NSClassFromString(@"GDTUnifiedNativeAdView");
         if (gdtNativeAdViewClass) {
             _gdtNativeView = [[gdtNativeAdViewClass alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
@@ -94,7 +94,7 @@
 }
 
 - (void)addSubview:(UIView *)view{
-    if(_gdtNativeView && view != _gdtNativeView){
+    if(_gdtNativeView && view != _gdtNativeView) {
         [_gdtNativeView addSubview:view];
     }else{
         [super addSubview:view];

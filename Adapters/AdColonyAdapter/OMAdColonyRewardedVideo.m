@@ -16,7 +16,7 @@
 - (void)loadAd {
     
     Class adColonyClass = NSClassFromString(@"AdColony");
-    if(adColonyClass && [adColonyClass respondsToSelector:@selector(requestInterstitialInZone:options:andDelegate:)]){
+    if(adColonyClass && [adColonyClass respondsToSelector:@selector(requestInterstitialInZone:options:andDelegate:)]) {
         
         AdColonyAdOptions *options = [NSClassFromString(@"AdColonyAdOptions") new];
 
@@ -59,7 +59,7 @@
 
 // Store a reference to the returned interstitial object
 - (void)adColonyInterstitialDidLoad:(AdColonyInterstitial *)interstitial {
-    if(self.delegate && [self.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]){
+    if(self.delegate && [self.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [self.delegate customEvent:self didLoadAd:nil];
     }
     self.adColonyAd = interstitial;
@@ -67,31 +67,31 @@
 
 // Handle loading error
 - (void)adColonyInterstitialDidFailToLoad:(AdColonyAdRequestError *)error {
-    if(self.delegate && [self.delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]){
+    if(self.delegate && [self.delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [self.delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 
 - (void)adColonyInterstitialWillOpen:(AdColonyInterstitial *)interstitial {
-    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]){
+    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
         [self.delegate rewardedVideoCustomEventDidOpen:self];
     }
-    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoStart:)]){
+    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoStart:)]) {
         [self.delegate rewardedVideoCustomEventVideoStart:self];
     }
 }
 
 - (void)adColonyInterstitialDidClose:(AdColonyInterstitial *)interstitial {
     
-    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]){
+    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]) {
         [self.delegate rewardedVideoCustomEventVideoEnd:self];
     }
     
-    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]){
+    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
         [self.delegate rewardedVideoCustomEventDidReceiveReward:self];
     }
     
-    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]){
+    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]) {
         [self.delegate rewardedVideoCustomEventDidClose:self];
     }
     
@@ -102,7 +102,7 @@
 }
 
 - (void)adColonyInterstitialDidReceiveClick:(AdColonyInterstitial *)interstitial {
-    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]){
+    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
         [self.delegate rewardedVideoCustomEventDidClick:self];
     }
 }

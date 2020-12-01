@@ -21,7 +21,7 @@
 
 
 - (void)loadAd{
-    if(_gdtNativeAd){
+    if(_gdtNativeAd) {
         [_gdtNativeAd loadAdWithAdCount:1];
     }
 }
@@ -33,12 +33,12 @@
         weakSelf.currentAdData = unifiedNativeAdDataObjects[0];
         OMTencentAdNativeAd *gdtNativeAd = [[OMTencentAdNativeAd alloc] initWithGdtDataObject:unifiedNativeAdDataObjects[0]];
         gdtNativeAd.adLoader = self;
-        if(weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]){
+        if(weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
             [weakSelf.delegate customEvent:weakSelf didLoadAd:gdtNativeAd];
         }
     }else{
         dispatch_async(dispatch_get_main_queue(), ^{
-            if(error && weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]){
+            if(error && weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
                 [weakSelf.delegate customEvent:weakSelf didFailToLoadWithError:error];
             }
         });
@@ -48,7 +48,7 @@
 #pragma mark - GDTUnifiedNativeAdViewDelegate
 // 广告曝光回调
 - (void)gdt_unifiedNativeAdViewWillExpose:(GDTUnifiedNativeAdView *)unifiedNativeAdView{
-    if(_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
         [_delegate nativeCustomEventWillShow:self];
     }
 }
@@ -56,7 +56,7 @@
 
 //广告点击回调
 - (void)gdt_unifiedNativeAdViewDidClick:(GDTUnifiedNativeAdView *)unifiedNativeAdView{
-    if(_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
         [_delegate nativeCustomEventDidClick:self];
     }
 }

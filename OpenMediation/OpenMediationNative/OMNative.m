@@ -64,6 +64,7 @@
 }
 
 - (void)nativeCustomEventWillShow:(id<OMNativeCustomEvent>)adapter {
+    [self showInstance:self.adLoader.optimalFillInstance];
     [self adshow:adapter];
     [self omWillExposure];
 }

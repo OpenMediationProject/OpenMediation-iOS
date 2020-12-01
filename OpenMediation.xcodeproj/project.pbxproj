@@ -155,6 +155,9 @@
 		0CF881072473857600ED2CBD /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CF881062473857600ED2CBD /* SplashViewController.m */; };
 		49097843240383EA00D39DF5 /* OMUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 49097842240383EA00D39DF5 /* OMUnit.m */; };
 		490978452403841300D39DF5 /* NSError+OMExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 490978442403841300D39DF5 /* NSError+OMExtension.m */; };
+		491B9C5F251DDCB3007A4310 /* OMVungleBidClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 491B9C5C251DDCB2007A4310 /* OMVungleBidClass.h */; };
+		491B9C60251DDCB3007A4310 /* OMVungleBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 491B9C5D251DDCB2007A4310 /* OMVungleBid.h */; };
+		491B9C61251DDCB3007A4310 /* OMVungleBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 491B9C5E251DDCB3007A4310 /* OMVungleBid.m */; };
 		492018D023F6C20C007C5EA4 /* OMLoad.h in Headers */ = {isa = PBXBuildFile; fileRef = 492018CE23F6C20C007C5EA4 /* OMLoad.h */; };
 		492018D123F6C20C007C5EA4 /* OMLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 492018CF23F6C20C007C5EA4 /* OMLoad.m */; };
 		492403BE23F6A2F200687456 /* OMAdTimingAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C8B66A023ED167F00C5B97A /* OMAdTimingAdapter.framework */; };
@@ -197,11 +200,39 @@
 		4959CEBE23EBEE7300A433A8 /* OMChartboostAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959CEB723EBEE7300A433A8 /* OMChartboostAdapter.framework */; };
 		4959CECF23EBEE8100A433A8 /* OMTikTokAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959CEC823EBEE8100A433A8 /* OMTikTokAdapter.framework */; };
 		4959CEE023EBEE9400A433A8 /* OMMintegralAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959CED923EBEE9400A433A8 /* OMMintegralAdapter.framework */; };
+		497B96E6255D244D0024592E /* OMCrossPromotionDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 497B96DE255D244C0024592E /* OMCrossPromotionDownloader.h */; };
+		497B96E7255D244D0024592E /* OMCrossPromotionDownloadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 497B96DF255D244C0024592E /* OMCrossPromotionDownloadManager.h */; };
+		497B96E8255D244D0024592E /* OMCrossPromotionDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 497B96E0255D244C0024592E /* OMCrossPromotionDownloader.m */; };
+		497B96E9255D244D0024592E /* OMCrossPromotionHTTPCacheControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 497B96E1255D244C0024592E /* OMCrossPromotionHTTPCacheControl.m */; };
+		497B96EA255D244D0024592E /* OMCrossPromotionDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 497B96E2255D244D0024592E /* OMCrossPromotionDownloadManager.m */; };
+		497B96EB255D244D0024592E /* OMCrossPromotionHTTPCacheControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 497B96E3255D244D0024592E /* OMCrossPromotionHTTPCacheControl.h */; };
+		497B96EC255D244D0024592E /* OMCrossPromotionCacheFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 497B96E4255D244D0024592E /* OMCrossPromotionCacheFile.m */; };
+		497B96ED255D244D0024592E /* OMCrossPromotionCacheFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 497B96E5255D244D0024592E /* OMCrossPromotionCacheFile.h */; };
+		497F021125650BF900354846 /* OMCrossPromotionAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 497F020B25650BF900354846 /* OMCrossPromotionAdDelegate.h */; };
+		497F021225650BF900354846 /* OMCrossPromotionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 497F020C25650BF900354846 /* OMCrossPromotionDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		497F021325650BF900354846 /* OMCrossPromotionAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 497F020D25650BF900354846 /* OMCrossPromotionAd.h */; };
+		497F021425650BF900354846 /* OMCrossPromotion.m in Sources */ = {isa = PBXBuildFile; fileRef = 497F020E25650BF900354846 /* OMCrossPromotion.m */; };
+		497F021525650BF900354846 /* OMCrossPromotionAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 497F020F25650BF900354846 /* OMCrossPromotionAd.m */; };
+		497F021625650BF900354846 /* OMCrossPromotion.h in Headers */ = {isa = PBXBuildFile; fileRef = 497F021025650BF900354846 /* OMCrossPromotion.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		497F028425650ECE00354846 /* OMCrossPromotionCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 497F028325650ECE00354846 /* OMCrossPromotionCustomEvent.h */; };
+		497F02AB25661FE700354846 /* OMCrossPromotionCP.h in Headers */ = {isa = PBXBuildFile; fileRef = 497F02A925661FE700354846 /* OMCrossPromotionCP.h */; };
+		497F02AC25661FE700354846 /* OMCrossPromotionCP.m in Sources */ = {isa = PBXBuildFile; fileRef = 497F02AA25661FE700354846 /* OMCrossPromotionCP.m */; };
+		497F02C12566416A00354846 /* CrossPromotionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 497F02C02566416A00354846 /* CrossPromotionViewController.m */; };
 		499E7E9E24E6A72900F1D96C /* OMAdColonyRewardedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 499E7E9924E6A72800F1D96C /* OMAdColonyRewardedVideo.m */; };
 		499E7E9F24E6A72900F1D96C /* OMAdColonyAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 499E7E9A24E6A72800F1D96C /* OMAdColonyAdapter.m */; };
 		499E7EA024E6A72900F1D96C /* OMAdColonyAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 499E7E9B24E6A72800F1D96C /* OMAdColonyAdapter.h */; };
 		499E7EA124E6A72900F1D96C /* OMAdColonyRewardedVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 499E7E9C24E6A72800F1D96C /* OMAdColonyRewardedVideo.h */; };
 		499E7EA224E6A72900F1D96C /* OMAdColonyClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 499E7E9D24E6A72900F1D96C /* OMAdColonyClass.h */; };
+		49B2A659255D48B400A22A9A /* OMCrossPromotionClRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 49B2A657255D48B300A22A9A /* OMCrossPromotionClRequest.h */; };
+		49B2A65A255D48B400A22A9A /* OMCrossPromotionClRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 49B2A658255D48B400A22A9A /* OMCrossPromotionClRequest.m */; };
+		49B2A681255E5B8400A22A9A /* OMCrossPromotionJSBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 49B2A67F255E5B8400A22A9A /* OMCrossPromotionJSBridge.h */; };
+		49B2A682255E5B8400A22A9A /* OMCrossPromotionJSBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 49B2A680255E5B8400A22A9A /* OMCrossPromotionJSBridge.m */; };
+		49B2A6CD255E8F0800A22A9A /* OMCrossPromotionExposureMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 49B2A6CB255E8F0700A22A9A /* OMCrossPromotionExposureMonitor.m */; };
+		49B2A6CE255E8F0800A22A9A /* OMCrossPromotionExposureMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 49B2A6CC255E8F0700A22A9A /* OMCrossPromotionExposureMonitor.h */; };
+		49B2A707255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 49B2A705255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.h */; };
+		49B2A708255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 49B2A706255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.m */; };
+		49B2A71D255EA62D00A22A9A /* OMCrossPromotionVideoController.h in Headers */ = {isa = PBXBuildFile; fileRef = 49B2A71B255EA62C00A22A9A /* OMCrossPromotionVideoController.h */; };
+		49B2A71E255EA62D00A22A9A /* OMCrossPromotionVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49B2A71C255EA62D00A22A9A /* OMCrossPromotionVideoController.m */; };
 		49C0F93024DAF14700C20F54 /* OMAdTimingAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49C0F91B24DAF14500C20F54 /* OMAdTimingAdapter.h */; };
 		49C0F93124DAF14700C20F54 /* OMAdTimingNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 49C0F91C24DAF14500C20F54 /* OMAdTimingNative.h */; };
 		49C0F93224DAF14700C20F54 /* OMAdTimingAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C0F91D24DAF14500C20F54 /* OMAdTimingAdapter.m */; };
@@ -418,6 +449,30 @@
 		49DF722B23E948840033495A /* OpenMediationAdFormats.h in Headers */ = {isa = PBXBuildFile; fileRef = 49DF722A23E948840033495A /* OpenMediationAdFormats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		49DF722F23E962710033495A /* OMAudience.h in Headers */ = {isa = PBXBuildFile; fileRef = 49DF722D23E962710033495A /* OMAudience.h */; };
 		49DF723023E962710033495A /* OMAudience.m in Sources */ = {isa = PBXBuildFile; fileRef = 49DF722E23E962710033495A /* OMAudience.m */; };
+		49EA8821255BC6C600D4B932 /* OMCDRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EA881F255BC6C600D4B932 /* OMCDRequest.h */; };
+		49EA8822255BC6C600D4B932 /* OMCDRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EA8820255BC6C600D4B932 /* OMCDRequest.m */; };
+		49EA8834255BC71000D4B932 /* OMCrossPromotionNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EA8824255BC70F00D4B932 /* OMCrossPromotionNativeView.m */; };
+		49EA8835255BC71000D4B932 /* OMCrossPromotionNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EA8825255BC70F00D4B932 /* OMCrossPromotionNative.h */; };
+		49EA8837255BC71000D4B932 /* OMCrossPromotionBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EA8827255BC70F00D4B932 /* OMCrossPromotionBanner.h */; };
+		49EA8838255BC71000D4B932 /* OMCrossPromotionNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EA8828255BC70F00D4B932 /* OMCrossPromotionNativeAd.m */; };
+		49EA8839255BC71000D4B932 /* OMCrossPromotionBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EA8829255BC70F00D4B932 /* OMCrossPromotionBid.m */; };
+		49EA883A255BC71000D4B932 /* OMCrossPromotionNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EA882A255BC70F00D4B932 /* OMCrossPromotionNativeAd.h */; };
+		49EA883B255BC71000D4B932 /* OMCrossPromotionRewardedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EA882B255BC70F00D4B932 /* OMCrossPromotionRewardedVideo.m */; };
+		49EA883C255BC71000D4B932 /* OMCrossPromotionRewardedVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EA882C255BC70F00D4B932 /* OMCrossPromotionRewardedVideo.h */; };
+		49EA883D255BC71000D4B932 /* OMCrossPromotionNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EA882D255BC70F00D4B932 /* OMCrossPromotionNative.m */; };
+		49EA883E255BC71000D4B932 /* OMCrossPromotionBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EA882E255BC70F00D4B932 /* OMCrossPromotionBid.h */; };
+		49EA8840255BC71000D4B932 /* OMCrossPromotionNativeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EA8830255BC71000D4B932 /* OMCrossPromotionNativeView.h */; };
+		49EA8841255BC71000D4B932 /* OMCrossPromotionBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EA8831255BC71000D4B932 /* OMCrossPromotionBanner.m */; };
+		49EA8849255BD01C00D4B932 /* OMCrossPromotionCampaignManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EA8847255BD01C00D4B932 /* OMCrossPromotionCampaignManager.h */; };
+		49EA884A255BD01C00D4B932 /* OMCrossPromotionCampaignManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EA8848255BD01C00D4B932 /* OMCrossPromotionCampaignManager.m */; };
+		49EA884D255BD08500D4B932 /* OMCrossPromotionCampaign.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EA884B255BD08500D4B932 /* OMCrossPromotionCampaign.h */; };
+		49EA884E255BD08500D4B932 /* OMCrossPromotionCampaign.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EA884C255BD08500D4B932 /* OMCrossPromotionCampaign.m */; };
+		49EA8851255BD0B800D4B932 /* OMCrossPromotionClickHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EA884F255BD0B800D4B932 /* OMCrossPromotionClickHandler.h */; };
+		49EA8852255BD0B800D4B932 /* OMCrossPromotionClickHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EA8850255BD0B800D4B932 /* OMCrossPromotionClickHandler.m */; };
+		49EA8859255BD11B00D4B932 /* OMCrossPromotionWebController.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EA8857255BD11B00D4B932 /* OMCrossPromotionWebController.h */; };
+		49EA885A255BD11B00D4B932 /* OMCrossPromotionWebController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EA8858255BD11B00D4B932 /* OMCrossPromotionWebController.m */; };
+		49EA885D255C273500D4B932 /* OMCrossPromotionCampaignModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 49EA885B255C273500D4B932 /* OMCrossPromotionCampaignModel.h */; };
+		49EA885E255C273500D4B932 /* OMCrossPromotionCampaignModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EA885C255C273500D4B932 /* OMCrossPromotionCampaignModel.m */; };
 		49FD2BA423FCEAC600FFA0EF /* OMSmartLoad.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD2BA223FCEAC600FFA0EF /* OMSmartLoad.h */; };
 		49FD2BA523FCEAC600FFA0EF /* OMSmartLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD2BA323FCEAC600FFA0EF /* OMSmartLoad.m */; };
 		49FD2BA823FD0CC300FFA0EF /* OMHbRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD2BA623FD0CC300FFA0EF /* OMHbRequest.h */; };
@@ -557,6 +612,16 @@
 			files = (
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49EA87F7255BB9D000D4B932 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -723,6 +788,9 @@
 		0CF881062473857600ED2CBD /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
 		49097842240383EA00D39DF5 /* OMUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMUnit.m; sourceTree = "<group>"; };
 		490978442403841300D39DF5 /* NSError+OMExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+OMExtension.m"; sourceTree = "<group>"; };
+		491B9C5C251DDCB2007A4310 /* OMVungleBidClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMVungleBidClass.h; path = Adapters/VungleAdapter/OMVungleBidClass.h; sourceTree = SOURCE_ROOT; };
+		491B9C5D251DDCB2007A4310 /* OMVungleBid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMVungleBid.h; path = Adapters/VungleAdapter/OMVungleBid.h; sourceTree = SOURCE_ROOT; };
+		491B9C5E251DDCB3007A4310 /* OMVungleBid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OMVungleBid.m; path = Adapters/VungleAdapter/OMVungleBid.m; sourceTree = SOURCE_ROOT; };
 		492018CE23F6C20C007C5EA4 /* OMLoad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMLoad.h; sourceTree = "<group>"; };
 		492018CF23F6C20C007C5EA4 /* OMLoad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMLoad.m; sourceTree = "<group>"; };
 		4924037A23F690DE00687456 /* ExportOptions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ExportOptions.plist; sourceTree = "<group>"; };
@@ -777,11 +845,40 @@
 		4959CED923EBEE9400A433A8 /* OMMintegralAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMMintegralAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4959CEDC23EBEE9400A433A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4959CEFD23EC40D000A433A8 /* OpenMediation.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = OpenMediation.modulemap; sourceTree = "<group>"; };
+		497B96DE255D244C0024592E /* OMCrossPromotionDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionDownloader.h; sourceTree = "<group>"; };
+		497B96DF255D244C0024592E /* OMCrossPromotionDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionDownloadManager.h; sourceTree = "<group>"; };
+		497B96E0255D244C0024592E /* OMCrossPromotionDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionDownloader.m; sourceTree = "<group>"; };
+		497B96E1255D244C0024592E /* OMCrossPromotionHTTPCacheControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionHTTPCacheControl.m; sourceTree = "<group>"; };
+		497B96E2255D244D0024592E /* OMCrossPromotionDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionDownloadManager.m; sourceTree = "<group>"; };
+		497B96E3255D244D0024592E /* OMCrossPromotionHTTPCacheControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionHTTPCacheControl.h; sourceTree = "<group>"; };
+		497B96E4255D244D0024592E /* OMCrossPromotionCacheFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionCacheFile.m; sourceTree = "<group>"; };
+		497B96E5255D244D0024592E /* OMCrossPromotionCacheFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionCacheFile.h; sourceTree = "<group>"; };
+		497F020B25650BF900354846 /* OMCrossPromotionAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionAdDelegate.h; sourceTree = "<group>"; };
+		497F020C25650BF900354846 /* OMCrossPromotionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionDelegate.h; sourceTree = "<group>"; };
+		497F020D25650BF900354846 /* OMCrossPromotionAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionAd.h; sourceTree = "<group>"; };
+		497F020E25650BF900354846 /* OMCrossPromotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotion.m; sourceTree = "<group>"; };
+		497F020F25650BF900354846 /* OMCrossPromotionAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionAd.m; sourceTree = "<group>"; };
+		497F021025650BF900354846 /* OMCrossPromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotion.h; sourceTree = "<group>"; };
+		497F028325650ECE00354846 /* OMCrossPromotionCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionCustomEvent.h; sourceTree = "<group>"; };
+		497F02A925661FE700354846 /* OMCrossPromotionCP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionCP.h; sourceTree = "<group>"; };
+		497F02AA25661FE700354846 /* OMCrossPromotionCP.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionCP.m; sourceTree = "<group>"; };
+		497F02BF2566416A00354846 /* CrossPromotionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrossPromotionViewController.h; sourceTree = "<group>"; };
+		497F02C02566416A00354846 /* CrossPromotionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrossPromotionViewController.m; sourceTree = "<group>"; };
 		499E7E9924E6A72800F1D96C /* OMAdColonyRewardedVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OMAdColonyRewardedVideo.m; path = Adapters/AdColonyAdapter/OMAdColonyRewardedVideo.m; sourceTree = SOURCE_ROOT; };
 		499E7E9A24E6A72800F1D96C /* OMAdColonyAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OMAdColonyAdapter.m; path = Adapters/AdColonyAdapter/OMAdColonyAdapter.m; sourceTree = SOURCE_ROOT; };
 		499E7E9B24E6A72800F1D96C /* OMAdColonyAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMAdColonyAdapter.h; path = Adapters/AdColonyAdapter/OMAdColonyAdapter.h; sourceTree = SOURCE_ROOT; };
 		499E7E9C24E6A72800F1D96C /* OMAdColonyRewardedVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMAdColonyRewardedVideo.h; path = Adapters/AdColonyAdapter/OMAdColonyRewardedVideo.h; sourceTree = SOURCE_ROOT; };
 		499E7E9D24E6A72900F1D96C /* OMAdColonyClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMAdColonyClass.h; path = Adapters/AdColonyAdapter/OMAdColonyClass.h; sourceTree = SOURCE_ROOT; };
+		49B2A657255D48B300A22A9A /* OMCrossPromotionClRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionClRequest.h; sourceTree = "<group>"; };
+		49B2A658255D48B400A22A9A /* OMCrossPromotionClRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionClRequest.m; sourceTree = "<group>"; };
+		49B2A67F255E5B8400A22A9A /* OMCrossPromotionJSBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionJSBridge.h; sourceTree = "<group>"; };
+		49B2A680255E5B8400A22A9A /* OMCrossPromotionJSBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionJSBridge.m; sourceTree = "<group>"; };
+		49B2A6CB255E8F0700A22A9A /* OMCrossPromotionExposureMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionExposureMonitor.m; sourceTree = "<group>"; };
+		49B2A6CC255E8F0700A22A9A /* OMCrossPromotionExposureMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionExposureMonitor.h; sourceTree = "<group>"; };
+		49B2A705255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionNativeMediaView.h; sourceTree = "<group>"; };
+		49B2A706255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionNativeMediaView.m; sourceTree = "<group>"; };
+		49B2A71B255EA62C00A22A9A /* OMCrossPromotionVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionVideoController.h; sourceTree = "<group>"; };
+		49B2A71C255EA62D00A22A9A /* OMCrossPromotionVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionVideoController.m; sourceTree = "<group>"; };
 		49C0F91B24DAF14500C20F54 /* OMAdTimingAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMAdTimingAdapter.h; path = Adapters/AdTimingAdapter/OMAdTimingAdapter.h; sourceTree = SOURCE_ROOT; };
 		49C0F91C24DAF14500C20F54 /* OMAdTimingNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMAdTimingNative.h; path = Adapters/AdTimingAdapter/OMAdTimingNative.h; sourceTree = SOURCE_ROOT; };
 		49C0F91D24DAF14500C20F54 /* OMAdTimingAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OMAdTimingAdapter.m; path = Adapters/AdTimingAdapter/OMAdTimingAdapter.m; sourceTree = SOURCE_ROOT; };
@@ -1003,6 +1100,30 @@
 		49DF722A23E948840033495A /* OpenMediationAdFormats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenMediationAdFormats.h; sourceTree = "<group>"; };
 		49DF722D23E962710033495A /* OMAudience.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMAudience.h; sourceTree = "<group>"; };
 		49DF722E23E962710033495A /* OMAudience.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMAudience.m; sourceTree = "<group>"; };
+		49EA881F255BC6C600D4B932 /* OMCDRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCDRequest.h; sourceTree = "<group>"; };
+		49EA8820255BC6C600D4B932 /* OMCDRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCDRequest.m; sourceTree = "<group>"; };
+		49EA8824255BC70F00D4B932 /* OMCrossPromotionNativeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionNativeView.m; sourceTree = "<group>"; };
+		49EA8825255BC70F00D4B932 /* OMCrossPromotionNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionNative.h; sourceTree = "<group>"; };
+		49EA8827255BC70F00D4B932 /* OMCrossPromotionBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionBanner.h; sourceTree = "<group>"; };
+		49EA8828255BC70F00D4B932 /* OMCrossPromotionNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionNativeAd.m; sourceTree = "<group>"; };
+		49EA8829255BC70F00D4B932 /* OMCrossPromotionBid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionBid.m; sourceTree = "<group>"; };
+		49EA882A255BC70F00D4B932 /* OMCrossPromotionNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionNativeAd.h; sourceTree = "<group>"; };
+		49EA882B255BC70F00D4B932 /* OMCrossPromotionRewardedVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionRewardedVideo.m; sourceTree = "<group>"; };
+		49EA882C255BC70F00D4B932 /* OMCrossPromotionRewardedVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionRewardedVideo.h; sourceTree = "<group>"; };
+		49EA882D255BC70F00D4B932 /* OMCrossPromotionNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionNative.m; sourceTree = "<group>"; };
+		49EA882E255BC70F00D4B932 /* OMCrossPromotionBid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionBid.h; sourceTree = "<group>"; };
+		49EA8830255BC71000D4B932 /* OMCrossPromotionNativeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionNativeView.h; sourceTree = "<group>"; };
+		49EA8831255BC71000D4B932 /* OMCrossPromotionBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionBanner.m; sourceTree = "<group>"; };
+		49EA8847255BD01C00D4B932 /* OMCrossPromotionCampaignManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionCampaignManager.h; sourceTree = "<group>"; };
+		49EA8848255BD01C00D4B932 /* OMCrossPromotionCampaignManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionCampaignManager.m; sourceTree = "<group>"; };
+		49EA884B255BD08500D4B932 /* OMCrossPromotionCampaign.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionCampaign.h; sourceTree = "<group>"; };
+		49EA884C255BD08500D4B932 /* OMCrossPromotionCampaign.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionCampaign.m; sourceTree = "<group>"; };
+		49EA884F255BD0B800D4B932 /* OMCrossPromotionClickHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionClickHandler.h; sourceTree = "<group>"; };
+		49EA8850255BD0B800D4B932 /* OMCrossPromotionClickHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionClickHandler.m; sourceTree = "<group>"; };
+		49EA8857255BD11B00D4B932 /* OMCrossPromotionWebController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionWebController.h; sourceTree = "<group>"; };
+		49EA8858255BD11B00D4B932 /* OMCrossPromotionWebController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionWebController.m; sourceTree = "<group>"; };
+		49EA885B255C273500D4B932 /* OMCrossPromotionCampaignModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionCampaignModel.h; sourceTree = "<group>"; };
+		49EA885C255C273500D4B932 /* OMCrossPromotionCampaignModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionCampaignModel.m; sourceTree = "<group>"; };
 		49FD2BA223FCEAC600FFA0EF /* OMSmartLoad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMSmartLoad.h; sourceTree = "<group>"; };
 		49FD2BA323FCEAC600FFA0EF /* OMSmartLoad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMSmartLoad.m; sourceTree = "<group>"; };
 		49FD2BA623FD0CC300FFA0EF /* OMHbRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMHbRequest.h; sourceTree = "<group>"; };
@@ -1242,11 +1363,13 @@
 				49DE5A0923EC459F00F89345 /* OpenMediationUmbrella.h */,
 				4959CEFD23EC40D000A433A8 /* OpenMediation.modulemap */,
 				0C70AA2623D162E70021D67A /* Info.plist */,
+				49EA881E255BC61500D4B932 /* OpenMediationPromotion */,
 				49468C0C24B75A2F00AF4E06 /* OpenMediationBid */,
 				0C86483423EA621E00CB942D /* OpenMediationBanner */,
 				0C86487323EA6FA300CB942D /* OpenMediationNative */,
 				0C86486023EA68E200CB942D /* OpenMediationInterstitial */,
 				0C86488C23EA73C300CB942D /* OpenMediationRewardedVideo */,
+				497F020A25650BCE00354846 /* OpenMediationCrossPromotion */,
 				0CF880F82473847A00ED2CBD /* OpenMediationSplash */,
 				4959CEE623EBF09E00A433A8 /* OpenMediationCustomEvent */,
 				49DF722C23E9620D0033495A /* OpenMediaitonSegments */,
@@ -1332,6 +1455,8 @@
 				49FD2BA723FD0CC300FFA0EF /* OMHbRequest.m */,
 				49D1B85A23EA78CB0028CB5C /* OMEventRequest.h */,
 				49D1B85B23EA78CC0028CB5C /* OMEventRequest.m */,
+				49EA881F255BC6C600D4B932 /* OMCDRequest.h */,
+				49EA8820255BC6C600D4B932 /* OMCDRequest.m */,
 			);
 			path = OpenMediationNetwork;
 			sourceTree = "<group>";
@@ -1460,6 +1585,8 @@
 				0C981BF523D6D9A80074B43A /* RewardedVideoViewController.m */,
 				0CF881052473857500ED2CBD /* SplashViewController.h */,
 				0CF881062473857600ED2CBD /* SplashViewController.m */,
+				497F02BF2566416A00354846 /* CrossPromotionViewController.h */,
+				497F02C02566416A00354846 /* CrossPromotionViewController.m */,
 				0C981BDC23D6D6360074B43A /* BaseViewController.h */,
 				0C981BDD23D6D6360074B43A /* BaseViewController.m */,
 				0C981BCA23D69A1D0074B43A /* Main.storyboard */,
@@ -1591,6 +1718,9 @@
 		4959CE7423EBEDDF00A433A8 /* OMVungleAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				491B9C5D251DDCB2007A4310 /* OMVungleBid.h */,
+				491B9C5E251DDCB3007A4310 /* OMVungleBid.m */,
+				491B9C5C251DDCB2007A4310 /* OMVungleBidClass.h */,
 				49C0F9E324DAF28400C20F54 /* OMVungleSplash.h */,
 				49C0F9E424DAF28400C20F54 /* OMVungleSplash.m */,
 				49C0F9B324DAF1C100C20F54 /* OMVungleAdapter.h */,
@@ -1738,8 +1868,22 @@
 				0C86486223EA68E200CB942D /* OMInterstitialCustomEvent.h */,
 				0C86489223EA73C300CB942D /* OMRewardedVideoCustomEvent.h */,
 				0CF88103247384C900ED2CBD /* OMSplashCustomEvent.h */,
+				497F028325650ECE00354846 /* OMCrossPromotionCustomEvent.h */,
 			);
 			path = OpenMediationCustomEvent;
+			sourceTree = "<group>";
+		};
+		497F020A25650BCE00354846 /* OpenMediationCrossPromotion */ = {
+			isa = PBXGroup;
+			children = (
+				497F021025650BF900354846 /* OMCrossPromotion.h */,
+				497F020E25650BF900354846 /* OMCrossPromotion.m */,
+				497F020D25650BF900354846 /* OMCrossPromotionAd.h */,
+				497F020F25650BF900354846 /* OMCrossPromotionAd.m */,
+				497F020B25650BF900354846 /* OMCrossPromotionAdDelegate.h */,
+				497F020C25650BF900354846 /* OMCrossPromotionDelegate.h */,
+			);
+			path = OpenMediationCrossPromotion;
 			sourceTree = "<group>";
 		};
 		49C1CF0324AF48B70093F489 /* OMChartboostBidAdapter */ = {
@@ -1887,6 +2031,55 @@
 			path = OpenMediaitonSegments;
 			sourceTree = "<group>";
 		};
+		49EA881E255BC61500D4B932 /* OpenMediationPromotion */ = {
+			isa = PBXGroup;
+			children = (
+				49EA882E255BC70F00D4B932 /* OMCrossPromotionBid.h */,
+				49EA8829255BC70F00D4B932 /* OMCrossPromotionBid.m */,
+				49EA8827255BC70F00D4B932 /* OMCrossPromotionBanner.h */,
+				49EA8831255BC71000D4B932 /* OMCrossPromotionBanner.m */,
+				49EA8825255BC70F00D4B932 /* OMCrossPromotionNative.h */,
+				49EA882D255BC70F00D4B932 /* OMCrossPromotionNative.m */,
+				49EA882A255BC70F00D4B932 /* OMCrossPromotionNativeAd.h */,
+				49EA8828255BC70F00D4B932 /* OMCrossPromotionNativeAd.m */,
+				49EA8830255BC71000D4B932 /* OMCrossPromotionNativeView.h */,
+				49EA8824255BC70F00D4B932 /* OMCrossPromotionNativeView.m */,
+				49B2A705255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.h */,
+				49B2A706255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.m */,
+				49EA882C255BC70F00D4B932 /* OMCrossPromotionRewardedVideo.h */,
+				49EA882B255BC70F00D4B932 /* OMCrossPromotionRewardedVideo.m */,
+				49B2A71B255EA62C00A22A9A /* OMCrossPromotionVideoController.h */,
+				49B2A71C255EA62D00A22A9A /* OMCrossPromotionVideoController.m */,
+				497F02A925661FE700354846 /* OMCrossPromotionCP.h */,
+				497F02AA25661FE700354846 /* OMCrossPromotionCP.m */,
+				49B2A67F255E5B8400A22A9A /* OMCrossPromotionJSBridge.h */,
+				49B2A680255E5B8400A22A9A /* OMCrossPromotionJSBridge.m */,
+				49EA8847255BD01C00D4B932 /* OMCrossPromotionCampaignManager.h */,
+				49EA8848255BD01C00D4B932 /* OMCrossPromotionCampaignManager.m */,
+				49EA884B255BD08500D4B932 /* OMCrossPromotionCampaign.h */,
+				49EA884C255BD08500D4B932 /* OMCrossPromotionCampaign.m */,
+				49EA885B255C273500D4B932 /* OMCrossPromotionCampaignModel.h */,
+				49EA885C255C273500D4B932 /* OMCrossPromotionCampaignModel.m */,
+				49EA884F255BD0B800D4B932 /* OMCrossPromotionClickHandler.h */,
+				49EA8850255BD0B800D4B932 /* OMCrossPromotionClickHandler.m */,
+				49EA8857255BD11B00D4B932 /* OMCrossPromotionWebController.h */,
+				49EA8858255BD11B00D4B932 /* OMCrossPromotionWebController.m */,
+				497B96DF255D244C0024592E /* OMCrossPromotionDownloadManager.h */,
+				497B96E2255D244D0024592E /* OMCrossPromotionDownloadManager.m */,
+				497B96DE255D244C0024592E /* OMCrossPromotionDownloader.h */,
+				497B96E0255D244C0024592E /* OMCrossPromotionDownloader.m */,
+				497B96E5255D244D0024592E /* OMCrossPromotionCacheFile.h */,
+				497B96E4255D244D0024592E /* OMCrossPromotionCacheFile.m */,
+				497B96E3255D244D0024592E /* OMCrossPromotionHTTPCacheControl.h */,
+				497B96E1255D244C0024592E /* OMCrossPromotionHTTPCacheControl.m */,
+				49B2A657255D48B300A22A9A /* OMCrossPromotionClRequest.h */,
+				49B2A658255D48B400A22A9A /* OMCrossPromotionClRequest.m */,
+				49B2A6CC255E8F0700A22A9A /* OMCrossPromotionExposureMonitor.h */,
+				49B2A6CB255E8F0700A22A9A /* OMCrossPromotionExposureMonitor.m */,
+			);
+			path = OpenMediationPromotion;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1894,16 +2087,27 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				497F021225650BF900354846 /* OMCrossPromotionDelegate.h in Headers */,
+				497F021625650BF900354846 /* OMCrossPromotion.h in Headers */,
+				49EA8837255BC71000D4B932 /* OMCrossPromotionBanner.h in Headers */,
 				0C86488823EA6FA400CB942D /* OMNativeDelegate.h in Headers */,
 				0C0F88E223D42E4B002AB5C7 /* OMScene.h in Headers */,
+				497F021125650BF900354846 /* OMCrossPromotionAdDelegate.h in Headers */,
 				0C5DB6BF23E9822400842709 /* OMAdBase.h in Headers */,
+				49EA883A255BC71000D4B932 /* OMCrossPromotionNativeAd.h in Headers */,
 				0C5DB6BD23E9822400842709 /* OMAdSingletonInterface.h in Headers */,
+				49EA883C255BC71000D4B932 /* OMCrossPromotionRewardedVideo.h in Headers */,
 				49DE5A0A23EC459F00F89345 /* OpenMediationUmbrella.h in Headers */,
 				0C86489A23EA73C300CB942D /* OMRewardedVideoDelegate.h in Headers */,
 				0C86489E23EA73C300CB942D /* OMRewardedVideo.h in Headers */,
 				0C86488123EA6FA400CB942D /* OMNativeView.h in Headers */,
+				49B2A6CE255E8F0800A22A9A /* OMCrossPromotionExposureMonitor.h in Headers */,
+				497F028425650ECE00354846 /* OMCrossPromotionCustomEvent.h in Headers */,
+				49B2A659255D48B400A22A9A /* OMCrossPromotionClRequest.h in Headers */,
 				0C86488A23EA6FA400CB942D /* OMNativeMediaView.h in Headers */,
 				0C86488923EA6FA400CB942D /* OMNativeAd.h in Headers */,
+				497B96E7255D244D0024592E /* OMCrossPromotionDownloadManager.h in Headers */,
+				49B2A681255E5B8400A22A9A /* OMCrossPromotionJSBridge.h in Headers */,
 				49DE5A0D23EC4BAE00F89345 /* OMDependTask.h in Headers */,
 				0C86488423EA6FA400CB942D /* OMNative.h in Headers */,
 				0CF88104247384C900ED2CBD /* OMSplashCustomEvent.h in Headers */,
@@ -1912,6 +2116,7 @@
 				0CF881012473847A00ED2CBD /* OMSplash.h in Headers */,
 				49468C1824B75A2F00AF4E06 /* OMBidNetworkItem.h in Headers */,
 				0CF881022473847A00ED2CBD /* OMSplashDelegate.h in Headers */,
+				497B96EB255D244D0024592E /* OMCrossPromotionHTTPCacheControl.h in Headers */,
 				0CF880FE2473847A00ED2CBD /* OMSplashAd.h in Headers */,
 				0C86486C23EA68E300CB942D /* OMInterstitial.h in Headers */,
 				0C86485023EA628400CB942D /* OMBannerDelegate.h in Headers */,
@@ -1919,6 +2124,7 @@
 				0C86484C23EA628400CB942D /* OMBanner.h in Headers */,
 				0C86485323EA632800CB942D /* OMModelUmbrella.h in Headers */,
 				0C5DB6C023E9822400842709 /* OMLoadFrequencryControl.h in Headers */,
+				49EA8821255BC6C600D4B932 /* OMCDRequest.h in Headers */,
 				0C5DB6C123E9822400842709 /* OMAdBasePrivate.h in Headers */,
 				49DF722B23E948840033495A /* OpenMediationAdFormats.h in Headers */,
 				0C70AA5C23D165F80021D67A /* OpenMediation.h in Headers */,
@@ -1926,9 +2132,13 @@
 				49D1B84F23E97FEC0028CB5C /* OMCrashHandle.h in Headers */,
 				49DF722F23E962710033495A /* OMAudience.h in Headers */,
 				0C86488623EA6FA400CB942D /* OMNativeViewCustomEvent.h in Headers */,
+				49EA883E255BC71000D4B932 /* OMCrossPromotionBid.h in Headers */,
+				49EA885D255C273500D4B932 /* OMCrossPromotionCampaignModel.h in Headers */,
 				0CF1EEEB23D30C0E00D98999 /* NSData+OMGzip.h in Headers */,
 				0C86489B23EA73C300CB942D /* OMRewardedVideoCustomEvent.h in Headers */,
+				497F021325650BF900354846 /* OMCrossPromotionAd.h in Headers */,
 				0C5DB60D23E93D1000842709 /* OMErrorRequest.h in Headers */,
+				497F02AB25661FE700354846 /* OMCrossPromotionCP.h in Headers */,
 				0C70AC2523D1968E0021D67A /* OMInitRequest.h in Headers */,
 				0C5DB67923E9670E00842709 /* OMError.h in Headers */,
 				0C70AC3123D19FEF0021D67A /* UIDevice+OMExtension.h in Headers */,
@@ -1937,6 +2147,8 @@
 				0C0F88D623D42DD0002AB5C7 /* OMConfig.h in Headers */,
 				49FD2BAC23FD619800FFA0EF /* OMHybridLoad.h in Headers */,
 				0C981B9123D55ECE0074B43A /* OMReachability+OMExtentsion.h in Headers */,
+				49EA8859255BD11B00D4B932 /* OMCrossPromotionWebController.h in Headers */,
+				49B2A71D255EA62D00A22A9A /* OMCrossPromotionVideoController.h in Headers */,
 				49468C1A24B75A2F00AF4E06 /* OMBidResponse.h in Headers */,
 				0C86486B23EA68E300CB942D /* OMInterstitialCustomEvent.h in Headers */,
 				0C70AC4323D1A5920021D67A /* OMBaseRequest.h in Headers */,
@@ -1944,14 +2156,19 @@
 				0C70AC3423D1A0CC0021D67A /* OMMacros.h in Headers */,
 				0C0F88DE23D42E3A002AB5C7 /* OMUnit.h in Headers */,
 				0C5DB64F23E94D9900842709 /* NSString+OMEncrypt.h in Headers */,
+				49EA8835255BC71000D4B932 /* OMCrossPromotionNative.h in Headers */,
 				0C86485B23EA64D200CB942D /* UIView+OMExtentsion.h in Headers */,
+				497B96ED255D244D0024592E /* OMCrossPromotionCacheFile.h in Headers */,
 				0C70AC2123D196110021D67A /* OMRequest.h in Headers */,
 				0C981B9B23D58FEB0074B43A /* OMMediations.h in Headers */,
 				0C86489623EA73C300CB942D /* OMRewardedVideoAd.h in Headers */,
 				49DF722623E93F160033495A /* OMMediationAdapter.h in Headers */,
 				0C5DB67123E958AF00842709 /* OMWeakObject.h in Headers */,
+				49B2A707255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.h in Headers */,
+				497B96E6255D244D0024592E /* OMCrossPromotionDownloader.h in Headers */,
 				0C86484D23EA628400CB942D /* OMBannerAd.h in Headers */,
 				0C70AC4723D1A76D0021D67A /* NSError+OMExtension.h in Headers */,
+				49EA8840255BC71000D4B932 /* OMCrossPromotionNativeView.h in Headers */,
 				49FD2BA423FCEAC600FFA0EF /* OMSmartLoad.h in Headers */,
 				0C86484F23EA628400CB942D /* OMBannerCustomEvent.h in Headers */,
 				49D1B85323E980040028CB5C /* OMBacktrace.h in Headers */,
@@ -1972,12 +2189,15 @@
 				0C5DB6BE23E9822400842709 /* OMAdSingletonInterfacePrivate.h in Headers */,
 				0C70AC3F23D1A4000021D67A /* OMReachability.h in Headers */,
 				0C86488723EA6FA400CB942D /* OMMediatedNativeAd.h in Headers */,
+				49EA8851255BD0B800D4B932 /* OMCrossPromotionClickHandler.h in Headers */,
 				0C5DB67A23E9670E00842709 /* OMSDKError.h in Headers */,
+				49EA884D255BD08500D4B932 /* OMCrossPromotionCampaign.h in Headers */,
 				0C70AA5E23D167E00021D67A /* OpenMediationConstant.h in Headers */,
 				0C0E580B23E82C3A0015C456 /* OMWaterfallRequest.h in Headers */,
 				0C5DB6A923E97C0100842709 /* OMCustomEventDelegate.h in Headers */,
 				0C86485F23EA675A00CB942D /* OMExposureMonitor.h in Headers */,
 				0C0F88DA23D42E29002AB5C7 /* OMInstance.h in Headers */,
+				49EA8849255BD01C00D4B932 /* OMCrossPromotionCampaignManager.h in Headers */,
 				0C981B9423D584140074B43A /* OMNetworkUmbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2064,7 +2284,9 @@
 				49C0F9E524DAF28400C20F54 /* OMVungleSplash.h in Headers */,
 				49C0F9BC24DAF1C100C20F54 /* OMVungleAdapter.h in Headers */,
 				49C0F9B424DAF1C100C20F54 /* OMVungleClass.h in Headers */,
+				491B9C5F251DDCB3007A4310 /* OMVungleBidClass.h in Headers */,
 				49C0F9B924DAF1C100C20F54 /* OMVungleRewardedVideo.h in Headers */,
+				491B9C60251DDCB3007A4310 /* OMVungleBid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2279,6 +2501,7 @@
 				0C981BBC23D69A1D0074B43A /* Frameworks */,
 				0C981BBD23D69A1D0074B43A /* Resources */,
 				492403A323F69CCC00687456 /* Embed App Extensions */,
+				49EA87F7255BB9D000D4B932 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2841,13 +3064,18 @@
 				0C70AC2E23D198DE0021D67A /* NSDate+OMExtension.m in Sources */,
 				0C0E580823E820EA0015C456 /* OMIcRequest.m in Sources */,
 				0C5DB60E23E93D1000842709 /* OMErrorRequest.m in Sources */,
+				497B96E9255D244D0024592E /* OMCrossPromotionHTTPCacheControl.m in Sources */,
+				49EA885E255C273500D4B932 /* OMCrossPromotionCampaignModel.m in Sources */,
 				0C5DB64E23E94D9900842709 /* NSString+OMEncrypt.m in Sources */,
 				0C86489923EA73C300CB942D /* OMRewardedVideo.m in Sources */,
 				0C0E580423E814ED0015C456 /* OMIAPRequest.m in Sources */,
 				49097843240383EA00D39DF5 /* OMUnit.m in Sources */,
 				0C70AC2223D196110021D67A /* OMRequest.m in Sources */,
+				49EA8838255BC71000D4B932 /* OMCrossPromotionNativeAd.m in Sources */,
 				49468C1624B75A2F00AF4E06 /* OMBidResponse.m in Sources */,
+				49B2A65A255D48B400A22A9A /* OMCrossPromotionClRequest.m in Sources */,
 				49D1B85D23EA78CC0028CB5C /* OMEventRequest.m in Sources */,
+				49EA883D255BC71000D4B932 /* OMCrossPromotionNative.m in Sources */,
 				0C981B9223D55ECE0074B43A /* OMReachability+OMExtentsion.m in Sources */,
 				0C0E580C23E82C3A0015C456 /* OMWaterfallRequest.m in Sources */,
 				492018D123F6C20C007C5EA4 /* OMLoad.m in Sources */,
@@ -2857,11 +3085,17 @@
 				0C0F88DB23D42E29002AB5C7 /* OMInstance.m in Sources */,
 				0C86485923EA64D200CB942D /* UIView+OMExtentsion.m in Sources */,
 				0C86485123EA628400CB942D /* OMBanner.m in Sources */,
+				49EA884E255BD08500D4B932 /* OMCrossPromotionCampaign.m in Sources */,
+				49B2A6CD255E8F0800A22A9A /* OMCrossPromotionExposureMonitor.m in Sources */,
 				49FD2BA923FD0CC300FFA0EF /* OMHbRequest.m in Sources */,
 				0C86487023EA68E300CB942D /* OMInterstitialAd.m in Sources */,
+				497F02AC25661FE700354846 /* OMCrossPromotionCP.m in Sources */,
+				49B2A71E255EA62D00A22A9A /* OMCrossPromotionVideoController.m in Sources */,
+				497B96E8255D244D0024592E /* OMCrossPromotionDownloader.m in Sources */,
 				0C0E57FC23E7EE4B0015C456 /* OMLrRequest.m in Sources */,
 				49DE5A0E23EC4BAE00F89345 /* OMDependTask.m in Sources */,
 				0C5DB6BA23E9822400842709 /* OMLoadFrequencryControl.m in Sources */,
+				49EA8834255BC71000D4B932 /* OMCrossPromotionNativeView.m in Sources */,
 				0C86488323EA6FA400CB942D /* OMNativeMediaView.m in Sources */,
 				0CF1EEEC23D30C0E00D98999 /* NSData+OMGzip.m in Sources */,
 				0C5DB67223E958AF00842709 /* OMWeakObject.m in Sources */,
@@ -2873,10 +3107,15 @@
 				0C0F88E323D42E4B002AB5C7 /* OMScene.m in Sources */,
 				0C70AC3223D19FEF0021D67A /* UIDevice+OMExtension.m in Sources */,
 				0CF880FF2473847A00ED2CBD /* OMSplash.m in Sources */,
+				49EA8841255BC71000D4B932 /* OMCrossPromotionBanner.m in Sources */,
 				0C70AA5A23D165DC0021D67A /* OpenMediation.m in Sources */,
 				0C0F88D723D42DD0002AB5C7 /* OMConfig.m in Sources */,
 				0C86484E23EA628400CB942D /* OMBannerAd.m in Sources */,
 				0C5DB68A23E9726D00842709 /* NSNumber+OMExtension.m in Sources */,
+				49EA8822255BC6C600D4B932 /* OMCDRequest.m in Sources */,
+				497B96EA255D244D0024592E /* OMCrossPromotionDownloadManager.m in Sources */,
+				49B2A682255E5B8400A22A9A /* OMCrossPromotionJSBridge.m in Sources */,
+				49EA883B255BC71000D4B932 /* OMCrossPromotionRewardedVideo.m in Sources */,
 				0C86485A23EA64D200CB942D /* UIViewController+OMExtension.m in Sources */,
 				0C5DB67723E9670E00842709 /* OMError.m in Sources */,
 				0C86488523EA6FA400CB942D /* OMNativeView.m in Sources */,
@@ -2884,17 +3123,25 @@
 				0C70AC4423D1A5920021D67A /* OMBaseRequest.m in Sources */,
 				0C70AC3823D1A1C50021D67A /* OMKeychain.m in Sources */,
 				0C70AC2623D1968E0021D67A /* OMInitRequest.m in Sources */,
+				49EA885A255BD11B00D4B932 /* OMCrossPromotionWebController.m in Sources */,
 				49468C1524B75A2F00AF4E06 /* OMBidNetworkItem.m in Sources */,
+				497B96EC255D244D0024592E /* OMCrossPromotionCacheFile.m in Sources */,
+				497F021525650BF900354846 /* OMCrossPromotionAd.m in Sources */,
 				49FD2BAD23FD619800FFA0EF /* OMHybridLoad.m in Sources */,
+				49EA8839255BC71000D4B932 /* OMCrossPromotionBid.m in Sources */,
 				0C5DB6B823E9822400842709 /* OMAdSingletonInterface.m in Sources */,
+				49EA8852255BD0B800D4B932 /* OMCrossPromotionClickHandler.m in Sources */,
+				497F021425650BF900354846 /* OMCrossPromotion.m in Sources */,
 				49FD2BA523FCEAC600FFA0EF /* OMSmartLoad.m in Sources */,
 				0C5DB67823E9670E00842709 /* OMSDKError.m in Sources */,
 				0C70AC2A23D198600021D67A /* OMLogMoudle.m in Sources */,
 				0C5DB6AA23E97C0100842709 /* OMInstanceContainer.m in Sources */,
 				0C5DB64A23E94D1500842709 /* NSString+OMExtension.m in Sources */,
+				49EA884A255BD01C00D4B932 /* OMCrossPromotionCampaignManager.m in Sources */,
 				49D1B86223EA7C620028CB5C /* OMEventManager.m in Sources */,
 				0C981B9C23D58FEB0074B43A /* OMMediations.m in Sources */,
 				0C70AC3C23D1A3D00021D67A /* OMNetMonitor.m in Sources */,
+				49B2A708255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.m in Sources */,
 				0C86485E23EA675A00CB942D /* OMExposureMonitor.m in Sources */,
 				49DF723023E962710033495A /* OMAudience.m in Sources */,
 				0C86488223EA6FA400CB942D /* OMNativeAd.m in Sources */,
@@ -2923,6 +3170,7 @@
 				0C981BF023D6D97B0074B43A /* NativeViewController.m in Sources */,
 				0C981BFC23D6DB4E0074B43A /* MainViewController.m in Sources */,
 				0C981BF623D6D9A80074B43A /* RewardedVideoViewController.m in Sources */,
+				497F02C12566416A00354846 /* CrossPromotionViewController.m in Sources */,
 				0C981BC323D69A1D0074B43A /* AppDelegate.m in Sources */,
 				0C981BDE23D6D6360074B43A /* BaseViewController.m in Sources */,
 				0CF881072473857600ED2CBD /* SplashViewController.m in Sources */,
@@ -2979,6 +3227,7 @@
 			files = (
 				49C0F9E624DAF28400C20F54 /* OMVungleSplash.m in Sources */,
 				49C0F9B624DAF1C100C20F54 /* OMVungleBanner.m in Sources */,
+				491B9C61251DDCB3007A4310 /* OMVungleBid.m in Sources */,
 				49C0F9B524DAF1C100C20F54 /* OMVungleRouter.m in Sources */,
 				49C0F9BB24DAF1C100C20F54 /* OMVungleAdapter.m in Sources */,
 				49C0F9B824DAF1C100C20F54 /* OMVungleRewardedVideo.m in Sources */,
@@ -3360,7 +3609,7 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.3.4;
 				MODULEMAP_FILE = OpenMediation/OpenMediation.modulemap;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.mediationsdk;
@@ -3389,7 +3638,7 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.3.4;
 				MODULEMAP_FILE = OpenMediation/OpenMediation.modulemap;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.mediationsdk;
@@ -3467,7 +3716,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.4;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
@@ -3495,7 +3744,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.4;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",

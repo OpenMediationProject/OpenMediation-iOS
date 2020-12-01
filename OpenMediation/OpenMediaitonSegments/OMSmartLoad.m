@@ -20,11 +20,12 @@
         }
         
         if (!unit || unit.cacheCount <= 0) {
-            self.cacheCount = 2;
+            self.configCacheCount = 2;
             OMLogD(@"%@ cache use default %zd",self.pid,self.cacheCount);
         } else {
-            self.cacheCount = unit.cacheCount;
+            self.configCacheCount = unit.cacheCount;
         }
+        self.cacheCount = self.configCacheCount;
         [self addCheckCacheTimer];
     }
     return self;
@@ -69,6 +70,7 @@
 
 - (void)loadWithAction:(OMLoadAction)action {
     [super loadWithAction:action];
+    [self checkOptimalInstance];
     if (self.adShow) {
          OMLogD(@"%@ smart load block: adshow",self.pid);
         [self addEvent:LOAD_BLOCKED extraData:@{@"msg":@"ad show"}];
@@ -118,19 +120,15 @@
         OMLogD(@"%@ priority empty",self.pid);
         [self notifyNoFill];
         [self notifyLoadEnd];
-        return;
-    }
-    
-    NSString *instancePriorityStr = [self.priorityList componentsJoinedByString:@","];
-    OMLogD(@"%@ load with priority %@",self.pid,instancePriorityStr);
-    
-    if (self.priorityList.count < self.cacheCount) {
-        self.cacheCount = self.priorityList.count;
+    } else {
+        NSString *instancePriorityStr = [self.priorityList componentsJoinedByString:@","];
+        OMLogD(@"%@ load with priority %@",self.pid,instancePriorityStr);
+        self.cacheCount = MIN(self.priorityList.count, self.configCacheCount);
         OMLogD(@"%@ priority count less than cache count use min %zd ",self.pid,self.cacheCount);
+        [self checkOptimalInstance];
+        [self groupByBatchSize:1];
+        [self addLoadingInstance];
     }
-    
-    [self groupByBatchSize:1];
-    [self addLoadingInstance];
     
 }
 
@@ -154,7 +152,7 @@
         OMInstanceLoadState loadState = [self.instanceLoadState[instanceID]integerValue];
         if (loadState == OMInstanceLoadStateLoading) {
             _loadingCount++;
-        } else if (loadState == OMInstanceLoadStateSuccess) {
+        } else if (loadState == OMInstanceLoadStateSuccess && [self.delegate omCheckInstanceReady:instanceID]) {
             if (![self.optimalFillInstance length]) {
                 self.optimalFillInstance =  instanceID;
             }

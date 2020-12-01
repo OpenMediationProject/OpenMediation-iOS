@@ -9,20 +9,6 @@
     return GdtAdapterVersion;
 }
 
-+ (NSString*)adNetworkVersion {
-    NSString *sdkVersion = @"";
-    Class sdkClass = NSClassFromString(@"GDTSDKConfig");
-    if (sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]) {
-        sdkVersion = [sdkClass sdkVersion];
-    }
-    return sdkVersion;
-}
-
-+ (NSString*)minimumSupportVersion {
-    return @"4.11.4";
-}
-
-
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     Class gdtClass = NSClassFromString(@"GDTSDKConfig");
     
@@ -30,14 +16,6 @@
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.gdtadapter"
                                                     code:404
                                                 userInfo:@{NSLocalizedDescriptionKey:@"GDT SDK not found"}];
-        completionHandler(error);
-        return;
-    }
-    
-    if ([[self adNetworkVersion]compare:[self minimumSupportVersion]options:NSNumericSearch] == NSOrderedAscending) {
-        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.gdtadapter"
-                                                    code:505
-                                                userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"The current ad network(%@) is below the minimum required version(%@)",[self adNetworkVersion],[self minimumSupportVersion]]}];
         completionHandler(error);
         return;
     }

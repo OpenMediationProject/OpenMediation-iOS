@@ -59,22 +59,22 @@
 }
 
 - (void)willLeaveApplicationFromAd:(MPAdView *)view {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]) {
-        [self.delegate bannerCustomEventDidClick:self];
-    }
-    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillLeaveApplication:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillLeaveApplication:)]) {
       [_delegate bannerCustomEventWillLeaveApplication:self];
     }
 }
 
 - (void)willPresentModalViewForAd:(MPAdView *)view {
-  if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillPresentScreen:)]){
+  if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillPresentScreen:)]) {
       [_delegate bannerCustomEventWillPresentScreen:self];
   };
 }
 
 - (void)didDismissModalViewForAd:(MPAdView *)view {
-  if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDismissScreen:)]){
+    if (self.delegate && [self.delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]) {
+        [self.delegate bannerCustomEventDidClick:self];
+    }
+  if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDismissScreen:)]) {
       [_delegate bannerCustomEventDismissScreen:self];
   }
 }

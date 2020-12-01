@@ -50,6 +50,10 @@
         response.lurl = [responseData objectForKey:@"lurl"];
         response.notifyWin = [responseData objectForKey:@"winBlock"];
         response.notifyLoss = [responseData objectForKey:@"lossBlock"];
+        if ([responseData objectForKey:@"expire"]) {
+            response.expire = (NSInteger)([NSDate date].timeIntervalSince1970 + [[responseData objectForKey:@"expire"]integerValue]*60)*1000;
+        }
+
         return response;
     }
 

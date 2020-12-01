@@ -18,19 +18,6 @@ static OMChartboostAdapter * _instance = nil;
     return ChartboostAdapterVersion;
 }
 
-+ (NSString*)adNetworkVersion {
-    NSString *sdkVersion = @"";
-    Class sdkClass = NSClassFromString(@"Chartboost");
-    if (sdkClass && [sdkClass respondsToSelector:@selector(getSDKVersion)]) {
-        sdkVersion = [sdkClass getSDKVersion];
-    }
-    return sdkVersion;
-}
-
-+ (NSString*)minimumSupportVersion {
-    return @"7.2.0";
-}
-
 + (void)setConsent:(BOOL)consent {
     Class chartboostClass = NSClassFromString(@"Chartboost");
     Class CHBGDPRDataUseConsentClass = NSClassFromString(@"CHBGDPRDataUseConsent");
@@ -60,15 +47,7 @@ static OMChartboostAdapter * _instance = nil;
         return;
     }
     
-    if ([[self adNetworkVersion]compare:[self minimumSupportVersion]options:NSNumericSearch] == NSOrderedAscending) {
-        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.chartboostadapter"
-                                                    code:505
-                                                userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"The current ad network(%@) is below the minimum required version(%@)",[self adNetworkVersion],[self minimumSupportVersion]]}];
-        completionHandler(error);
-        return;
-    }
-    
-    if(chartboostClass && [chartboostClass respondsToSelector:@selector(startWithAppId:appSignature:completion:)] && keys.count > 1){
+    if(chartboostClass && [chartboostClass respondsToSelector:@selector(startWithAppId:appSignature:completion:)] && keys.count > 1) {
         [chartboostClass startWithAppId:keys[0]
                            appSignature:keys[1]
                              completion:^(BOOL success) {

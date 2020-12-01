@@ -6,6 +6,7 @@
 #import "OMBidResponse.h"
 #import "OMEventManager.h"
 #import "OMToolUmbrella.h"
+#import "OMMediations.h"
 
 @implementation OMBid
 
@@ -23,6 +24,14 @@
 
     for (OMBidNetworkItem *networkItem in networkItems) {
         if (!OM_STR_EMPTY(networkItem.adnName)) {
+            OMAdNetwork adnID = [networkItem.extraData[@"adnID"] integerValue];
+            
+            if ((adnID == OMAdNetworkVungle || adnID == OMAdNetworkChartboostBid) && ![[OMMediations sharedInstance]adnSDKInitialized:adnID]) {
+                [[OMMediations sharedInstance]initAdNetworkSDKWithId:adnID
+                                                       completionHandler:^(NSError * _Nullable error) {
+                }];
+            }
+            
             NSString *className = [NSString stringWithFormat:@"OM%@Bid",networkItem.adnName];
             Class bidClass = NSClassFromString(className);
             if (bidClass && [bidClass respondsToSelector:@selector(bidderToken)]) {

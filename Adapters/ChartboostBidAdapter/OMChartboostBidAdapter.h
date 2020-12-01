@@ -1,17 +1,12 @@
-//
-//  OMChartboostBidAdapter.h
-//  AdTimingHeliumAdapter
-//
-//  Created by ylm on 2020/6/17.
-//  Copyright © 2020 AdTiming. All rights reserved.
-//
+// Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
+// Licensed under the GNU Lesser General Public License Version 3
 
 #import <Foundation/Foundation.h>
 #import "OMMediationAdapter.h"
 #import "OMChartboostBidClass.h"
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const HeliumAdapterVersion = @"3.1.0";
+static NSString * const HeliumAdapterVersion = @"3.1.1";
 
 
 @interface OMChartboostBidAdapter : NSObject<OMMediationAdapter,HeliumSdkDelegate>

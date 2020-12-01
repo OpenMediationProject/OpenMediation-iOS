@@ -26,7 +26,7 @@
 
 #pragma mark BUNativeExpressBannerViewDelegate
 - (void)nativeExpressBannerAdViewDidLoad:(BUNativeExpressBannerView *)bannerAdView{
-    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
 }
@@ -36,7 +36,7 @@
  @param error : the reason of error
  */
 - (void)nativeExpressBannerAdView:(BUNativeExpressBannerView *)bannerAdView didLoadFailWithError:(NSError *_Nullable)error{
-    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
@@ -45,7 +45,7 @@
  This method is called when rendering a nativeExpressAdView successed.
  */
 - (void)nativeExpressBannerAdViewRenderSuccess:(BUNativeExpressBannerView *)bannerAdView{
-    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillPresentScreen:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillPresentScreen:)]) {
         [_delegate bannerCustomEventWillPresentScreen:self];
     }
 }
@@ -69,7 +69,7 @@
  This method is called when bannerAdView is clicked.
  */
 - (void)nativeExpressBannerAdViewDidClick:(BUNativeExpressBannerView *)bannerAdView{
-    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]) {
         [_delegate bannerCustomEventDidClick:self];
     }
 }

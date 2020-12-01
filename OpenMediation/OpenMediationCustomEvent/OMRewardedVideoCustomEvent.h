@@ -23,7 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol OMRewardedVideoCustomEvent<NSObject>
 @property(nonatomic, weak, nullable) id<rewardedVideoCustomEventDelegate> delegate;
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
+@optional
 - (void)loadAd;
+- (void)loadAdWithBidPayload:(NSString*)bidPayload;
 - (BOOL)isReady;
 - (void)show:(UIViewController*)vc;
 @end

@@ -4,7 +4,7 @@
 #import <UIKit/UIKit.h>
 #import "OMMediationAdapter.h"
 
-static NSString * const VungleAdapterVersion = @"3.1.1";
+static NSString * const VungleAdapterVersion = @"3.1.4";
 
 @interface OMVungleAdapter : NSObject<OMMediationAdapter>
 

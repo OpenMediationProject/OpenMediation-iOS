@@ -23,6 +23,7 @@ typedef NS_ENUM (NSInteger, OMBidLossedReasonCode) {
 @property (nonatomic, assign) float price;
 @property (nonatomic, copy) NSString *currency;
 @property (nonatomic, copy) NSObject *payLoad;
+@property (nonatomic, assign) NSInteger expire;
 
 @property (nonatomic,copy, nullable) void(^notifyWin)(void);
 @property (nonatomic,copy, nullable) void(^notifyLoss)(void);

@@ -89,6 +89,7 @@
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]) {
         [_delegate rewardedVideoCustomEventDidClose:self];
     }
+    _faceBookPlacement = nil;
 }
 
 @end

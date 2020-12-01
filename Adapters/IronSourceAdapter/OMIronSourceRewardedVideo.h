@@ -7,9 +7,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMIronSourceRewardedVideo : NSObject<OMIronSourceAdapterDelegate,OMRewardedVideoCustomEvent>
+@interface OMIronSourceRewardedVideo : NSObject<ISRewardedVideoDelegate,OMRewardedVideoCustomEvent>
 @property (nonatomic, copy) NSString *pid;
-@property (nonatomic, copy) NSString *appID;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
