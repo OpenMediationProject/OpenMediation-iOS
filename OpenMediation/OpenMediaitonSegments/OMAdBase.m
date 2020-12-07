@@ -21,6 +21,10 @@
 
 #define OMBidTest   YES //for bid
 
+@interface OpenMediation()
++ (void)initWithAppKey:(NSString*)appKey baseHost:(nonnull NSString *)host;
+@end
+
 @implementation OMAdBase
 
 - (instancetype)initWithPlacementID:(NSString*)placementID size:(CGSize)size {

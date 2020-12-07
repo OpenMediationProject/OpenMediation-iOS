@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'OpenMediation'
-  s.version      = '2.0.0'
+  s.version      = '2.0.1'
   s.summary      = 'OpenMediation SDK for iOS'
   s.homepage     = 'https://github.com/AdTiming/OpenMediation-iOS'
   s.description  = <<-DESC
@@ -96,8 +96,6 @@ Pod::Spec.new do |s|
                               'OpenMediation/OpenMediationRewardedVideo/OMRewardedVideoDelegate.h',
                               'OpenMediation/OpenMediationSplash/OMSplash.h',
                               'OpenMediation/OpenMediationSplash/OMSplashDelegate.h',
-                              'OpenMediation/OpenMediationCrossPromotion/OMCrossPromotion.h',
-                              'OpenMediation/OpenMediationCrossPromotion/OMCrossPromotionDelegate.h',
                               'OpenMediation/OpenMediaitonSegments/OMAdSingletonInterface.h',
                               'OpenMediation/OpenMediaitonSegments/OMAdbase.h',
                               'OpenMediation/OpenMediationModel/OMScene.h',

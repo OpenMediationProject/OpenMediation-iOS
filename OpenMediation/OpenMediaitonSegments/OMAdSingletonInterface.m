@@ -72,8 +72,9 @@
 
 - (void)preload {
     NSString *unitID = [[OMConfig sharedInstance]defaultUnitIDForAdFormat:_adFormat];
-    [self preloadPlacementID:unitID];
-    
+    if ([unitID length]>0) {
+        [self preloadPlacementID:unitID];
+    }
 }
 
 - (void)preloadPlacementID:(NSString*)pid {

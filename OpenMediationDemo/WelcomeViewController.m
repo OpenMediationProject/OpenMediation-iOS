@@ -3,12 +3,13 @@
 
 #import "WelcomeViewController.h"
 #import "MainViewController.h"
+#import "InitSettingViewController.h"
 
 @import OpenMediation;
 
 @interface WelcomeViewController ()
 @property (strong, nonatomic) UILabel *welcomLabel;
-@property (strong, nonatomic) UIButton *appKeyBtn;
+@property (strong, nonatomic) UIButton *settingBtn;
 @end
 
 @implementation WelcomeViewController
@@ -22,7 +23,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initSuccess) name:@"kOpenMediatonInitSuccessNotification" object:nil];
     [self.view addSubview:self.welcomLabel];
-    
+    [self.view addSubview:self.settingBtn];
 }
 
 - (void)initSuccess {
@@ -52,4 +53,19 @@
     [self.navigationController pushViewController:listVC animated:YES];
 }
 
+- (UIButton*)settingBtn {
+    if(!_settingBtn){
+        _settingBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height/3.0*2.0,self.view.frame.size.width, 50)];
+        _settingBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+        [_settingBtn setTitleColor:[UIColor systemBlueColor] forState:UIControlStateNormal];
+        [_settingBtn setTitle:@"Init Settings" forState:UIControlStateNormal];
+        [_settingBtn addTarget:self action:@selector(setting) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _settingBtn;
+}
+
+- (void)setting {
+    InitSettingViewController *settingVC = [[InitSettingViewController alloc] init];
+    [self.navigationController pushViewController:settingVC animated:YES];
+}
 @end

@@ -6,19 +6,6 @@
 #import "OMInterstitialCustomEvent.h"
 #import "OMRewardedVideoCustomEvent.h"
 
-
-
-@interface OMBidNetworkItem : NSObject
-
-@property (nonatomic, strong) NSString *adnName;
-@property (nonatomic, strong) NSString *appKey;
-@property (nonatomic, strong) NSString *placementID;
-@property (nonatomic, assign) NSInteger maxTimeOutMS;
-@property (nonatomic, assign) BOOL testMode;
-@property (nonatomic, strong) NSDictionary *extraData;
-
-@end
-
 typedef id _Nullable (^mInstanceInitBlock)(void);
 
 @interface OMInstanceContainer : NSObject

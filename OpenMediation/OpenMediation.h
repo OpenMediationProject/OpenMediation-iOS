@@ -28,10 +28,13 @@ extern NSString *kOpenMediatonInitSuccessNotification;
 @interface OpenMediation : NSObject
 
 /// Initializes OpenMediation's SDK with all the ad types that are defined in the platform.
-+ (void)initWithAppKey:(NSString*)appKey baseHost:(NSString*)host;
++ (void)initWithAppKey:(NSString*)appKey;
 
 /// Initializes OpenMediation's SDK with the requested ad types.
-+ (void)initWithAppKey:(NSString *)appKey baseHost:(NSString*)host adFormat:(OpenMediationAdFormat)initAdFormats ;
++ (void)initWithAppKey:(NSString *)appKey adFormat:(OpenMediationAdFormat)initAdTypes;
+
+/// Initializes OpenMediation's SDK with the requested ad types.
++ (void)initWithAppKey:(NSString *)appKey baseHost:(NSString*)host adFormat:(OpenMediationAdFormat)initAdFormats;
 
 /// Check that `OpenMediation` has been initialized
 + (BOOL)isInitialized;

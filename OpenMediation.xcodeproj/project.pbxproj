@@ -218,6 +218,7 @@
 		497F02AB25661FE700354846 /* OMCrossPromotionCP.h in Headers */ = {isa = PBXBuildFile; fileRef = 497F02A925661FE700354846 /* OMCrossPromotionCP.h */; };
 		497F02AC25661FE700354846 /* OMCrossPromotionCP.m in Sources */ = {isa = PBXBuildFile; fileRef = 497F02AA25661FE700354846 /* OMCrossPromotionCP.m */; };
 		497F02C12566416A00354846 /* CrossPromotionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 497F02C02566416A00354846 /* CrossPromotionViewController.m */; };
+		499CE5D62577465D00CC6280 /* InitSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 499CE5D52577465D00CC6280 /* InitSettingViewController.m */; };
 		499E7E9E24E6A72900F1D96C /* OMAdColonyRewardedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 499E7E9924E6A72800F1D96C /* OMAdColonyRewardedVideo.m */; };
 		499E7E9F24E6A72900F1D96C /* OMAdColonyAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 499E7E9A24E6A72800F1D96C /* OMAdColonyAdapter.m */; };
 		499E7EA024E6A72900F1D96C /* OMAdColonyAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 499E7E9B24E6A72800F1D96C /* OMAdColonyAdapter.h */; };
@@ -864,6 +865,8 @@
 		497F02AA25661FE700354846 /* OMCrossPromotionCP.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionCP.m; sourceTree = "<group>"; };
 		497F02BF2566416A00354846 /* CrossPromotionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrossPromotionViewController.h; sourceTree = "<group>"; };
 		497F02C02566416A00354846 /* CrossPromotionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrossPromotionViewController.m; sourceTree = "<group>"; };
+		499CE5D42577465D00CC6280 /* InitSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitSettingViewController.h; sourceTree = "<group>"; };
+		499CE5D52577465D00CC6280 /* InitSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitSettingViewController.m; sourceTree = "<group>"; };
 		499E7E9924E6A72800F1D96C /* OMAdColonyRewardedVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OMAdColonyRewardedVideo.m; path = Adapters/AdColonyAdapter/OMAdColonyRewardedVideo.m; sourceTree = SOURCE_ROOT; };
 		499E7E9A24E6A72800F1D96C /* OMAdColonyAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OMAdColonyAdapter.m; path = Adapters/AdColonyAdapter/OMAdColonyAdapter.m; sourceTree = SOURCE_ROOT; };
 		499E7E9B24E6A72800F1D96C /* OMAdColonyAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMAdColonyAdapter.h; path = Adapters/AdColonyAdapter/OMAdColonyAdapter.h; sourceTree = SOURCE_ROOT; };
@@ -1573,6 +1576,8 @@
 				0C981BC223D69A1D0074B43A /* AppDelegate.m */,
 				0C981BD923D6D44B0074B43A /* WelcomeViewController.h */,
 				0C981BDA23D6D44B0074B43A /* WelcomeViewController.m */,
+				499CE5D42577465D00CC6280 /* InitSettingViewController.h */,
+				499CE5D52577465D00CC6280 /* InitSettingViewController.m */,
 				0C981BFA23D6DB4E0074B43A /* MainViewController.h */,
 				0C981BFB23D6DB4E0074B43A /* MainViewController.m */,
 				0C981BEB23D6D9710074B43A /* BannerViewController.h */,
@@ -3173,6 +3178,7 @@
 				497F02C12566416A00354846 /* CrossPromotionViewController.m in Sources */,
 				0C981BC323D69A1D0074B43A /* AppDelegate.m in Sources */,
 				0C981BDE23D6D6360074B43A /* BaseViewController.m in Sources */,
+				499CE5D62577465D00CC6280 /* InitSettingViewController.m in Sources */,
 				0CF881072473857600ED2CBD /* SplashViewController.m in Sources */,
 				0C981BED23D6D9710074B43A /* BannerViewController.m in Sources */,
 				0C981BF323D6D99D0074B43A /* InterstitialViewController.m in Sources */,

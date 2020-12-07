@@ -1,5 +1,5 @@
 # OpenMediation SDK for iOS
-[![CocoaPods Compatible](http://img.shields.io/badge/pod-v2.0.0-blue.svg)](https://github.com/AdTiming/OpenMediation-iOS)
+[![CocoaPods Compatible](http://img.shields.io/badge/pod-v2.0.1-blue.svg)](https://github.com/AdTiming/OpenMediation-iOS)
 [![Platform](https://img.shields.io/badge/platform-iOS%209%2B-brightgreen.svg?style=flat)](https://github.com/AdTiming/OpenMediation-iOS)
 [![License](https://img.shields.io/github/license/AdTiming/OpenMediation-iOS)](https://github.com/AdTiming/OpenMediation-iOS/blob/master/LICENSE)
 
@@ -26,7 +26,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 
 target 'TargetName' do
-    pod 'OpenMediation', '~> 2.0.0'
+    pod 'OpenMediation', '~> 2.0.1'
 end
 ```
 

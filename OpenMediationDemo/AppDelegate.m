@@ -19,8 +19,26 @@
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:[WelcomeViewController alloc]]init];
     [self.window makeKeyAndVisible];
     
-    [OpenMediation initWithAppKey:@"mN5ML6VCxGbcmHZvW8tWVN8mkALGGnoW" baseHost:@"https://omtest.adtiming.com"];
+    [OpenMediation initWithAppKey:[self getAppKey] baseHost:[self getBaseHost] adFormat:(OpenMediationAdFormatInterstitial|OpenMediationAdFormatRewardedVideo|OpenMediationAdFormatCrossPromotion)];
     return YES;
+}
+
+- (NSString *)getAppKey {
+    NSString *appKey = [[NSUserDefaults standardUserDefaults] valueForKey:@"OpenMediationAppKey"];
+    if (!appKey) {
+        appKey = @"mN5ML6VCxGbcmHZvW8tWVN8mkALGGnoW";
+        [[NSUserDefaults standardUserDefaults] setValue:appKey forKey:@"OpenMediationAppKey"];
+    }
+    return appKey;
+}
+
+- (NSString*)getBaseHost {
+    NSString *baseHost = [[NSUserDefaults standardUserDefaults] valueForKey:@"OpenMediationBaseHost"];
+    if (!baseHost) {
+        baseHost = @"https://s.openmediation.com";
+        [[NSUserDefaults standardUserDefaults] setValue:baseHost forKey:@"OpenMediationBaseHost"];
+    }
+    return baseHost;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
