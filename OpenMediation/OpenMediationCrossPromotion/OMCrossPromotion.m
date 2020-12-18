@@ -51,24 +51,28 @@ static OMCrossPromotion * _instance = nil;
     return [super isCappedForScene:sceneName];
 }
 
-- (void)showAdWithScreenPoint:(CGPoint)scaleXY scene:(NSString *)sceneName {
-    [self showAdWithSize:DEFAULT_AD_SIZE screenPoint:scaleXY xAngle:0 zAngle:0 scene:sceneName];
+- (void)showAdWithScreenPoint:(CGPoint)scaleXY angle:(CGFloat) angle scene:(NSString *)sceneName {
+    [self showAdWithScreenPoint:scaleXY adSize:DEFAULT_AD_SIZE angle:angle scene:sceneName];
 }
 
+- (CGSize)adScaleAspectFitSize:(CGSize)adSize {
+    CGFloat scale = MIN((adSize.width/DEFAULT_AD_SIZE.width), (adSize.height/DEFAULT_AD_SIZE.height));
+    return CGSizeMake(scale*DEFAULT_AD_SIZE.width, scale*DEFAULT_AD_SIZE.height);
+}
 
-- (void)showAdWithSize:(CGSize)adSize screenPoint:(CGPoint)scaleXY xAngle:(CGFloat) xAngle zAngle:(CGFloat)zAngle scene:(NSString *)sceneName {
+- (void)showAdWithScreenPoint:(CGPoint)scaleXY adSize:(CGSize)size angle:(CGFloat) angle scene:(NSString *)sceneName {
     NSString *unitID = [[OMConfig sharedInstance]defaultUnitIDForAdFormat:OpenMediationAdFormatCrossPromotion];
     OMScene *scene = [[OMConfig sharedInstance]getSceneWithSceneName:sceneName inAdUnit:unitID];
     [self addAdEvent:CALLED_SHOW placementID:unitID scene:scene extraMsg:OM_SAFE_STRING(sceneName)];
-    [self showAdWithSize:adSize screenPoint:scaleXY xAngle:xAngle zAngle:zAngle placementID:unitID scene:sceneName];
+    [self showAdWithScreenPoint:scaleXY adSize:[self adScaleAspectFitSize:size] angle:angle placementID:unitID scene:sceneName];
 }
 
-- (void)showAdWithSize:(CGSize)adSize screenPoint:(CGPoint)scaleXY xAngle:(CGFloat) xAngle zAngle:(CGFloat)zAngle placementID:(NSString *)placementID {
+- (void)showAdWithScreenPoint:(CGPoint)scaleXY adSize:(CGSize)size angle:(CGFloat) angle placementID:(NSString *)placementID {
     [self addAdEvent:CALLED_SHOW placementID:placementID scene:nil extraMsg:nil];
-    [self showAdWithSize:adSize screenPoint:scaleXY xAngle:xAngle zAngle:zAngle placementID:placementID scene:@""];
+    [self showAdWithScreenPoint:scaleXY adSize:size angle:angle placementID:placementID scene:@""];
 }
 
-- (void)showAdWithSize:(CGSize)adSize screenPoint:(CGPoint)scaleXY xAngle:(CGFloat) xAngle zAngle:(CGFloat)zAngle placementID:(NSString *)placementID scene:(NSString*)sceneName {
+- (void)showAdWithScreenPoint:(CGPoint)scaleXY adSize:(CGSize)size angle:(CGFloat) angle placementID:(NSString *)placementID scene:(NSString*)sceneName {
     if(![OMConfig sharedInstance].initSuccess) {
         NSError *adtError = [OMError omErrorWithCode:OMErrorShowNotInitialized];
         [OMSDKError throwDeveloperError:[OMSDKError errorWithAdtError:adtError]];
@@ -109,7 +113,7 @@ static OMCrossPromotion * _instance = nil;
     }
     OMCrossPromotionAd *promotionAd = [self.loadAdInstanceDic objectForKey:placementID];
     if(promotionAd) {
-        [promotionAd showAdWithSize:adSize screenPoint:scaleXY xAngle:xAngle zAngle:zAngle scene:sceneName];
+        [promotionAd showAdWithScreenPoint:scaleXY adSize:size angle:angle scene:sceneName];
     }
 }
 

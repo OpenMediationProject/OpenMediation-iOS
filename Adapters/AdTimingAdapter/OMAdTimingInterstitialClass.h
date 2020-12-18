@@ -7,43 +7,43 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol AdTimingAdsInterstitialDelegate <NSObject>
+@protocol AdTimingBidInterstitialDelegate <NSObject>
 
 @optional
 
 
 /// Invoked when a interstitial  did load.
-- (void)adtimingInterstitialDidLoad:(NSString *)placementID;
+- (void)AdTimingBidInterstitialDidLoad:(NSString *)placementID;
 
 /// Sent after an  interstitial fails to load the ad.
-- (void)adtimingInterstitialDidFailToLoad:(NSString *)placementID withError:(NSError *)error;
+- (void)AdTimingBidInterstitialDidFailToLoad:(NSString *)placementID withError:(NSError *)error;
 
-- (void)adtimingInterstitialDidOpen:(NSString *)placementID;
+- (void)AdTimingBidInterstitialDidOpen:(NSString *)placementID;
 
 /// Sent immediately when a interstitial video starts to play.
-- (void)adtimingInterstitialDidShow:(NSString *)placementID;
+- (void)AdTimingBidInterstitialDidShow:(NSString *)placementID;
 
 /// Sent after a interstitial video has been clicked.
-- (void)adtimingInterstitialDidClick:(NSString *)placementID;
+- (void)AdTimingBidInterstitialDidClick:(NSString *)placementID;
 
 /// Sent after a interstitial video has been closed.
-- (void)adtimingInterstitialDidClose:(NSString *)placementID;
+- (void)AdTimingBidInterstitialDidClose:(NSString *)placementID;
 
 /// Sent after a interstitial video has failed to play.
-- (void)adtimingInterstitialDidFailToShow:(NSString *)placementID withError:(NSError *)error;
+- (void)AdTimingBidInterstitialDidFailToShow:(NSString *)placementID withError:(NSError *)error;
 
 @end
 
-@interface AdTimingAdsInterstitial : NSObject
+@interface AdTimingBidInterstitial : NSObject
 
 /// Returns the singleton instance.
 + (instancetype)sharedInstance;
 
 /// Add delegate
-- (void)addDelegate:(id<AdTimingAdsInterstitialDelegate>)delegate;
+- (void)addDelegate:(id<AdTimingBidInterstitialDelegate>)delegate;
 
 /// Remove delegate
-- (void)removeDelegate:(id<AdTimingAdsInterstitialDelegate>)delegate;
+- (void)removeDelegate:(id<AdTimingBidInterstitialDelegate>)delegate;
 
 /// loadAd
 - (void)loadWithPlacementID:(NSString*)placementID;

@@ -4,17 +4,17 @@
 #ifndef OMAdTimingClass_h
 #define OMAdTimingClass_h
 
-typedef NS_ENUM(NSInteger, AdTimingAdType) {
-    AdTimingAdTypeBanner = (1 << 0),
-    AdTimingAdTypeNative = (1 << 1),
-    AdTimingAdTypeRewardedVideo = (1 << 2),
-    AdTimingAdTypeInteractive = (1 << 3),
-    AdTimingAdTypeInterstitial = (1 << 4),
+typedef NS_ENUM(NSInteger, AdTimingBidAdType) {
+    AdTimingBidAdTypeBanner = (1 << 0),
+    AdTimingBidAdTypeNative = (1 << 1),
+    AdTimingBidAdTypeRewardedVideo = (1 << 2),
+    AdTimingBidAdTypeInterstitial = (1 << 4),
 };
 
-@interface AdTiming : NSObject
+
+@interface AdTimingBid : NSObject
 + (NSString *)SDKVersion;
-+ (void)initWithAppKey:(NSString *)appKey adType:(AdTimingAdType)initAdTypes;
++ (void)initWithAppKey:(NSString*)appKey;
 + (NSString*)bidderToken;
 + (void)setGDPRConsent:(BOOL)consent;
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit;

@@ -152,7 +152,7 @@
         OMInstanceLoadState loadState = [self.instanceLoadState[instanceID]integerValue];
         if (loadState == OMInstanceLoadStateLoading) {
             _loadingCount++;
-        } else if (loadState == OMInstanceLoadStateSuccess && [self.delegate omCheckInstanceReady:instanceID]) {
+        } else if (loadState == OMInstanceLoadStateCallShow || (loadState == OMInstanceLoadStateSuccess && [self.delegate omCheckInstanceReady:instanceID])) {
             if (![self.optimalFillInstance length]) {
                 self.optimalFillInstance =  instanceID;
             }

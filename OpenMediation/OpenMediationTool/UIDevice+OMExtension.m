@@ -412,7 +412,6 @@
     } @catch (NSException *exception) {
         NSLog(@"Error while trying to check install date. Exception: %@",exception);
     }
-    OMLogV(@"install ts %zd",installTime);
     return [NSNumber numberWithInteger:installTime];
 }
 
@@ -422,7 +421,6 @@
         ts = [NSString stringWithFormat:@"%zd",(NSInteger)[[NSDate date]timeIntervalSince1970]];
         [self omKeyChainStoreValue:ts withKey:KEY_FIRSTLAUNCHTIME];
     }
-    OMLogV(@"first launch ts %@",ts);
     return [NSNumber numberWithInteger:[ts integerValue]];
 
 }

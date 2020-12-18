@@ -7,13 +7,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMAdTimingInterstitial : NSObject<OMInterstitialCustomEvent,AdTimingAdsInterstitialDelegate>
+@interface OMAdTimingInterstitial : NSObject<OMInterstitialCustomEvent,AdTimingBidInterstitialDelegate>
 
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, weak) id<interstitialCustomEventDelegate> delegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
-- (void)loadAd;
+- (void)loadAdWithBidPayload:(NSString *)bidPayload;
 - (BOOL)isReady;
 - (void)show:(UIViewController*)vc;
 

@@ -7,11 +7,11 @@
 
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController{
     if (self = [super initWithFrame:frame]) {
-        Class AdTimingBannerClass = NSClassFromString(@"AdTimingAdsBanner");
+        Class AdTimingBannerClass = NSClassFromString(@"AdTimingBidBanner");
         if (AdTimingBannerClass && [AdTimingBannerClass instancesRespondToSelector:@selector(initWithBannerType:placementID:)]) {
             _banner = [[AdTimingBannerClass alloc] initWithBannerType:[self convertWithSize:frame.size] placementID:[adParameter objectForKey:@"pid"]?[adParameter objectForKey:@"pid"]:@""];
-            [_banner addLayoutAttribute:AdTimingAdsBannerLayoutAttributeTop constant:0];
-            [_banner addLayoutAttribute:AdTimingAdsBannerLayoutAttributeLeft constant:0];
+            [_banner addLayoutAttribute:AdTimingBidBannerLayoutAttributeTop constant:0];
+            [_banner addLayoutAttribute:AdTimingBidBannerLayoutAttributeLeft constant:0];
             _banner.delegate = self;
             [self addSubview:_banner];
         }
@@ -19,18 +19,14 @@
     return self;
 }
 
-- (AdTimingAdsBannerType)convertWithSize:(CGSize)size {
+- (AdTimingBidBannerType)convertWithSize:(CGSize)size {
     if (size.width == 300 && size.height == 250) {
-        return AdTimingAdsBannerTypeLarge;
+        return AdTimingBidBannerTypeLarge;
     } else if (size.width == 728 && size.height == 90) {
-        return AdTimingAdsBannerTypeLeaderboard;
+        return AdTimingBidBannerTypeLeaderboard;
     } else  {
-        return AdTimingAdsBannerTypeDefault;
+        return AdTimingBidBannerTypeDefault;
     }
-}
-
-- (void)loadAd{
-    [_banner loadAndShow];
 }
 
 - (void)loadAdWithBidPayload:(NSString *)bidPayload {
@@ -39,37 +35,37 @@
 
 #pragma mark -- AdTimingBannerDelegate
 
-- (void)adtimingBannerDidLoad:(AdTimingAdsBanner *)banner {
+- (void)AdTimingBidBannerDidLoad:(AdTimingBidBanner *)banner {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
 }
 
-- (void)adtimingBannerDidFailToLoad:(AdTimingAdsBanner *)banner withError:(NSError *)error {
+- (void)AdTimingBidBannerDidFailToLoad:(AdTimingBidBanner *)banner withError:(NSError *)error {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 
-- (void)adtimingBannerWillExposure:(AdTimingAdsBanner *)banner {
+- (void)AdTimingBidBannerWillExposure:(AdTimingBidBanner *)banner {
     
 }
 
-- (void)adtimingBannerDidClick:(AdTimingAdsBanner *)banner {
+- (void)AdTimingBidBannerDidClick:(AdTimingBidBanner *)banner {
     if (_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]) {
         [_delegate bannerCustomEventDidClick:self];
     }
 }
 
-- (void)adtimingBannerWillPresentScreen:(AdTimingAdsBanner *)banner {
+- (void)AdTimingBidBannerWillPresentScreen:(AdTimingBidBanner *)banner {
     
 }
 
-- (void)adtimingBannerDidDismissScreen:(AdTimingAdsBanner *)banner {
+- (void)AdTimingBidBannerDidDismissScreen:(AdTimingBidBanner *)banner {
     
 }
 
-- (void)adtimingBannerWillLeaveApplication:(AdTimingAdsBanner *)banner {
+- (void)AdTimingBidBannerWillLeaveApplication:(AdTimingBidBanner *)banner {
 }
 
 @end

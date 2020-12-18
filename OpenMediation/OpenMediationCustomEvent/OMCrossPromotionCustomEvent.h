@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
 - (void)loadAd;
 - (BOOL)isReady;
-- (void)showAdWithSize:(CGSize)adSize screenPoint:(CGPoint)scaleXY xAngle:(CGFloat) xAngle zAngle:(CGFloat)zAngle scene:(NSString*)sceneName;
+- (void)showAdWithScreenPoint:(CGPoint)scaleXY adSize:(CGSize)size angle:(CGFloat) angle scene:(NSString*)sceneName;
 - (void)hideAd;
 @end
 

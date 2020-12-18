@@ -17,7 +17,7 @@
                  abt:(NSInteger)abTest
                  bid:(BOOL)bid {
     OMUnit *unit = [[OMConfig sharedInstance].adUnitMap objectForKey:pid];
-    if ((type == OMLRTypeSDKInit || type == OMLRTypeWaterfallLoad || (unit.adFormat == OpenMediationAdFormatCrossPromotion && (type == OMLRTypeInstanceLoad || type == OMLRTypeInstanceReady || type == OMLRTypeWaterfallReady)))) {
+    if ((type == OMLRTypeSDKInit || type == OMLRTypeWaterfallLoad || (unit.adFormat == OpenMediationAdFormatCrossPromotion && type == OMLRTypeWaterfallReady))) {
         return;
     }
     NSDictionary *parameters = [self lrParametersWithType:type pid:pid adnID:adnID instanceID:instanceID action:action scene:sceneID abt:abTest bid:bid];

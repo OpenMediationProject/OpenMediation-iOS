@@ -8,7 +8,7 @@
 
 + (NSString*)bidderToken {
     NSString *token = @"";
-    Class adtimingClass = NSClassFromString(@"AdTiming");
+    Class adtimingClass = NSClassFromString(@"AdTimingBid");
     if (adtimingClass && [adtimingClass respondsToSelector:@selector(bidderToken)]) {
         token = [adtimingClass bidderToken];
     }

@@ -29,6 +29,8 @@
 @property (nonatomic, strong) NSString *placementID;
 @property (nonatomic, assign) BOOL impr;
 @property (nonatomic, copy) NSString *showSceneID;
+@property (nonatomic, assign) CGPoint scaleXY;
+@property (nonatomic, assign) CGSize adSize;
 
 @end
 
@@ -44,6 +46,11 @@
         }
         _rootViewController = [UIViewController omCurrentWindow].rootViewController;
         [_rootViewController.view addSubview:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleDeviceOrientationDidChange:)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil
+         ];
     }
     return self;
 }
@@ -92,23 +99,23 @@
     return NO;
 }
 
-- (void)showAdWithSize:(CGSize)adSize screenPoint:(CGPoint)scaleXY xAngle:(CGFloat) xAngle zAngle:(CGFloat)zAngle scene:(NSString*)sceneName {
+- (void)showAdWithScreenPoint:(CGPoint)scaleXY adSize:(CGSize)size angle:(CGFloat) angle scene:(NSString*)sceneName {
+    self.scaleXY = scaleXY;
+    self.adSize = size;
+    self.frame = CGRectMake(self.scaleXY.x *_rootViewController.view.frame.size.width, self.scaleXY.y *_rootViewController.view.frame.size.height, self.adSize.width, self.adSize.height);
+    _adWebView.frame = CGRectMake(0,0, size.width, size.height);
+    self.transform = CGAffineTransformMakeRotation(angle/180.0*M_PI);
+    self.hidden = NO;
+    [_rootViewController.view addSubview:self];
     if (_delegate && [_delegate respondsToSelector:@selector(promotionCustomEventWillAppear:)]) {
         [_delegate promotionCustomEventWillAppear:self];
     }
-    
-    self.frame = CGRectMake(0,0, adSize.width, adSize.height);
-    _adWebView.frame = CGRectMake(0,0, adSize.width, adSize.height);
-    self.center = CGPointMake(scaleXY.x *_rootViewController.view.frame.size.width, scaleXY.y *_rootViewController.view.frame.size.height);
-    self.layer.anchorPoint = CGPointMake(0.5, 0);
-    self.transform = CGAffineTransformMakeRotation(xAngle/180.0*M_PI);
-    
-    CATransform3D transform = CATransform3DRotate(CATransform3DIdentity,(xAngle)/180.0*M_PI,0,0,1) ;
-    transform.m34 = -1.0/500;
-    self.layer.transform =CATransform3DRotate(transform,(zAngle)/180.0*M_PI,1,0,0);
-    self.hidden = NO;
-    [_rootViewController.view addSubview:self];
 }
+
+- (void)handleDeviceOrientationDidChange:(UIInterfaceOrientation)interfaceOrientation {
+    self.frame = CGRectMake(self.scaleXY.x *_rootViewController.view.frame.size.width, self.scaleXY.y *_rootViewController.view.frame.size.height, self.adSize.width, self.adSize.height);
+}
+
 
 - (void)hideAd {
     [self removeFromSuperview];
@@ -226,6 +233,10 @@
             }
         }
     });
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 @end

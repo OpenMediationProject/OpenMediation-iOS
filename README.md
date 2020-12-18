@@ -1,5 +1,5 @@
 # OpenMediation SDK for iOS
-[![CocoaPods Compatible](http://img.shields.io/badge/pod-v2.0.1-blue.svg)](https://github.com/AdTiming/OpenMediation-iOS)
+[![CocoaPods Compatible](http://img.shields.io/badge/pod-v2.0.2-blue.svg)](https://github.com/AdTiming/OpenMediation-iOS)
 [![Platform](https://img.shields.io/badge/platform-iOS%209%2B-brightgreen.svg?style=flat)](https://github.com/AdTiming/OpenMediation-iOS)
 [![License](https://img.shields.io/github/license/AdTiming/OpenMediation-iOS)](https://github.com/AdTiming/OpenMediation-iOS/blob/master/LICENSE)
 
@@ -26,33 +26,31 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 
 target 'TargetName' do
-    pod 'OpenMediation', '~> 2.0.1'
+    pod 'OpenMediation', '~> 2.0.2'
 end
 ```
 
-#### Subspecs
-
-There are 12 subspecs available now: mediation core and 11 ad network adapters(AdTiming, AdMob, Facebook, Unity, Vungle, AdColony, AppLovin, Tapjoy, Chartboost, TikTok and Mintegral). By default, you get mediation core and all ad network adapters, if you only mediation some ad networks , you need to specify it. 
+#### Adapters
 
 Podfile example:
 
 ```
-pod 'OpenMediation/AdTimingAdapter'
-pod 'OpenMediation/AdMobAdapter'
-pod 'OpenMediation/FacebookAdapter'
-pod 'OpenMediation/UnityAdapter'
-pod 'OpenMediation/VungleAdapter'
-pod 'OpenMediation/TencentAdAdapter'
-pod 'OpenMediation/AdColonyAdapter'
-pod 'OpenMediation/AppLovinAdapter'
-pod 'OpenMediation/MoPubAdapter'
-pod 'OpenMediation/TapjoyAdapter'
-pod 'OpenMediation/ChartboostAdapter'
-pod 'OpenMediation/TikTokAdapter'
-pod 'OpenMediation/MintegralAdapter'
-pod 'OpenMediation/IronSourceAdapter'
-pod 'OpenMediation/FyberAdapter'
-pod ‘OpenMediation/ChartboostBidAdapter’
+pod 'OpenMediationAdTimingAdapter'
+pod 'OpenMediationAdMobAdapter'
+pod 'OpenMediationFacebookAdapter'
+pod 'OpenMediationUnityAdapter'
+pod 'OpenMediationVungleAdapter'
+pod 'OpenMediationTencentAdAdapter'
+pod 'OpenMediationAdColonyAdapter'
+pod 'OpenMediationAppLovinAdapter'
+pod 'OpenMediationMoPubAdapter'
+pod 'OpenMediationTapjoyAdapter'
+pod 'OpenMediationChartboostAdapter'
+pod 'OpenMediationTikTokAdapter'
+pod 'OpenMediationMintegralAdapter'
+pod 'OpenMediationIronSourceAdapter'
+pod 'OpenMediationFyberAdapter'
+pod ‘OpenMediationChartboostBidAdapter’
 ```
 
 Then, run the following command:

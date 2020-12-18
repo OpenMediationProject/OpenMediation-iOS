@@ -26,7 +26,7 @@
 
 -(void)showItemAction {
     self.showItem.enabled = NO;
-    [[OMCrossPromotion sharedInstance]showAdWithScreenPoint:CGPointMake(0.5, 0.5) scene:self.loadID];
+    [[OMCrossPromotion sharedInstance]showAdWithScreenPoint:CGPointMake(0.6, 0.3) angle:20 scene:self.loadID];
 }
 
 -(void)removeItemAction {

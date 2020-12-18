@@ -218,8 +218,6 @@ static OMEventManager * _instance = nil;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationDidBecomeActiveNotification object:self];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:self];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillTerminateNotification object:self];
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 @end

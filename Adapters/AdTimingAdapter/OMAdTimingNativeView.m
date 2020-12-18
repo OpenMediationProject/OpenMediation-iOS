@@ -16,7 +16,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         
-        Class adtimingNativeClass = NSClassFromString(@"AdTimingAdsNativeView");
+        Class adtimingNativeClass = NSClassFromString(@"AdTimingBidNativeView");
         if (adtimingNativeClass) {
             _adtNativeView = [[adtimingNativeClass alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
 
@@ -28,7 +28,7 @@
 }
 
 - (void)setMediaViewWithFrame:(CGRect)frame {
-    Class adtMediaViewClass = NSClassFromString(@"AdTimingAdsNativeMediaView");
+    Class adtMediaViewClass = NSClassFromString(@"AdTimingBidNativeMediaView");
     if (adtMediaViewClass) {
         _mediaView = [[adtMediaViewClass alloc]initWithFrame:frame];
     }

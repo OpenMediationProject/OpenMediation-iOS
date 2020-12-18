@@ -648,6 +648,7 @@
         }
         [[OMInstanceContainer sharedInstance]removeImpressionInstance:instanceID];
         [self addEvent:INSTANCE_SHOW instance:instanceID extraData:nil];
+        [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateCallShow];
     }
     [[NSUserDefaults standardUserDefaults]setObject:OM_SAFE_STRING(self.showSceneID) forKey:[NSString stringWithFormat:@"%@_scene",self.pid]];
     [[NSUserDefaults standardUserDefaults]synchronize];

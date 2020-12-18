@@ -61,7 +61,7 @@
     return self.pid;
 }
 
-- (void)showAdWithSize:(CGSize)adSize screenPoint:(CGPoint)scaleXY xAngle:(CGFloat) xAngle zAngle:(CGFloat)zAngle scene:(NSString*)sceneName {
+- (void)showAdWithScreenPoint:(CGPoint)scaleXY adSize:(CGSize)size angle:(CGFloat) angle scene:(NSString*)sceneName {
     
     self.showSceneID = [[OMConfig sharedInstance] getSceneIDWithSceneName:sceneName inAdUnit:self.placementID];
     OMLogD(@"promotion show pid = %@ scene name %@ scene id %@",self.placementID,(OM_STR_EMPTY(sceneName)?@"empty":sceneName),self.showSceneID);
@@ -72,8 +72,8 @@
             [(OMAdBase*)promotionAdapter setShowSceneID:self.showSceneID];
         }
 
-        if(promotionAdapter && [promotionAdapter respondsToSelector:@selector(showAdWithSize:screenPoint:xAngle:zAngle:scene:)]) {
-            [promotionAdapter showAdWithSize:adSize screenPoint:scaleXY xAngle:xAngle zAngle:zAngle scene:sceneName];
+        if(promotionAdapter && [promotionAdapter respondsToSelector:@selector(showAdWithScreenPoint:adSize:angle:scene:)]) {
+            [promotionAdapter showAdWithScreenPoint:scaleXY adSize:size angle:angle scene:sceneName];
         }
         [self showInstance:self.adLoader.optimalFillInstance];
 

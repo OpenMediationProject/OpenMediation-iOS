@@ -115,7 +115,7 @@
 
 }
 
-- (void)bannerWillExposure{
+- (void)bannerWillExposure {
     if (self.delegate && [self.delegate respondsToSelector:@selector(omBannerWillExposure:)]) {
         [self.delegate omBannerWillExposure:self];
         [self addBannerEvent:CALLBACK_PRESENT_SCREEN extraData:nil];

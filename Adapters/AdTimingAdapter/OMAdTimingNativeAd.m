@@ -13,7 +13,7 @@
 
 @implementation OMAdTimingNativeAd
 
-- (instancetype)initWithAdTimingNativeAd:(AdTimingAdsNativeAd*)adtNativeAd {
+- (instancetype)initWithAdTimingNativeAd:(AdTimingBidNativeAd*)adtNativeAd {
     if (self = [super init]) {
         _adtNativeAd = adtNativeAd;
         _title = [adtNativeAd title];

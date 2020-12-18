@@ -132,7 +132,7 @@
             if(!OM_STR_EMPTY(resource)) {
                 [[OMCrossPromotionDownloadManager sharedInstance]downloadUrl:resource extra:downloadExtraValue completion:^(NSError *error) {
                     if(!error) {
-                        OMLogD(@"campaign download admark success");
+                        OMLogD(@"campaign download resource %@ success",resource);
                         [self checkCacheReady];
                     }
                 }];

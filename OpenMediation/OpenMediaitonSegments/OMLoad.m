@@ -13,7 +13,7 @@
 - (instancetype)initWithPid:(NSString*)pid adFormat:(OpenMediationAdFormat)format {
     if (self = [super init]) {
         _actionName = @[@"init",@"timer",@"close",@"manual"];
-        _stateName = @[@"wait",@"loading",@"fail",@"timeout",@"success"];
+        _stateName = @[@"wait",@"loading",@"fail",@"timeout",@"success",@"callShow"];
         _priorityList = @[];
         _instanceLoadState = [NSMutableDictionary dictionary];
         _pid = OM_SAFE_STRING(pid);
@@ -116,7 +116,7 @@
 
 - (void)saveInstanceLoadState:(NSString*)instanceID state:(OMInstanceLoadState)loadState {
     OMInstanceLoadState currentLoadState = [_instanceLoadState[instanceID]integerValue];
-    if (OM_STR_EMPTY(instanceID) || (loadState<0) || (loadState > OMInstanceLoadStateSuccess) ||  ((currentLoadState == OMInstanceLoadStateWait) && loadState >OMInstanceLoadStateLoading)) {
+    if (OM_STR_EMPTY(instanceID) || (loadState<0) || (loadState > OMInstanceLoadStateCallShow) ||  ((currentLoadState == OMInstanceLoadStateWait) && loadState >OMInstanceLoadStateLoading)) {
         OMLogD(@"%@ instance %@ load state %zd",_pid,OM_SAFE_STRING(instanceID),(long)loadState);
     } else {
         OMLogD(@"%@ instance %@ load state %@",_pid,instanceID,self.stateName[loadState]);;

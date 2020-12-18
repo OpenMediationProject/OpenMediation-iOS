@@ -22,6 +22,7 @@ typedef NS_ENUM(NSInteger, OMInstanceLoadState) {
     OMInstanceLoadStateFail,
     OMInstanceLoadStateTimeout,
     OMInstanceLoadStateSuccess,
+    OMInstanceLoadStateCallShow,
 };
 
 @protocol OMLoadDelegate <NSObject>

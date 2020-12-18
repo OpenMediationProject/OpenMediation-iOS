@@ -7,16 +7,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMAdTimingNative : NSObject<OMNativeCustomEvent,AdTimingAdsNativeDelegate>
+@interface OMAdTimingNative : NSObject<OMNativeCustomEvent,AdTimingBidNativeDelegate>
 
-@property (nonatomic, strong) AdTimingAdsNative *native;
+@property (nonatomic, strong) AdTimingBidNative *native;
 @property (nonatomic, strong) NSString *pid;
 @property (nonatomic, weak) id<nativeCustomEventDelegate> delegate;
 @property (nonatomic, weak) UIViewController *rootVC;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter rootVC:(UIViewController*)rootViewController;
-- (void)loadAd;
-
+- (void)loadAdWithBidPayload:(NSString *)bidPayload;
 
 @end
 

@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, OMCrossPromotionJSEvent) {
 @property (nonatomic, weak) WKWebView *bindWebView;
 @property (nonatomic, strong) NSString *placementID;
 @property (nonatomic, strong) OMCrossPromotionCampaign *campaign;
-@property (nonatomic, strong) id<OMCrossPromotionJSBridgeDelegate> jsMessageHandler;
+@property (nonatomic, weak) id<OMCrossPromotionJSBridgeDelegate> jsMessageHandler;
 
 - (instancetype)initWithBindWebView:(WKWebView*)bindWebView placementID:(NSString*)placementID;
 

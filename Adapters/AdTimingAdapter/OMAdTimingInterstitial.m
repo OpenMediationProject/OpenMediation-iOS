@@ -12,19 +12,8 @@
     return self;
 }
 
-- (void)loadAd {
-    Class interstitialClass = NSClassFromString(@"AdTimingAdsInterstitial");
-    if (interstitialClass && [interstitialClass respondsToSelector:@selector(sharedInstance)] && [interstitialClass instancesRespondToSelector:@selector(loadWithPlacementID:)] && [_pid length]>0) {
-        [[interstitialClass sharedInstance]loadWithPlacementID:_pid];
-        if (interstitialClass && [interstitialClass respondsToSelector:@selector(sharedInstance)] && [interstitialClass instancesRespondToSelector:@selector(addDelegate:)]) {
-            [[interstitialClass sharedInstance]addDelegate:self];
-        }
-    }
-
-}
-
 - (void)loadAdWithBidPayload:(NSString *)bidPayload {
-    Class interstitialClass = NSClassFromString(@"AdTimingAdsInterstitial");
+    Class interstitialClass = NSClassFromString(@"AdTimingBidInterstitial");
     if (interstitialClass && [interstitialClass respondsToSelector:@selector(sharedInstance)] && [interstitialClass instancesRespondToSelector:@selector(loadWithPlacementID:)] && [_pid length]>0) {
         [[interstitialClass sharedInstance]loadWithPlacementID:_pid payLoad:bidPayload];
         if (interstitialClass && [interstitialClass respondsToSelector:@selector(sharedInstance)] && [interstitialClass instancesRespondToSelector:@selector(addDelegate:)]) {
@@ -35,7 +24,7 @@
 
 - (BOOL)isReady {
     BOOL isReady = NO;
-    Class interstitialClass = NSClassFromString(@"AdTimingAdsInterstitial");
+    Class interstitialClass = NSClassFromString(@"AdTimingBidInterstitial");
     if (interstitialClass && [interstitialClass respondsToSelector:@selector(sharedInstance)] && [interstitialClass instancesRespondToSelector:@selector(isReady:)] && [_pid length]>0) {
         isReady = [[interstitialClass sharedInstance]isReady:_pid];
     }
@@ -43,7 +32,7 @@
 }
 
 - (void)show:(UIViewController *)vc {
-    Class interstitialClass = NSClassFromString(@"AdTimingAdsInterstitial");
+    Class interstitialClass = NSClassFromString(@"AdTimingBidInterstitial");
     if ([self isReady]) {
         if (interstitialClass && [interstitialClass respondsToSelector:@selector(sharedInstance)] && [interstitialClass instancesRespondToSelector:@selector(showAdFromRootViewController:placementID:)]) {
             [[interstitialClass sharedInstance]showAdFromRootViewController:vc placementID:_pid];
@@ -54,7 +43,7 @@
 #pragma mark - AdTimingMediatedInterstitialDelegate
 
 
-- (void)adtimingInterstitialDidLoad:(NSString *)placementID {
+- (void)AdTimingBidInterstitialDidLoad:(NSString *)placementID {
     if ([placementID isEqualToString:_pid]) {
         if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
             [_delegate customEvent:self didLoadAd:nil];
@@ -62,37 +51,37 @@
     }
 }
 
-- (void)adtimingInterstitialDidFailToLoad:(NSString *)placementID withError:(NSError *)error {
+- (void)AdTimingBidInterstitialDidFailToLoad:(NSString *)placementID withError:(NSError *)error {
     if ([placementID isEqualToString:_pid] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 
-- (void)adtimingInterstitialDidOpen:(NSString*)placementID {
+- (void)AdTimingBidInterstitialDidOpen:(NSString*)placementID {
     if ([placementID isEqualToString:_pid] && _delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
         [_delegate interstitialCustomEventDidOpen:self];
     }
 }
 
-- (void)adtimingInterstitialDidShow:(NSString*)placementID {
+- (void)AdTimingBidInterstitialDidShow:(NSString*)placementID {
     if ([placementID isEqualToString:_pid] && _delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]) {
         [_delegate interstitialCustomEventDidShow:self];
     }
 }
 
-- (void)adtimingInterstitialDidClick:(NSString*)placementID {
+- (void)AdTimingBidInterstitialDidClick:(NSString*)placementID {
     if ([placementID isEqualToString:_pid] && _delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClick:)]) {
         [_delegate interstitialCustomEventDidClick:self];
     }
 }
 
-- (void)adtimingInterstitialDidClose:(NSString*)placementID {
+- (void)AdTimingBidInterstitialDidClose:(NSString*)placementID {
     if ([placementID isEqualToString:_pid] && _delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClose:)]) {
         [_delegate interstitialCustomEventDidClose:self];
     }
 }
 
-- (void)adtimingInterstitialDidFailToShow:(NSString*)placementID withError:(NSError *)error {
+- (void)AdTimingBidInterstitialDidFailToShow:(NSString*)placementID withError:(NSError *)error {
     if ([placementID isEqualToString:_pid] && _delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]) {
         [_delegate interstitialCustomEventDidFailToShow:self error:error];
     }
