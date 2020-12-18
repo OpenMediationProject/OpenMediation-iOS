@@ -5,7 +5,7 @@
 #define OMMintegralBidClass_h
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-
+#import "OMMintegralBannerClass.h"
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM (NSInteger, MTGBidErrorCode) {
@@ -19,21 +19,6 @@ typedef NS_ENUM (NSInteger, MTGBidLossedReasonCode) {
     MTGBidLossedReasonCodeLowPrice                           = 1,
     MTGBidLossedReasonCodeBidTimeout                         = 2,
     MTGBidLossedReasonCodeWonNotShow                         = 3,
-};
-
-typedef NS_ENUM(NSInteger,MTGBannerSizeType) {
-    /*Represents the fixed banner ad size - 320pt by 50pt.*/
-    MTGStandardBannerType320x50,
-    
-    /*Represents the fixed banner ad size - 320pt by 90pt.*/
-    MTGLargeBannerType320x90,
-    
-    /*Represents the fixed banner ad size - 300pt by 250pt.*/
-    MTGMediumRectangularBanner300x250,
-    
-    /*if device height <=720,Represents the fixed banner ad size - 320pt by 50pt;
-      if device height > 720,Represents the fixed banner ad size - 728pt by 90pt*/
-    MTGSmartBannerType
 };
 
 @interface MTGBiddingSDK : NSObject

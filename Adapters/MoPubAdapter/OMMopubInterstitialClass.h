@@ -4,27 +4,12 @@
 #ifndef OMMopubInterstitialClass_h
 #define OMMopubInterstitialClass_h
 #import <UIKit/UIKit.h>
-
+#import "OMMopubClass.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @class MPAdView;
 
 @class MPInterstitialAdController;
-
-@protocol MPMoPubAdDelegate;
-
-/**
- This protocol defines functionality that is shared between all MoPub ads.
- */
-@protocol MPMoPubAd <NSObject>
-
-@required
-/**
- All MoPub ads have a delegate to call back when certain events occur.
- */
-@property (nonatomic, weak, nullable) id<MPMoPubAdDelegate> delegate;
-
-@end
 
 /**
  * The delegate of an `MPAdView` object must adopt the `MPAdViewDelegate` protocol. It must
@@ -131,37 +116,11 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-typedef enum
-{
-    MPNativeAdOrientationAny,
-    MPNativeAdOrientationPortrait,
-    MPNativeAdOrientationLandscape
-} MPNativeAdOrientation;
-
 /**
  * The MPAdView class provides a view that can display banner advertisements.
  */
 IB_DESIGNABLE
 
-
-
-@class MPImpressionData;
-
-/**
- This protocol defines callback events shared between all MoPub ads.
- */
-@protocol MPMoPubAdDelegate <NSObject>
-
-@optional
-/**
- Called when an impression is fired on the @c MPMoPubAd instance. Includes information about the impression if applicable.
-
- @param ad The @c MPMoPubAd instance that fired the impression
- @param impressionData Information about the impression, or @c nil if the server didn't return any information.
- */
-- (void)mopubAd:(id<MPMoPubAd>)ad didTrackImpressionWithImpressionData:(MPImpressionData * _Nullable)impressionData;
-
-@end
 
 /**
  * The delegate of an `MPInterstitialAdController` object must adopt the

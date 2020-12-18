@@ -4,6 +4,7 @@
 #ifndef OMTencentAdNativeClass_h
 #define OMTencentAdNativeClass_h
 #import <UIKit/UIKit.h>
+#import "OMTencentAdClass.h"
 
 @class GDTLogoView;
 @class GDTMediaView;
@@ -28,18 +29,6 @@
 #define GDTScreenWidth  ([UIScreen mainScreen].bounds.size.width)
 #define GDTTangramSchemePrefix  @"gdtmsg://e.qq.com/"
 
-typedef NS_ENUM(NSUInteger, GDTVideoRenderType) {
-    GDTVideoRenderTypeUnknow = 0,
-    GDTVideoRenderTypeSDK = 1,
-    GDTVideoRenderTypeDeveloper = 2
-};
-
-typedef NS_ENUM(NSUInteger, GDTVideoPlayPolicy) {
-    GDTVideoPlayPolicyUnknow = 0, // 默认值，未设置
-    GDTVideoPlayPolicyAuto = 1,   // 用户角度看起来是自动播放
-    GDTVideoPlayPolicyManual = 2  // 用户角度看起来是手动播放或点击后播放
-};
-
 
 typedef NS_ENUM(NSInteger, GDTVastAdEventType) {
     GDTVastAdEventTypeUnknow,
@@ -54,15 +43,6 @@ typedef NS_ENUM(NSInteger, GDTVastAdEventType) {
     GDTVastAdEventTypeClicked,
 };
 
-
-typedef NS_ENUM(NSUInteger, GDTMediaPlayerStatus) {
-    GDTMediaPlayerStatusInitial = 0,         // 初始状态
-    GDTMediaPlayerStatusLoading = 1,         // 加载中
-    GDTMediaPlayerStatusStarted = 2,         // 开始播放
-    GDTMediaPlayerStatusPaused = 3,          // 用户行为导致暂停
-    GDTMediaPlayerStatusStoped = 4,          // 播放停止
-    GDTMediaPlayerStatusError = 5,           // 播放出错
-};
 
 NS_ASSUME_NONNULL_BEGIN
 

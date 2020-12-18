@@ -7,11 +7,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ChartboostBidDelegate <NSObject>
-
-- (void)bidReseponse:(NSObject*)bidAdapter bid:(nullable NSDictionary*)bidInfo error:(nullable NSError*)error;
-@end
-
 @interface OMChartboostBidRewardedVideo : NSObject <OMRewardedVideoCustomEvent,OMChartboostBidAdapterDelegate>
 
 @property (nonatomic, copy) NSString *pid;

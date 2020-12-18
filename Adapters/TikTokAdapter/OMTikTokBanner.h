@@ -2,6 +2,7 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import <UIKit/UIKit.h>
+#import "OMTikTokClass.h"
 #import "OMTikTokBannerClass.h"
 #import "OMBannerCustomEvent.h"
 

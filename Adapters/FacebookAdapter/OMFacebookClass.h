@@ -9,6 +9,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FBAdSettings : NSObject
 
+@property (class, nonatomic, copy, readonly) NSString *bidderToken;
+
 /// Data processing options.
 /// Please read more details at https://developers.facebook.com/docs/marketing-apis/data-processing-options
 ///

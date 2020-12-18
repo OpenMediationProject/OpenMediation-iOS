@@ -73,4 +73,11 @@ typedef NS_ENUM( NSUInteger, HeliumErrorCode ) {
 - (void)setUserHasGivenConsent:(BOOL)hasGivenConsent;
 - (void)setCCPAConsent:(BOOL)hasGivenConsent;
 @end
+
+
+@protocol ChartboostBidDelegate <NSObject>
+
+- (void)bidReseponse:(NSObject*)bidAdapter bid:(nullable NSDictionary*)bidInfo error:(nullable NSError*)error;
+@end
+
 #endif /* OMChartboostBidClass_h */

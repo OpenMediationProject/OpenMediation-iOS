@@ -8,18 +8,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, MTGBool) {
-    /* No */
-    MTGBoolNo = -1,
-    
-    /* Unknown */
-    MTGBoolUnknown = 0,
-    
-    /* Yes */
-    MTGBoolYes = 1,
-};
-
-
 typedef NS_ENUM(NSUInteger, MTGInterfaceOrientation) {
     MTGInterfaceOrientationAll = 0,       // to use current orientation of the device.
     MTGInterfaceOrientationPortrait = 1,  // to force to use portrait mode.

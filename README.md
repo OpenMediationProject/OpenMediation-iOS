@@ -46,11 +46,11 @@ pod 'OpenMediationAppLovinAdapter'
 pod 'OpenMediationMoPubAdapter'
 pod 'OpenMediationTapjoyAdapter'
 pod 'OpenMediationChartboostAdapter'
-pod 'OpenMediationTikTokAdapter'
+pod 'OpenMediationPangleAdapter'
 pod 'OpenMediationMintegralAdapter'
 pod 'OpenMediationIronSourceAdapter'
 pod 'OpenMediationFyberAdapter'
-pod ‘OpenMediationChartboostBidAdapter’
+pod ‘OpenMediationHeliumAdapter’
 ```
 
 Then, run the following command:

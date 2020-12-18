@@ -6,6 +6,24 @@
 #import "OMInterstitialCustomEvent.h"
 #import "OMRewardedVideoCustomEvent.h"
 
+@interface OMBidNetworkItem : NSObject
+
+@property (nonatomic, strong) NSString *adnName;
+@property (nonatomic, strong) NSString *appKey;
+@property (nonatomic, strong) NSString *placementID;
+@property (nonatomic, assign) NSInteger maxTimeOutMS;
+@property (nonatomic, assign) BOOL testMode;
+@property (nonatomic, strong) NSDictionary *extraData;
+
++ (OMBidNetworkItem *)networkItemWithName:(NSString*)adnName
+                                   appKey:(NSString*)key
+                              placementID:(NSString*)placementID
+                                  timeOut:(NSInteger)maxTimeoutMS
+                                     test:(BOOL)testMode
+                                    extra:(NSDictionary*)extraData;
+
+@end
+
 typedef id _Nullable (^mInstanceInitBlock)(void);
 
 @interface OMInstanceContainer : NSObject
@@ -18,14 +36,6 @@ typedef id _Nullable (^mInstanceInitBlock)(void);
 typedef void (^bidCompletionHandler)(NSDictionary *bidResponse);
 
 static NSMutableDictionary *bidBlockMap = nil;
-
-
-@protocol ChartboostBidDelegate <NSObject>
-
-- (void)bidReseponse:(NSObject*)bidAdapter bid:(nullable NSDictionary*)bidInfo error:(nullable NSError*)error;
-
-@end
-
 
 @protocol OMChartboostBidAd<OMInterstitialCustomEvent>
 

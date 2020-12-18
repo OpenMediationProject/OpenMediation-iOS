@@ -5,6 +5,45 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef enum
+{
+    MPNativeAdOrientationAny,
+    MPNativeAdOrientationPortrait,
+    MPNativeAdOrientationLandscape
+} MPNativeAdOrientation;
+
+
+@protocol MPMoPubAdDelegate;
+
+/**
+ This protocol defines functionality that is shared between all MoPub ads.
+ */
+@protocol MPMoPubAd <NSObject>
+
+@required
+/**
+ All MoPub ads have a delegate to call back when certain events occur.
+ */
+@property (nonatomic, weak, nullable) id<MPMoPubAdDelegate> delegate;
+
+@end
+
+@class MPImpressionData;
+
+@protocol MPMoPubAdDelegate <NSObject>
+
+@optional
+/**
+ Called when an impression is fired on the @c MPMoPubAd instance. Includes information about the impression if applicable.
+
+ @param ad The @c MPMoPubAd instance that fired the impression
+ @param impressionData Information about the impression, or @c nil if the server didn't return any information.
+ */
+- (void)mopubAd:(id<MPMoPubAd>)ad didTrackImpressionWithImpressionData:(MPImpressionData * _Nullable)impressionData;
+
+@end
+
+
 @interface MPMoPubConfiguration : NSObject
 
 

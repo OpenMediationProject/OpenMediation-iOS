@@ -8,11 +8,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ChartboostBidDelegate <NSObject>
-
-- (void)bidReseponse:(NSObject*)bidAdapter bid:(nullable NSDictionary*)bidInfo error:(nullable NSError*)error;
-@end
-
 @interface OMChartboostBidInterstitial : NSObject <OMInterstitialCustomEvent,OMChartboostBidAdapterDelegate>
 
 @property (nonatomic, copy) NSString *pid;

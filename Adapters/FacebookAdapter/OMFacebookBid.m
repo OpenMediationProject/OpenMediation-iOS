@@ -2,6 +2,7 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMFacebookBid.h"
+#import "OMFacebookClass.h"
 #import "OMFacebookBidClass.h"
 
 @implementation OMFacebookBid

@@ -5,20 +5,9 @@
 #define OMTikTokSplashClass_h
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import "OMTikTokClass.h"
 
 @class BUMaterialMeta;
-
-typedef NS_ENUM(NSInteger, BUInteractionType) {
-    BUInteractionTypeCustorm = 0,
-    BUInteractionTypeNO_INTERACTION = 1,  // pure ad display
-    BUInteractionTypeURL = 2,             // open the webpage using a browser
-    BUInteractionTypePage = 3,            // open the webpage within the app
-    BUInteractionTypeDownload = 4,        // download the app
-    BUInteractionTypePhone = 5,           // make a call
-    BUInteractionTypeMessage = 6,         // send messages
-    BUInteractionTypeEmail = 7,           // send email
-    BUInteractionTypeVideoAdDetail = 8    // video ad details page
-};
 
 typedef NS_ENUM(NSInteger, BUFeedADMode) {
     BUFeedADModeSmallImage = 2,

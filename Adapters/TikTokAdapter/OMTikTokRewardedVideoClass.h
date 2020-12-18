@@ -132,18 +132,6 @@ typedef NS_ENUM(NSUInteger, BUNativeExpressRewardedVideoAdType) {
     BUNativeExpressRewardedVideoAdTypePurePlayable    = 2,  // pure playable
 };
 
-typedef NS_ENUM(NSInteger, BUInteractionType) {
-    BUInteractionTypeCustorm = 0,
-    BUInteractionTypeNO_INTERACTION = 1,  // pure ad display
-    BUInteractionTypeURL = 2,             // open the webpage using a browser
-    BUInteractionTypePage = 3,            // open the webpage within the app
-    BUInteractionTypeDownload = 4,        // download the app
-    BUInteractionTypePhone = 5,           // make a call
-    BUInteractionTypeMessage = 6,         // send messages
-    BUInteractionTypeEmail = 7,           // send email
-    BUInteractionTypeVideoAdDetail = 8    // video ad details page
-};
-
 @interface BUNativeExpressRewardedVideoAd : NSObject
 @property (nonatomic, strong) BURewardedVideoModel *rewardedVideoModel;
 @property (nonatomic, weak, nullable) id<BUNativeExpressRewardedVideoAdDelegate> delegate;
