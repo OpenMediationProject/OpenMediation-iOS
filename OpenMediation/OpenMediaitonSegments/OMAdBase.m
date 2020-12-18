@@ -16,6 +16,8 @@
 #import "OpenMediation.h"
 #import "OMBid.h"
 #import "OMInterstitialCustomEvent.h"
+#import "OMBidNetworkItem.h"
+#import "OMBidResponse.h"
 
 #define OMDefaultMaxTimeoutMS     5000
 

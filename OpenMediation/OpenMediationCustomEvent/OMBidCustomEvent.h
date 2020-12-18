@@ -3,10 +3,8 @@
 
 #ifndef OMBidCustomEvent_h
 #define OMBidCustomEvent_h
-#import "OMBidNetworkItem.h"
-#import "OMBidResponse.h"
-#import "OpenMediationAdFormats.h"
 
+@class OMBidNetworkItem;
 @protocol OMBidCustomEvent <NSObject>
 
 @optional
