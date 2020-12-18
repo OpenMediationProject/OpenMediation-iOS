@@ -6,7 +6,7 @@
 #import "OMChartboostBidClass.h"
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const HeliumAdapterVersion = @"2.0.1";
+static NSString * const HeliumAdapterVersion = @"2.0.2";
 
 
 @interface OMChartboostBidAdapter : NSObject<OMMediationAdapter,HeliumSdkDelegate>

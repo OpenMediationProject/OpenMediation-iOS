@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const TikTokAdapterVersion = @"2.0.1";
+static NSString * const TikTokAdapterVersion = @"2.0.2";
 
 @interface OMTikTokAdapter : NSObject<OMMediationAdapter>
 @property (class, nonatomic) BOOL expressAdAPI;

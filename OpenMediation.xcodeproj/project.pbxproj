@@ -1637,7 +1637,6 @@
 				49468C0D24B75A2F00AF4E06 /* OMBid.h */,
 				49468C0E24B75A2F00AF4E06 /* OMBidNetworkItem.m */,
 				49468C0F24B75A2F00AF4E06 /* OMBidResponse.m */,
-				49468C1024B75A2F00AF4E06 /* OMBidCustomEvent.h */,
 				49468C1124B75A2F00AF4E06 /* OMBidNetworkItem.h */,
 				49468C1224B75A2F00AF4E06 /* OMBid.m */,
 				49468C1324B75A2F00AF4E06 /* OMBidResponse.h */,
@@ -1864,6 +1863,7 @@
 		4959CEE623EBF09E00A433A8 /* OpenMediationCustomEvent */ = {
 			isa = PBXGroup;
 			children = (
+				49468C1024B75A2F00AF4E06 /* OMBidCustomEvent.h */,
 				49DF722423E93F160033495A /* OMMediationAdapter.h */,
 				0C5DB69A23E97C0100842709 /* OMCustomEventDelegate.h */,
 				0C86484923EA628400CB942D /* OMBannerCustomEvent.h */,

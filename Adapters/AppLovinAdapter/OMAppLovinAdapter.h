@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const AppLovinAdapterVersion = @"2.0.1";
+static NSString * const AppLovinAdapterVersion = @"2.0.2";
 
 @interface OMAppLovinAdapter : NSObject<OMMediationAdapter>
 + (NSString*)adapterVerison;
