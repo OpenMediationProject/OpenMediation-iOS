@@ -9,15 +9,6 @@
 
 @class BUMaterialMeta;
 
-typedef NS_ENUM(NSInteger, BUFeedADMode) {
-    BUFeedADModeSmallImage = 2,
-    BUFeedADModeLargeImage = 3,
-    BUFeedADModeGroupImage = 4,
-    BUFeedVideoAdModeImage = 5, // video ad || rewarded video ad horizontal screen
-    BUFeedVideoAdModePortrait = 15, // rewarded video ad vertical screen
-    BUFeedADModeImagePortrait = 16
-};
-
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol BUSplashAdDelegate;

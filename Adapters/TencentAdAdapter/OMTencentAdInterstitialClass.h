@@ -30,16 +30,6 @@
  *
  */
 
-static inline BOOL isIPhoneXSeries() {
-    if (@available(iOS 11.0, *)) {
-        UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
-        if (mainWindow.safeAreaInsets.bottom > 0.0) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 NS_ASSUME_NONNULL_BEGIN
 
 @class GDTUnifiedInterstitialAd;

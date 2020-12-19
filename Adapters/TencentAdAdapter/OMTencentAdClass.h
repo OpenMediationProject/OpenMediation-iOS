@@ -3,6 +3,7 @@
 
 #ifndef AdTimingGdtClass_h
 #define AdTimingGdtClass_h
+#import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, GDTMediaPlayerStatus) {
     GDTMediaPlayerStatusInitial = 0,         // 初始状态
@@ -31,6 +32,16 @@ typedef NS_ENUM(NSUInteger, GDTVideoRenderType) {
     GDTVideoRenderTypeSDK = 1,
     GDTVideoRenderTypeDeveloper = 2
 };
+
+static inline BOOL isIPhoneXSeries() {
+    if (@available(iOS 11.0, *)) {
+        UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
+        if (mainWindow.safeAreaInsets.bottom > 0.0) {
+            return YES;
+        }
+    }
+    return NO;
+}
 
 @interface GDTSDKConfig : NSObject
 + (NSString *)sdkVersion;
