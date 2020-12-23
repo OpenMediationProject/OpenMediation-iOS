@@ -127,7 +127,7 @@ static OMMediations *_instance = nil;
         };
         
         _adnSdkClassMap = @{
-            @(OMAdNetworkAdTiming):@"AdTiming",
+            @(OMAdNetworkAdTiming):@"AdTimingBid",
             @(OMAdNetworkAdMob):@"GADMobileAds",
             @(OMAdNetworkFacebook):@"FBAdSettings",
             @(OMAdNetworkUnityAds):@"UnityAds",
