@@ -1375,7 +1375,7 @@
 				497F020A25650BCE00354846 /* OpenMediationCrossPromotion */,
 				0CF880F82473847A00ED2CBD /* OpenMediationSplash */,
 				4959CEE623EBF09E00A433A8 /* OpenMediationCustomEvent */,
-				49DF722C23E9620D0033495A /* OpenMediaitonSegments */,
+				49DF722C23E9620D0033495A /* OpenMediationSegments */,
 				0C0F88D323D42D87002AB5C7 /* OpenMediationModel */,
 				0C70AB9E23D195770021D67A /* OpenMediationNetwork */,
 				0C70AB6323D195770021D67A /* OpenMediationTool */,
@@ -2007,7 +2007,7 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
-		49DF722C23E9620D0033495A /* OpenMediaitonSegments */ = {
+		49DF722C23E9620D0033495A /* OpenMediationSegments */ = {
 			isa = PBXGroup;
 			children = (
 				0C5DB6B323E9822400842709 /* OMAdBase.h */,
@@ -2033,7 +2033,7 @@
 				0C5DB69923E97C0100842709 /* OMInstanceContainer.h */,
 				0C5DB69B23E97C0100842709 /* OMInstanceContainer.m */,
 			);
-			path = OpenMediaitonSegments;
+			path = OpenMediationSegments;
 			sourceTree = "<group>";
 		};
 		49EA881E255BC61500D4B932 /* OpenMediationPromotion */ = {

@@ -3,8 +3,9 @@
 
 #ifndef OpenMediationAdFormats_h
 #define OpenMediationAdFormats_h
+#import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, OpenMediationAdFormat) {
+typedef NS_OPTIONS(NSInteger, OpenMediationAdFormat) {
     OpenMediationAdFormatBanner = (1 << 0),
     OpenMediationAdFormatNative = (1 << 1),
     OpenMediationAdFormatRewardedVideo = (1 << 2),

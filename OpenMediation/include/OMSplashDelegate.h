@@ -1,0 +1,1 @@
+../OpenMediationSplash/OMSplashDelegate.h

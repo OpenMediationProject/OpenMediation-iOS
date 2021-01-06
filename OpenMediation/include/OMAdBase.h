@@ -1,0 +1,1 @@
+../OpenMediationSegments/OMAdBase.h

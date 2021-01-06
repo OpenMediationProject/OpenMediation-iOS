@@ -1,0 +1,1 @@
+../OpenMediationRewardedVideo/OMRewardedVideo.h

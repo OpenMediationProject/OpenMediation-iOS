@@ -1,0 +1,1 @@
+../OpenMediationCrossPromotion/OMCrossPromotionDelegate.h
