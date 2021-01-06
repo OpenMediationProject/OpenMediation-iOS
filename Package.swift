@@ -15,6 +15,7 @@ let package = Package(
         .library(name: "OMChartboostAdapter",targets: ["OMChartboostAdapter"]),
         .library(name: "OMChartboostBidAdapter",targets: ["OMChartboostBidAdapter"]),
         .library(name: "OMFyberAdapter",targets: ["OMFyberAdapter"]),
+        .library(name: "OMFacebookAdapter",targets: ["OMFacebookAdapter"]),
         .library(name: "OMIronSourceAdapter",targets: ["OMIronSourceAdapter"]),
         .library(name: "OMMintegralAdapter",targets: ["OMMintegralAdapter"]),
         .library(name: "OMMoPubAdapter",targets: ["OMMoPubAdapter"]),
@@ -104,6 +105,14 @@ let package = Package(
         .target(
             name: "OMFyberAdapter",
             path:"Adapters/FyberAdapter",
+            cSettings:[
+                .headerSearchPath("."),
+                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+            ]
+        ),
+        .target(
+            name: "OMFacebookAdapter",
+            path:"Adapters/FacebookAdapter",
             cSettings:[
                 .headerSearchPath("."),
                 .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
