@@ -157,7 +157,14 @@
         }
         weakSelf.storeVC = nil;
         if(weakSelf.appID) {
-            [weakSelf.storeVC loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:weakSelf.appID} completionBlock:^(BOOL result, NSError * _Nullable error) {
+            NSMutableDictionary *productParameter = [NSMutableDictionary dictionary];
+            productParameter[SKStoreProductParameterITunesItemIdentifier] = [NSNumber numberWithInteger:[weakSelf.appID integerValue]];
+            if (@available(iOS 14.0, *)) {
+                if(weakSelf.ska) {
+                    [productParameter addEntriesFromDictionary:weakSelf.ska];
+                }
+            }
+            [weakSelf.storeVC loadProductWithParameters:productParameter completionBlock:^(BOOL result, NSError * _Nullable error) {
                 if(result && !error) {
                     weakSelf.storeLoadComplete = YES;
                 }

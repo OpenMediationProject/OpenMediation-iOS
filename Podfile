@@ -3,7 +3,7 @@ platform :ios, '10.0'
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'OpenMediationDemo' do
-  pod 'AdTimingBidSDK', '5.0.0'
+  pod 'AdTimingBidSDK', '5.0.1'
   pod 'Google-Mobile-Ads-SDK', '7.66.0'
   pod 'FBAudienceNetwork', '6.2.0'
   pod 'UnityAds', '3.5.1'
@@ -25,5 +25,7 @@ target 'OpenMediationDemo' do
   pod 'IronSourceSDK','7.0.3'
   pod 'ChartboostHelium', '2.1.0'  
   pod 'Fyber_Marketplace_SDK','7.5.4'
+  pod 'SigmobAd-iOS', '2.23.0'
+
 end
 

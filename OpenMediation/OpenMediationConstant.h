@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger, OMAdNetwork) {
     OMAdNetworkIronSource = 15,
     OMAdNetworkChartboostBid = 17,
     OMAdNetworkCrossPromotion = 19,
+    OMAdNetworkSigMob = 20,
     OMAdNetworkFyber = 30,
 };
 
