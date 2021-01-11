@@ -434,7 +434,7 @@
 		49C4124E25AC081D00D3C4AB /* OMChartboostBidBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C4124325AC081D00D3C4AB /* OMChartboostBidBid.m */; };
 		49C4124F25AC081D00D3C4AB /* OMChartboostBidRewardedVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 49C4124425AC081D00D3C4AB /* OMChartboostBidRewardedVideo.h */; };
 		49C4125025AC081D00D3C4AB /* OMChartboostBidInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 49C4124525AC081D00D3C4AB /* OMChartboostBidInterstitial.h */; };
-		49C4126C25AC0A4400D3C4AB /* OMSigMobAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49C4126A25AC0A4400D3C4AB /* OMSigMobAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		49C4126C25AC0A4400D3C4AB /* OMSigMobAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49C4126A25AC0A4400D3C4AB /* OMSigMobAdapter.h */; };
 		49C4126F25AC0A4400D3C4AB /* OMSigMobAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C4126825AC0A4400D3C4AB /* OMSigMobAdapter.framework */; };
 		49C412A425AC0AC400D3C4AB /* OMSigMobInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 49C4129A25AC0AC200D3C4AB /* OMSigMobInterstitial.h */; };
 		49C412A525AC0AC400D3C4AB /* OMSigMobAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C4129B25AC0AC200D3C4AB /* OMSigMobAdapter.m */; };
