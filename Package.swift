@@ -9,22 +9,23 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(name: "OpenMediation",targets: ["OpenMediation"]),
-        .library(name: "OMAdColonyAdapter",targets: ["OMAdColonyAdapter"]),
-        .library(name: "OMAdMobAdapter",targets: ["OMAdMobAdapter"]),
-        .library(name: "OMAdTimingAdapter",targets: ["OMAdTimingAdapter"]),
-        .library(name: "OMAppLovinAdapter",targets: ["OMAppLovinAdapter"]),
-        .library(name: "OMChartboostAdapter",targets: ["OMChartboostAdapter"]),
-        .library(name: "OMChartboostBidAdapter",targets: ["OMChartboostBidAdapter"]),
-        .library(name: "OMFyberAdapter",targets: ["OMFyberAdapter"]),
-        .library(name: "OMFacebookAdapter",targets: ["OMFacebookAdapter"]),
-        .library(name: "OMIronSourceAdapter",targets: ["OMIronSourceAdapter"]),
-        .library(name: "OMMintegralAdapter",targets: ["OMMintegralAdapter"]),
-        .library(name: "OMMoPubAdapter",targets: ["OMMoPubAdapter"]),
-        .library(name: "OMTapjoyAdapter",targets: ["OMTapjoyAdapter"]),
-        .library(name: "OMTencentAdAdapter",targets: ["OMTencentAdAdapter"]),
-        .library(name: "OMTikTokAdapter",targets: ["OMTikTokAdapter"]),
-        .library(name: "OMUnityAdapter",targets: ["OMUnityAdapter"]),
-        .library(name: "OMVungleAdapter",targets: ["OMVungleAdapter"]),
+        .library(name: "OpenMediationAdTimingAdapter",targets: ["OpenMediationAdTimingAdapter"]),
+        .library(name: "OpenMediationAdMobAdapter",targets: ["OpenMediationAdMobAdapter"]),
+        .library(name: "OpenMediationFacebookAdapter",targets: ["OpenMediationFacebookAdapter"]),
+        .library(name: "OpenMediationUnityAdapter",targets: ["OpenMediationUnityAdapter"]),
+        .library(name: "OpenMediationVungleAdapter",targets: ["OpenMediationVungleAdapter"]),
+        .library(name: "OpenMediationTencentAdAdapter",targets: ["OpenMediationTencentAdAdapter"]),
+        .library(name: "OpenMediationAdColonyAdapter",targets: ["OpenMediationAdColonyAdapter"]),
+        .library(name: "OpenMediationAppLovinAdapter",targets: ["OpenMediationAppLovinAdapter"]),
+        .library(name: "OpenMediationMoPubAdapter",targets: ["OpenMediationMoPubAdapter"]),
+        .library(name: "OpenMediationTapjoyAdapter",targets: ["OpenMediationTapjoyAdapter"]),
+        .library(name: "OpenMediationChartboostAdapter",targets: ["OpenMediationChartboostAdapter"]),
+        .library(name: "OpenMediationPangleAdapter",targets: ["OpenMediationPangleAdapter"]),
+        .library(name: "OpenMediationMintegralAdapter",targets: ["OpenMediationMintegralAdapter"]),
+        .library(name: "OpenMediationIronSourceAdapter",targets: ["OpenMediationIronSourceAdapter"]),
+        .library(name: "OpenMediationFyberAdapter",targets: ["OpenMediationFyberAdapter"]),
+        .library(name: "OpenMediationHeliumAdapter",targets: ["OpenMediationHeliumAdapter"]),
+        .library(name: "OpenMediationSigMobAdapter",targets: ["OpenMediationSigMobAdapter"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -56,139 +57,139 @@ let package = Package(
             ]
         ),
         .target(
-            name: "OMAdColonyAdapter",
-            path:"Adapters/AdColonyAdapter",
+            name: "OpenMediationAdTimingAdapter",
+            path:"OMAdTimingAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMAdMobAdapter",
-            path:"Adapters/AdMobAdapter",
+            name: "OpenMediationAdMobAdapter",
+            path:"OMAdMobAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMAdTimingAdapter",
-            path:"Adapters/AdTimingAdapter",
+            name: "OpenMediationFacebookAdapter",
+            path:"OMFacebookAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMAppLovinAdapter",
-            path:"Adapters/AppLovinAdapter",
+            name: "OpenMediationUnityAdapter",
+            path:"OMUnityAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMChartboostAdapter",
-            path:"Adapters/ChartboostAdapter",
+            name: "OpenMediationVungleAdapter",
+            path:"OMVungleAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMChartboostBidAdapter",
-            path:"Adapters/ChartboostBidAdapter",
+            name: "OpenMediationTencentAdAdapter",
+            path:"OMTencentAdAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMFyberAdapter",
-            path:"Adapters/FyberAdapter",
+            name: "OpenMediationAdColonyAdapter",
+            path:"OMAdColonyAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMFacebookAdapter",
-            path:"Adapters/FacebookAdapter",
+            name: "OpenMediationAppLovinAdapter",
+            path:"OMAppLovinAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMIronSourceAdapter",
-            path:"Adapters/IronSourceAdapter",
+            name: "OpenMediationMoPubAdapter",
+            path:"OMMoPubAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMMintegralAdapter",
-            path:"Adapters/MintegralAdapter",
+            name: "OpenMediationTapjoyAdapter",
+            path:"OMTapjoyAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMMoPubAdapter",
-            path:"Adapters/MoPubAdapter",
+            name: "OpenMediationChartboostAdapter",
+            path:"OMChartboostAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMMyTargetAdapter",
-            path:"Adapters/MyTargetAdapter",
+            name: "OpenMediationPangleAdapter",
+            path:"OMTikTokAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMTapjoyAdapter",
-            path:"Adapters/TapjoyAdapter",
+            name: "OpenMediationMintegralAdapter",
+            path:"OMMintegralAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMTencentAdAdapter",
-            path:"Adapters/TencentAdAdapter",
+            name: "OpenMediationIronSourceAdapter",
+            path:"OMIronSourceAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMTikTokAdapter",
-            path:"Adapters/TikTokAdapter",
+            name: "OpenMediationFyberAdapter",
+            path:"OMFyberAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMUnityAdapter",
-            path:"Adapters/UnityAdapter",
+            name: "OpenMediationHeliumAdapter",
+            path:"OMChartboostAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         ),
         .target(
-            name: "OMVungleAdapter",
-            path:"Adapters/VungleAdapter",
+            name: "OpenMediationSigMobAdapter",
+            path:"OMSigMobAdapter",
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
         )
     ]
