@@ -3,23 +3,20 @@
 
 #import <Foundation/Foundation.h>
 #import "OMMediationAdapter.h"
+#import "OMSigMobClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const MyTargetAdapterVersion = @"3.1.0";
+static NSString * const SigMobAdapterVersion = @"2.0.2";
 
-@interface MTRGVersion : NSObject
-+ (NSString *)currentVersion;
-@end
+@interface OMSigMobAdapter : NSObject
 
-@interface OMMyTargetAdapter : NSObject<OMMediationAdapter>
 + (NSString*)adapterVerison;
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
+
 + (void)setConsent:(BOOL)consent;
 + (void)setUserAge:(NSInteger)userAge;
-+ (void)setUserGender:(NSInteger)userGender;
-+ (NSNumber*)mtgAge;
-+ (NSString*)mtgGender;
+
 @end
 
 NS_ASSUME_NONNULL_END

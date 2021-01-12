@@ -2,15 +2,14 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import <Foundation/Foundation.h>
-#import "OMMyTargetInterstitialClass.h"
 #import "OMRewardedVideoCustomEvent.h"
+#import "OMSigMobRouter.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMMyTargetRewardedVideo : NSObject<OMRewardedVideoCustomEvent,MTRGInterstitialAdDelegate>
+@interface OMSigMobRewardedVideo : NSObject<OMRewardedVideoCustomEvent>
+
 @property (nonatomic, copy) NSString *pid;
-@property (nonatomic, assign) BOOL ready;
-@property (nonatomic,strong)  MTRGInterstitialAd *ivAd;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;

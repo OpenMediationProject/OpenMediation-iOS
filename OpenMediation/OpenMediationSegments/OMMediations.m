@@ -7,7 +7,8 @@
 
 
 
-@interface AdTiming : NSObject
+
+@interface AdTimingBid : NSObject
 + (NSString *)SDKVersion;
 @end
 
@@ -52,6 +53,10 @@
 
 @interface IronSource : NSObject
 + (NSString *)sdkVersion;
+@end
+
+@interface WindAds : NSObject
++ (NSString * _Nonnull)sdkVersion;
 @end
 
 static OMMediations *_instance = nil;
@@ -124,6 +129,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkIronSource):@"IronSource",
             @(OMAdNetworkChartboostBid):@"ChartboostBid",
             @(OMAdNetworkFyber):@"Fyber",
+            @(OMAdNetworkSigMob):@"SigMob",
         };
         
         _adnSdkClassMap = @{
@@ -143,6 +149,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkIronSource):@"IronSource",
             @(OMAdNetworkChartboostBid):@"HeliumSdk",
             @(OMAdNetworkFyber):@"IASDKCore",
+            @(OMAdNetworkSigMob):@"WindAds",
         };
         
         _adnSDKInitState = [NSMutableDictionary dictionary];
@@ -280,6 +287,13 @@ static OMMediations *_instance = nil;
                 if ([fyberCore respondsToSelector:@selector(version)]) {
                     sdkVersion = [fyberCore version];
                 }
+            }
+        }
+            break;
+        case OMAdNetworkSigMob:
+        {
+            if (sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]) {
+                sdkVersion = [sdkClass sdkVersion];
             }
         }
             break;
