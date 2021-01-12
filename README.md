@@ -51,6 +51,7 @@ pod 'OpenMediationMintegralAdapter'
 pod 'OpenMediationIronSourceAdapter'
 pod 'OpenMediationFyberAdapter'
 pod ‘OpenMediationHeliumAdapter’
+pod ‘OpenMediationSigMobAdapter’
 ```
 
 Then, run the following command:
@@ -58,6 +59,14 @@ Then, run the following command:
 ```bash
 $ pod install
 ```
+
+### Installation with Swift Package Manager
+
+Add the following entry to your package's dependencies:
+
+```
+.Package(url: "https://github.com/AdTiming/OpenMediation-iOS.git", from: "2.0.3.1")
+``` 
 
 ## Requirements
 
