@@ -65,7 +65,7 @@ $ pod install
 Add the following entry to your package's dependencies:
 
 ```
-.Package(url: "https://github.com/AdTiming/OpenMediation-iOS.git", from: "2.0.3.1")
+.Package(url: "https://github.com/AdTiming/OpenMediation-iOS.git", from: "2.0.4")
 ``` 
 
 ## Requirements
