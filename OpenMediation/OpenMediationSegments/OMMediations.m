@@ -7,6 +7,7 @@
 
 
 
+
 @interface AdTimingBid : NSObject
 + (NSString *)SDKVersion;
 @end
@@ -296,7 +297,6 @@ static OMMediations *_instance = nil;
             }
         }
             break;
-
         default:
             break;
     }
