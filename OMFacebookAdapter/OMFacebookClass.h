@@ -7,6 +7,59 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
+@interface FBAdInitSettings : NSObject
+
+/**
+ Designated initializer for FBAdInitSettings
+ If an ad provided service is mediating Audience Network in their sdk, it is required to set the name of the mediation
+ service
+
+ @param placementIDs An array of placement identifiers.
+ @param mediationService String to identify mediation provider.
+ */
+- (instancetype)initWithPlacementIDs:(NSArray<NSString *> *)placementIDs mediationService:(NSString *)mediationService;
+
+/**
+ An array of placement identifiers.
+ */
+@property (nonatomic, copy, readonly) NSArray<NSString *> *placementIDs;
+
+/**
+ String to identify mediation provider.
+ */
+@property (nonatomic, copy, readonly) NSString *mediationService;
+
+@end
+
+@interface FBAdInitResults : NSObject
+
+/**
+ Boolean which says whether initialization was successful
+ */
+@property (nonatomic, assign, readonly, getter=isSuccess) BOOL success;
+
+/**
+ Message which provides more details about initialization result
+ */
+@property (nonatomic, copy, readonly) NSString *message;
+
+@end
+
+@interface FBAudienceNetworkAds : NSObject
+
+/**
+ Initialize Audience Network SDK at any given point of time. It will be called automatically with default settigs when
+ you first touch AN related code otherwise.
+
+ @param settings The settings to initialize with
+ @param completionHandler The block which will be called when initialization finished
+ */
++ (void)initializeWithSettings:(nullable FBAdInitSettings *)settings
+             completionHandler:(nullable void (^)(FBAdInitResults *results))completionHandler;
+
+@end
+
+
 @interface FBAdSettings : NSObject
 
 @property (class, nonatomic, copy, readonly) NSString *bidderToken;
@@ -28,6 +81,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param options Processing options you would like to enable for a specific event. Current accepted value is LDU for
 /// Limited Data Use.
 + (void)setDataProcessingOptions:(NSArray<NSString *> *)options;
+
+
+/**
+ User's consent for advertiser tracking.
+
+ The setter API only works in iOS14 or above and won't take effect in iOS13 or below.
+ */
++ (void)setAdvertiserTrackingEnabled:(BOOL)advertiserTrackingEnabled;
 
 @end
 

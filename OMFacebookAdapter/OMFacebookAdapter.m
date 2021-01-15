@@ -3,6 +3,7 @@
 
 #import "OMFacebookAdapter.h"
 #import "OMFacebookClass.h"
+#import <AppTrackingTransparency/ATTrackingManager.h>
 
 @implementation OMFacebookAdapter
 + (NSString*)adapterVerison {
@@ -10,8 +11,42 @@
 }
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
-    completionHandler(nil);
     
+    if (@available(iOS 14, *)) {
+            Class fbSetting = NSClassFromString(@"FBAdSettings");
+        if (fbSetting && [fbSetting respondsToSelector:@selector(setAdvertiserTrackingEnabled:)]) {
+            [fbSetting setAdvertiserTrackingEnabled:[ATTrackingManager trackingAuthorizationStatus] == ATTrackingManagerAuthorizationStatusAuthorized];
+        }
+    }
+    
+    
+    
+    Class initSetting = NSClassFromString(@"FBAdInitSettings");
+    NSArray *pids = configuration[@"pids"];
+    if (initSetting && [initSetting instancesRespondToSelector:@selector(initWithPlacementIDs:mediationService:)]) {
+        FBAdInitSettings *fbSettings = [[initSetting alloc]
+                                        initWithPlacementIDs:pids
+                                        mediationService:@"OpenMediation"];
+        Class fbAds = NSClassFromString(@"FBAudienceNetworkAds");
+        
+        [fbAds
+         initializeWithSettings:fbSettings
+         completionHandler:^(FBAdInitResults *results) {
+             if (results.success) {
+                 completionHandler(nil);
+             } else {
+                 NSError *error =
+                 [NSError errorWithDomain:@"com.om.fbadapter"
+                                     code:0
+                                 userInfo:@{NSLocalizedDescriptionKey : results.message}];
+                 completionHandler(error);
+             }
+         }];
+    } else {
+        
+        NSError *error = [[NSError alloc] initWithDomain:@"com.om.fbadapter" code:400 userInfo:@{NSLocalizedDescriptionKey:@"Failed,check init method and key"}];
+        completionHandler(error);
+    }    
 }
 
 // doc :https://developers.facebook.com/docs/audience-network/support/faq/ccpa
