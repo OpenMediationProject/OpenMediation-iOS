@@ -31,6 +31,7 @@
 @property (nonatomic, copy) NSString *showSceneID;
 @property (nonatomic, assign) CGPoint scaleXY;
 @property (nonatomic, assign) CGSize adSize;
+@property (nonatomic, assign) CGFloat angle;
 
 @end
 
@@ -102,6 +103,7 @@
 - (void)showAdWithScreenPoint:(CGPoint)scaleXY adSize:(CGSize)size angle:(CGFloat) angle scene:(NSString*)sceneName {
     self.scaleXY = scaleXY;
     self.adSize = size;
+    self.angle = angle;
     self.frame = CGRectMake(self.scaleXY.x *_rootViewController.view.frame.size.width, self.scaleXY.y *_rootViewController.view.frame.size.height, self.adSize.width, self.adSize.height);
     _adWebView.frame = CGRectMake(0,0, size.width, size.height);
     self.transform = CGAffineTransformMakeRotation(angle/180.0*M_PI);
@@ -113,7 +115,9 @@
 }
 
 - (void)handleDeviceOrientationDidChange:(UIInterfaceOrientation)interfaceOrientation {
+    self.transform = CGAffineTransformIdentity;
     self.frame = CGRectMake(self.scaleXY.x *_rootViewController.view.frame.size.width, self.scaleXY.y *_rootViewController.view.frame.size.height, self.adSize.width, self.adSize.height);
+    self.transform = CGAffineTransformMakeRotation(self.angle/180.0*M_PI);
 }
 
 
