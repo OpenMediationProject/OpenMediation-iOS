@@ -4,7 +4,7 @@
 #ifndef OpenMediationConstant_h
 #define OpenMediationConstant_h
 
-#define OPENMEDIATION_SDK_VERSION    @"2.0.3"
+#define OPENMEDIATION_SDK_VERSION    @"2.0.5"
 
 typedef NS_ENUM(NSInteger, OMAdNetwork) {
     OMAdNetworkAdTiming = 1,
