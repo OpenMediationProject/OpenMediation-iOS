@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)requestDataWithPid:(NSString *)pid
                       size:(CGSize)size
                 actionType:(NSInteger)actionType
+                     reqId:(NSString*)reqId
               bidResponses:(NSArray*)bidResponses
                     tokens:(NSArray*)tokens
              instanceState:(NSArray*)instanceState

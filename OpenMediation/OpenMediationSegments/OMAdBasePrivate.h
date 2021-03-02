@@ -12,6 +12,7 @@
 #import "OpenMediationAdFormats.h"
 #import "OMBid.h"
 #import "OMLoad.h"
+#import "OMScene.h"
 
 typedef void(^hbRequestCompletionHandler)(NSArray *bidInstances);
 
@@ -26,17 +27,21 @@ typedef void(^hbRequestCompletionHandler)(NSArray *bidInstances);
 @property (nonatomic, assign) OMLoadAction loadAction;
 @property (nonatomic, assign) BOOL loadConfig;
 @property (nonatomic, strong) NSString *showSceneID;
-@property (nonatomic, assign) NSInteger abTest;
 @property (nonatomic, assign) BOOL callLoad;//call load
 @property (nonatomic, assign) BOOL replenishLoad;//call load
 @property (nonatomic, assign) BOOL adAvailable;
 
+@property (nonatomic, copy) NSString *wfReqId;
+@property (nonatomic, assign) NSInteger abGroup; //0:"",1:A,2:B
+@property (nonatomic, strong) NSDictionary *wfRule; //Waterfall rule data
+@property (nonatomic, copy) NSDictionary *wfInsRevenueData; //Waterfall instance revenue data
+
 //for bid
 @property (nonatomic, strong) OMBid *bid;
-@property (nonatomic, strong) NSDictionary *bidInstances;
-@property (nonatomic, strong) NSMutableDictionary *bidLoadInstances;
+@property (nonatomic, strong) NSMutableDictionary *wfAllBidResonses; //waterfall all bid responses(c2s && s2s)
+@property (nonatomic, strong) NSMutableDictionary *instanceBidResponses; //instance bid response
 
-@property (nonatomic, strong) NSArray *testInstance;
+@property (nonatomic, strong) OMScene *scene;
 
 
 - (instancetype)initWithPlacementID:(NSString*)placementID size:(CGSize)size;

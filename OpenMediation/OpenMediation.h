@@ -4,6 +4,7 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import "OpenMediationAdFormats.h"
+#import "OMImpressionDataDelegate.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -45,6 +46,24 @@ extern NSString *kOpenMediatonInitSuccessNotification;
 /// Set this property to configure the user's age.
 + (void)setUserAge:(NSInteger)userAge;
 
+/// Set custom user id
++ (void)setUserID:(NSString*)userID;
+
+/// Set custom tag
++ (void)setCustomTag:(NSString*)tag withString:(NSString*)value;
+
++ (void)setCustomTag:(NSString*)tag withNumber:(NSNumber*)value;
+
++ (void)setCustomTag:(NSString*)tag withStrings:(NSArray *)values;
+
++ (void)setCustomTag:(NSString*)tag withNumbers:(NSArray *)values;
+
+/// Remove tag
++ (void)removeTag:(NSString*)tag;
+
+/// Get custom tag
++ (NSDictionary*)allCustomTags;
+
 /// Set the gender of the current user
 + (void)setUserGender:(OMGender)userGender;
 
@@ -53,6 +72,12 @@ extern NSString *kOpenMediatonInitSuccessNotification;
 
 ///Send  deep link attribution data to server
 + (void)sendAFDeepLinkData:(NSDictionary*)attributionData;
+
+///Add Impression Data delegate
++ (void)addImpressionDataDelegate:(id<OMImpressionDataDelegate>)delegate;
+
+///Remove Impression Data delegate
++ (void)rmoveImpressionDataDelegate:(id<OMImpressionDataDelegate>)delegate;
 
 /// setUserConsent "NO" is Refuse，"YES" is Accepted. //GDPR
 /// According to the GDPR, set method of this property must be called before "initWithAppKey:", or by default will collect user's information.

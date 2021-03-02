@@ -12,15 +12,6 @@
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     
-    if (@available(iOS 14, *)) {
-            Class fbSetting = NSClassFromString(@"FBAdSettings");
-        if (fbSetting && [fbSetting respondsToSelector:@selector(setAdvertiserTrackingEnabled:)]) {
-            [fbSetting setAdvertiserTrackingEnabled:[ATTrackingManager trackingAuthorizationStatus] == ATTrackingManagerAuthorizationStatusAuthorized];
-        }
-    }
-    
-    
-    
     Class initSetting = NSClassFromString(@"FBAdInitSettings");
     NSArray *pids = configuration[@"pids"];
     if (initSetting && [initSetting instancesRespondToSelector:@selector(initWithPlacementIDs:mediationService:)]) {

@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMCrossPromotionClRequest : NSObject
 
-+ (void)requestCampaignWithPid:(NSString *)pid size:(CGSize)size actionType:(NSInteger)actionType payload:(nullable NSString*)payload completionHandler:(clCompletionHandler)completionHandler;
++ (void)requestCampaignWithPid:(NSString *)pid size:(CGSize)size  reqId:(NSString*)reqId actionType:(NSInteger)actionType payload:(nullable NSString*)payload completionHandler:(clCompletionHandler)completionHandler;
 @end
 
 NS_ASSUME_NONNULL_END

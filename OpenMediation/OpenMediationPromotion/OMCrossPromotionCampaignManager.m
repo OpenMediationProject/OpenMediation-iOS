@@ -27,13 +27,15 @@ static OMCrossPromotionCampaignManager * _instance = nil;
 
 - (void)loadPid:(NSString*)pid
              size:(CGSize)size
+          reqId:(NSString*)reqId
            action:(NSInteger)action
 completionHandler:(loadCompletionHandler)completionHandler {
-    [self loadAdWithPid:pid size:size action:action payload:nil completionHandler:completionHandler];
+    [self loadAdWithPid:pid size:size reqId:reqId action:action payload:nil completionHandler:completionHandler];
 }
 
 - (void)loadAdWithPid:(NSString*)pid
              size:(CGSize)size
+            reqId:(NSString*)reqId
            action:(NSInteger)action
             payload:(NSString*)payload
 completionHandler:(loadCompletionHandler)completionHandler {
@@ -56,7 +58,7 @@ completionHandler:(loadCompletionHandler)completionHandler {
     if (ads.count > 0) {
         completionHandler(ads[0],nil);
         if (ads.count < cacheCount) {
-            [OMCrossPromotionClRequest requestCampaignWithPid:pid size:size actionType:action payload:payload completionHandler:^(NSDictionary * _Nullable campaignsData, NSError * _Nullable error) {
+            [OMCrossPromotionClRequest requestCampaignWithPid:pid size:size reqId:reqId actionType:action payload:payload completionHandler:^(NSDictionary * _Nullable campaignsData, NSError * _Nullable error) {
                 if (!error) {
                     NSArray *campaigns = [campaignsData objectForKey:@"campaigns"];
                     if (campaigns && [campaigns isKindOfClass:[NSArray class]]) {
@@ -69,7 +71,7 @@ completionHandler:(loadCompletionHandler)completionHandler {
                 [self cacheCampaignMateriel:pid count:cacheCount];
         }
     } else {
-        [OMCrossPromotionClRequest requestCampaignWithPid:pid size:size actionType:action payload:payload  completionHandler:^(NSDictionary * _Nullable campaignsData, NSError * _Nullable error) {
+        [OMCrossPromotionClRequest requestCampaignWithPid:pid size:size reqId:reqId actionType:action payload:payload  completionHandler:^(NSDictionary * _Nullable campaignsData, NSError * _Nullable error) {
             if (!error) {
                 NSArray *campaigns = [campaignsData objectForKey:@"campaigns"];
                 if (campaigns && [campaigns isKindOfClass:[NSArray class]]) {

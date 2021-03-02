@@ -13,7 +13,6 @@
 #import "OMErrorRequest.h"
 #import "OMIAPRequest.h"
 #import "OMEventRequest.h"
-#import "OMHbRequest.h"
 #import "OMCDRequest.h"
 
 #endif /* OMNetworkUmbrella_h */

@@ -9,6 +9,7 @@
     if (self = [super init]) {
         _unitModel = unitData;
         _unitID = [NSString stringWithFormat:@"%@",[unitData objectForKey:@"id"]];
+        _name = OM_SAFE_STRING([unitData objectForKey:@"n"]);
         _adFormat = (1<<[[unitData objectForKey:@"t"]integerValue]);
         _main = [[unitData objectForKey:@"main"]integerValue];
         _frequencryCap = [[unitData objectForKey:@"fc"]integerValue];

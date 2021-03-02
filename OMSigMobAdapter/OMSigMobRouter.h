@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@interface OMSigMobRouter : NSObject<WindFullscreenVideoAdDelegate,WindRewardedVideoAdDelegate>
+@interface OMSigMobRouter : NSObject<WindInterstitialAdDelegate,WindRewardedVideoAdDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary *placementDelegateMap;
 

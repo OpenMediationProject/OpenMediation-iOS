@@ -26,6 +26,7 @@ let package = Package(
         .library(name: "OpenMediationFyberAdapter",targets: ["OpenMediationFyberAdapter"]),
         .library(name: "OpenMediationHeliumAdapter",targets: ["OpenMediationHeliumAdapter"]),
         .library(name: "OpenMediationSigMobAdapter",targets: ["OpenMediationSigMobAdapter"]),
+        .library(name: "OpenMediationKuaiShouAdapter",targets: ["OpenMediationKuaiShouAdapter"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -157,7 +158,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationPangleAdapter",
-            path:"OMTikTokAdapter",
+            path:"OMPangleAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -193,7 +194,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationHeliumAdapter",
-            path:"OMChartboostBidAdapter",
+            path:"OMHeliumAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -208,6 +209,16 @@ let package = Package(
                 .headerSearchPath("."),
                 .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
             ]
+        ),
+        .target(
+            name: "OpenMediationKuaiShouAdapter",
+            path:"OMKuaiShouAdapter",
+            exclude: ["Info.plist"],
+            cSettings:[
+                .headerSearchPath("."),
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+            ]
         )
+
     ]
 )

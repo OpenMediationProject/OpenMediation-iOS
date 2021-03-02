@@ -14,41 +14,35 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 
 @interface OMConfig : NSObject
 
-@property(nonatomic, strong) NSDictionary *adFormats;
-@property(nonatomic, assign) OMInitState initState;
-@property(nonatomic, assign) BOOL initSuccess;
+@property (nonatomic, strong) NSDictionary *adFormats;
+@property (nonatomic, assign) OMInitState initState;
+@property (nonatomic, assign) BOOL initSuccess;
 
-@property(nonatomic, copy) NSString *baseHost;
-@property(nonatomic, copy) NSString *appKey;
+@property (nonatomic, copy) NSString *baseHost;
+@property (nonatomic, copy) NSString *appKey;
 
-@property(nonatomic, assign) BOOL openDebug;
-@property(nonatomic, copy) NSString *wfUrl;
-@property(nonatomic, copy) NSString *lrUrl;
-@property(nonatomic, copy) NSString *icUrl;
-@property(nonatomic, copy) NSString *iapUrl;
-@property(nonatomic, copy) NSString *erUrl;
-@property(nonatomic, copy) NSString *cdUrl;
-@property(nonatomic, copy) NSString *hbUrl;
-@property(nonatomic, copy) NSString *clUrl;
-@property(nonatomic, copy) NSString *plUrl;
+@property (nonatomic, assign) BOOL openDebug;
+@property (nonatomic, copy) NSString *wfUrl;
+@property (nonatomic, copy) NSString *lrUrl;
+@property (nonatomic, copy) NSString *icUrl;
+@property (nonatomic, copy) NSString *iapUrl;
+@property (nonatomic, copy) NSString *erUrl;
+@property (nonatomic, copy) NSString *cdUrl;
+@property (nonatomic, copy) NSString *hbUrl;
+@property (nonatomic, copy) NSString *clUrl;
+@property (nonatomic, copy) NSString *plUrl;
 
-@property(nonatomic, strong) NSMutableDictionary *adnNameMap;
-@property(nonatomic, strong) NSMutableDictionary *adnAppkeyMap;
-@property(nonatomic, strong) NSMutableArray *adUnitList;
-@property(nonatomic, strong) NSMutableDictionary *adUnitMap;
-@property(nonatomic, strong) NSMutableDictionary *instanceMap;
-@property(nonatomic, strong) NSMutableDictionary *adnPlacementMap;
-@property(nonatomic, strong)NSDictionary *configData;
-@property(nonatomic, assign)BOOL clickOpenAppStore;
-
-@property (nonatomic, assign)   NSInteger consent;//gdpr -1,0,1
-@property (nonatomic, assign)   BOOL childrenApp;//coppa
-@property (nonatomic, assign)   BOOL USPrivacy;//CCPA
-
-@property (nonatomic, assign) NSInteger userAge; // age
-@property (nonatomic, assign) NSInteger userGender; // 0:unknown,1:male,2:female
-
-
+@property (nonatomic, strong) NSMutableDictionary *adnNameMap;
+@property (nonatomic, strong) NSMutableDictionary *adnNickName;
+@property (nonatomic, strong) NSMutableDictionary *adnAppkeyMap;
+@property (nonatomic, strong) NSDictionary *adnSDKName;
+@property (nonatomic, strong) NSMutableArray *adUnitList;
+@property (nonatomic, strong) NSMutableDictionary *adUnitMap;
+@property (nonatomic, strong) NSMutableDictionary *instanceMap;
+@property (nonatomic, strong) NSMutableDictionary *adnPlacementMap;
+@property (nonatomic, strong) NSDictionary *configData;
+@property (nonatomic, assign) BOOL clickOpenAppStore;
+@property (nonatomic, assign) BOOL impressionDataCallBack;
 
 
 + (instancetype)sharedInstance;
@@ -62,6 +56,8 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 - (void)loadMediation:(NSArray *)mediationData;
 
 - (NSString *)adnName:(OMAdNetwork)adnID;
+
+- (NSString *)adnNickName:(OMAdNetwork)adnID;
 
 - (NSString *)adnAppKey:(OMAdNetwork)adnID;
 

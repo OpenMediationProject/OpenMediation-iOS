@@ -29,6 +29,7 @@ static OMConfig *_instance = nil;
                            @(OpenMediationAdFormatNative):@"Native",\
                            @(OpenMediationAdFormatInterstitial):@"Interstitial",\
                            @(OpenMediationAdFormatRewardedVideo):@"RewardedVideo"};
+        _adnSDKName = @{@(OMAdNetworkPangle):@"Pangle",@(OMAdNetworkHelium):@"Helium"};
         _baseHost = @"";
         _appKey = @"";
         _hbUrl = @"";
@@ -40,19 +41,11 @@ static OMConfig *_instance = nil;
         _openDebug = YES;
         _adnNameMap = [NSMutableDictionary dictionary];
         _adnAppkeyMap = [NSMutableDictionary dictionary];
-        _adUnitList = [NSMutableArray array];
-        _adUnitMap = [NSMutableDictionary dictionary];
-        _consent = YES;
-        _adnNameMap = [NSMutableDictionary dictionary];
-        _adnAppkeyMap = [NSMutableDictionary dictionary];
+        _adnNickName = [NSMutableDictionary dictionary];
         _adUnitList = [NSMutableArray array];
         _adUnitMap = [NSMutableDictionary dictionary];
         _instanceMap = [NSMutableDictionary dictionary];
         _adnPlacementMap = [NSMutableDictionary dictionary];
-        
-        _consent = -1;
-        _userAge = 0;
-        _userGender = 0;
     }
     return self;
 }
@@ -79,6 +72,7 @@ static OMConfig *_instance = nil;
 
 - (void)loadCongifData:(NSDictionary *)configData {
     _openDebug = [[configData objectForKey:@"d"]boolValue];
+    _impressionDataCallBack = [[configData objectForKey:@"ics"]boolValue];
     NSDictionary *apiDic = [configData objectForKey:@"api"];
     if (apiDic && [apiDic isKindOfClass:[NSDictionary class]]) {
         [self loadApi:apiDic];
@@ -112,10 +106,19 @@ static OMConfig *_instance = nil;
         if ([dic isKindOfClass:[NSDictionary class]]) {
             NSString *adnID = [dic objectForKey:@"id"];
             NSString *adnName = [dic objectForKey:@"n"];
+            NSString *adnNickName = [dic objectForKey:@"nn"];
             NSString *adnAppKey = [dic objectForKey:@"k"];
+            NSString *adnSDKName = [_adnSDKName objectForKey:adnID];
             if (OM_IS_NOT_NULL(adnID) && OM_IS_NOT_NULL(adnName) && OM_IS_NOT_NULL(adnAppKey)) {
+                if (OM_IS_NOT_NULL(adnSDKName)) {
+                    adnName = adnSDKName;
+                }
                 [_adnNameMap setObject:adnName forKey:adnID];
                 [_adnAppkeyMap setObject:adnAppKey forKey:adnID];
+                [_adnNickName setObject:adnName forKey:adnID];
+                if (OM_IS_NOT_NULL(adnNickName)) {
+                    [_adnNickName setObject:adnNickName forKey:adnID];
+                }
                 OMLogV(@"mName=%@,mKey=%@",adnName,adnAppKey);
             }
         }
@@ -141,13 +144,20 @@ static OMConfig *_instance = nil;
 #pragma mark AdNetwork
 
 - (NSString *)adnName:(OMAdNetwork)adnID {
-    NSString *appKey = @"";
+    NSString *adnName = @"";
     if ([_adnNameMap objectForKey:@(adnID)]) {
-        appKey = [_adnNameMap objectForKey:@(adnID)];
+        adnName = [_adnNameMap objectForKey:@(adnID)];
     }
-    return appKey;
+    return adnName;
 }
 
+- (NSString *)adnNickName:(OMAdNetwork)adnID {
+    NSString *adnNickName = @"";
+    if ([_adnNickName objectForKey:@(adnID)]) {
+        adnNickName = [_adnNickName objectForKey:@(adnID)];
+    }
+    return adnNickName;
+}
 
 - (NSString *)adnAppKey:(OMAdNetwork)adnID {
     NSString *appKey = @"";

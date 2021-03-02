@@ -5,6 +5,8 @@
 #import "OpenMediationConstant.h"
 #import "OMToolUmbrella.h"
 #import "OMConfig.h"
+#import "OMUserData.h"
+#import <AppTrackingTransparency/ATTrackingManager.h>
 
 @implementation OMRequest
 
@@ -68,14 +70,24 @@
         [deviceInfo setValue:[self regs] forKey:@"regs"];
     }
     
-    if([OMConfig sharedInstance].userAge) {
-         [deviceInfo setValue:[NSNumber numberWithInteger:[OMConfig sharedInstance].userAge] forKey:@"age"];
+    if([OMUserData sharedInstance].userAge) {
+         [deviceInfo setValue:[NSNumber numberWithInteger:[OMUserData sharedInstance].userAge] forKey:@"age"];
     }
 
-    if([OMConfig sharedInstance].userGender) {
-        [deviceInfo setValue:[NSNumber numberWithInteger:[OMConfig sharedInstance].userGender] forKey:@"gender"];
+    if([OMUserData sharedInstance].userGender) {
+        [deviceInfo setValue:[NSNumber numberWithInteger:[OMUserData sharedInstance].userGender] forKey:@"gender"];
     }
 
+    if ([OMUserData sharedInstance].customUserID.length>0) {
+        [deviceInfo setValue:[OMUserData sharedInstance].customUserID forKey:@"cdid"];
+    }
+    
+    if ([OMUserData sharedInstance].tags) {
+        [deviceInfo setValue:[OMUserData sharedInstance].tags forKey:@"tags"];
+    }
+    if (@available(iOS 14, *)) {
+        [deviceInfo setValue:[NSNumber numberWithInteger:[ATTrackingManager trackingAuthorizationStatus]] forKey:@"atts"];
+    }
     
     return [deviceInfo copy];
 }
@@ -83,16 +95,16 @@
 
 + (NSDictionary*)regs {
     NSMutableDictionary *regs = [NSMutableDictionary dictionary];
-    OMConfig *config = [OMConfig sharedInstance];
-    if (!config.consent) {
+    OMUserData *userData = [OMUserData sharedInstance];
+    if (!userData.consent) {
         regs[@"gdpr"] =  [NSNumber numberWithInt:1];
     }
     
-    if (config.childrenApp) {
+    if (userData.childrenApp) {
         regs[@"coppa"] =  [NSNumber numberWithInt:1];
     }
     
-    if (config.USPrivacy) {
+    if (userData.USPrivacy) {
         regs[@"ccpa"] =  [NSNumber numberWithInt:1];
     }
     

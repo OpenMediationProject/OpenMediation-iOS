@@ -30,13 +30,27 @@ static OMUnityRouter * _instance = nil;
     [_placementDelegateMap setObject:delegate forKey:pid];
 }
 
-
-- (void)unityAdsReady:(NSString *)placementId {
+// load success
+- (void)unityAdsAdLoaded:(NSString *)placementId {
     id<OMUnityAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     if (delegate && [delegate respondsToSelector:@selector(omUnityDidload)]) {
         [delegate omUnityDidload];
     }
 }
+
+// load failed
+- (void)unityAdsAdFailedToLoad:(NSString *)placementId {
+    NSError *error = [NSError errorWithDomain:@"com.om.mediation" code:-1 userInfo:@{NSLocalizedDescriptionKey:@"unity ads load failed"}];
+    id<OMUnityAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
+    if (delegate && [delegate respondsToSelector:@selector(omUnityDidFailToLoad:)]) {
+        [delegate omUnityDidFailToLoad:error];
+    }
+}
+
+- (void)unityAdsReady:(NSString *)placementId {
+    
+}
+
 
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
     

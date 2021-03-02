@@ -48,7 +48,7 @@
         return;
     }
     __weak __typeof(self) weakSelf = self;
-    [[OMCrossPromotionCampaignManager sharedInstance] loadPid:self.placementID size:_bannerSize action:4 completionHandler:^(OMCrossPromotionCampaign *campaign, NSError *error) {
+    [[OMCrossPromotionCampaignManager sharedInstance] loadPid:self.placementID size:_bannerSize reqId:@"" action:4 completionHandler:^(OMCrossPromotionCampaign *campaign, NSError *error) {
         if (error) {
             if(weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
                 [weakSelf.delegate customEvent:self didFailToLoadWithError:error];
@@ -90,7 +90,7 @@
     }
     
     __weak __typeof(self) weakSelf = self;
-    [[OMCrossPromotionCampaignManager sharedInstance] loadAdWithPid:self.placementID size:_bannerSize action:4 payload:payload completionHandler:^(OMCrossPromotionCampaign *campaign, NSError *error) {
+    [[OMCrossPromotionCampaignManager sharedInstance] loadAdWithPid:self.placementID size:_bannerSize  reqId:@"" action:4 payload:payload completionHandler:^(OMCrossPromotionCampaign *campaign, NSError *error) {
         if (error) {
             if(weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
                 [weakSelf.delegate customEvent:self didFailToLoadWithError:error];
@@ -212,7 +212,7 @@
 - (void)jsBridgeRefreshAd:(NSInteger)millisecond {
     __weak __typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(millisecond * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
-        [OMCrossPromotionClRequest requestCampaignWithPid:weakSelf.placementID size:weakSelf.bannerSize actionType:2 payload:nil completionHandler:^(NSDictionary *insAndCampaigns, NSError *error) {
+        [OMCrossPromotionClRequest requestCampaignWithPid:weakSelf.placementID size:weakSelf.bannerSize reqId:@"" actionType:2 payload:nil completionHandler:^(NSDictionary *insAndCampaigns, NSError *error) {
             if(!error) {
                 NSArray *campaigns = [insAndCampaigns objectForKey:@"campaigns"];
                 if(campaigns && [campaigns isKindOfClass:[NSArray class]]) {

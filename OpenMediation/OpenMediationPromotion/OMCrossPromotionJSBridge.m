@@ -108,8 +108,6 @@
             NSMutableDictionary *base = [NSMutableDictionary dictionaryWithDictionary:[OMRequest commonDeviceInfo]];
             [base setObject:[OMConfig sharedInstance].appKey forKey:@"appk"];
             [base setObject:OPENMEDIATION_SDK_VERSION forKey:@"sdkv"];
-            BOOL abTest = [[NSUserDefaults standardUserDefaults]boolForKey:[NSString stringWithFormat:@"%@_abt",self.placementID]];
-            [base setObject:[NSNumber numberWithInteger:(abTest?1:0)] forKey:@"abt"];
             
             [eventData setObject:base forKey:@"bfs"];
             

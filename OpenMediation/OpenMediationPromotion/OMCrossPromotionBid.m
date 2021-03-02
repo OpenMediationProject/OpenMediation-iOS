@@ -4,7 +4,7 @@
 #import "OMCrossPromotionBid.h"
 #import "OpenMediationConstant.h"
 #import "OMToolUmbrella.h"
-#import "OMAudience.h"
+#import "OMUserData.h"
 
 @implementation OMCrossPromotionBid
 
@@ -22,8 +22,8 @@
     [body setValue:[NSNumber numberWithInteger:[UIDevice omBatteryLevel]] forKey:@"battery"];
     [body setValue:[UIDevice omCountryCode] forKey:@"lcy"];
     
-    if([OMAudience sharedInstance].purchaseAmount > 0) {
-        [body setValue:[NSNumber numberWithFloat:[OMAudience sharedInstance].purchaseAmount] forKey:@"iap"];
+    if([OMUserData sharedInstance].purchaseAmount > 0) {
+        [body setValue:[NSNumber numberWithFloat:[OMUserData sharedInstance].purchaseAmount] forKey:@"iap"];
     }
     
 

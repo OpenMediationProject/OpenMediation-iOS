@@ -19,7 +19,7 @@
 }
 
 - (void)cancel {
-    [self dismissViewControllerAnimated:YES completion:^{
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
         if(self.delegate && [self.delegate respondsToSelector:@selector(webViewControllerDismiss)]) {
             [self.delegate webViewControllerDismiss];
         }

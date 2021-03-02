@@ -4,9 +4,7 @@
 #import "OMMediations.h"
 #import "OMConfig.h"
 #import "OMMediationAdapter.h"
-
-
-
+#import "OMUserData.h"
 
 @interface AdTimingBid : NSObject
 + (NSString *)SDKVersion;
@@ -57,6 +55,10 @@
 
 @interface WindAds : NSObject
 + (NSString * _Nonnull)sdkVersion;
+@end
+
+@interface KSAdSDKManager : NSObject
+@property (nonatomic, readonly, class) NSString *SDKVersion;
 @end
 
 static OMMediations *_instance = nil;
@@ -124,12 +126,13 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkMopub):@"Mopub",
             @(OMAdNetworkTapjoy):@"Tapjoy",
             @(OMAdNetworkChartboost):@"Chartboost",
-            @(OMAdNetworkTikTok):@"TikTok",
+            @(OMAdNetworkPangle):@"Pangle",
             @(OMAdNetworkMintegral):@"Mintegral",
             @(OMAdNetworkIronSource):@"IronSource",
-            @(OMAdNetworkChartboostBid):@"ChartboostBid",
+            @(OMAdNetworkHelium):@"Helium",
             @(OMAdNetworkFyber):@"Fyber",
             @(OMAdNetworkSigMob):@"SigMob",
+            @(OMAdNetworkKsAd):@"KuaiShou"
         };
         
         _adnSdkClassMap = @{
@@ -144,12 +147,13 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkMopub):@"MoPub",
             @(OMAdNetworkTapjoy):@"Tapjoy",
             @(OMAdNetworkChartboost):@"Chartboost",
-            @(OMAdNetworkTikTok):@"BUAdSDKManager",
+            @(OMAdNetworkPangle):@"BUAdSDKManager",
             @(OMAdNetworkMintegral):@"MTGSDK",
             @(OMAdNetworkIronSource):@"IronSource",
-            @(OMAdNetworkChartboostBid):@"HeliumSdk",
+            @(OMAdNetworkHelium):@"HeliumSdk",
             @(OMAdNetworkFyber):@"IASDKCore",
             @(OMAdNetworkSigMob):@"WindAds",
+            @(OMAdNetworkKsAd):@"KSAdSDKManager"
         };
         
         _adnSDKInitState = [NSMutableDictionary dictionary];
@@ -253,7 +257,7 @@ static OMMediations *_instance = nil;
             }
         }
             break;
-        case OMAdNetworkTikTok:
+        case OMAdNetworkPangle:
         {
             if (sdkClass && [sdkClass respondsToSelector:@selector(SDKVersion)]) {
                 sdkVersion = [sdkClass SDKVersion];
@@ -297,6 +301,13 @@ static OMMediations *_instance = nil;
             }
         }
             break;
+        case OMAdNetworkKsAd:
+        {
+            if (sdkClass && [sdkClass respondsToSelector:@selector(SDKVersion)]) {
+                sdkVersion = [sdkClass SDKVersion];
+            }
+        }
+            break;
         default:
             break;
     }
@@ -306,6 +317,7 @@ static OMMediations *_instance = nil;
 
 - (void)initAdNetworkSDKWithId:(OMAdNetwork)adnID completionHandler:(OMMediationInitCompletionBlock)completionHandler {
     OMConfig *config = [OMConfig sharedInstance];
+    OMUserData *userData = [OMUserData sharedInstance];
     Class adapterClass = [self adnAdapterClass:adnID];
     NSString *key = [config adnAppKey:adnID];
     NSArray *pids = [config adnPlacements:adnID];
@@ -327,32 +339,32 @@ static OMMediations *_instance = nil;
                             }
                         });
                 }];
-                if (config.consent >=0 && [adapterClass respondsToSelector:@selector(setConsent:)]) {
-                    [adapterClass setConsent:(BOOL)config.consent];
+                if (userData.consent >=0 && [adapterClass respondsToSelector:@selector(setConsent:)]) {
+                    [adapterClass setConsent:(BOOL)userData.consent];
                 }
-                if (config.USPrivacy && [adapterClass respondsToSelector:@selector(setUSPrivacyLimit:)]) {
-                    [adapterClass setUSPrivacyLimit:config.USPrivacy];
+                if (userData.USPrivacy && [adapterClass respondsToSelector:@selector(setUSPrivacyLimit:)]) {
+                    [adapterClass setUSPrivacyLimit:userData.USPrivacy];
                 }
                 
-                if (config.userAge && [adapterClass respondsToSelector:@selector(setUserAge:)]) {
-                    [adapterClass setUserAge:config.userAge];
+                if (userData.userAge && [adapterClass respondsToSelector:@selector(setUserAge:)]) {
+                    [adapterClass setUserAge:userData.userAge];
                 }
-                if (config.userGender && [adapterClass respondsToSelector:@selector(setUserGender:)]) {
-                    [adapterClass setUserGender:config.userGender];
+                if (userData.userGender && [adapterClass respondsToSelector:@selector(setUserGender:)]) {
+                    [adapterClass setUserGender:userData.userGender];
                 }
             } else {
-                if (config.consent >=0 && [adapterClass respondsToSelector:@selector(setConsent:)]) {
-                    [adapterClass setConsent:(BOOL)config.consent];
+                if (userData.consent >=0 && [adapterClass respondsToSelector:@selector(setConsent:)]) {
+                    [adapterClass setConsent:(BOOL)userData.consent];
                 }
-                if (config.USPrivacy && [adapterClass respondsToSelector:@selector(setUSPrivacyLimit:)]) {
-                    [adapterClass setUSPrivacyLimit:config.USPrivacy];
+                if (userData.USPrivacy && [adapterClass respondsToSelector:@selector(setUSPrivacyLimit:)]) {
+                    [adapterClass setUSPrivacyLimit:userData.USPrivacy];
                 }
                 
-                if (config.userAge && [adapterClass respondsToSelector:@selector(setUserAge:)]) {
-                    [adapterClass setUserAge:config.userAge];
+                if (userData.userAge && [adapterClass respondsToSelector:@selector(setUserAge:)]) {
+                    [adapterClass setUserAge:userData.userAge];
                 }
-                if (config.userGender && [adapterClass respondsToSelector:@selector(setUserGender:)]) {
-                    [adapterClass setUserGender:config.userGender];
+                if (userData.userGender && [adapterClass respondsToSelector:@selector(setUserGender:)]) {
+                    [adapterClass setUserGender:userData.userGender];
                 }
                 
                 [_adnSDKInitState setObject:[NSNumber numberWithInteger:OMAdnSDKInitStateInitializing] forKey:[NSString stringWithFormat:@"%zd",adnID]];

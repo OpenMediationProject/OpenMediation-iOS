@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSDictionary *unitModel;
 @property (nonatomic, copy) NSString *unitID;
+@property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign) OpenMediationAdFormat adFormat;
 @property (nonatomic, assign) NSInteger main;
 @property (nonatomic, assign) NSInteger frequencryCap;

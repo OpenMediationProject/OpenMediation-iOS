@@ -104,10 +104,6 @@
 
 - (void)videoDidComplete:(TJPlacement*)placement {
     
-    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
-        [_delegate rewardedVideoCustomEventDidClick:self];
-    }
-    
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]) {
         [_delegate rewardedVideoCustomEventVideoEnd:self];
     }
@@ -119,7 +115,9 @@
 
 
 - (void)didClick:(TJPlacement*)placement {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
+        [_delegate rewardedVideoCustomEventDidClick:self];
+    }
 }
 
 - (void)placement:(TJPlacement *)placement didRequestPurchase:(TJActionRequest *)request productId:(NSString *)productId {

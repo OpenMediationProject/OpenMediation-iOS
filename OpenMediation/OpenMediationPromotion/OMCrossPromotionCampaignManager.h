@@ -18,11 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)loadPid:(NSString*)pid
              size:(CGSize)size
+          reqId:(NSString*)reqId
            action:(NSInteger)action
 completionHandler:(loadCompletionHandler)completionHandler;
 
 - (void)loadAdWithPid:(NSString*)pid
              size:(CGSize)size
+            reqId:(NSString*)reqId
            action:(NSInteger)action
             payload:(nullable NSString*)payload
 completionHandler:(loadCompletionHandler)completionHandler;

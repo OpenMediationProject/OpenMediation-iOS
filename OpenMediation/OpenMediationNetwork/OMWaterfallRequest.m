@@ -5,7 +5,7 @@
 #import "OMRequest.h"
 #import "OMToolUmbrella.h"
 #import "OMConfig.h"
-#import "OMAudience.h"
+#import "OMUserData.h"
 #import "OMLoadFrequencryControl.h"
 
 @implementation OMWaterfallRequest
@@ -13,11 +13,12 @@
 + (void)requestDataWithPid:(NSString *)pid
                       size:(CGSize)size
                 actionType:(NSInteger)actionType
+                     reqId:(NSString*)reqId
               bidResponses:(NSArray*)bidResponses
                     tokens:(NSArray*)tokens
              instanceState:(NSArray*)instanceState
          completionHandler:(wfCompletionHandler)completionHandler {
-    NSDictionary *parameters = [self wfParametersWithPid:pid size:size actionType:actionType bidResponses:bidResponses tokens:tokens instanceState:instanceState];
+    NSDictionary *parameters = [self wfParametersWithPid:pid size:size actionType:actionType reqId:reqId bidResponses:bidResponses tokens:tokens instanceState:instanceState];
     NSError *jsonError;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:&jsonError];
     if (jsonData && !jsonError && [[OMConfig sharedInstance].wfUrl length]>0) {
@@ -36,12 +37,13 @@
 }
 
 + (NSString*)waterfallUrl {
-    return [NSString stringWithFormat:@"%@?v=1&plat=0&sdkv=%@",[OMConfig sharedInstance].wfUrl,OPENMEDIATION_SDK_VERSION];
+    return [NSString stringWithFormat:@"%@?v=2&plat=0&sdkv=%@",[OMConfig sharedInstance].wfUrl,OPENMEDIATION_SDK_VERSION];
 }
 
 + (NSDictionary*)wfParametersWithPid:(NSString*)pid
                                 size:(CGSize)size
                           actionType:(NSInteger)actionType
+                               reqId:(NSString*)reqId
                         bidResponses:(NSArray*)bidResponses
                               tokens:(NSArray*)tokens
                        instanceState:(NSArray*)instanceState {
@@ -49,9 +51,10 @@
     parameters[@"pid"] = @([pid integerValue]);
     parameters[@"width"] = [NSNumber numberWithInt:size.width];
     parameters[@"height"] = [NSNumber numberWithInt:size.height];
-    parameters[@"iap"] = [NSNumber numberWithFloat:[OMAudience sharedInstance].purchaseAmount];
-    parameters[@"imprTimes"] = [NSNumber numberWithInteger:[[OMLoadFrequencryControl sharedInstance]todayimprCountOnPlacment:pid]];
     parameters[@"act"] = [NSNumber numberWithInteger:actionType];
+    parameters[@"reqId"] = reqId;
+    parameters[@"iap"] = [NSNumber numberWithFloat:[OMUserData sharedInstance].purchaseAmount];
+    parameters[@"imprTimes"] = [NSNumber numberWithInteger:[[OMLoadFrequencryControl sharedInstance]todayimprCountOnPlacment:pid]];
     if (bidResponses.count>0) {
         parameters[@"bid"] = bidResponses;
     }

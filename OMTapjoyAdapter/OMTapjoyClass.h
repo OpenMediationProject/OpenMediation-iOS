@@ -134,6 +134,8 @@ typedef enum TJCActionRequestTypeEnum {
 
 /**
  * Callback issued by TJ to publisher to state that placement request is successful
+ * @param TJPlacement that was sent
+ * @return n/a
  */
 - (void)requestDidSucceed:(TJPlacement*)placement;
 
@@ -141,6 +143,7 @@ typedef enum TJCActionRequestTypeEnum {
  * Called when an error occurs while sending the placement
  * @param placement The TJPlacement that was sent
  * @error error code
+ * @return n/a
  */
 - (void)requestDidFail:(TJPlacement*)placement error:(NSError*)error;
 
@@ -153,14 +156,23 @@ typedef enum TJCActionRequestTypeEnum {
 /**
  * Called when placement content did appear
  * @param placement The TJPlacement that was sent
+ * @return n/a
  */
 - (void)contentDidAppear:(TJPlacement*)placement;
 
 /**
  * Called when placement content did disappear
  * @param placement The TJPlacement that was sent
+ * @return n/a
  */
 - (void)contentDidDisappear:(TJPlacement*)placement;
+
+/**
+ * Called when a click event has occurred
+ * @param placement The TJPlacement that was sent
+ * @return n/a
+ */
+- (void)didClick:(TJPlacement*)placement;
 
 
 /**
@@ -193,12 +205,14 @@ typedef enum TJCActionRequestTypeEnum {
 /**
  * Called when a placement video starts playing.
  *
+ * @return n/a
  */
 - (void)videoDidStart:(TJPlacement*)placement;
 
 /**
  * Called when a placement video has completed playing.
  *
+ * @return n/a
  */
 - (void)videoDidComplete:(TJPlacement*)placement;
 
@@ -206,6 +220,7 @@ typedef enum TJCActionRequestTypeEnum {
  * Called when a placement video related error occurs.
  *
  * @param errorMsg Error message.
+ * @return n/a
  */
 - (void)videoDidFail:(TJPlacement*)placement error:(NSString*)errorMsg;
 @end

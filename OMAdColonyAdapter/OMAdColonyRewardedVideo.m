@@ -17,28 +17,6 @@
     
     Class adColonyClass = NSClassFromString(@"AdColony");
     if(adColonyClass && [adColonyClass respondsToSelector:@selector(requestInterstitialInZone:options:andDelegate:)]) {
-        
-        AdColonyAdOptions *options = [NSClassFromString(@"AdColonyAdOptions") new];
-
-        if ([OMAdColonyAdapter getUserAge]) {
-            if (!options.userMetadata) {
-                Class userClass = NSClassFromString(@"AdColonyUserMetadata");
-                if (userClass) {
-                    options.userMetadata = [[userClass alloc]init];
-                }
-            }
-            options.userMetadata.userAge = [OMAdColonyAdapter getUserAge];
-        }
-        if ([OMAdColonyAdapter getUserGender]) {
-            if (!options.userMetadata) {
-                Class userClass = NSClassFromString(@"AdColonyUserMetadata");
-                if (userClass) {
-                    options.userMetadata = [[userClass alloc]init];
-                }
-            }
-            options.userMetadata.userGender = (([OMAdColonyAdapter getUserGender]==1)?@"male":@"female");
-        }
-        
         [adColonyClass requestInterstitialInZone:_pid options:nil andDelegate:self];
     }
     
@@ -59,10 +37,25 @@
 
 // Store a reference to the returned interstitial object
 - (void)adColonyInterstitialDidLoad:(AdColonyInterstitial *)interstitial {
+    Class adColonyClass = NSClassFromString(@"AdColony");
+    if(adColonyClass && [adColonyClass respondsToSelector:@selector(zoneForID:)]) {
+        self.zone = [adColonyClass zoneForID:_pid];
+    }
+    self.adColonyAd = interstitial;
+    
+    __weak typeof(self) weakSelf = self;
+    [self.zone setReward:^(BOOL success, NSString * _Nonnull name, int amount) {
+        if (success) {
+            if(weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
+                [weakSelf.delegate rewardedVideoCustomEventDidReceiveReward:weakSelf];
+            }
+        }
+    }];
+    
     if(self.delegate && [self.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [self.delegate customEvent:self didLoadAd:nil];
     }
-    self.adColonyAd = interstitial;
+    
 }
 
 // Handle loading error
@@ -87,14 +80,9 @@
         [self.delegate rewardedVideoCustomEventVideoEnd:self];
     }
     
-    if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
-        [self.delegate rewardedVideoCustomEventDidReceiveReward:self];
-    }
-    
     if(self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]) {
         [self.delegate rewardedVideoCustomEventDidClose:self];
     }
-    
 }
 
 - (void)adColonyInterstitialWillLeaveApplication:(AdColonyInterstitial *)interstitial {

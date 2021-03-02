@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, strong) AdColonyInterstitial *adColonyAd;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;
+@property (nonatomic, strong) AdColonyZone *zone;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
 - (void)loadAd;

@@ -26,7 +26,7 @@
         if (!OM_STR_EMPTY(networkItem.adnName)) {
             OMAdNetwork adnID = [networkItem.extraData[@"adnID"] integerValue];
             
-            if ((adnID == OMAdNetworkVungle || adnID == OMAdNetworkChartboostBid) && ![[OMMediations sharedInstance]adnSDKInitialized:adnID]) {
+            if ((adnID == OMAdNetworkVungle || adnID == OMAdNetworkHelium) && ![[OMMediations sharedInstance]adnSDKInitialized:adnID]) {
                 [[OMMediations sharedInstance]initAdNetworkSDKWithId:adnID
                                                        completionHandler:^(NSError * _Nullable error) {
                 }];

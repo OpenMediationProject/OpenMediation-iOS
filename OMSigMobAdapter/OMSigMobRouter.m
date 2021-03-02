@@ -17,7 +17,7 @@ static OMSigMobRouter * _instance = nil;
 
 -(instancetype)init {
     if (self = [super init]) {
-        Class sigmobInterstitialClass = NSClassFromString(@"WindFullscreenVideoAd");
+        Class sigmobInterstitialClass = NSClassFromString(@"WindInterstitialAd");
         if (sigmobInterstitialClass && [sigmobInterstitialClass respondsToSelector:@selector(sharedInstance)]) {
             _sigmobInterstitialSDK = [sigmobInterstitialClass sharedInstance];
             if (_sigmobInterstitialSDK && [_sigmobInterstitialSDK respondsToSelector:@selector(setDelegate:)]) {
@@ -126,7 +126,7 @@ static OMSigMobRouter * _instance = nil;
 
 // 插屏视频
 
-- (void)onFullscreenVideoAdLoadSuccess:(NSString *)placementId {
+- (void)onSMInterstitialAdLoadSuccess:(NSString *)placementId {
     id<OMSigMobAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     if(delegate && [delegate respondsToSelector:@selector(OMSigMobDidload)]) {
         [delegate OMSigMobDidload];
@@ -134,7 +134,7 @@ static OMSigMobRouter * _instance = nil;
 }
 
 
-- (void)onFullscreenVideoAdError:(NSError *)error placementId:(NSString *)placementId {
+- (void)onSMInterstitialAdError:(NSError *)error placementId:(NSString *)placementId {
     id<OMSigMobAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     if(delegate && [delegate respondsToSelector:@selector(OMSigMobDidFailToLoad:)]) {
         [delegate OMSigMobDidFailToLoad:error];
@@ -142,7 +142,7 @@ static OMSigMobRouter * _instance = nil;
 }
 
 
-- (void)onFullscreenVideoAdClosed:(NSString *)placementId {
+- (void)onSMInterstitialAdClosed:(NSString *)placementId {
     id<OMSigMobAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     if(delegate && [delegate respondsToSelector:@selector(OMSigMobDidClose)]) {
         [delegate OMSigMobDidClose];
@@ -150,7 +150,7 @@ static OMSigMobRouter * _instance = nil;
     _isInterstitialPlaying = NO;
 }
 
-- (void)onFullscreenVideoAdPlayStart:(NSString *)placementId {
+- (void)onSMInterstitialAdPlayStart:(NSString *)placementId {
     if (!_isInterstitialPlaying) {
         id<OMSigMobAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
         if(delegate && [delegate respondsToSelector:@selector(OMSigMobDidStart)]) {
@@ -161,7 +161,7 @@ static OMSigMobRouter * _instance = nil;
 }
 
 
-- (void)onFullscreenVideoAdClicked:(NSString *)placementId {
+- (void)onSMInterstitialAdClicked:(NSString *)placementId {
     id<OMSigMobAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     if(delegate && [delegate respondsToSelector:@selector(OMSigMobDidClick)]) {
         [delegate OMSigMobDidClick];
@@ -169,7 +169,7 @@ static OMSigMobRouter * _instance = nil;
 }
 
 
-- (void)onFullscreenVideoAdPlayError:(NSError *)error placementId:(NSString *)placementId {
+- (void)onSMInterstitialAdPlayError:(NSError *)error placementId:(NSString *)placementId {
     id<OMSigMobAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     if(delegate && [delegate respondsToSelector:@selector(OMSigMobDidFailToShow:)]) {
         [delegate OMSigMobDidFailToShow:error];
@@ -177,7 +177,7 @@ static OMSigMobRouter * _instance = nil;
 }
 
 
-- (void)onFullscreenVideoAdPlayEnd:(NSString *)placementId {
+- (void)onSMInterstitialAdPlayEnd:(NSString *)placementId {
     id<OMSigMobAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     if(delegate && [delegate respondsToSelector:@selector(OMSigMobVideoEnd)]) {
         [delegate OMSigMobVideoEnd];

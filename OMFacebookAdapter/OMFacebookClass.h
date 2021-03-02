@@ -82,14 +82,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// Limited Data Use.
 + (void)setDataProcessingOptions:(NSArray<NSString *> *)options;
 
-
-/**
- User's consent for advertiser tracking.
-
- The setter API only works in iOS14 or above and won't take effect in iOS13 or below.
- */
-+ (void)setAdvertiserTrackingEnabled:(BOOL)advertiserTrackingEnabled;
-
 @end
 
 NS_ASSUME_NONNULL_END

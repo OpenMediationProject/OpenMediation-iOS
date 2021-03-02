@@ -9,7 +9,7 @@
 
 @class WindAdRequest;
 
-@protocol WindFullscreenVideoAdDelegate <NSObject>
+@protocol WindInterstitialAdDelegate <NSObject>
 
 @required
 
@@ -19,7 +19,7 @@
  
  @param placementId 广告位Id
  */
-- (void)onFullscreenVideoAdLoadSuccess:(NSString *)placementId;
+- (void)onSMInterstitialAdLoadSuccess:(NSString *)placementId;
 
 
 /**
@@ -28,7 +28,7 @@
  @param error 发生错误时会有相应的code和message
  @param placementId 广告位Id
  */
-- (void)onFullscreenVideoAdError:(NSError *)error placementId:(NSString *)placementId;
+- (void)onSMInterstitialAdError:(NSError *)error placementId:(NSString *)placementId;
 
 
 /**
@@ -36,7 +36,7 @@
  
  @param placementId 广告位Id
  */
-- (void)onFullscreenVideoAdClosed:(NSString *)placementId;
+- (void)onSMInterstitialAdClosed:(NSString *)placementId;
 
 
 
@@ -50,7 +50,7 @@
 
  @param placementId 广告位Id
  */
-- (void)onFullscreenVideoAdPlayStart:(NSString *)placementId;
+- (void)onSMInterstitialAdPlayStart:(NSString *)placementId;
 
 
 
@@ -59,7 +59,7 @@
 
  @param placementId 广告位Id
  */
-- (void)onFullscreenVideoAdClicked:(NSString *)placementId;
+- (void)onSMInterstitialAdClicked:(NSString *)placementId;
 
 
 
@@ -69,14 +69,14 @@
  @param error 发生错误时会有相应的code和message
  @param placementId 广告位Id
  */
-- (void)onFullscreenVideoAdPlayError:(NSError *)error placementId:(NSString *)placementId;
+- (void)onSMInterstitialAdPlayError:(NSError *)error placementId:(NSString *)placementId;
 
 /**
  全屏视频广告视频播关闭
  
  @param placementId 广告位Id
  */
-- (void)onFullscreenVideoAdPlayEnd:(NSString *)placementId;
+- (void)onSMInterstitialAdPlayEnd:(NSString *)placementId;
 
 
 /**
@@ -84,7 +84,7 @@
 
  @param placementId 广告位Id
  */
-- (void)onFullscreenVideoAdServerDidSuccess:(NSString *)placementId;
+- (void)onSMInterstitialAdServerDidSuccess:(NSString *)placementId;
 
 
 /**
@@ -92,14 +92,14 @@
  
  @param placementId 广告位Id
  */
-- (void)onFullscreenVideoAdServerDidFail:(NSString *)placementId;
+- (void)onSMInterstitialAdServerDidFail:(NSString *)placementId;
 
 @end
 
 
-@interface WindFullscreenVideoAd : NSObject
+@interface WindInterstitialAd : NSObject
 
-@property (nonatomic,weak) id<WindFullscreenVideoAdDelegate> delegate;
+@property (nonatomic,weak) id<WindInterstitialAdDelegate> delegate;
 
 + (instancetype)sharedInstance;
 

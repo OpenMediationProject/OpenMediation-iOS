@@ -34,7 +34,7 @@
             Class adapterClass = NSClassFromString(className);
             if (adapterClass && [adapterClass conformsToProtocol:@protocol(OMCrossPromotionCustomEvent)] && [adapterClass instancesRespondToSelector:@selector(initWithParameter:)]) {
                 id <OMCrossPromotionCustomEvent> promotionAdapter = [[OMInstanceContainer sharedInstance]getInstance:instanceID block:^id {
-                    id adapter = [[adapterClass alloc] initWithParameter:@{@"pid":mediationPid,@"appKey":[[OMConfig sharedInstance]adnAppKey:adnID] }];
+                    id adapter = [[adapterClass alloc] initWithParameter:@{@"pid":mediationPid,@"appKey":[[OMConfig sharedInstance]adnAppKey:adnID],@"reqId":self.wfReqId}];
                     return adapter;
                 }] ;
                 promotionAdapter.delegate = self;

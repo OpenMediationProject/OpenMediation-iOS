@@ -39,7 +39,7 @@
     }
     
     __weak __typeof(self) weakSelf = self;
-    [[OMCrossPromotionCampaignManager sharedInstance] loadAdWithPid:_pid size:[UIScreen mainScreen].bounds.size action:4 payload:payload completionHandler:^(OMCrossPromotionCampaign *campaign, NSError *error) {
+    [[OMCrossPromotionCampaignManager sharedInstance] loadAdWithPid:_pid size:[UIScreen mainScreen].bounds.size reqId:@"" action:4 payload:payload completionHandler:^(OMCrossPromotionCampaign *campaign, NSError *error) {
         if(weakSelf) {
             if (!error) {
                 weakSelf.campaign = campaign;

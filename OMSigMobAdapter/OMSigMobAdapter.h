@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const SigMobAdapterVersion = @"2.0.2";
+static NSString * const SigMobAdapterVersion = @"2.0.3";
 
 @interface OMSigMobAdapter : NSObject
 

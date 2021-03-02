@@ -6,11 +6,12 @@
 #import "OMNetworkUmbrella.h"
 #import "OMToolUmbrella.h"
 #import "OMMediations.h"
-#import "OMAudience.h"
+#import "OMUserData.h"
 #import "OMEventManager.h"
 #import "OMInterstitial.h"
 #import "OMRewardedVideo.h"
 #import "OMCrossPromotion.h"
+#import "OMImpressionDataRouter.h"
 
 @interface OMRewardedVideo()
 - (void)preload;
@@ -27,6 +28,8 @@
 static OpenMediationAdFormat initAdFormats = 0;
 
 #define SDKInitCheckInterval 3.0
+
+#define TagMaxLength    48
 
 
 static NSTimer *SDKInitCheckTimer = nil;
@@ -125,11 +128,11 @@ static NSTimer *SDKInitCheckTimer = nil;
 /// user in-app purchase
 + (void)userPurchase:(CGFloat)amount currency:(NSString*)currencyUnit {
 
-     [[OMAudience sharedInstance]userPurchase:amount currency:currencyUnit];
+     [[OMUserData sharedInstance]userPurchase:amount currency:currencyUnit];
 }
 
 + (void)setUserAge:(NSInteger)userAge {
-    [[OMConfig sharedInstance] setUserAge:userAge];
+    [[OMUserData sharedInstance] setUserAge:userAge];
     //pass user age to adn
     OMConfig *config = [OMConfig sharedInstance];
     for (NSString *adnID in config.adnAppkeyMap) {
@@ -137,14 +140,14 @@ static NSTimer *SDKInitCheckTimer = nil;
         Class adapterClass = [[OMMediations sharedInstance] adnAdapterClass:[adnID integerValue]];
         
         if (adapterClass && [adapterClass respondsToSelector:@selector(setUserAge:)]) {
-            [adapterClass setUserAge:[OMConfig sharedInstance].userAge];
+            [adapterClass setUserAge:[OMUserData sharedInstance].userAge];
         }
     }
 
 }
 
 + (void)setUserGender:(OMGender)userGender {
-    [[OMConfig sharedInstance] setUserGender:(NSInteger)userGender];
+    [[OMUserData sharedInstance] setUserGender:(NSInteger)userGender];
     
     //pass user gender to adn
     OMConfig *config = [OMConfig sharedInstance];
@@ -153,9 +156,91 @@ static NSTimer *SDKInitCheckTimer = nil;
         Class adapterClass = [[OMMediations sharedInstance] adnAdapterClass:[adnID integerValue]];
         
         if (adapterClass && [adapterClass respondsToSelector:@selector(setUserGender:)]) {
-            [adapterClass setUserGender:[OMConfig sharedInstance].userAge];
+            [adapterClass setUserGender:[OMUserData sharedInstance].userGender];
         }
     }
+}
+
+
++ (void)setUserID:(NSString*)userID {
+    if([userID isKindOfClass:[NSString class]] && userID.length>0) {
+        [OMUserData sharedInstance].customUserID = userID;
+    }
+}
+
++ (void)setCustomTag:(NSString*)tag withString:(NSString*)value {
+    if (([tag isKindOfClass:[NSString class]] && tag.length>0) && ([value isKindOfClass:[NSString class]] && value.length >0)) {
+        [self setTag:tag value:value];
+    } else {
+        OMLogE(@"Tag or value is invalid");
+    }
+}
+
++ (void)setCustomTag:(NSString*)tag withNumber:(NSNumber*)value {
+    if (([tag isKindOfClass:[NSString class]] && tag.length>0) && [value isKindOfClass:[NSNumber class]]) {
+        [self setTag:tag value:value];
+    } else {
+        OMLogE(@"Tag or value is invalid");
+    }
+}
+
++ (void)setCustomTag:(NSString*)tag withStrings:(NSArray *)values {
+    if (([tag isKindOfClass:[NSString class]] && tag.length>0) && ([values isKindOfClass:[NSArray class]] && values.count >0 )) {
+        [self setTag:tag value:values];
+    } else {
+        OMLogE(@"Tag or value is invalid");
+    }
+}
+
++ (void)setCustomTag:(NSString*)tag withNumbers:(NSArray *)values {
+    if ([tag isKindOfClass:[NSString class]] && ([values isKindOfClass:[NSArray class]] && values.count >0 )) {
+        [self setTag:tag value:values];
+        
+    } else {
+        OMLogE(@"Tag or value is invalid");
+    }
+}
+
++ (void)setTag:(NSString*)tag value:(id)value {
+    if (tag.length > TagMaxLength) {
+        OMLogE(@"The tag is too long");
+        return;
+    }
+
+    if ([value isKindOfClass:[NSString class]] && ((NSString*)value).length > TagMaxLength ) {
+        OMLogE(@"The value is too long");
+        return;
+    }
+    
+    if ([value isKindOfClass:[NSArray class]]) {
+        for (NSString*str in value) {
+            if ([str isKindOfClass:[NSString class]] && str.length > TagMaxLength ) {
+                OMLogE(@"The value is too long");
+                return;
+            }
+        }
+    }
+    
+    OMUserData *userData = [OMUserData sharedInstance];
+    
+    @synchronized (userData) {
+        if (userData.tags.count >= 10) {
+            OMLogE(@"The number of tags reaches maximum");
+            return;
+        }
+        userData.tags[tag] = value;
+    }
+}
+
++ (void)removeTag:(NSString*)tag {
+    OMUserData *userData = [OMUserData sharedInstance];
+    @synchronized (userData) {
+        [userData.tags removeObjectForKey:tag];
+    }
+}
+
++ (NSDictionary*)allCustomTags {
+    return [[OMUserData sharedInstance].tags copy];
 }
 
 #pragma mark - ROAS
@@ -176,9 +261,19 @@ static NSTimer *SDKInitCheckTimer = nil;
     }];
 }
 
+#pragma mark - ImpressionData
++ (void)addImpressionDataDelegate:(id<OMImpressionDataDelegate>)delegate {
+    [[OMImpressionDataRouter sharedInstance]addDelegate:delegate];
+}
+
+///Remove Impression Data delegate
++ (void)rmoveImpressionDataDelegate:(id<OMImpressionDataDelegate>)delegate {
+    [[OMImpressionDataRouter sharedInstance]removeDelegate:delegate];
+}
+
 #pragma mark - GDPR/CCPA
 + (void)setGDPRConsent:(BOOL)consent {
-    [[OMConfig sharedInstance] setConsent:consent];
+    [[OMUserData sharedInstance] setConsent:consent];
     [[NSUserDefaults standardUserDefaults] setBool:consent forKey:@"OMConsentStatus"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -194,7 +289,7 @@ static NSTimer *SDKInitCheckTimer = nil;
 }
 
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit {
-    [[OMConfig sharedInstance] setUSPrivacy:privacyLimit];
+    [[OMUserData sharedInstance] setUSPrivacy:privacyLimit];
     
 }
 

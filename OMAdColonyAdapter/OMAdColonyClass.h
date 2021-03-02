@@ -8,13 +8,148 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Enum representing AdColony ad request error codes
+ */
+typedef NS_ENUM(NSUInteger, AdColonyRequestError) {
+
+    /** An invalid app id or zone id was specified by the developer or an invalid configuration was received from the server (unlikely). */
+    AdColonyRequestErrorInvalidRequest = 0,
+
+    /** The ad was skipped due to the skip interval setting on the control panel. */
+    AdColonyRequestErrorSkippedRequest,
+
+    /** The current zone has no ad fill. */
+    AdColonyRequestErrorNoFillForRequest,
+
+    /** Either AdColony has not been configured, is still in the process of configuring, is still downloading assets, or is already showing an ad. */
+    AdColonyRequestErrorUnready
+};
+
+/**
+ Enum representing in-app purchase (IAP) engagement types
+ */
+typedef NS_ENUM(NSUInteger, AdColonyIAPEngagement) {
+
+    /** IAP was enabled for the ad, and the user engaged via a dynamic end card (DEC). */
+    AdColonyIAPEngagementEndCard = 0,
+
+    /** IAP was enabled for the ad, and the user engaged via an in-vdeo engagement (Overlay). */
+    AdColonyIAPEngagementOverlay
+};
+
+/**
+ Enum representing supported ad orientations
+ */
+typedef NS_ENUM(NSInteger, AdColonyOrientation) {
+
+    /** Portrait and upside down */
+    AdColonyOrientationPortrait = 0,
+
+    /** Landscape left and landscape right */
+    AdColonyOrientationLandscape = 1,
+
+    /** All orientations supported */
+    AdColonyOrientationAll = 2
+};
+
+/**
+ Enum representing zone types
+ */
+typedef NS_ENUM(NSInteger, AdColonyZoneType) {
+
+    /** Invalid zone type */
+    AdColonyZoneTypeInvalid = -1,
+    
+    /** Interstitial zone type */
+    AdColonyZoneTypeInterstitial = 0,
+    
+    /** Banner zone type */
+    AdColonyZoneTypeBanner = 1,
+
+    /** Native zone type */
+    AdColonyZoneTypeNative __attribute__((deprecated("It will be removed in a future release"))) = 2
+};
+
 @class AdColonyUserMetadata;
 @class AdColonyZone;
 @class AdColonyAdOptions;
 @class AdColonyAppOptions;
 @class AdColonyNativeAdView;
 
+/**
+ AdColonyZone objects aggregate informative data about an AdColony zone such as its unique identifier, its `ADCOLONY_ZONE_TYPE`, etc.
+ AdColonyZones also provide a block-based handler for zone-level reward events.
+ Note that you should never instantiate one of these objects directly. You only need to use them when they are passed to you.
+ */
+@interface AdColonyZone : NSObject
 
+/** @name Zone */
+
+/**
+ @abstract Represents the given zone's unique string identifier.
+ @discussion AdColony zone IDs can be created at the [Control Panel](http://clients.adcolony.com).
+ */
+@property (nonatomic, readonly) NSString *identifier;
+
+/**
+ @abstract Represents the zone type - interstitial, banner, or native.
+ @discussion You can set the type for your zones at the [Control Panel](http://clients.adcolony.com).
+ @see AdColonyZoneType
+ */
+@property (nonatomic, readonly) AdColonyZoneType type;
+
+/**
+ @abstract Indicates whether or not the zone is enabled.
+ @discussion Sending invalid zone id strings to `configureWithAppID:zoneIDs:options:completion:` will cause this value to be `NO`.
+ */
+@property (nonatomic, readonly) BOOL enabled;
+
+/** @name Rewards */
+
+/**
+ @abstract Indicates whether or not the zone is configured for rewards.
+ @discussion You can configure rewards in your zones at the [Control Panel](http://clients.adcolony.com).
+ Sending invalid zone id strings to `configureWithAppID:zoneIDs:options:completion:` will cause this value to be `NO`.
+ */
+@property (nonatomic, readonly) BOOL rewarded;
+
+/**
+ @abstract Represents the number of completed ad views required to receive a reward for the given zone.
+ @discussion This value will be 0 if the given zone is not configured for rewards.
+ */
+@property (nonatomic, readonly) NSUInteger viewsPerReward;
+
+/**
+ @abstract Represents the number of ads that must be watched before a reward is given.
+ @discussion This value will be 0 if the given zone is not configured for rewards.
+ */
+@property (nonatomic, readonly) NSUInteger viewsUntilReward;
+
+/**
+ @abstract Represents the reward amount for each completed rewarded ad view.
+ @discussion This value will be 0 if the given zone is not configured for rewards.
+ */
+@property (nonatomic, readonly) NSUInteger rewardAmount;
+
+/**
+ @abstract Represents the singular form of the reward name based on the reward amount.
+ @discussion This value will be an empty string if the given zone is not configured for rewards.
+ */
+@property (nonatomic, readonly) NSString *rewardName;
+
+/** @name Handling Rewards */
+
+/**
+ @abstract Sets a block-based reward handler for your zone.
+ @discussion Based on the success parameter, client-side reward implementations should consider incrementing the user's currency balance in this method.
+ Server-side reward implementations, however, should consider the success parameter and then contact the game server to determine the current total balance for the virtual currency.
+ Note that the associated block of code will be dispatched on the main thread.
+ @param reward Callback for reward grant
+ */
+- (void)setReward:(nullable void (^)(BOOL success, NSString *name, int amount))reward;
+
+@end
 
 
 
@@ -129,17 +264,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-/**
- Enum representing in-app purchase (IAP) engagement types
- */
-typedef NS_ENUM(NSUInteger, AdColonyIAPEngagement) {
-    
-    /** IAP was enabled for the ad, and the user engaged via a dynamic end card (DEC). */
-    AdColonyIAPEngagementEndCard = 0,
-    
-    /** IAP was enabled for the ad, and the user engaged via an in-vdeo engagement (Overlay). */
-    AdColonyIAPEngagementOverlay
-};
+
 
 @class AdColonyTypes;
 @class AdColonyInterstitial;

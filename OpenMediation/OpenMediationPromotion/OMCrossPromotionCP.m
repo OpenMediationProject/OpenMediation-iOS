@@ -27,6 +27,7 @@
 @property (nonatomic, strong) OMCrossPromotionCampaign *campaign;
 @property (nonatomic, weak) UIViewController *rootViewController;
 @property (nonatomic, strong) NSString *placementID;
+@property (nonatomic, strong) NSString *reqId;
 @property (nonatomic, assign) BOOL impr;
 @property (nonatomic, copy) NSString *showSceneID;
 @property (nonatomic, assign) CGPoint scaleXY;
@@ -44,6 +45,7 @@
         self.layer.allowsEdgeAntialiasing = YES;
         if(adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
             _placementID = [adParameter objectForKey:@"pid"];
+            _reqId = [adParameter objectForKey:@"reqId"];
         }
         _rootViewController = [UIViewController omCurrentWindow].rootViewController;
         [_rootViewController.view addSubview:self];
@@ -61,7 +63,7 @@
         return;
     }
     __weak __typeof(self) weakSelf = self;
-    [[OMCrossPromotionCampaignManager sharedInstance] loadPid:self.placementID size:[UIScreen mainScreen].bounds.size action:4 completionHandler:^(OMCrossPromotionCampaign *campaign, NSError *error) {
+    [[OMCrossPromotionCampaignManager sharedInstance] loadPid:self.placementID size:[UIScreen mainScreen].bounds.size reqId:self.reqId action:4 completionHandler:^(OMCrossPromotionCampaign *campaign, NSError *error) {
         if (error) {
             if(weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
                 [weakSelf.delegate customEvent:weakSelf didFailToLoadWithError:error];
@@ -72,7 +74,7 @@
             [campaign cacheMaterielCompletion:^{
                 if(weakSelf) {
                     if(weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
-                        [weakSelf.delegate customEvent:self didLoadAd:nil];
+                        [weakSelf.delegate customEvent:self didLoadAd:weakSelf.campaign.model.originData];
                     }
                     weakSelf.impr = NO;
                     [self addSubview:self.adWebView];
@@ -87,7 +89,7 @@
 }
 
 - (void)checkCampgian {
-    [[OMCrossPromotionCampaignManager sharedInstance] loadPid:self.placementID size:[UIScreen mainScreen].bounds.size action:4 completionHandler:^(OMCrossPromotionCampaign *campaign, NSError *error) {
+    [[OMCrossPromotionCampaignManager sharedInstance] loadPid:self.placementID size:[UIScreen mainScreen].bounds.size reqId:self.reqId action:4 completionHandler:^(OMCrossPromotionCampaign *campaign, NSError *error) {
         
     }];
 }
@@ -194,7 +196,7 @@
 - (void)jsBridgeRefreshAd:(NSInteger)millisecond {
     __weak __typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(millisecond * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
-        [OMCrossPromotionClRequest requestCampaignWithPid:weakSelf.placementID size:[UIScreen mainScreen].bounds.size actionType:2 payload:nil completionHandler:^(NSDictionary *insAndCampaigns, NSError *error) {
+        [OMCrossPromotionClRequest requestCampaignWithPid:weakSelf.placementID size:[UIScreen mainScreen].bounds.size reqId:self.reqId actionType:2 payload:nil completionHandler:^(NSDictionary *insAndCampaigns, NSError *error) {
             if(!error) {
                 NSArray *campaigns = [insAndCampaigns objectForKey:@"campaigns"];
                 if(campaigns && [campaigns isKindOfClass:[NSArray class]]) {

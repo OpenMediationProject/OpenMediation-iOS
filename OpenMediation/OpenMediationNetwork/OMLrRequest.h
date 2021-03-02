@@ -23,13 +23,19 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OMLrRequest : NSObject
 
 + (void)postWithType:(OMLRType)type
-       pid:(NSString *)pid
-     adnID:(OMAdNetwork)adnID
-instanceID:(NSString *)instanceID
-    action:(NSInteger)action
-     scene:(NSString *)sceneID
-       abt:(NSInteger)abTest
-       bid:(BOOL)bid;
+                 pid:(NSString *)pid
+               adnID:(OMAdNetwork)adnID
+          instanceID:(NSString *)instanceID
+              action:(NSInteger)action
+               scene:(NSString *)sceneID
+                 abt:(NSInteger)abTest
+                 bid:(BOOL)bid
+               reqId:(NSString *)reqId
+              ruleId:(NSInteger)ruleId
+             revenue:(double)revenue
+                  rp:(NSInteger)rp
+                  ii:(NSInteger)ii;
+
 @end
 
 NS_ASSUME_NONNULL_END

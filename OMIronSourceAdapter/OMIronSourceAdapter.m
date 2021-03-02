@@ -3,7 +3,7 @@
 
 #import "OMIronSourceAdapter.h"
 
-static NSString * const IronSourceAdapterVersion = @"2.0.2";
+static NSString * const IronSourceAdapterVersion = @"2.0.3";
 static BOOL _mediationAPI = NO;
 
 @implementation OMIronSourceAdapter
@@ -60,7 +60,7 @@ static BOOL _mediationAPI = NO;
     if (!ironsourceClass) {
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.ironsourceadapter"
                                                     code:404
-                                                userInfo:@{NSLocalizedDescriptionKey:@"AppLovin SDK not found"}];
+                                                userInfo:@{NSLocalizedDescriptionKey:@"IronSource SDK not found"}];
         completionHandler(error);
         return;
     }

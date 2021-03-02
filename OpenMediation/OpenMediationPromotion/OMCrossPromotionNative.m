@@ -45,7 +45,7 @@
     }
     
     __weak __typeof(self) weakSelf = self;
-    [[OMCrossPromotionCampaignManager sharedInstance] loadAdWithPid:_pid size:CGSizeMake(1200, 627) action:4 payload:payload completionHandler:^(OMCrossPromotionCampaign *campaign, NSError *error) {
+    [[OMCrossPromotionCampaignManager sharedInstance] loadAdWithPid:_pid size:CGSizeMake(1200, 627) reqId:@"" action:4 payload:payload completionHandler:^(OMCrossPromotionCampaign *campaign, NSError *error) {
         if(!error) {
             [campaign cacheMaterielCompletion:^{
                 if(weakSelf) {
