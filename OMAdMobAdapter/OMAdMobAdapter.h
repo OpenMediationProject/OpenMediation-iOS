@@ -5,6 +5,10 @@
 #import "OMMediationAdapter.h"
 @import GoogleMobileAds;
 
+@interface GADRequest()
++ (Class)shimmedClass;
+@end
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OMAdMobAdapter : NSObject<OMMediationAdapter>
