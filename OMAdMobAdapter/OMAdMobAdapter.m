@@ -4,7 +4,7 @@
 #import "OMAdMobAdapter.h"
 #import "OMAdMobClass.h"
 
-static NSString * const AdmobAdapterVersion = @"2.0.3";
+static NSString * const AdmobAdapterVersion = @"2.0.4";
 static BOOL admobNpaAd = NO;
 
 @implementation OMAdMobAdapter
@@ -18,7 +18,8 @@ static BOOL admobNpaAd = NO;
 }
 
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit {
-    admobNpaAd = privacyLimit;
+    [NSUserDefaults.standardUserDefaults setBool:privacyLimit forKey:@"gad_rdp"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
 + (BOOL)npaAd {

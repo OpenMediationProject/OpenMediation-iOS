@@ -71,7 +71,7 @@
 }
 
 - (void)ad:(nonnull id<GADFullScreenPresentingAd>)ad
-didFailToPresentFullScreenContentWithError:(nonnull NSError *)error {
+    didFailToPresentFullScreenContentWithError:(nonnull NSError *)error {
     if (_delegate && [_delegate respondsToSelector:@selector(splashCustomEventFailToShow:error:)]) {
         [_delegate splashCustomEventFailToShow:self error:error];
     }

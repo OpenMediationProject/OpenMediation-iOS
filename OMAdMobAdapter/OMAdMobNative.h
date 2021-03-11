@@ -8,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMAdMobNative : NSObject<OMNativeCustomEvent,GADAdLoaderDelegate,GADUnifiedNativeAdLoaderDelegate,GADUnifiedNativeAdDelegate,GADVideoControllerDelegate>
+@interface OMAdMobNative : NSObject<OMNativeCustomEvent,GADNativeAdLoaderDelegate,GADNativeAdDelegate,GADVideoControllerDelegate>
 
 @property (nonatomic, strong) GADAdLoader *adLoader;
 @property (nonatomic, weak) id<nativeCustomEventDelegate> delegate;

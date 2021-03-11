@@ -6,9 +6,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-@interface OMAdMobInterstitial : NSObject <OMInterstitialCustomEvent,GADInterstitialDelegate>
+@interface OMAdMobInterstitial : NSObject <OMInterstitialCustomEvent,GADFullScreenContentDelegate>
 
-@property (nonatomic, strong) GADInterstitial *admobInterstitial;
+@property (nonatomic, strong) GADInterstitialAd *admobInterstitial;
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, weak) id<interstitialCustomEventDelegate> delegate;
 @property (nonatomic, assign) BOOL ready;

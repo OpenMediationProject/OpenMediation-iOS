@@ -4,7 +4,7 @@
 #import "OMAdMobNativeAd.h"
 
 @implementation OMAdMobNativeAd
-- (instancetype)initWithGadNativeAd:(GADUnifiedNativeAd*)gadNativeAd {
+- (instancetype)initWithGadNativeAd:(GADNativeAd*)gadNativeAd {
     self = [super init];
     if (self) {
         _gadNativeAd = gadNativeAd;

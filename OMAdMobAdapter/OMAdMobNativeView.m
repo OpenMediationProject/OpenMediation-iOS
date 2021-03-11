@@ -7,9 +7,9 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         
-        Class admobUnifiedNativeAdViewClass = NSClassFromString(@"GADUnifiedNativeAdView");
-        if (admobUnifiedNativeAdViewClass) {
-            _gadNativeView = [[admobUnifiedNativeAdViewClass alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        Class admobNativeAdViewClass = NSClassFromString(@"GADNativeAdView");
+        if (admobNativeAdViewClass) {
+            _gadNativeView = [[admobNativeAdViewClass alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
             if ([_gadNativeView respondsToSelector:@selector(setHeadlineView:)]) {
                 UILabel *headView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
                 [_gadNativeView setHeadlineView:headView];

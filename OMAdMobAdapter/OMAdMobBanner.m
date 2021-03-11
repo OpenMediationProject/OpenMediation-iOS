@@ -7,8 +7,8 @@
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController {
     if (self = [super initWithFrame:frame]) {
         Class GADBannerViewClass = NSClassFromString(@"GADBannerView");
-        if (GADBannerViewClass && adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
-            _admobBannerView = [[GADBannerViewClass alloc] initWithFrame:frame];
+        if (GADBannerViewClass && adParameter && [adParameter isKindOfClass:[NSDictionary class]] && [GADBannerViewClass instancesRespondToSelector:@selector(initWithAdSize:)]) {
+            _admobBannerView = [[GADBannerViewClass alloc] initWithAdSize:GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(frame.size.width)];
             _admobBannerView.adUnitID = [adParameter objectForKey:@"pid"]?[adParameter objectForKey:@"pid"]:@"";
             _admobBannerView.delegate = self;
             _admobBannerView.rootViewController = rootViewController;
@@ -33,43 +33,41 @@
     }
 }
 
-
-- (void)adViewDidReceiveAd:(GADBannerView *)bannerView {
+- (void)bannerViewDidReceiveAd:(GADBannerView *)bannerView {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
 }
 
-- (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error {
+- (void)bannerView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 
+- (void)bannerViewDidRecordImpression:(GADBannerView *)bannerView {
+    
+}
 
-- (void)adViewWillPresentScreen:(GADBannerView *)bannerView {
+- (void)bannerViewWillPresentScreen:(GADBannerView *)bannerView {
     if (_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillPresentScreen:)]) {
         [_delegate bannerCustomEventWillPresentScreen:self];
     }
 }
 
-- (void)adViewWillDismissScreen:(GADBannerView *)bannerView {
-    
-}
-
-- (void)adViewDidDismissScreen:(GADBannerView *)bannerView {
-    if (_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDismissScreen:)]) {
-        [_delegate bannerCustomEventDismissScreen:self];
-    }
-}
-
-- (void)adViewWillLeaveApplication:(GADBannerView *)bannerView {
-    if (_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]) {
-        [_delegate bannerCustomEventDidClick:self];
-    }
+- (void)bannerViewWillDismissScreen:(GADBannerView *)bannerView {
     if (_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillLeaveApplication:)]) {
         [_delegate bannerCustomEventWillLeaveApplication:self];
     }
 }
+
+
+- (void)bannerViewDidDismissScreen:(GADBannerView *)bannerView {
+    if (_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDismissScreen:)]) {
+        [_delegate bannerCustomEventDismissScreen:self];
+    }
+    
+}
+
 
 @end

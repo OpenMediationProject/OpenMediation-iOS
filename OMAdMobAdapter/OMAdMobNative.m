@@ -10,7 +10,7 @@
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter rootVC:(UIViewController*)rootViewController {
     if (self = [super init]) {
-        NSArray *adTypes = @[@"6"];//GADUnifiedNativeAd
+        NSArray *adTypes = @[@"6"];
         id adLoaderClass = NSClassFromString(@"GADAdLoader");
         if (adLoaderClass && [adLoaderClass respondsToSelector:@selector(shimmedClass)]) {
             adLoaderClass = [adLoaderClass shimmedClass];
@@ -18,23 +18,15 @@
         
         if (adLoaderClass && [adLoaderClass instancesRespondToSelector:@selector(initWithAdUnitID:rootViewController:adTypes:options:)] && adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
             NSMutableArray *options = [NSMutableArray array];
-            Class imageOptionsClass = NSClassFromString(@"GADNativeAdImageAdLoaderOptions");
-            if (imageOptionsClass) {
-                GADNativeAdImageAdLoaderOptions *imageOption = [[imageOptionsClass alloc] init];
-                imageOption.preferredImageOrientation = GADNativeAdImageAdLoaderOptionsOrientationLandscape;
-                [options addObject:imageOption];
-            }
             Class mediaOptionsClass = NSClassFromString(@"GADNativeAdMediaAdLoaderOptions");
             if (mediaOptionsClass) {
                 GADNativeAdMediaAdLoaderOptions *mediaOption = [[mediaOptionsClass alloc] init];
-                mediaOption.mediaAspectRatio = 2;//GADMediaAspectRatioLandscape
                 [options addObject:mediaOption];
             }
-            
             _adLoader = [[adLoaderClass alloc] initWithAdUnitID:[adParameter objectForKey:@"pid"]
-                                                 rootViewController:rootViewController
-                                                            adTypes:adTypes
-                                                            options:[options copy]];
+                                             rootViewController:rootViewController
+                                                        adTypes:adTypes
+                                                        options:[options copy]];
             _adLoader.delegate = self;
             _canLoadRequest = YES;
         }
@@ -45,23 +37,23 @@
 - (void)loadAd{
     Class requestClass = NSClassFromString(@"GADRequest");
     if ([requestClass respondsToSelector:@selector(shimmedClass)]) {
-         requestClass = [requestClass shimmedClass];
+        requestClass = [requestClass shimmedClass];
     }
-    if (_adLoader && requestClass && [requestClass respondsToSelector:@selector(request)] && _canLoadRequest) {
+    if (requestClass && [requestClass respondsToSelector:@selector(request)]) {
         GADRequest *request  = [requestClass request];
         if ([OMAdMobAdapter npaAd] && NSClassFromString(@"GADExtras")) {
             GADExtras *extras = [[NSClassFromString(@"GADExtras") alloc] init];
             extras.additionalParameters = @{@"npa": @"1"};
             [request registerAdNetworkExtras:extras];
         }
-        [self.adLoader loadRequest:request];
+        [_adLoader loadRequest:request];
         _canLoadRequest = NO;
     }
 }
 
 #pragma mark -- GADAdLoaderDelegate
 
-- (void)adLoader:(GADAdLoader *)adLoader didFailToReceiveAdWithError:(GADRequestError *)error {
+- (void)adLoader:(GADAdLoader *)adLoader didFailToReceiveAdWithError:(NSError *)error {
     if (error && _delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
@@ -71,50 +63,44 @@
     _canLoadRequest = YES;
 }
 
-#pragma mark -- GADUnifiedNativeAdLoaderDelegate
 
-- (void)adLoader:(GADAdLoader *)adLoader didReceiveUnifiedNativeAd:(GADUnifiedNativeAd *)nativeAd {
+- (void)adLoader:(GADAdLoader *)adLoader didReceiveNativeAd:(GADNativeAd *)nativeAd {
     nativeAd.delegate = self;
-    nativeAd.videoController.delegate = self;
-    
     OMAdMobNativeAd *admobAd = [[OMAdMobNativeAd alloc]initWithGadNativeAd:nativeAd];
-    
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:admobAd];
     }
 }
 
-#pragma mark -- GADUnifiedNativeAdDelegate
-
-- (void)nativeAdDidRecordImpression:(GADUnifiedNativeAd *)nativeAd {
+- (void)nativeAdDidRecordImpression:(GADNativeAd *)nativeAd {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
         [_delegate nativeCustomEventWillShow:self];
     }
 }
 
-- (void)nativeAdDidRecordClick:(GADUnifiedNativeAd *)nativeAd {
+- (void)nativeAdDidRecordClick:(GADNativeAd *)nativeAd {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
         [_delegate nativeCustomEventDidClick:self];
     }
 }
 
-- (void)nativeAdWillPresentScreen:(GADUnifiedNativeAd *)nativeAd {
+- (void)nativeAdWillPresentScreen:(GADNativeAd *)nativeAd {
     
 }
 
-- (void)nativeAdWillDismissScreen:(GADUnifiedNativeAd *)nativeAd {
+- (void)nativeAdWillDismissScreen:(GADNativeAd *)nativeAd {
     
 }
 
-- (void)nativeAdDidDismissScreen:(GADUnifiedNativeAd *)nativeAd {
+- (void)nativeAdDidDismissScreen:(GADNativeAd *)nativeAd {
     
 }
 
-- (void)nativeAdWillLeaveApplication:(GADUnifiedNativeAd *)nativeAd {
+- (void)nativeAdWillLeaveApplication:(GADNativeAd *)nativeAd {
     
 }
 
-- (void)nativeAdIsMuted:(GADUnifiedNativeAd *)nativeAd {
+- (void)nativeAdIsMuted:(GADNativeAd *)nativeAd {
     
 }
 

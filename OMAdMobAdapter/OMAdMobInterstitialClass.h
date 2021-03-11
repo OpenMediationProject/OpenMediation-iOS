@@ -3,65 +3,86 @@
 #import <UIKit/UIKit.h>
 #import "OMAdMobClass.h"
 
-@class GADInterstitial;
-
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol GADInterstitialDelegate<NSObject>
-@optional
+@protocol GADFullScreenContentDelegate;
 
-#pragma mark Ad Request Lifecycle Notifications
+/// Protocol for ads that present full screen content.
+@protocol GADFullScreenPresentingAd <NSObject>
 
-/// Called when an interstitial ad request succeeded. Show it at the next transition point in your
-/// application such as when transitioning between view controllers.
-- (void)interstitialDidReceiveAd:(GADInterstitial *)ad;
-
-/// Called when an interstitial ad request completed without an interstitial to
-/// show. This is common since interstitials are shown sparingly to users.
-- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error;
-
-#pragma mark Display-Time Lifecycle Notifications
-
-/// Called just before presenting an interstitial. After this method finishes the interstitial will
-/// animate onto the screen. Use this opportunity to stop animations and save the state of your
-/// application in case the user leaves while the interstitial is on screen (e.g. to visit the App
-/// Store from a link on the interstitial).
-- (void)interstitialWillPresentScreen:(GADInterstitial *)ad;
-
-/// Called when |ad| fails to present.
-- (void)interstitialDidFailToPresentScreen:(GADInterstitial *)ad;
-
-/// Called before the interstitial is to be animated off the screen.
-- (void)interstitialWillDismissScreen:(GADInterstitial *)ad;
-
-/// Called just after dismissing an interstitial and it has animated off the screen.
-- (void)interstitialDidDismissScreen:(GADInterstitial *)ad;
-
-/// Called just before the application will background or terminate because the user clicked on an
-/// ad that will launch another application (such as the App Store). The normal
-/// UIApplicationDelegate methods, like applicationDidEnterBackground:, will be called immediately
-/// before this.
-- (void)interstitialWillLeaveApplication:(GADInterstitial *)ad;
+/// Delegate object that receives full screen content messages.
+@property(nonatomic, weak, nullable) id<GADFullScreenContentDelegate> fullScreenContentDelegate;
 
 @end
 
-@interface GADInterstitial : NSObject
+/// Delegate methods for receiving notifications about presentation and dismissal of full screen
+/// content. Full screen content covers your application's content. The delegate may want to pause
+/// animations or time sensitive interactions. Full screen content may be presented in the following
+/// cases:
+/// 1. A full screen ad is presented.
+/// 2. An ad interaction opens full screen content.
+@protocol GADFullScreenContentDelegate <NSObject>
 
-- (instancetype)initWithAdUnitID:(NSString *)adUnitID NS_DESIGNATED_INITIALIZER;
+@optional
 
-@property(nonatomic, readonly, copy, nullable) NSString *adUnitID;
+/// Tells the delegate that an impression has been recorded for the ad.
+- (void)adDidRecordImpression:(nonnull id<GADFullScreenPresentingAd>)ad;
 
-@property(nonatomic, weak, nullable) id<GADInterstitialDelegate> delegate;
+/// Tells the delegate that the ad failed to present full screen content.
+- (void)ad:(nonnull id<GADFullScreenPresentingAd>)ad
+    didFailToPresentFullScreenContentWithError:(nonnull NSError *)error;
 
-- (void)loadRequest:(nullable GADRequest *)request;
+/// Tells the delegate that the ad presented full screen content.
+- (void)adDidPresentFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad;
 
-@property(nonatomic, readonly, assign) BOOL isReady;
+/// Tells the delegate that the ad dismissed full screen content.
+- (void)adDidDismissFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad;
 
-@property(nonatomic, readonly, assign) BOOL hasBeenUsed;
+@end
 
-@property(nonatomic, readonly, copy, nullable) NSString *adNetworkClassName;
 
-- (void)presentFromRootViewController:(UIViewController *)rootViewController;
+@class GADInterstitialAd;
+@class GADResponseInfo;
+
+/// A block to be executed when the ad request operation completes. On success,
+/// interstitialAd is non-nil and |error| is nil. On failure, interstitialAd is nil
+/// and |error| is non-nil.
+typedef void (^GADInterstitialAdLoadCompletionHandler)(GADInterstitialAd *_Nullable interstitialAd,
+                                                       NSError *_Nullable error);
+
+/// An interstitial ad. This is a full-screen advertisement shown at natural transition points in
+/// your application such as between game levels or news stories. See
+/// https://developers.google.com/admob/ios/interstitial to get started.
+@interface GADInterstitialAd : NSObject <GADFullScreenPresentingAd>
+
+/// The ad unit ID.
+@property(nonatomic, readonly, nonnull) NSString *adUnitID;
+
+/// Information about the ad response that returned the ad.
+@property(nonatomic, readonly, nonnull) GADResponseInfo *responseInfo;
+
+/// Delegate for handling full screen content messages.
+@property(nonatomic, weak, nullable) id<GADFullScreenContentDelegate> fullScreenContentDelegate;
+
+/// Loads an interstitial ad.
+///
+/// @param adUnitID An ad unit ID created in the AdMob or Ad Manager UI.
+/// @param request An ad request object. If nil, a default ad request object is used.
+/// @param completionHandler A handler to execute when the load operation finishes or times out.
++ (void)loadWithAdUnitID:(nonnull NSString *)adUnitID
+                 request:(nullable GADRequest *)request
+       completionHandler:(nonnull GADInterstitialAdLoadCompletionHandler)completionHandler;
+
+/// Returns whether the interstitial ad can be presented from the provided root view
+/// controller. Sets the error out parameter if the ad can't be presented. Must be called on the
+/// main thread.
+- (BOOL)canPresentFromRootViewController:(nonnull UIViewController *)rootViewController
+                                   error:(NSError *_Nullable __autoreleasing *_Nullable)error;
+
+/// Presents the interstitial ad. Must be called on the main thread.
+///
+/// @param rootViewController A view controller to present the ad.
+- (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController;
 
 @end
 

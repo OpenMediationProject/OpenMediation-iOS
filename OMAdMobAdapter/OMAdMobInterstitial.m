@@ -8,12 +8,12 @@
         if (adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
             _pid = [adParameter objectForKey:@"pid"];
         }
-
+        
     }
     return self;
 }
 - (void)loadAd {
-    Class GADInterstitialClass = NSClassFromString(@"GADInterstitial");
+    Class GADInterstitialClass = NSClassFromString(@"GADInterstitialAd");
     if (GADInterstitialClass && [GADInterstitialClass respondsToSelector:@selector(shimmedClass)]) {
         GADInterstitialClass = [GADInterstitialClass shimmedClass];
     }
@@ -21,69 +21,68 @@
     if (GADRequestClass && [GADRequestClass respondsToSelector:@selector(shimmedClass)]) {
         GADRequestClass = [GADRequestClass shimmedClass];
     }
-    if (GADInterstitialClass && [GADInterstitialClass instancesRespondToSelector:@selector(initWithAdUnitID:)] && GADRequestClass && [GADRequestClass respondsToSelector:@selector(request)]) {
-        _admobInterstitial = [[GADInterstitialClass alloc] initWithAdUnitID:_pid];
-        _admobInterstitial.delegate = self;
+    if (GADInterstitialClass && [GADInterstitialClass respondsToSelector:@selector(loadWithAdUnitID:request:completionHandler:)] && GADRequestClass && [GADRequestClass respondsToSelector:@selector(request)]) {
+        __weak typeof(self) weakSelf = self;
         GADRequest *request  = [GADRequestClass request];
         if ([OMAdMobAdapter npaAd] && NSClassFromString(@"GADExtras")) {
             GADExtras *extras = [[NSClassFromString(@"GADExtras") alloc] init];
             extras.additionalParameters = @{@"npa": @"1"};
             [request registerAdNetworkExtras:extras];
         }
-        [_admobInterstitial loadRequest:request];
-        
+        [GADInterstitialClass loadWithAdUnitID:_pid
+                                       request:request
+                             completionHandler:^(GADInterstitialAd *ad, NSError *error) {
+            if (!error) {
+                weakSelf.ready = YES;
+                weakSelf.admobInterstitial = ad;
+                weakSelf.admobInterstitial.fullScreenContentDelegate = weakSelf;
+                if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+                    [weakSelf.delegate customEvent:weakSelf didLoadAd:nil];
+                }
+            } else {
+                if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+                    [weakSelf.delegate customEvent:weakSelf didFailToLoadWithError:error];
+                }
+            }
+        }];
     }
 }
 
 - (BOOL)isReady{
-    return _ready;
+    return self.ready;
 }
 
 - (void)show:(UIViewController*)vc{
-    [_admobInterstitial presentFromRootViewController:vc];
-    _ready = NO;
-}
-
-- (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
-    _ready = YES;
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
-        [_delegate customEvent:self didLoadAd:nil];
+    if ([self ready]) {
+        [_admobInterstitial presentFromRootViewController:vc];
     }
+    self.ready = NO;
 }
 
-- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
-    [_delegate customEvent:self didFailToLoadWithError:error];
-}
-}
-
-- (void)interstitialWillPresentScreen:(GADInterstitial *)ad {
-    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
-        [_delegate interstitialCustomEventDidOpen:self];
-    }
+- (void)adDidPresentFullScreenContent:(id)ad {
     if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]) {
         [_delegate interstitialCustomEventDidShow:self];
     }
 }
 
-- (void)interstitialDidFailToPresentScreen:(GADInterstitial *)ad {
+- (void)ad:(id)ad didFailToPresentFullScreenContentWithError:(NSError *)error {
     if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]) {
         NSError *error = [NSError errorWithDomain:@"com.admob.interstitial" code:-1 userInfo:@{NSLocalizedDescriptionKey:@"interstitialDidFailToPresentScreen"}];
         [_delegate interstitialCustomEventDidFailToShow:self error:error];
     }
 }
 
-- (void)interstitialWillLeaveApplication:(GADInterstitial *)ad {
-    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClick:)]) {
-        [_delegate interstitialCustomEventDidClick:self];
+- (void)adDidRecordImpression:(id)ad {
+    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
+        [_delegate interstitialCustomEventDidOpen:self];
     }
 }
 
-- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
-    _admobInterstitial = nil;
+- (void)adDidDismissFullScreenContent:(id)ad {
     if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClose:)]) {
         [_delegate interstitialCustomEventDidClose:self];
     }
+    _admobInterstitial = nil;
 }
 
 @end

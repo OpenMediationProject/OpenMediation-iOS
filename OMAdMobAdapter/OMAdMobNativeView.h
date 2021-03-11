@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMAdMobNativeView : UIView<OMNativeViewCustomEvent>
 @property (nonatomic, strong) OMAdMobNativeAd *nativeAd;
-@property (nonatomic, strong) GADUnifiedNativeAdView *gadNativeView;
+@property (nonatomic, strong) GADNativeAdView *gadNativeView;
 @property (nonatomic, strong) GADMediaView *mediaView;
 @property(nonatomic, strong) NSLayoutConstraint *heightConstraint;
 - (instancetype)initWithFrame:(CGRect)frame;
