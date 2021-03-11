@@ -4,6 +4,8 @@
 #import <UIKit/UIKit.h>
 #import "OMNativeViewCustomEvent.h"
 #import "OMAdMobNativeAd.h"
+@import GoogleMobileAds;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OMAdMobNativeView : UIView<OMNativeViewCustomEvent>

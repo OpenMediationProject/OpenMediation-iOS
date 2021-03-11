@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "OMInterstitialCustomEvent.h"
+@import GoogleMobileAds;
 
 NS_ASSUME_NONNULL_BEGIN
 
