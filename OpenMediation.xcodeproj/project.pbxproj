@@ -155,7 +155,6 @@
 		0C981BFC23D6DB4E0074B43A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C981BFB23D6DB4E0074B43A /* MainViewController.m */; };
 		0CD0AD962577822C001747CE /* OMAdMobSplash.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CD0AD942577822C001747CE /* OMAdMobSplash.h */; };
 		0CD0AD972577822C001747CE /* OMAdMobSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD0AD952577822C001747CE /* OMAdMobSplash.m */; };
-		0CD0ADAC25778250001747CE /* OMAdMobSplashClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CD0ADAB25778250001747CE /* OMAdMobSplashClass.h */; };
 		0CE7B3CC25C14239006E7FA6 /* OMKuaiShouAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CE9695025BFFA74005BD497 /* OMKuaiShouAdapter.h */; };
 		0CE7B3E825C14245006E7FA6 /* OMKuaiShouAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE9695125BFFA74005BD497 /* OMKuaiShouAdapter.m */; };
 		0CE7B57F25C16C5D006E7FA6 /* OMKuaiShouAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE7B37A25C141C6006E7FA6 /* OMKuaiShouAdapter.framework */; };
@@ -295,23 +294,18 @@
 		49FD98BE25A5CF1200787598 /* OMAdTimingNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD98A925A5CF1200787598 /* OMAdTimingNative.m */; };
 		49FD98F825A5CF2A00787598 /* OMAdMobNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD98E525A5CF2600787598 /* OMAdMobNativeAd.h */; };
 		49FD98F925A5CF2A00787598 /* OMAdMobInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD98E625A5CF2600787598 /* OMAdMobInterstitial.h */; };
-		49FD98FA25A5CF2A00787598 /* OMAdMobInterstitialClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD98E725A5CF2700787598 /* OMAdMobInterstitialClass.h */; };
 		49FD98FB25A5CF2A00787598 /* OMAdMobAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD98E825A5CF2700787598 /* OMAdMobAdapter.h */; };
 		49FD98FC25A5CF2A00787598 /* OMAdMobNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD98E925A5CF2700787598 /* OMAdMobNativeAd.m */; };
-		49FD98FD25A5CF2A00787598 /* OMAdMobNativeClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD98EA25A5CF2700787598 /* OMAdMobNativeClass.h */; };
-		49FD98FE25A5CF2A00787598 /* OMAdMobClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD98EB25A5CF2700787598 /* OMAdMobClass.h */; };
 		49FD98FF25A5CF2A00787598 /* OMAdMobBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD98EC25A5CF2700787598 /* OMAdMobBanner.m */; };
 		49FD990025A5CF2A00787598 /* OMAdMobAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD98ED25A5CF2700787598 /* OMAdMobAdapter.m */; };
 		49FD990125A5CF2A00787598 /* OMAdMobBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD98EE25A5CF2900787598 /* OMAdMobBanner.h */; };
 		49FD990225A5CF2A00787598 /* OMAdMobNativeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD98EF25A5CF2900787598 /* OMAdMobNativeView.h */; };
 		49FD990325A5CF2A00787598 /* OMAdMobRewardedVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD98F025A5CF2900787598 /* OMAdMobRewardedVideo.h */; };
-		49FD990425A5CF2A00787598 /* OMAdMobRewardedVideoClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD98F125A5CF2900787598 /* OMAdMobRewardedVideoClass.h */; };
 		49FD990525A5CF2A00787598 /* OMAdMobNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD98F225A5CF2900787598 /* OMAdMobNative.h */; };
 		49FD990625A5CF2A00787598 /* OMAdMobNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD98F325A5CF2900787598 /* OMAdMobNative.m */; };
 		49FD990725A5CF2A00787598 /* OMAdMobInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD98F425A5CF2A00787598 /* OMAdMobInterstitial.m */; };
 		49FD990825A5CF2A00787598 /* OMAdMobRewardedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD98F525A5CF2A00787598 /* OMAdMobRewardedVideo.m */; };
 		49FD990925A5CF2A00787598 /* OMAdMobNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD98F625A5CF2A00787598 /* OMAdMobNativeView.m */; };
-		49FD990A25A5CF2A00787598 /* OMAdMobBannerClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD98F725A5CF2A00787598 /* OMAdMobBannerClass.h */; };
 		49FD993425A5CF5500787598 /* OMFacebookBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD991E25A5CF3D00787598 /* OMFacebookBanner.m */; };
 		49FD993525A5CF5500787598 /* OMFacebookBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD991F25A5CF3D00787598 /* OMFacebookBid.m */; };
 		49FD993625A5CF5500787598 /* OMFacebookAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD992025A5CF3D00787598 /* OMFacebookAdapter.m */; };
@@ -838,7 +832,6 @@
 		0CCF87A625821D78005463AD /* OMSigMobAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMSigMobAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CD0AD942577822C001747CE /* OMAdMobSplash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMAdMobSplash.h; sourceTree = "<group>"; };
 		0CD0AD952577822C001747CE /* OMAdMobSplash.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMAdMobSplash.m; sourceTree = "<group>"; };
-		0CD0ADAB25778250001747CE /* OMAdMobSplashClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMAdMobSplashClass.h; sourceTree = "<group>"; };
 		0CE7B37A25C141C6006E7FA6 /* OMKuaiShouAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMKuaiShouAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CE7B4EA25C16B9C006E7FA6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CE9695025BFFA74005BD497 /* OMKuaiShouAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMKuaiShouAdapter.h; sourceTree = "<group>"; };
@@ -999,23 +992,18 @@
 		49FD98A925A5CF1200787598 /* OMAdTimingNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMAdTimingNative.m; sourceTree = "<group>"; };
 		49FD98E525A5CF2600787598 /* OMAdMobNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobNativeAd.h; sourceTree = "<group>"; };
 		49FD98E625A5CF2600787598 /* OMAdMobInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobInterstitial.h; sourceTree = "<group>"; };
-		49FD98E725A5CF2700787598 /* OMAdMobInterstitialClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobInterstitialClass.h; sourceTree = "<group>"; };
 		49FD98E825A5CF2700787598 /* OMAdMobAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobAdapter.h; sourceTree = "<group>"; };
 		49FD98E925A5CF2700787598 /* OMAdMobNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMAdMobNativeAd.m; sourceTree = "<group>"; };
-		49FD98EA25A5CF2700787598 /* OMAdMobNativeClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobNativeClass.h; sourceTree = "<group>"; };
-		49FD98EB25A5CF2700787598 /* OMAdMobClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobClass.h; sourceTree = "<group>"; };
 		49FD98EC25A5CF2700787598 /* OMAdMobBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMAdMobBanner.m; sourceTree = "<group>"; };
 		49FD98ED25A5CF2700787598 /* OMAdMobAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMAdMobAdapter.m; sourceTree = "<group>"; };
 		49FD98EE25A5CF2900787598 /* OMAdMobBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobBanner.h; sourceTree = "<group>"; };
 		49FD98EF25A5CF2900787598 /* OMAdMobNativeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobNativeView.h; sourceTree = "<group>"; };
 		49FD98F025A5CF2900787598 /* OMAdMobRewardedVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobRewardedVideo.h; sourceTree = "<group>"; };
-		49FD98F125A5CF2900787598 /* OMAdMobRewardedVideoClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobRewardedVideoClass.h; sourceTree = "<group>"; };
 		49FD98F225A5CF2900787598 /* OMAdMobNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobNative.h; sourceTree = "<group>"; };
 		49FD98F325A5CF2900787598 /* OMAdMobNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMAdMobNative.m; sourceTree = "<group>"; };
 		49FD98F425A5CF2A00787598 /* OMAdMobInterstitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMAdMobInterstitial.m; sourceTree = "<group>"; };
 		49FD98F525A5CF2A00787598 /* OMAdMobRewardedVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMAdMobRewardedVideo.m; sourceTree = "<group>"; };
 		49FD98F625A5CF2A00787598 /* OMAdMobNativeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMAdMobNativeView.m; sourceTree = "<group>"; };
-		49FD98F725A5CF2A00787598 /* OMAdMobBannerClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMobBannerClass.h; sourceTree = "<group>"; };
 		49FD991E25A5CF3D00787598 /* OMFacebookBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMFacebookBanner.m; sourceTree = "<group>"; };
 		49FD991F25A5CF3D00787598 /* OMFacebookBid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMFacebookBid.m; sourceTree = "<group>"; };
 		49FD992025A5CF3D00787598 /* OMFacebookAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMFacebookAdapter.m; sourceTree = "<group>"; };
@@ -1781,24 +1769,18 @@
 				49FD98ED25A5CF2700787598 /* OMAdMobAdapter.m */,
 				49FD98EE25A5CF2900787598 /* OMAdMobBanner.h */,
 				49FD98EC25A5CF2700787598 /* OMAdMobBanner.m */,
-				49FD98F725A5CF2A00787598 /* OMAdMobBannerClass.h */,
-				49FD98EB25A5CF2700787598 /* OMAdMobClass.h */,
 				49FD98E625A5CF2600787598 /* OMAdMobInterstitial.h */,
 				49FD98F425A5CF2A00787598 /* OMAdMobInterstitial.m */,
-				49FD98E725A5CF2700787598 /* OMAdMobInterstitialClass.h */,
 				49FD98F225A5CF2900787598 /* OMAdMobNative.h */,
 				49FD98F325A5CF2900787598 /* OMAdMobNative.m */,
 				49FD98E525A5CF2600787598 /* OMAdMobNativeAd.h */,
 				49FD98E925A5CF2700787598 /* OMAdMobNativeAd.m */,
-				49FD98EA25A5CF2700787598 /* OMAdMobNativeClass.h */,
 				49FD98EF25A5CF2900787598 /* OMAdMobNativeView.h */,
 				49FD98F625A5CF2A00787598 /* OMAdMobNativeView.m */,
 				49FD98F025A5CF2900787598 /* OMAdMobRewardedVideo.h */,
 				49FD98F525A5CF2A00787598 /* OMAdMobRewardedVideo.m */,
-				49FD98F125A5CF2900787598 /* OMAdMobRewardedVideoClass.h */,
 				0CD0AD942577822C001747CE /* OMAdMobSplash.h */,
 				0CD0AD952577822C001747CE /* OMAdMobSplash.m */,
-				0CD0ADAB25778250001747CE /* OMAdMobSplashClass.h */,
 				4959CE3B23EBE98B00A433A8 /* Info.plist */,
 			);
 			path = OMAdMobAdapter;
@@ -2412,19 +2394,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				49FD98FB25A5CF2A00787598 /* OMAdMobAdapter.h in Headers */,
-				49FD98FE25A5CF2A00787598 /* OMAdMobClass.h in Headers */,
 				49FD990325A5CF2A00787598 /* OMAdMobRewardedVideo.h in Headers */,
 				49FD990125A5CF2A00787598 /* OMAdMobBanner.h in Headers */,
-				0CD0ADAC25778250001747CE /* OMAdMobSplashClass.h in Headers */,
 				49FD98F825A5CF2A00787598 /* OMAdMobNativeAd.h in Headers */,
 				49FD98F925A5CF2A00787598 /* OMAdMobInterstitial.h in Headers */,
-				49FD990425A5CF2A00787598 /* OMAdMobRewardedVideoClass.h in Headers */,
 				49FD990525A5CF2A00787598 /* OMAdMobNative.h in Headers */,
 				49FD990225A5CF2A00787598 /* OMAdMobNativeView.h in Headers */,
-				49FD98FA25A5CF2A00787598 /* OMAdMobInterstitialClass.h in Headers */,
-				49FD990A25A5CF2A00787598 /* OMAdMobBannerClass.h in Headers */,
 				0CD0AD962577822C001747CE /* OMAdMobSplash.h in Headers */,
-				49FD98FD25A5CF2A00787598 /* OMAdMobNativeClass.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

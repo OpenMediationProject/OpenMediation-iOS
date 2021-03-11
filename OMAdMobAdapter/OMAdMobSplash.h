@@ -3,7 +3,6 @@
 
 #import <Foundation/Foundation.h>
 #import "OMSplashCustomEvent.h"
-#import "OMAdMobSplashClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -3,7 +3,6 @@
 
 #import <Foundation/Foundation.h>
 #import "OMMediatedNativeAd.h"
-#import "OMAdMobNativeClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

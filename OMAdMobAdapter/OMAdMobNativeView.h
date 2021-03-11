@@ -3,7 +3,6 @@
 
 #import <UIKit/UIKit.h>
 #import "OMNativeViewCustomEvent.h"
-#import "OMAdMobNativeClass.h"
 #import "OMAdMobNativeAd.h"
 NS_ASSUME_NONNULL_BEGIN
 

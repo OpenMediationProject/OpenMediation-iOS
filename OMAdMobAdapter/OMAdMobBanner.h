@@ -1,5 +1,4 @@
 #import <UIKit/UIKit.h>
-#import "OMAdMobBannerClass.h"
 #import "OMBannerCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN

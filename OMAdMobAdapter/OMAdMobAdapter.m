@@ -2,7 +2,6 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMAdMobAdapter.h"
-#import "OMAdMobClass.h"
 
 static NSString * const AdmobAdapterVersion = @"2.0.4";
 static BOOL admobNpaAd = NO;

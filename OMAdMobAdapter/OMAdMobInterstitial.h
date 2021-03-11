@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import "OMAdMobInterstitialClass.h"
 #import "OMInterstitialCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
