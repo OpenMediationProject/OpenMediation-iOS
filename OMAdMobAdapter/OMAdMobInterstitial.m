@@ -14,13 +14,7 @@
 }
 - (void)loadAd {
     Class GADInterstitialClass = NSClassFromString(@"GADInterstitialAd");
-    if (GADInterstitialClass && [GADInterstitialClass respondsToSelector:@selector(shimmedClass)]) {
-        GADInterstitialClass = [GADInterstitialClass shimmedClass];
-    }
     Class GADRequestClass = NSClassFromString(@"GADRequest");
-    if (GADRequestClass && [GADRequestClass respondsToSelector:@selector(shimmedClass)]) {
-        GADRequestClass = [GADRequestClass shimmedClass];
-    }
     if (GADInterstitialClass && [GADInterstitialClass respondsToSelector:@selector(loadWithAdUnitID:request:completionHandler:)] && GADRequestClass && [GADRequestClass respondsToSelector:@selector(request)]) {
         __weak typeof(self) weakSelf = self;
         GADRequest *request  = [GADRequestClass request];

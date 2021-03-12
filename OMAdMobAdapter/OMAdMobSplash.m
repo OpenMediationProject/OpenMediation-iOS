@@ -19,9 +19,6 @@
 - (void)loadAd{
     Class adMobClass = NSClassFromString(@"GADAppOpenAd");
     Class requestClass = NSClassFromString(@"GADRequest");
-    if (requestClass && [requestClass respondsToSelector:@selector(shimmedClass)]) {
-        requestClass = [requestClass shimmedClass];
-    }
     if (requestClass && [requestClass respondsToSelector:@selector(request)] && adMobClass && [adMobClass respondsToSelector:@selector(loadWithAdUnitID:request:orientation:completionHandler:)]) {
         GADRequest *request = [requestClass request];
         if ([OMAdMobAdapter npaAd] && NSClassFromString(@"GADExtras")) {

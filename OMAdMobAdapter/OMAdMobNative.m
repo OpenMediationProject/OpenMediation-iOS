@@ -12,10 +12,6 @@
     if (self = [super init]) {
         NSArray *adTypes = @[@"6"];
         id adLoaderClass = NSClassFromString(@"GADAdLoader");
-        if (adLoaderClass && [adLoaderClass respondsToSelector:@selector(shimmedClass)]) {
-            adLoaderClass = [adLoaderClass shimmedClass];
-        }
-        
         if (adLoaderClass && [adLoaderClass instancesRespondToSelector:@selector(initWithAdUnitID:rootViewController:adTypes:options:)] && adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
             NSMutableArray *options = [NSMutableArray array];
             Class mediaOptionsClass = NSClassFromString(@"GADNativeAdMediaAdLoaderOptions");
@@ -36,9 +32,6 @@
 
 - (void)loadAd{
     Class requestClass = NSClassFromString(@"GADRequest");
-    if ([requestClass respondsToSelector:@selector(shimmedClass)]) {
-        requestClass = [requestClass shimmedClass];
-    }
     if (requestClass && [requestClass respondsToSelector:@selector(request)]) {
         GADRequest *request  = [requestClass request];
         if ([OMAdMobAdapter npaAd] && NSClassFromString(@"GADExtras")) {

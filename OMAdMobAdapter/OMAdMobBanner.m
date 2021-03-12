@@ -19,9 +19,6 @@
 }
 - (void)loadAd {
     Class requestClass = NSClassFromString(@"GADRequest");
-    if ([requestClass respondsToSelector:@selector(shimmedClass)]) {
-        requestClass = [requestClass shimmedClass];
-    }
     if (requestClass && [requestClass respondsToSelector:@selector(request)]) {
         GADRequest *request  = [requestClass request];
         if ([OMAdMobAdapter npaAd] && NSClassFromString(@"GADExtras")) {

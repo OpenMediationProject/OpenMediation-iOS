@@ -3,11 +3,11 @@
 
 #import <Foundation/Foundation.h>
 #import "OMMediationAdapter.h"
-@import GoogleMobileAds;
-
-@interface GADRequest()
-+ (Class)shimmedClass;
-@end
+#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
+    #import <GoogleMobileAds/GoogleMobileAds.h>
+#else
+    #import "OMAdMobClass.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

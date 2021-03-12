@@ -16,15 +16,7 @@
 
 - (void)loadAd {
     Class adMobClass = NSClassFromString(@"GADRewardedAd");
-    if (adMobClass && [adMobClass respondsToSelector:@selector(shimmedClass)]) {
-        adMobClass = [adMobClass shimmedClass];
-    }
-    
     Class requestClass = NSClassFromString(@"GADRequest");
-    if (requestClass && [requestClass respondsToSelector:@selector(shimmedClass)]) {
-        requestClass = [requestClass shimmedClass];
-    }
-    
     if (adMobClass && [adMobClass respondsToSelector:@selector(loadWithAdUnitID:request:completionHandler:)] && requestClass && [requestClass respondsToSelector:@selector(request)]) {
         __weak typeof(self) weakSelf = self;
         GADRequest *request  = [requestClass request];

@@ -1,6 +1,11 @@
 #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import "OMBannerCustomEvent.h"
-@import GoogleMobileAds;
+#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
+    #import <GoogleMobileAds/GoogleMobileAds.h>
+#else
+    #import "OMAdMobBannerClass.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
