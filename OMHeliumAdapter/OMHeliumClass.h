@@ -4,6 +4,7 @@
 #ifndef OMHeliumClass_h
 #define OMHeliumClass_h
 
+NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM( NSUInteger, HeliumErrorCode ) {
     HeliumErrorCode_NoAdFound,
     HeliumErrorCode_NoBid,
@@ -79,5 +80,7 @@ typedef NS_ENUM( NSUInteger, HeliumErrorCode ) {
 
 - (void)bidReseponse:(NSObject*)bidAdapter bid:(nullable NSDictionary*)bidInfo error:(nullable NSError*)error;
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* OMHeliumClass_h */

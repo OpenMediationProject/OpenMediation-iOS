@@ -82,7 +82,7 @@ static OMHeliumRouter * _instance = nil;
                              didLoadWithError:(HeliumError *)error {
     id <OMHeliumAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementName];
     if (delegate) {
-        [delegate omChartboostBiDdidLoadWithError:error];
+        [delegate omHeliumDidLoadWithError:error];
     }
 }
 
@@ -125,7 +125,7 @@ static OMHeliumRouter * _instance = nil;
                          didLoadWithError:(HeliumError *)error {
     id <OMHeliumAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementName];
     if (delegate) {
-        [delegate omChartboostBiDdidLoadWithError:error];
+        [delegate omHeliumDidLoadWithError:error];
     }
 }
 

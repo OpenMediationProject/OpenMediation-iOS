@@ -15,7 +15,7 @@
 
 - (void)loadAd {
     if ([self isReady]) {
-        [self omChartboostBiDdidLoadWithError:nil];
+        [self omHeliumDidLoadWithError:nil];
         if (_biInfo) {
             [self omHeliumDidLoadWinningBidWithInfo:_biInfo];
         }
@@ -35,7 +35,7 @@
 
 #pragma mark -- OMHeliumAdapterDelegate
 
-- (void)omChartboostBiDdidLoadWithError:(nullable HeliumError *)error {
+- (void)omHeliumDidLoadWithError:(nullable HeliumError *)error {
     if (!error && [self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     } else if(error) {

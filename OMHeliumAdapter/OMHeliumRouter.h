@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol OMHeliumAdapterDelegate <NSObject>
 
-- (void)omChartboostBiDdidLoadWithError:(nullable HeliumError *)error;
+- (void)omHeliumDidLoadWithError:(nullable HeliumError *)error;
 - (void)omHeliumDidShowWithError:(HeliumError *)error;
 - (void)omHeliumDidClickWithError:(HeliumError *)error;
 - (void)omHeliumDidCloseWithError:(HeliumError *)error;

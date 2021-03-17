@@ -51,12 +51,12 @@ static NSMutableDictionary *bidBlockMap = nil;
      NSString *placementID = networkItem.placementID;
     
     if (![appKey length] || ![placementID length]) {
-        callback(@{@"error":@"Required input params(appID placementID) for chartboost bid is invalid"});
+        callback(@{@"error":@"Required input params(appKey,placementID) for Helium is invalid"});
         return;
     }
     
     if (![format isEqualToString:@"Interstitial"]  && ![format isEqualToString:@"RewardedVideo"]) {
-        callback(@{@"error":@"current network still not support this adType"});
+        callback(@{@"error":@"Helium still not support this adType"});
         return;
     }
 
@@ -84,7 +84,7 @@ static NSMutableDictionary *bidBlockMap = nil;
         [interstitialAdapter loadAd];
         
     } else {
-        callback(@{@"error":@"Chartboost Bid Adapter class not found"});
+        callback(@{@"error":@"Helium Adapter class not found"});
     }
 
     
