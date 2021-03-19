@@ -64,7 +64,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -73,7 +74,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -82,7 +84,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -91,7 +94,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -100,7 +104,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -109,7 +114,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -118,7 +124,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -127,7 +134,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -136,7 +144,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -145,7 +154,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -154,7 +164,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -163,7 +174,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -172,7 +184,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -181,7 +194,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -190,7 +204,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -199,7 +214,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -208,7 +224,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         ),
         .target(
@@ -217,7 +234,8 @@ let package = Package(
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
-                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent")
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         )
 
