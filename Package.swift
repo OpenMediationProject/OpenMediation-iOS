@@ -46,6 +46,7 @@ let package = Package(
                 .headerSearchPath("OpenMediationBid"),
                 .headerSearchPath("OpenMediationCrossPromotion"),
                 .headerSearchPath("OpenMediationCustomEvent"),
+                .headerSearchPath("OpenMediationImpressionData"),
                 .headerSearchPath("OpenMediationInterstitial"),
                 .headerSearchPath("OpenMediationModel"),
                 .headerSearchPath("OpenMediationNative"),
