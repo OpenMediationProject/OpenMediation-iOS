@@ -4,6 +4,8 @@
 #ifndef OpenMediationAdFormats_h
 #define OpenMediationAdFormats_h
 
+#import <Foundation/Foundation.h>
+
 typedef NS_OPTIONS(NSInteger, OpenMediationAdFormat) {
     OpenMediationAdFormatBanner = (1 << 0),
     OpenMediationAdFormatNative = (1 << 1),

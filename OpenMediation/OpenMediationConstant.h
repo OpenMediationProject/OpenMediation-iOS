@@ -4,6 +4,8 @@
 #ifndef OpenMediationConstant_h
 #define OpenMediationConstant_h
 
+#import <Foundation/Foundation.h>
+
 #define OPENMEDIATION_SDK_VERSION    @"2.1.0"
 
 typedef NS_ENUM(NSInteger, OMAdNetwork) {
