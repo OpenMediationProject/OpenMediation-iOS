@@ -238,7 +238,7 @@ let package = Package(
                 .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
                 .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
-        )
+        ),
         .target(
             name: "OpenMediationPubNativeAdapter",
             path: "OMHyBidAdapter",
