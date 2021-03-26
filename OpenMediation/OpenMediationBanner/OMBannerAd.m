@@ -7,6 +7,7 @@
 #import "OMBannerCustomEvent.h"
 #import "OMToolUmbrella.h"
 #import "OMMediations.h"
+#import "OMInstanceContainer.h"
 @implementation OMBannerAd
 
 - (void)loadInstance:(NSString*)instanceID {
@@ -20,7 +21,12 @@
             NSString *className = [NSString stringWithFormat:@"OM%@Banner",mediationName];
             Class adapterClass = NSClassFromString(className);
             if (adapterClass && [adapterClass conformsToProtocol:@protocol(OMBannerCustomEvent)] && [adapterClass instancesRespondToSelector:@selector(initWithFrame:adParameter:rootViewController:)]) {
-                id <OMBannerCustomEvent> bannerAdapter = [[adapterClass alloc] initWithFrame:CGRectMake(0, 0, self.size.width, self.size.height) adParameter:@{@"pid":mediationPid,@"appKey":[[OMConfig sharedInstance] adnAppKey:adnID]} rootViewController:self.rootViewController];
+                id <OMBannerCustomEvent> bannerAdapter = [[OMInstanceContainer sharedInstance].instanceMap objectForKey:instanceID];
+                if (!bannerAdapter) {
+                    bannerAdapter = [[adapterClass alloc] initWithFrame:CGRectMake(0, 0, self.size.width, self.size.height) adParameter:@{@"pid":mediationPid,@"appKey":[[OMConfig sharedInstance] adnAppKey:adnID]} rootViewController:self.rootViewController];
+                } else {
+                    [[OMInstanceContainer sharedInstance].instanceMap removeObjectForKey:instanceID];
+                }
                 if ([bannerAdapter respondsToSelector:@selector(setDelegate:)]) {
                     bannerAdapter.delegate = self;
                 }

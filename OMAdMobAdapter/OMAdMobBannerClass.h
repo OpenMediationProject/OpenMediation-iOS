@@ -1,6 +1,9 @@
 #ifndef OMAdMobBannerClass_h
 #define OMAdMobBannerClass_h
 #import "OMAdMobClass.h"
+#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#else
 @class GADBannerView;
 @class GADRequest;
 @class GADRequestError;
@@ -223,11 +226,14 @@ GAD_EXTERN GADAdSize const kGADAdSizeSmartBannerLandscape
 
 @property(nonatomic, weak, nullable) UIViewController *rootViewController;
 
+@property(nonatomic, readonly, nullable) GADResponseInfo *responseInfo;
+
 @property(nonatomic, weak, nullable) id<GADBannerViewDelegate> delegate;
 
 - (void)loadRequest:(nullable GADRequest *)request;
 
 @end
 
+#endif
 
 #endif /* OMAdMobBannerClass_h */

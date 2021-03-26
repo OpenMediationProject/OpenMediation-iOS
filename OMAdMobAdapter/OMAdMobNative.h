@@ -4,11 +4,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "OMNativeCustomEvent.h"
-#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
-    #import <GoogleMobileAds/GoogleMobileAds.h>
-#else
-    #import "OMAdMobNativeClass.h"
-#endif
+#import "OMAdMobNativeClass.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 

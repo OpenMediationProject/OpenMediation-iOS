@@ -61,6 +61,10 @@
 @property (nonatomic, readonly, class) NSString *SDKVersion;
 @end
 
+@interface HyBid : NSObject
++ (NSString *)sdkVersion;
+@end
+
 static OMMediations *_instance = nil;
 
 @implementation OMMediations
@@ -132,7 +136,8 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkHelium):@"Helium",
             @(OMAdNetworkFyber):@"Fyber",
             @(OMAdNetworkSigMob):@"SigMob",
-            @(OMAdNetworkKsAd):@"KuaiShou"
+            @(OMAdNetworkKsAd):@"KuaiShou",
+            @(OMAdNetworkHyBid):@"HyBid"
         };
         
         _adnSdkClassMap = @{
@@ -153,7 +158,8 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkHelium):@"HeliumSdk",
             @(OMAdNetworkFyber):@"IASDKCore",
             @(OMAdNetworkSigMob):@"WindAds",
-            @(OMAdNetworkKsAd):@"KSAdSDKManager"
+            @(OMAdNetworkKsAd):@"KSAdSDKManager",
+            @(OMAdNetworkHyBid):@"HyBid"
         };
         
         _adnSDKInitState = [NSMutableDictionary dictionary];
@@ -308,6 +314,13 @@ static OMMediations *_instance = nil;
             }
         }
             break;
+        case OMAdNetworkHyBid:
+        {
+            if (sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]) {
+                sdkVersion = [sdkClass sdkVersion];
+            }
+        }
+            break;
         default:
             break;
     }
@@ -319,9 +332,11 @@ static OMMediations *_instance = nil;
     OMConfig *config = [OMConfig sharedInstance];
     OMUserData *userData = [OMUserData sharedInstance];
     Class adapterClass = [self adnAdapterClass:adnID];
+    Class sdkClass = sdkClass = NSClassFromString(OM_SAFE_STRING([self.adnSdkClassMap objectForKey:@(adnID)]));
+
     NSString *key = [config adnAppKey:adnID];
     NSArray *pids = [config adnPlacements:adnID];
-    if (adapterClass && [adapterClass respondsToSelector:@selector(initSDKWithConfiguration:completionHandler:)]) {
+    if (sdkClass && adapterClass && [adapterClass respondsToSelector:@selector(initSDKWithConfiguration:completionHandler:)]) {
         __weak __typeof(self) weakSelf = self;
         
         if (![self adnSDKInitializing:adnID]) {
@@ -384,7 +399,7 @@ static OMMediations *_instance = nil;
     }else {
         NSError *error = [[NSError alloc] initWithDomain:@"com.om.mediations"
             code:400
-        userInfo:@{NSLocalizedDescriptionKey:@"Failed,adapter not found"}];
+        userInfo:@{NSLocalizedDescriptionKey:@"Failed,sdk or adapter not found"}];
         completionHandler(error);
     }
 }

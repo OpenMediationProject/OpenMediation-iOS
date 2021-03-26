@@ -30,6 +30,14 @@
                 weakSelf.ready = YES;
                 weakSelf.admobInterstitial = ad;
                 weakSelf.admobInterstitial.fullScreenContentDelegate = weakSelf;
+                if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didLoadWithAdnName:)]) {
+                    NSString *adnName = @"";
+                    GADResponseInfo *info = [ad responseInfo];
+                    if (info && [info respondsToSelector:@selector(adNetworkClassName)]) {
+                        adnName = [info adNetworkClassName];
+                    }
+                    [weakSelf.delegate customEvent:weakSelf didLoadWithAdnName:adnName];
+                }
                 if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
                     [weakSelf.delegate customEvent:weakSelf didLoadAd:nil];
                 }

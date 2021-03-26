@@ -2,6 +2,9 @@
 #define OMAdMobInterstitialClass_h
 #import <UIKit/UIKit.h>
 #import "OMAdMobClass.h"
+#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#else
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -42,7 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @class GADInterstitialAd;
-@class GADResponseInfo;
 
 /// A block to be executed when the ad request operation completes. On success,
 /// interstitialAd is non-nil and |error| is nil. On failure, interstitialAd is nil
@@ -87,5 +89,7 @@ typedef void (^GADInterstitialAdLoadCompletionHandler)(GADInterstitialAd *_Nulla
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
 
 #endif /* OMAdMobInterstitialClass_h */

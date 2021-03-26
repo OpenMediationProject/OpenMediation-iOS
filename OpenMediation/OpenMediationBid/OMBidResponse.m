@@ -53,7 +53,7 @@
         if ([responseData objectForKey:@"expire"]) {
             response.expire = (NSInteger)([NSDate date].timeIntervalSince1970 + [[responseData objectForKey:@"expire"]integerValue]*60)*1000;
         }
-
+        response.adObject = [responseData objectForKey:@"adObject"];
         return response;
     }
 

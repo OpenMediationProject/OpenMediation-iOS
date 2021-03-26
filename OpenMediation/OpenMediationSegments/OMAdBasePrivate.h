@@ -23,6 +23,7 @@ typedef void(^hbRequestCompletionHandler)(NSArray *bidInstances);
 @property (nonatomic, weak) UIViewController *rootViewController;
 @property (nonatomic, strong) NSMutableDictionary<NSString*,id> *instanceAdapters; // key instanceid, value adapter
 @property (nonatomic, strong) NSMutableDictionary<NSString*,id> *didLoadAdObjects; //key instance, value ad
+@property (nonatomic, strong) NSMutableDictionary<NSString*,NSString*> *didLoadAdnName; //key instance, value adn name
 @property (nonatomic, strong) OMLoad *adLoader;
 @property (nonatomic, assign) OMLoadAction loadAction;
 @property (nonatomic, assign) BOOL loadConfig;

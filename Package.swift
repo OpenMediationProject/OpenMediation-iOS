@@ -27,6 +27,7 @@ let package = Package(
         .library(name: "OpenMediationHeliumAdapter",targets: ["OpenMediationHeliumAdapter"]),
         .library(name: "OpenMediationSigMobAdapter",targets: ["OpenMediationSigMobAdapter"]),
         .library(name: "OpenMediationKuaiShouAdapter",targets: ["OpenMediationKuaiShouAdapter"]),
+        .library(name: "OpenMediationPubNativeAdapter",targets: ["OpenMediationPubNativeAdapter"]),        
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -38,7 +39,7 @@ let package = Package(
         .target(
             name: "OpenMediation",
             dependencies: [],
-            path:"OpenMediation",
+            path: "OpenMediation",
             exclude: ["Info.plist","OpenMediation.modulemap"],
             cSettings:[
                 .headerSearchPath("."),
@@ -60,7 +61,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationAdTimingAdapter",
-            path:"OMAdTimingAdapter",
+            path: "OMAdTimingAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -70,7 +71,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationAdMobAdapter",
-            path:"OMAdMobAdapter",
+            path: "OMAdMobAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -80,7 +81,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationFacebookAdapter",
-            path:"OMFacebookAdapter",
+            path: "OMFacebookAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -90,7 +91,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationUnityAdapter",
-            path:"OMUnityAdapter",
+            path: "OMUnityAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -100,7 +101,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationVungleAdapter",
-            path:"OMVungleAdapter",
+            path: "OMVungleAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -120,7 +121,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationAdColonyAdapter",
-            path:"OMAdColonyAdapter",
+            path: "OMAdColonyAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -130,7 +131,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationAppLovinAdapter",
-            path:"OMAppLovinAdapter",
+            path: "OMAppLovinAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -140,7 +141,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationMoPubAdapter",
-            path:"OMMoPubAdapter",
+            path: "OMMoPubAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -150,7 +151,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationTapjoyAdapter",
-            path:"OMTapjoyAdapter",
+            path: "OMTapjoyAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -160,7 +161,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationChartboostAdapter",
-            path:"OMChartboostAdapter",
+            path: "OMChartboostAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -170,7 +171,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationPangleAdapter",
-            path:"OMPangleAdapter",
+            path: "OMPangleAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -180,7 +181,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationMintegralAdapter",
-            path:"OMMintegralAdapter",
+            path: "OMMintegralAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -190,7 +191,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationIronSourceAdapter",
-            path:"OMIronSourceAdapter",
+            path: "OMIronSourceAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -200,7 +201,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationFyberAdapter",
-            path:"OMFyberAdapter",
+            path: "OMFyberAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -210,7 +211,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationHeliumAdapter",
-            path:"OMHeliumAdapter",
+            path: "OMHeliumAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -220,7 +221,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationSigMobAdapter",
-            path:"OMSigMobAdapter",
+            path: "OMSigMobAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -230,7 +231,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationKuaiShouAdapter",
-            path:"OMKuaiShouAdapter",
+            path: "OMKuaiShouAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),
@@ -238,6 +239,17 @@ let package = Package(
                 .headerSearchPath("../OpenMediation/OpenMediationBid")
             ]
         )
+        .target(
+            name: "OpenMediationPubNativeAdapter",
+            path: "OMHyBidAdapter",
+            exclude: ["Info.plist"],
+            cSettings:[
+                .headerSearchPath("."),
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
+            ]
+        )
+
 
     ]
 )

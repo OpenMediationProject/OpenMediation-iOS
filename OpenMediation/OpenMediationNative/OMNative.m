@@ -8,6 +8,7 @@
 #import "OMMediatedNativeAd.h"
 #import "OMEventManager.h"
 #import "OMMediations.h"
+#import "OMInstanceContainer.h"
 
 @interface OMNativeAd : NSObject
 @property (nonatomic, copy) NSString *title;
@@ -45,9 +46,14 @@
             NSString *nativeClassName = [NSString stringWithFormat:@"OM%@Native",mediationName];
             Class adapterClass = NSClassFromString(nativeClassName);
             if (adapterClass && [adapterClass instancesRespondToSelector:@selector(initWithParameter:rootVC:)]) {
-                id <OMNativeCustomEvent> interstitialAdapter = [[adapterClass alloc] initWithParameter:@{@"pid":mediationPid,@"appKey":[[OMConfig sharedInstance]adnAppKey:adnID] }rootVC:self.rootViewController];
-                interstitialAdapter.delegate = self;
-                [self.instanceAdapters setObject:interstitialAdapter forKey:instanceID];
+                id <OMNativeCustomEvent> nativeAdapter = [[OMInstanceContainer sharedInstance].instanceMap objectForKey:instanceID];
+                if (!nativeAdapter) {
+                    nativeAdapter = [[adapterClass alloc] initWithParameter:@{@"pid":mediationPid,@"appKey":[[OMConfig sharedInstance]adnAppKey:adnID] }rootVC:self.rootViewController];
+                } else {
+                    [[OMInstanceContainer sharedInstance].instanceMap removeObjectForKey:instanceID];
+                }
+                nativeAdapter.delegate = self;
+                [self.instanceAdapters setObject:nativeAdapter forKey:instanceID];
             }
         }
     }

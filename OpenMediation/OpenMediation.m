@@ -168,6 +168,10 @@ static NSTimer *SDKInitCheckTimer = nil;
     }
 }
 
++ (NSString*)getUserID {
+    return [OMUserData sharedInstance].customUserID;
+}
+
 + (void)setCustomTag:(NSString*)tag withString:(NSString*)value {
     if (([tag isKindOfClass:[NSString class]] && tag.length>0) && ([value isKindOfClass:[NSString class]] && value.length >0)) {
         [self setTag:tag value:value];

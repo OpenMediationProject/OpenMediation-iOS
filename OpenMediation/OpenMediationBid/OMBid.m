@@ -10,10 +10,33 @@
 
 @implementation OMBid
 
-- (void)bidWithNetworkItems:(NSArray*)networkItems adFormat:(NSString*)format completionHandler:(bidCompletionHandler)completionHandler {
+
+- (NSArray*)bidTokens:(NSArray*)networkItems {
+    NSMutableArray * tokens = [NSMutableArray array];
+
+    for (OMBidNetworkItem *networkItem in networkItems) {
+        if (!OM_STR_EMPTY(networkItem.adnName)) {
+            OMAdNetwork adnID = [networkItem.extraData[@"adnID"] integerValue];
+            if (![[OMMediations sharedInstance]adnSDKInitialized:adnID]) {
+                [[OMMediations sharedInstance]initAdNetworkSDKWithId:adnID
+                                                       completionHandler:^(NSError * _Nullable error) {
+                }];
+            }
+            NSString *className = [NSString stringWithFormat:@"OM%@Bid",networkItem.adnName];
+            Class bidClass = NSClassFromString(className);
+            if (bidClass && [bidClass respondsToSelector:@selector(bidderToken)]) {
+                    @synchronized (self) {
+                        [tokens addObject:@{@"iid":OM_SAFE_STRING(networkItem.extraData[@"instanceID"]),@"token":OM_SAFE_STRING([bidClass bidderToken])}];
+                    }
+            }
+        }
+    }
+    return  [tokens copy];
+}
+
+- (void)bidWithNetworkItems:(NSArray*)networkItems adFormat:(NSString*)format adSize:(CGSize)size completionHandler:(bidCompletionHandler)completionHandler {
     _bidNetworkItems = networkItems;
     _completionHandler = completionHandler;
-    _bidTokens = [NSMutableDictionary dictionary];
     _bidResponses = [NSMutableDictionary dictionary];
 
     
@@ -25,8 +48,7 @@
     for (OMBidNetworkItem *networkItem in networkItems) {
         if (!OM_STR_EMPTY(networkItem.adnName)) {
             OMAdNetwork adnID = [networkItem.extraData[@"adnID"] integerValue];
-            
-            if ((adnID == OMAdNetworkVungle || adnID == OMAdNetworkHelium) && ![[OMMediations sharedInstance]adnSDKInitialized:adnID]) {
+            if (![[OMMediations sharedInstance]adnSDKInitialized:adnID]) {
                 [[OMMediations sharedInstance]initAdNetworkSDKWithId:adnID
                                                        completionHandler:^(NSError * _Nullable error) {
                 }];
@@ -34,18 +56,14 @@
             
             NSString *className = [NSString stringWithFormat:@"OM%@Bid",networkItem.adnName];
             Class bidClass = NSClassFromString(className);
-            if (bidClass && [bidClass respondsToSelector:@selector(bidderToken)]) {
-                    @synchronized (weakSelf) {
-                        [weakSelf.bidTokens setObject:OM_SAFE_STRING([bidClass bidderToken]) forKey:networkItem.extraData[@"instanceID"] ];
-                    }
-            } else if (bidClass && [bidClass respondsToSelector:@selector(bidWithNetworkItem:adFormat:responseCallback:)]) {
+            if (bidClass && [bidClass respondsToSelector:@selector(bidWithNetworkItem:adFormat:adSize:responseCallback:)]) {
                 NSInteger networkMaxTimeOut = networkItem.maxTimeOutMS;
                 if (bidMaxTimeOut < networkMaxTimeOut) {
                     bidMaxTimeOut = networkMaxTimeOut;
                 }
                     dispatch_group_enter(group);
                     
-                    [bidClass bidWithNetworkItem:networkItem adFormat:format responseCallback:^(NSDictionary *bidResponseData) {
+                [bidClass bidWithNetworkItem:networkItem adFormat:format adSize:size responseCallback:^(NSDictionary *bidResponseData) {
                         if (weakSelf && bidResponseData) {
                             @synchronized (weakSelf) {
                                 OMBidResponse *bidResponse = [OMBidResponse buildResponseWithData:bidResponseData];
@@ -95,7 +113,7 @@
             _bidTimer = nil;
         }
         if (self.completionHandler) {
-            self.completionHandler([self.bidTokens copy],[self.bidResponses copy]);
+            self.completionHandler([self.bidResponses copy]);
             self.completionHandler = nil;
         }
     }

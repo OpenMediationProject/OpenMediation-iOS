@@ -79,5 +79,7 @@
 - (void)bannerWillLeaveApplication {
 }
 
-
+- (void)bannerDidShow {
+    
+}
 @end

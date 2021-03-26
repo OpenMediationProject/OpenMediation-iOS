@@ -5,7 +5,9 @@
 #define OMAdMobRewardedVideoClass_h
 #import <UIKit/UIKit.h>
 #import "OMAdMobClass.h"
-
+#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#else
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -70,7 +72,6 @@ typedef NSString *GADAdMetadataKey NS_STRING_ENUM;
 @end
 
 @class GADRewardedAd;
-@class GADResponseInfo;
 @class GADServerSideVerificationOptions;
 @class GADRequest;
 
@@ -146,5 +147,7 @@ typedef void (^GADRewardedAdLoadCompletionHandler)(GADRewardedAd *_Nullable rewa
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
 
 #endif /* OMAdMobRewardedVideoClass_h */

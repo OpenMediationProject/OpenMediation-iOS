@@ -3,11 +3,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OMMediationAdapter.h"
-#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
-    #import <GoogleMobileAds/GoogleMobileAds.h>
-#else
-    #import "OMAdMobClass.h"
-#endif
+#import "OMAdMobClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

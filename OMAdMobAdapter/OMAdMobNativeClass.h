@@ -5,6 +5,10 @@
 #define OMAdMobNativeClass_h
 #import <UIKit/UIKit.h>
 #import "OMAdMobClass.h"
+#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#else
+
 @class GADAdLoader;
 @class GADVideoController;
 @class GADNativeAdImageAdLoaderOptions;
@@ -401,5 +405,7 @@ typedef NS_ENUM(NSInteger, GADNativeAdImageAdLoaderOptionsOrientation) {
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
 
 #endif /* OMAdMobNativeClass_h */

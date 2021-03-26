@@ -59,6 +59,14 @@
 
 - (void)adLoader:(GADAdLoader *)adLoader didReceiveNativeAd:(GADNativeAd *)nativeAd {
     nativeAd.delegate = self;
+    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadWithAdnName:)]) {
+        NSString *adnName = @"";
+        GADResponseInfo *info = [nativeAd responseInfo];
+        if (info && [info respondsToSelector:@selector(adNetworkClassName)]) {
+            adnName = [info adNetworkClassName];
+        }
+        [_delegate customEvent:self didLoadWithAdnName:adnName];
+    }
     OMAdMobNativeAd *admobAd = [[OMAdMobNativeAd alloc]initWithGadNativeAd:nativeAd];
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:admobAd];

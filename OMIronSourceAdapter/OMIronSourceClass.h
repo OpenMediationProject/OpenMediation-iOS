@@ -364,6 +364,11 @@ static NSString * GitHash = @"b4c67f001";
  */
 - (void)bannerWillLeaveApplication;
 
+/**
+ Called when a banner was shown
+ */
+- (void)bannerDidShow;
+
 @end
 
 

@@ -34,7 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
               ruleId:(NSInteger)ruleId
              revenue:(double)revenue
                   rp:(NSInteger)rp
-                  ii:(NSInteger)ii;
+                  ii:(NSInteger)ii
+                 adn:(NSString*)adnName;
 
 @end
 

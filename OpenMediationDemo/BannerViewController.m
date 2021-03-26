@@ -28,10 +28,12 @@
     [super removeItemAction];
     [_banner removeFromSuperview];
     _banner = nil;
+    self.removeItem.enabled = NO;
 }
 
 - (void)omBannerDidLoad:(OMBanner *)banner {
     [self showLog:@"banner did load"];
+    self.removeItem.enabled = YES;
 }
 
 /// Sent after an OMBanner fails to load the ad.

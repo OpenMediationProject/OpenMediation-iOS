@@ -3,6 +3,9 @@
 
 #ifndef OMAdMobClass_h
 #define OMAdMobClass_h
+#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#else
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,6 +24,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (nonnull NSString *)sdkVersion;
 + (instancetype)request;
 - (void)registerAdNetworkExtras:(nonnull id<GADAdNetworkExtras>)extras;
+
+@end
+
+@interface GADResponseInfo : NSObject
+
+/// A class name that identifies the ad network that returned the ad. Nil if no ad was returned.
+@property(nonatomic, readonly, nullable) NSString *adNetworkClassName;
 
 @end
 
@@ -43,9 +53,8 @@ typedef void (^GADInitializationCompletionHandler)(GADInitializationStatus *_Non
 + (void)configureWithApplicationID:(NSString *)applicationID;
 - (void)startWithCompletionHandler:(nullable GADInitializationCompletionHandler)completionHandler;
 @end
-
-
-
 NS_ASSUME_NONNULL_END
+
+#endif
 
 #endif /* OMAdMobClass_h */

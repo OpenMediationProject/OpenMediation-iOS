@@ -31,6 +31,14 @@
 }
 
 - (void)bannerViewDidReceiveAd:(GADBannerView *)bannerView {
+    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadWithAdnName:)]) {
+        NSString *adnName = @"";
+        GADResponseInfo *info = [bannerView responseInfo];
+        if (info && [info respondsToSelector:@selector(adNetworkClassName)]) {
+            adnName = [info adNetworkClassName];
+        }
+        [_delegate customEvent:self didLoadWithAdnName:adnName];
+    }
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }

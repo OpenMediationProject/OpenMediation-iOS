@@ -4,12 +4,15 @@
 #ifndef OMBidCustomEvent_h
 #define OMBidCustomEvent_h
 
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
 @class OMBidNetworkItem;
 @protocol OMBidCustomEvent <NSObject>
 
 @optional
 
-+ (void)bidWithNetworkItem:(OMBidNetworkItem*)networkItem adFormat:(NSString*)format responseCallback:(void(^)(NSDictionary *bidResponseData))callback;
++ (void)bidWithNetworkItem:(OMBidNetworkItem*)networkItem adFormat:(NSString*)format adSize:(CGSize)size responseCallback:(void(^)(NSDictionary *bidResponseData))callback;
 + (NSString*)bidderToken;
 @end
 

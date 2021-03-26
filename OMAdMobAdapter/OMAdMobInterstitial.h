@@ -1,10 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "OMInterstitialCustomEvent.h"
-#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
-    #import <GoogleMobileAds/GoogleMobileAds.h>
-#else
-    #import "OMAdMobInterstitialClass.h"
-#endif
+#import "OMAdMobInterstitialClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

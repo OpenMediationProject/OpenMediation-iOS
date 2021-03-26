@@ -37,7 +37,7 @@
 }
 
 + (NSString*)waterfallUrl {
-    return [NSString stringWithFormat:@"%@?v=2&plat=0&sdkv=%@",[OMConfig sharedInstance].wfUrl,OPENMEDIATION_SDK_VERSION];
+    return [NSString stringWithFormat:@"%@?v=3&plat=0&sdkv=%@",[OMConfig sharedInstance].wfUrl,OPENMEDIATION_SDK_VERSION];
 }
 
 + (NSDictionary*)wfParametersWithPid:(NSString*)pid

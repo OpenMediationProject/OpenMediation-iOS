@@ -23,6 +23,7 @@ static OMUserData * _instance = nil;
         _userAge = 0;
         _userGender = 0;
         _tags = [NSMutableDictionary dictionary];
+        _customUserID = @"";
         _lifeTimeValue = [[[NSUserDefaults standardUserDefaults]objectForKey:@"OMLifeTimeValue"]doubleValue];
         _purchaseAmount = [[[NSUserDefaults standardUserDefaults]objectForKey:@"iap_usd"]floatValue];
     }

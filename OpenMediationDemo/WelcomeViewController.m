@@ -4,6 +4,8 @@
 #import "WelcomeViewController.h"
 #import "MainViewController.h"
 #import "InitSettingViewController.h"
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
+#import <AdSupport/AdSupport.h>
 
 @import OpenMediation;
 
@@ -21,9 +23,30 @@
     UIBarButtonItem *showBar = [[UIBarButtonItem alloc]initWithTitle:@"Ad" style:UIBarButtonItemStylePlain target:self action:@selector(showItemAction)];
     self.navigationItem.rightBarButtonItem = showBar;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initSuccess) name:@"kOpenMediatonInitSuccessNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initSuccess) name:@"kOpenMediatonInitSuccessNotification" object: nil];
     [self.view addSubview:self.welcomLabel];
     [self.view addSubview:self.settingBtn];
+    
+    UIButton *idfaBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    idfaBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height/3.0*2.0 - 100,self.view.frame.size.width, 50)];
+    idfaBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [idfaBtn setTitleColor:[UIColor systemBlueColor] forState:UIControlStateNormal];
+    [idfaBtn setTitle:@"RequestIDFAAuthorization" forState:UIControlStateNormal];
+    [idfaBtn addTarget:self action:@selector(requestIDFAAuthorization) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:idfaBtn];
+}
+
+- (void)requestIDFAAuthorization {
+    if (@available(iOS 14, *)) {
+        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+            if (status == ATTrackingManagerAuthorizationStatusAuthorized) {
+                NSString *idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+                NSLog(@"IDFA: %@",idfa);
+            } else {
+                NSLog(@"The authorization status %ud",(unsigned int)status);
+            }
+        }];
+    }
 }
 
 - (void)initSuccess {

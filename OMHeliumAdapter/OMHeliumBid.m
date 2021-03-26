@@ -46,7 +46,7 @@ static NSMutableDictionary *bidBlockMap = nil;
 @implementation OMHeliumBid
 
 
-+ (void)bidWithNetworkItem:(OMBidNetworkItem*)networkItem adFormat:(NSString*)format responseCallback:(void(^)(NSDictionary *bidResponseData))callback {
++ (void)bidWithNetworkItem:(OMBidNetworkItem*)networkItem adFormat:(NSString*)format adSize:(CGSize)size responseCallback:(void(^)(NSDictionary *bidResponseData))callback {
      NSString *appKey = networkItem.appKey;
      NSString *placementID = networkItem.placementID;
     

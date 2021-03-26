@@ -49,6 +49,9 @@ extern NSString *kOpenMediatonInitSuccessNotification;
 /// Set custom user id
 + (void)setUserID:(NSString*)userID;
 
+/// Get custom user id
++ (NSString*)getUserID;
+
 /// Set custom tag
 + (void)setCustomTag:(NSString*)tag withString:(NSString*)value;
 
@@ -58,10 +61,8 @@ extern NSString *kOpenMediatonInitSuccessNotification;
 
 + (void)setCustomTag:(NSString*)tag withNumbers:(NSArray *)values;
 
-/// Remove tag
 + (void)removeTag:(NSString*)tag;
 
-/// Get custom tag
 + (NSDictionary*)allCustomTags;
 
 /// Set the gender of the current user

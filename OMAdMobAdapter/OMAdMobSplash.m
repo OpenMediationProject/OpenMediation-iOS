@@ -37,6 +37,14 @@
                 }
             }else{
                 self.ready = YES;
+                if (self.delegate && [self.delegate respondsToSelector:@selector(customEvent:didLoadWithAdnName:)]) {
+                    NSString *adnName = @"";
+                    GADResponseInfo *info = [appOpenAd responseInfo];
+                    if (info && [info respondsToSelector:@selector(adNetworkClassName)]) {
+                        adnName = [info adNetworkClassName];
+                    }
+                    [self.delegate customEvent:self didLoadWithAdnName:adnName];
+                }
                 if ([self isReady] && self.delegate && [self.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
                     [self.delegate customEvent:self didLoadAd:nil];
                 }

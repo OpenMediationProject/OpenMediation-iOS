@@ -103,20 +103,28 @@ static OMNetMonitor * _instance = nil;
     
     NSArray *typeStrings4G = @[CTRadioAccessTechnologyLTE];
     
-    if ([typeStrings4G containsObject:accessString]) {
-        return @"4G";
+    NSArray *typeStrings5G = @[];
+    if (@available(iOS 14.1, *)) {
+        typeStrings5G = @[CTRadioAccessTechnologyNRNSA,CTRadioAccessTechnologyNR];
+    }
+    
+    if ([typeStrings2G containsObject:accessString]) {
+        return @"2G";
     } else if ([typeStrings3G containsObject:accessString]) {
         return @"3G";
-    } else if ([typeStrings2G containsObject:accessString]) {
-        return @"2G";
+    } else if ([typeStrings4G containsObject:accessString]) {
+        return @"4G";
+    } else if ([typeStrings5G containsObject:accessString]) {
+        return @"5G";
     } else {
         return accessString;
     }
 }
 
 - (NSNumber*)omNetworkType {
-    NSInteger networkType = [[self getNetWorkType]isEqualToString:@"WiFi"]? 2 : 6;
-    return [NSNumber numberWithInteger:networkType];
+    NSArray *networkStrings = @[@"Unknown",@"Ethernet",@"WiFi",@"Cellular Network",@"2G",@"3G",@"4G",@"5G"];
+    NSUInteger networkType = [networkStrings indexOfObject:[self getNetWorkType]];
+    return [NSNumber numberWithInteger:((networkType != NSNotFound)?networkType:0)];
 }
 
 - (void)dealloc {

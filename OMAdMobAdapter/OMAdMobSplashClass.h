@@ -5,6 +5,9 @@
 #define OMAdMobSplashClass_h
 #import <UIKit/UIKit.h>
 #import "OMAdMobClass.h"
+#if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#else
 
 @class GADRequest;
 @class GADResponseInfo;
@@ -120,5 +123,6 @@ typedef void (^GADAppOpenAdLoadCompletionHandler)(GADAppOpenAd *_Nullable appOpe
 
 @end
 
+#endif
 
 #endif /* OMAdMobSplashClass_h */
