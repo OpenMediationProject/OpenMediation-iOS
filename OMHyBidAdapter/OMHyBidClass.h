@@ -80,12 +80,12 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 
 @class HyBidSignalDataProcessor, HyBidAd;
 
-//@protocol HyBidSignalDataProcessorDelegate<NSObject>
-//
-//- (void)signalDataDidFinishWithAd:(HyBidAd *)ad;
-//- (void)signalDataDidFailWithError:(NSError *)error;
-//
-//@end
+@protocol HyBidSignalDataProcessorDelegate<NSObject>
+
+- (void)signalDataDidFinishWithAd:(HyBidAd *)ad;
+- (void)signalDataDidFailWithError:(NSError *)error;
+
+@end
 
 @class HyBidAdSize;
 

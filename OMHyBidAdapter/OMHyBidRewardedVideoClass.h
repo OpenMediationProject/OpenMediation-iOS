@@ -5,6 +5,7 @@
 #define OMHyBidRewardedVideoClass_h
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "OMHyBidClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,13 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)rewardedDidTrackClick;
 - (void)rewardedDidDismiss;
 - (void)onReward;
-
-@end
-
-@protocol HyBidSignalDataProcessorDelegate<NSObject>
-
-- (void)signalDataDidFinishWithAd:(HyBidAd *)ad;
-- (void)signalDataDidFailWithError:(NSError *)error;
 
 @end
 

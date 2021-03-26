@@ -5,6 +5,7 @@
 #define OMHyBigInterstitialClass_h
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "OMHyBidClass.h"
 
 @class HyBidAd;
 
@@ -15,13 +16,6 @@
 - (void)interstitialDidTrackImpression;
 - (void)interstitialDidTrackClick;
 - (void)interstitialDidDismiss;
-
-@end
-
-@protocol HyBidSignalDataProcessorDelegate<NSObject>
-
-- (void)signalDataDidFinishWithAd:(HyBidAd *)ad;
-- (void)signalDataDidFailWithError:(NSError *)error;
 
 @end
 
