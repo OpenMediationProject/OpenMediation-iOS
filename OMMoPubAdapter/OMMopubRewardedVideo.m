@@ -8,7 +8,7 @@
 - (instancetype)initWithParameter:(NSDictionary*)adParameter {
     if (self = [super init]) {
         _pid = [adParameter objectForKey:@"pid"];
-        Class mopubClass = NSClassFromString(@"MPRewardedVideo");
+        Class mopubClass = NSClassFromString(@"MPRewardedAds");
         if (mopubClass && [mopubClass respondsToSelector:@selector(setDelegate:forAdUnitId:)] && [_pid length]>0) {
             [mopubClass setDelegate:self forAdUnitId:_pid];
         }
@@ -18,14 +18,14 @@
 
 
 - (void)loadAd {
-    Class mopubClass = NSClassFromString(@"MPRewardedVideo");
-    if (mopubClass && [mopubClass respondsToSelector:@selector(loadRewardedVideoAdWithAdUnitID:withMediationSettings:)] && [_pid length]>0) {
-        [mopubClass loadRewardedVideoAdWithAdUnitID:_pid withMediationSettings:nil];
+    Class mopubClass = NSClassFromString(@"MPRewardedAds");
+    if (mopubClass && [mopubClass respondsToSelector:@selector(loadRewardedAdWithAdUnitID:withMediationSettings:)] && [_pid length]>0) {
+        [mopubClass loadRewardedAdWithAdUnitID:_pid withMediationSettings:nil];
     }
 }
 
 - (BOOL)isReady {
-    Class mopubClass = NSClassFromString(@"MPRewardedVideo");
+    Class mopubClass = NSClassFromString(@"MPRewardedAds");
     if (mopubClass && [mopubClass respondsToSelector:@selector(hasAdAvailableForAdUnitID:)]) {
         return [mopubClass hasAdAvailableForAdUnitID:_pid];
     }else
@@ -33,71 +33,71 @@
 }
 
 - (void)show:(UIViewController*)vc {
-    Class mopubClass = NSClassFromString(@"MPRewardedVideo");
-    if (mopubClass && [mopubClass respondsToSelector:@selector(presentRewardedVideoAdForAdUnitID:fromViewController:withReward:)] && [mopubClass respondsToSelector:@selector(availableRewardsForAdUnitID:)]) {
-        [mopubClass presentRewardedVideoAdForAdUnitID:_pid fromViewController:vc withReward:[mopubClass availableRewardsForAdUnitID:_pid][0]];
+    Class mopubClass = NSClassFromString(@"MPRewardedAds");
+    if (mopubClass && [mopubClass respondsToSelector:@selector(presentRewardedAdForAdUnitID:fromViewController:withReward:)] && [mopubClass respondsToSelector:@selector(availableRewardsForAdUnitID:)]) {
+        [mopubClass presentRewardedAdForAdUnitID:_pid fromViewController:vc withReward:[mopubClass availableRewardsForAdUnitID:_pid][0]];
     }
 }
 
 
-- (void)rewardedVideoAdDidLoadForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdDidLoadForAdUnitID:(NSString *)adUnitID {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
 }
 
-- (void)rewardedVideoAdDidFailToLoadForAdUnitID:(NSString *)adUnitID error:(NSError *)error {
+- (void)rewardedAdDidFailToLoadForAdUnitID:(NSString *)adUnitID error:(NSError *)error {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 
 
-- (void)rewardedVideoAdDidFailToPlayForAdUnitID:(NSString *)adUnitID error:(NSError *)error {
+- (void)rewardedAdDidFailToShowForAdUnitID:(NSString *)adUnitID error:(NSError *)error {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
         [_delegate rewardedVideoCustomEventDidFailToShow:self withError:error];
     }
 }
 
 
-- (void)rewardedVideoAdWillAppearForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdWillPresentForAdUnitID:(NSString *)adUnitID {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
         [_delegate rewardedVideoCustomEventDidOpen:self];
     }
 }
 
-- (void)rewardedVideoAdDidAppearForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdDidPresentForAdUnitID:(NSString *)adUnitID {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoStart:)]) {
         [_delegate rewardedVideoCustomEventVideoStart:self];
     }
 }
 
 
-- (void)rewardedVideoAdWillDisappearForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdWillDismissForAdUnitID:(NSString *)adUnitID {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]) {
         [_delegate rewardedVideoCustomEventVideoEnd:self];
     }
 }
 
-- (void)rewardedVideoAdDidDisappearForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdDidDismissForAdUnitID:(NSString *)adUnitID {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]) {
         [_delegate rewardedVideoCustomEventDidClose:self];
     }
 }
 
-- (void)rewardedVideoAdDidReceiveTapEventForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdDidReceiveTapEventForAdUnitID:(NSString *)adUnitID {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
         [_delegate rewardedVideoCustomEventDidClick:self];
     }
 }
 
 
-- (void)rewardedVideoAdWillLeaveApplicationForAdUnitID:(NSString *)adUnitID {
+- (void)rewardedAdWillLeaveApplicationForAdUnitID:(NSString *)adUnitID {
 
 }
 
 
-- (void)rewardedVideoAdShouldRewardForAdUnitID:(NSString *)adUnitID reward:(MPRewardedVideoReward *)reward {
+- (void)rewardedAdShouldRewardForAdUnitID:(NSString *)adUnitID reward:(MPReward *)reward {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
         [_delegate rewardedVideoCustomEventDidReceiveReward:self];
     }

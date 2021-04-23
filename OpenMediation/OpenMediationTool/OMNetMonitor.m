@@ -103,19 +103,12 @@ static OMNetMonitor * _instance = nil;
     
     NSArray *typeStrings4G = @[CTRadioAccessTechnologyLTE];
     
-    NSArray *typeStrings5G = @[];
-    if (@available(iOS 14.1, *)) {
-        typeStrings5G = @[CTRadioAccessTechnologyNRNSA,CTRadioAccessTechnologyNR];
-    }
-    
-    if ([typeStrings2G containsObject:accessString]) {
-        return @"2G";
+    if ([typeStrings4G containsObject:accessString]) {
+        return @"4G";
     } else if ([typeStrings3G containsObject:accessString]) {
         return @"3G";
-    } else if ([typeStrings4G containsObject:accessString]) {
-        return @"4G";
-    } else if ([typeStrings5G containsObject:accessString]) {
-        return @"5G";
+    } else if ([typeStrings2G containsObject:accessString]) {
+        return @"2G";
     } else {
         return accessString;
     }

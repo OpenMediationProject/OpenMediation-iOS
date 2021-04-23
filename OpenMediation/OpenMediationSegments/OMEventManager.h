@@ -139,6 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger eventPackageNumber;
 @property (nonatomic, assign) NSInteger uploadMaxInterval;
 @property (nonatomic, strong) NSArray *uploadEventIds;
+@property (nonatomic, strong) NSArray *realTimeEventIds;
 @property (nonatomic, strong) NSMutableArray *eventList;
 @property (nonatomic, strong) NSMutableDictionary *eventTimeStamp;
 @property (nonatomic, strong) NSString *eventDataPath;

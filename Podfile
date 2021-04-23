@@ -3,14 +3,15 @@ platform :ios, '10.0'
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'OpenMediationDemo' do
-  pod 'AdTimingBidSDK', '5.0.3'
-  pod 'Google-Mobile-Ads-SDK', '8.1.0'
+  use_frameworks!
+  pod 'AdTimingBidSDK', '5.0.4'
+  pod 'Google-Mobile-Ads-SDK', '8.3.0'
   pod 'FBAudienceNetwork', '6.3.0'
   pod 'UnityAds', '3.6.0'
   pod 'VungleSDK-iOS', '6.9.1'
   pod 'AdColony', '4.5.0'
   pod 'AppLovinSDK', '6.15.2'
-  pod 'mopub-ios-sdk', '5.14.1'
+  pod 'mopub-ios-sdk', '5.16.2'
   pod 'TapjoySDK', '12.8.0'
   pod 'ChartboostSDK', '8.4.0'
   #pod 'Ads-CN', '3.4.2.8'

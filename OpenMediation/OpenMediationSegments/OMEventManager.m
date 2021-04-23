@@ -24,9 +24,10 @@ static OMEventManager * _instance = nil;
 - (instancetype)init {
     if (self = [super init]) {
         _uploadUrl = @"";
-        _eventPackageNumber = OM_EVENT_MAX_COUNT;
+        _eventPackageNumber = 0;
         _uploadMaxInterval = 0;
         _uploadEventIds = @[];
+        _realTimeEventIds = @[];
         _eventList = [NSMutableArray array];
         _eventTimeStamp = [NSMutableDictionary dictionary];
         _eventDataPath = [[NSString omDataPath] stringByAppendingPathComponent:@"es.plist"];
@@ -46,6 +47,13 @@ static OMEventManager * _instance = nil;
         _uploadEventIds = [NSArray array];
         if (eventConfig[@"ids"] && [eventConfig[@"ids"] isKindOfClass:[NSArray class]]) {
             _uploadEventIds = eventConfig[@"ids"];
+        }
+        if (eventConfig[@"fids"]&& [eventConfig[@"fids"] isKindOfClass:[NSArray class]]) {
+            _realTimeEventIds = eventConfig[@"fids"];
+            NSMutableArray *allUploadEventIds = [NSMutableArray arrayWithArray:_uploadEventIds];
+            [allUploadEventIds addObjectsFromArray:_realTimeEventIds];
+            _uploadEventIds = [allUploadEventIds copy];
+
         }
         if (_uploadMaxInterval > 0) {
             NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:_uploadMaxInterval target:self selector:@selector(postEvents) userInfo:nil repeats:YES];
@@ -132,8 +140,7 @@ static OMEventManager * _instance = nil;
                 [self saveEvents];
             }
         }
-
-        [self checkPackageFull];
+        [self postPackageIfNeed];
     } else {
         OMLogD(@"event ids not contain %@",eventIDNumber);
     }
@@ -155,17 +162,23 @@ static OMEventManager * _instance = nil;
     [self addEvent:INIT_COMPLETE extraData:nil];
 }
 
-- (void)checkPackageFull {
+- (void)postPackageIfNeed {
     @synchronized (self) {
-        if (_eventList.count >= _eventPackageNumber) {
-            if ([OpenMediation isInitialized]) {
-                [self postEvents];
-            } else {
-                NSArray *oldEventArray = [_eventList subarrayWithRange:NSMakeRange(0, MIN(_eventList.count, OM_EVENT_SAVE_STEP))];
-                [self.eventList removeObjectsInArray:oldEventArray];
-                
+        if ([OpenMediation isInitialized]) {
+            BOOL hasRealTimeEvent = NO;
+            for (NSDictionary *event in _eventList) {
+                NSNumber *eid = [event objectForKey:@"eid"];
+                if(eid && [_realTimeEventIds containsObject:eid]) {
+                    hasRealTimeEvent = YES;
+                    break;
+                }
             }
-
+            if((_eventList.count >= _eventPackageNumber) || hasRealTimeEvent){
+                [self postEvents];
+            }
+        } else if (_eventList.count >= OM_EVENT_MAX_COUNT) {
+            NSArray *oldEventArray = [_eventList subarrayWithRange:NSMakeRange(0, MIN(_eventList.count, OM_EVENT_SAVE_STEP))];
+            [self.eventList removeObjectsInArray:oldEventArray];
         }
     }
 }
@@ -188,7 +201,7 @@ static OMEventManager * _instance = nil;
                 @synchronized (self) {
                     self.posting = NO;
                     if (!error) {
-                        [self checkPackageFull];
+                        [self postPackageIfNeed];
                     }
                 }
             }];

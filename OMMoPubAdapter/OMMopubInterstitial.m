@@ -40,10 +40,6 @@
     }
 }
 
-- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
-
-}
-
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
                           withError:(NSError *)error {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
@@ -53,22 +49,22 @@
 
 
 - (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial {
-    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
+    if (!_hasShown && _delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
         [_delegate interstitialCustomEventDidOpen:self];
     }
 }
 
 - (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial {
-    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]) {
+    if (!_hasShown && _delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]) {
         [_delegate interstitialCustomEventDidShow:self];
     }
 }
 
-- (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial {
+- (void)interstitialWillDismiss:(MPInterstitialAdController *)interstitial {
     
 }
 
-- (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial {
+- (void)interstitialDidDismiss:(MPInterstitialAdController *)interstitial {
     if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClose:)]) {
         [_delegate interstitialCustomEventDidClose:self];
     }
@@ -83,7 +79,7 @@
     if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClick:)]) {
         [_delegate interstitialCustomEventDidClick:self];
     }
-
+    _hasShown = YES;
 }
 
 @end

@@ -44,11 +44,7 @@ completionHandler:(loadCompletionHandler)completionHandler {
         [self cleanAds:pid];
     }
     
-    NSMutableArray *ads = [NSMutableArray array];
-    if ([_placmentAdsMap objectForKey:pid]) {
-        ads = [NSMutableArray arrayWithArray:[_placmentAdsMap objectForKey:pid]];
-    }
-    [self passExpireAds:ads];
+    NSArray *ads = [self getCampaignWithPid:pid];
     
     NSInteger cacheCount = 1;
     OMUnit *unit = [[OMConfig sharedInstance].adUnitMap objectForKey:pid];
@@ -77,9 +73,9 @@ completionHandler:(loadCompletionHandler)completionHandler {
                 if (campaigns && [campaigns isKindOfClass:[NSArray class]]) {
                     [self addCampaignsWithData:campaigns pid:pid];
                 }
-                OMCrossPromotionCampaign *ad = [self getCampaignWithPid:pid];
-                if (ad) {
-                    completionHandler(ad,nil);
+                NSArray *ads = [self getCampaignWithPid:pid];
+                if (ads.count>0) {
+                    completionHandler(ads[0],nil);
                     [self cacheCampaignMateriel:pid count:cacheCount];
                 } else {
                     completionHandler(nil,[[NSError alloc]initWithDomain:@"com.om.promotion" code:1001 userInfo: @{NSLocalizedDescriptionKey:@"no fill"}]);
@@ -124,17 +120,14 @@ completionHandler:(loadCompletionHandler)completionHandler {
     }
 }
 
-- (OMCrossPromotionCampaign*)getCampaignWithPid:(NSString*)pid {
-    OMCrossPromotionCampaign *c = nil;
+- (NSArray*)getCampaignWithPid:(NSString*)pid {
     NSMutableArray *ads = [NSMutableArray array];
     if([_placmentAdsMap objectForKey:pid]) {
         ads = [NSMutableArray arrayWithArray:[_placmentAdsMap objectForKey:pid]];
     }
     [self passExpireAds:ads];
-    if(ads.count > 0) {
-        c = ads[0];
-    }
-    return c;
+    [_placmentAdsMap setObject:ads forKey:pid];
+    return [ads copy];
 }
 
 - (void)passExpireAds:(NSMutableArray*)ads {

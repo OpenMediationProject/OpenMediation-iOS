@@ -6,7 +6,7 @@
 #import "OMRewardedVideoCustomEvent.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMMopubRewardedVideo : NSObject <OMRewardedVideoCustomEvent,MPRewardedVideoDelegate>
+@interface OMMopubRewardedVideo : NSObject <OMRewardedVideoCustomEvent,MPRewardedAdsDelegate>
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;
 

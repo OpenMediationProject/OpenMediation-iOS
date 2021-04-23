@@ -41,6 +41,18 @@
 		0C0F88E223D42E4B002AB5C7 /* OMScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C0F88E023D42E4B002AB5C7 /* OMScene.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0C0F88E323D42E4B002AB5C7 /* OMScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0F88E123D42E4B002AB5C7 /* OMScene.m */; };
 		0C1796DE25838D980081ED29 /* OMSigMobAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CCF87A625821D78005463AD /* OMSigMobAdapter.framework */; };
+		0C3105A026258FD4000898E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C31059F26258FD4000898E2 /* AppDelegate.swift */; };
+		0C3105A426258FD5000898E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3105A326258FD4000898E2 /* ViewController.swift */; };
+		0C3105A726258FD5000898E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C3105A526258FD5000898E2 /* Main.storyboard */; };
+		0C3105A926258FD7000898E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C3105A826258FD7000898E2 /* Assets.xcassets */; };
+		0C3105AC26258FD7000898E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C3105AA26258FD7000898E2 /* LaunchScreen.storyboard */; };
+		0C3105F92625909A000898E2 /* CrossPromotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3105F32625909A000898E2 /* CrossPromotViewController.swift */; };
+		0C3105FA2625909A000898E2 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3105F42625909A000898E2 /* VideoViewController.swift */; };
+		0C3105FB2625909A000898E2 /* NativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3105F62625909A000898E2 /* NativeViewController.swift */; };
+		0C3105FC2625909A000898E2 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3105F72625909A000898E2 /* SplashViewController.swift */; };
+		0C3105FD2625909A000898E2 /* InterstitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3105F82625909A000898E2 /* InterstitialViewController.swift */; };
+		0C310641262590E5000898E2 /* BannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C310640262590E5000898E2 /* BannerViewController.swift */; };
+		0C3106E426259466000898E2 /* OpenMediation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C70AA2223D162E70021D67A /* OpenMediation.framework */; };
 		0C38505D25DE77C900763CD5 /* OMHyBidBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA6197625DE68DB0008AC1F /* OMHyBidBid.m */; };
 		0C38505E25DE77C900763CD5 /* OMHyBidBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CA6197525DE68DB0008AC1F /* OMHyBidBid.h */; };
 		0C38505F25DE77C900763CD5 /* OMHyBidAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CA6194925DE683E0008AC1F /* OMHyBidAdapter.h */; };
@@ -719,6 +731,19 @@
 		0C0F88DC23D42E3A002AB5C7 /* OMUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMUnit.h; sourceTree = "<group>"; };
 		0C0F88E023D42E4B002AB5C7 /* OMScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMScene.h; sourceTree = "<group>"; };
 		0C0F88E123D42E4B002AB5C7 /* OMScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMScene.m; sourceTree = "<group>"; };
+		0C31059D26258FD4000898E2 /* OpenMediationSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMediationSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C31059F26258FD4000898E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0C3105A326258FD4000898E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0C3105A626258FD5000898E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0C3105A826258FD7000898E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0C3105AB26258FD7000898E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0C3105AD26258FD7000898E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0C3105F32625909A000898E2 /* CrossPromotViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrossPromotViewController.swift; sourceTree = "<group>"; };
+		0C3105F42625909A000898E2 /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		0C3105F62625909A000898E2 /* NativeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeViewController.swift; sourceTree = "<group>"; };
+		0C3105F72625909A000898E2 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		0C3105F82625909A000898E2 /* InterstitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterstitialViewController.swift; sourceTree = "<group>"; };
+		0C310640262590E5000898E2 /* BannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerViewController.swift; sourceTree = "<group>"; };
 		0C38507725DE79A700763CD5 /* OMHyBidBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMHyBidBanner.h; sourceTree = "<group>"; };
 		0C38507825DE79A700763CD5 /* OMHyBidBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMHyBidBanner.m; sourceTree = "<group>"; };
 		0C38512325DFC11200763CD5 /* OMHyBidInterstitial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMHyBidInterstitial.h; sourceTree = "<group>"; };
@@ -1264,6 +1289,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0C31059A26258FD4000898E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C3106E426259466000898E2 /* OpenMediation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0C70AA1F23D162E70021D67A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1455,6 +1488,25 @@
 			path = OpenMediationModel;
 			sourceTree = "<group>";
 		};
+		0C31059E26258FD4000898E2 /* OpenMediationSwiftDemo */ = {
+			isa = PBXGroup;
+			children = (
+				0C31059F26258FD4000898E2 /* AppDelegate.swift */,
+				0C3105A326258FD4000898E2 /* ViewController.swift */,
+				0C310640262590E5000898E2 /* BannerViewController.swift */,
+				0C3105F62625909A000898E2 /* NativeViewController.swift */,
+				0C3105F82625909A000898E2 /* InterstitialViewController.swift */,
+				0C3105F42625909A000898E2 /* VideoViewController.swift */,
+				0C3105F72625909A000898E2 /* SplashViewController.swift */,
+				0C3105F32625909A000898E2 /* CrossPromotViewController.swift */,
+				0C3105A826258FD7000898E2 /* Assets.xcassets */,
+				0C3105AA26258FD7000898E2 /* LaunchScreen.storyboard */,
+				0C3105A526258FD5000898E2 /* Main.storyboard */,
+				0C3105AD26258FD7000898E2 /* Info.plist */,
+			);
+			path = OpenMediationSwiftDemo;
+			sourceTree = "<group>";
+		};
 		0C70AA1823D162E70021D67A = {
 			isa = PBXGroup;
 			children = (
@@ -1479,6 +1531,7 @@
 				0CE9694E25BFFA45005BD497 /* OMKuaiShouAdapter */,
 				0CA6194825DE632A0008AC1F /* OMHyBidAdapter */,
 				0C981BC023D69A1D0074B43A /* OpenMediationDemo */,
+				0C31059E26258FD4000898E2 /* OpenMediationSwiftDemo */,
 				4924037623F690DE00687456 /* Script */,
 				0C70AA2323D162E70021D67A /* Products */,
 				0C981B9723D589BA0074B43A /* Frameworks */,
@@ -1511,6 +1564,7 @@
 				0CCF87A625821D78005463AD /* OMSigMobAdapter.framework */,
 				0CE7B37A25C141C6006E7FA6 /* OMKuaiShouAdapter.framework */,
 				0CA61A0C25DE70300008AC1F /* OMHyBidAdapter.framework */,
+				0C31059D26258FD4000898E2 /* OpenMediationSwiftDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2747,6 +2801,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		0C31059C26258FD4000898E2 /* OpenMediationSwiftDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0C3105AE26258FD7000898E2 /* Build configuration list for PBXNativeTarget "OpenMediationSwiftDemo" */;
+			buildPhases = (
+				0C31059926258FD4000898E2 /* Sources */,
+				0C31059A26258FD4000898E2 /* Frameworks */,
+				0C31059B26258FD4000898E2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenMediationSwiftDemo;
+			productName = OpenMediationSwiftDemo;
+			productReference = 0C31059D26258FD4000898E2 /* OpenMediationSwiftDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
 		0C70AA2123D162E70021D67A /* OpenMediation */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0C70AA3623D162E70021D67A /* Build configuration list for PBXNativeTarget "OpenMediation" */;
@@ -3153,9 +3224,13 @@
 		0C70AA1923D162E70021D67A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = AdTiming;
 				TargetAttributes = {
+					0C31059C26258FD4000898E2 = {
+						CreatedOnToolsVersion = 12.4;
+					};
 					0C70AA2123D162E70021D67A = {
 						CreatedOnToolsVersion = 11.3;
 					};
@@ -3250,11 +3325,22 @@
 				0CCF879325821D78005463AD /* OMSigMobAdapter */,
 				0CE7B36725C141C6006E7FA6 /* OMKuaiShouAdapter */,
 				0CA619FB25DE70300008AC1F /* OMHyBidAdapter */,
+				0C31059C26258FD4000898E2 /* OpenMediationSwiftDemo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0C31059B26258FD4000898E2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C3105AC26258FD7000898E2 /* LaunchScreen.storyboard in Resources */,
+				0C3105A926258FD7000898E2 /* Assets.xcassets in Resources */,
+				0C3105A726258FD5000898E2 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0C70AA2023D162E70021D67A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3423,11 +3509,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Script/publish.sh\" OMSigmobAdapter\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0C31059926258FD4000898E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C3105FB2625909A000898E2 /* NativeViewController.swift in Sources */,
+				0C3105A426258FD5000898E2 /* ViewController.swift in Sources */,
+				0C310641262590E5000898E2 /* BannerViewController.swift in Sources */,
+				0C3105A026258FD4000898E2 /* AppDelegate.swift in Sources */,
+				0C3105FC2625909A000898E2 /* SplashViewController.swift in Sources */,
+				0C3105FA2625909A000898E2 /* VideoViewController.swift in Sources */,
+				0C3105F92625909A000898E2 /* CrossPromotViewController.swift in Sources */,
+				0C3105FD2625909A000898E2 /* InterstitialViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0C70AA1E23D162E70021D67A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3886,6 +3986,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0C3105A526258FD5000898E2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0C3105A626258FD5000898E2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0C3105AA26258FD7000898E2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0C3105AB26258FD7000898E2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		0C981BCA23D69A1D0074B43A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3905,6 +4021,60 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0C3105AF26258FD7000898E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R9GTCMNR3E;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = OpenMediationSwiftDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.swiftdemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0C3105B026258FD7000898E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R9GTCMNR3E;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = OpenMediationSwiftDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.swiftdemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		0C70AA3423D162E70021D67A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4155,7 +4325,7 @@
 					"-ObjC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.at.stool;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -4183,7 +4353,7 @@
 					"-ObjC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.at.stool;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -4928,7 +5098,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MARKETING_VERSION = 1.2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.omtencentadadapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.tencentadadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4954,7 +5124,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MARKETING_VERSION = 1.2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.omtencentadadapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.tencentadadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4980,7 +5150,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MARKETING_VERSION = 1.2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.omironsourceadapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.ironsourceadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5006,7 +5176,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MARKETING_VERSION = 1.2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.omironsourceadapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.ironsourceadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5032,7 +5202,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MARKETING_VERSION = 1.2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.omfyberadapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.fyberadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5058,7 +5228,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MARKETING_VERSION = 1.2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.omfyberadapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.fyberadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5084,7 +5254,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MARKETING_VERSION = 1.2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.ommopubadapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.mopubadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5110,7 +5280,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MARKETING_VERSION = 1.2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.ommopubadapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.mopubadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5120,6 +5290,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0C3105AE26258FD7000898E2 /* Build configuration list for PBXNativeTarget "OpenMediationSwiftDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C3105AF26258FD7000898E2 /* Debug */,
+				0C3105B026258FD7000898E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0C70AA1C23D162E70021D67A /* Build configuration list for PBXProject "OpenMediation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

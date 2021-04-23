@@ -191,8 +191,9 @@
     if ((_loadingCount + _loadSuccessCount < self.cacheCount) && (_loadingCount < _maxParallelLoadCount)) {
         if (self.loadIndex < self.priorityList.count) {
             NSString *instanceID = self.priorityList[self.loadIndex];
-            if ([[self.instanceLoadState objectForKey:instanceID]integerValue] == OMInstanceLoadStateSuccess) {
+            if ([[self.instanceLoadState objectForKey:instanceID]integerValue] >= OMInstanceLoadStateSuccess) {
                 self.loadIndex++;
+                [self checkOptimalInstance];
                 [self addLoadingInstance];
             } else {
                 [self loadGroupInstane];
