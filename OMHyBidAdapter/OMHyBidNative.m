@@ -54,8 +54,10 @@
     self.nativeAd = nativeAd;
     nativeAd.delegate = self;
     OMHyBidNativeAd *hyBidNativeAd = [[OMHyBidNativeAd alloc] initWithHybidNativeAd:nativeAd];
-    if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)]) {
-        [_bidDelegate bidReseponse:self bid:@{@"price":nativeAd.ad.eCPM, @"adObject":hyBidNativeAd} error:nil];
+    Class utilsClass = NSClassFromString(@"HyBidHeaderBiddingUtils");
+    if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)] && utilsClass && [utilsClass respondsToSelector:@selector(eCPMFromAd:withDecimalPlaces:)]) {
+        NSString *price = [utilsClass eCPMFromAd:nativeAd.ad withDecimalPlaces:THREE_DECIMAL_PLACES];
+        [_bidDelegate bidReseponse:self bid:@{@"price":price,@"adObject":hyBidNativeAd} error:nil];
     }
 }
 

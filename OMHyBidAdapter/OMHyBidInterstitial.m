@@ -43,8 +43,11 @@
 }
 
 - (void)interstitialDidLoad {
-    if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)]) {
-        [_bidDelegate bidReseponse:self bid:@{@"price":_fullscreenVideoAd.ad.eCPM} error:nil];
+    Class utilsClass = NSClassFromString(@"HyBidHeaderBiddingUtils");
+    if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)] && utilsClass && [utilsClass respondsToSelector:@selector(eCPMFromAd:withDecimalPlaces:)]) {
+        NSString *price = [utilsClass eCPMFromAd:self.fullscreenVideoAd.ad withDecimalPlaces:THREE_DECIMAL_PLACES];
+        [_bidDelegate bidReseponse:self bid:@{@"price":price} error:nil];
+        NSLog(@"PubNative price %@",price);
     }
 }
 

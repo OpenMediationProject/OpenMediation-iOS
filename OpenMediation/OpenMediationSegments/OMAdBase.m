@@ -371,31 +371,43 @@
 
 - (void)sortInstancePriorityWithIns:(NSArray*)ins c2sBidResponses:(NSDictionary*)bidResponses {
     [self.wfAllBidResonses addEntriesFromDictionary:bidResponses];
-    NSMutableArray *instanceList = [NSMutableArray arrayWithArray:ins];
+    NSMutableArray *c2sInstances = [NSMutableArray array];
     
     for (NSString *instanceID in bidResponses) {
         OMBidResponse *response = [bidResponses objectForKey:instanceID];
-        [instanceList addObject:@{@"id":@([instanceID integerValue]),@"i":@(0),@"r":@(response.price),@"rp":@(1)}];
+        [c2sInstances addObject:@{@"id":@([instanceID integerValue]),@"i":@(0),@"r":@(response.price),@"rp":@(1)}];
     }
     
-    NSArray *sortedIns = [instanceList sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull a, id  _Nonnull b) {
-        NSComparisonResult result = [a[@"r"] compare:b[@"r"]];
-        return  -result;
-    }];
-    NSMutableArray *insList = [NSMutableArray array];
+    NSMutableArray *instanceList = [NSMutableArray arrayWithArray:ins];
+    for (NSDictionary *c2sIns in c2sInstances) {
+        NSInteger inserIndex = -1;
+        for (int i=0; i<instanceList.count; i++) {
+            NSDictionary *ins = instanceList[i];
+            if([c2sIns[@"r"] compare:ins[@"r"]] == NSOrderedDescending) {
+                inserIndex = i;
+                break;
+            }
+        }
+        if (inserIndex >=0 && inserIndex< instanceList.count) {
+            [instanceList insertObject:c2sIns atIndex:inserIndex];
+        }else {
+            [instanceList addObject:c2sIns];
+        }
+    }
+    NSMutableArray *insPriority = [NSMutableArray array];
     NSMutableDictionary *wfInsRevenueData = [NSMutableDictionary dictionary];
 
-    for (NSInteger i=0; i<[sortedIns count]; i++) {
-        NSDictionary *insData  = sortedIns[i];
+    for (NSInteger i=0; i<[instanceList count]; i++) {
+        NSDictionary *insData  = instanceList[i];
         NSString *insId = [NSString stringWithFormat:@"%@",[insData objectForKey:@"id"]];
-        [insList addObject:insId];
+        [insPriority addObject:insId];
         [wfInsRevenueData setObject:insData forKey:insId];
     }
     
-    OMLogD(@"%@ waterfall response ins %@",self.pid,[insList componentsJoinedByString:@","]);
+    OMLogD(@"%@ waterfall response ins %@",self.pid,[insPriority componentsJoinedByString:@","]);
     
     self.wfInsRevenueData = [wfInsRevenueData copy];
-    [self.adLoader loadWithPriority:insList];
+    [self.adLoader loadWithPriority:insPriority];
 
 }
 

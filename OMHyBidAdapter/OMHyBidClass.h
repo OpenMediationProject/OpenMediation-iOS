@@ -133,6 +133,17 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 - (void)bidReseponse:(NSObject *_Nullable)bidAdapter bid:(nullable NSDictionary*)bidInfo error:(nullable NSError*)error;
 @end
 
+typedef enum {
+    TWO_DECIMAL_PLACES,
+    THREE_DECIMAL_PLACES,
+} HyBidKeywordMode;
+
+@interface HyBidHeaderBiddingUtils : NSObject
+
++ (NSString *)eCPMFromAd:(HyBidAd *)ad withDecimalPlaces:(HyBidKeywordMode)decimalPlaces;
+
+@end
+
 NS_ASSUME_NONNULL_END
 
 #endif /* OMHyBidClass_h */
