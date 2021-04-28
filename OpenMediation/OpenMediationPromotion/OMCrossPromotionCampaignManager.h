@@ -31,7 +31,7 @@ completionHandler:(loadCompletionHandler)completionHandler;
 
 - (void)addCampaignsWithData:(NSArray*)campaignsData pid:(NSString*)pid;
 
-- (OMCrossPromotionCampaign*)getCampaignWithPid:(NSString*)pid;
+- (NSArray *)getCampaignWithPid:(NSString*)pid;
 
 
 @end
