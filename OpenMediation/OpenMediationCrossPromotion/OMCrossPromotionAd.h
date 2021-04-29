@@ -9,7 +9,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMCrossPromotionAd : OMAdBase
 
-@property (nonatomic, copy) NSString *wfReqId;
 @property (nonatomic, weak)id<OMCrossPromotionAdDelegate> delegate;
 
 - (NSString*)placementID;

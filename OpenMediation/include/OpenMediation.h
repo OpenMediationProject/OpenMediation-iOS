@@ -1,1 +1,13 @@
-../OpenMediation.h
+
+#import "OpenMediation_Ref.h"
+#import "OMBanner.h"
+#import "OMInterstitial.h"
+#import "OMNative.h"
+#import "OMNativeAd.h"
+#import "OMNativeView.h"
+#import "OMNativeMediaView.h"
+#import "OMRewardedVideo.h"
+#import "OMSplash.h"
+#import "OMSplashDelegate.h"
+#import "OMCrossPromotion.h"
+#import "OMCrossPromotionDelegate.h"
