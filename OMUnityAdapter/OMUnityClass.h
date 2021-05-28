@@ -62,7 +62,44 @@ typedef NS_ENUM(NSInteger, UnityAdsError) {
     kUnityAdsErrorInternalError,
 };
 
-
+typedef NS_ENUM(NSInteger, UnityAdsShowError)
+    {
+    /**
+     * Error related to SDK not initialized
+     */
+    kUnityShowErrorNotInitialized,
+    
+    /**
+     * Error related to placement not being ready
+     */
+    kUnityShowErrorNotReady,
+    
+    /**
+     * Error related to video player
+     */
+    kUnityShowErrorVideoPlayerError,
+    
+    /**
+     * Error related to invalid arguments
+     */
+    kUnityShowErrorInvalidArgument,
+     
+    /**
+     * Error related to internet connection
+     */
+    kUnityShowErrorNoConnection,
+       
+    /**
+     * Error related to ad is already being shown
+     */
+    kUnityShowErrorAlreadyShowing,
+    
+    /**
+     * Error related to environment or internal services
+     */
+    kUnityShowErrorInternalError
+  
+};
 
 /**
  *  An enumeration for the completion state of an ad.
@@ -82,6 +119,17 @@ typedef NS_ENUM(NSInteger, UnityAdsFinishState) {
     kUnityAdsFinishStateCompleted
 };
 
+
+typedef NS_ENUM(NSInteger, UnityAdsShowCompletionState) {
+   /**
+    *  A state that indicates that the user skipped the ad.
+    */
+   kUnityShowCompletionStateSkipped,
+   /**
+    *  A state that indicates that the ad was played entirely.
+    */
+   kUnityShowCompletionStateCompleted
+};
 
 /**
  *  An enumerate that describes the state of `UnityAds` placements.
@@ -202,6 +250,65 @@ typedef NS_ENUM(NSInteger, UnityServicesError) {
 @end
 
 
+/**
+ *  An enumeration for the error category of initialization errors
+ */
+typedef NS_ENUM(NSInteger, UnityAdsInitializationError)
+    {
+    /**
+     *  Error related to environment or internal services.
+     */
+    kUnityInitializationErrorInternalError,
+    
+    /**
+     * Error related to invalid arguments
+     */
+    kUnityInitializationErrorInvalidArgument,
+    
+    /**
+     * Error related to url being blocked
+     */
+    kUnityInitializationErrorAdBlockerDetected
+  
+};
+
+/**
+ * The `UnityAdsInitializationDelegate` defines the methods which will notify UnityAds
+ * has either successfully initialized or failed with error category and error message
+ */
+
+@protocol UnityAdsInitializationDelegate <NSObject>
+/**
+ * Called when `UnityAds` is successfully initialized
+ */
+- (void)initializationComplete;
+/**
+ * Called when `UnityAds` is failed in initialization.
+ * @param error
+ *           if `kUnityInitializationErrorInternalError`, initialization failed due to environment or internal services
+ *           if `kUnityInitializationErrorInvalidArgument`, initialization failed due to invalid argument(e.g. game ID)
+ *           if `kUnityInitializationErrorAdBlockerDetected`, initialization failed due to url being blocked
+ * @param message A human readable error message
+ */
+- (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(NSString *)message;
+
+@end
+
+@class UADSLoadOptions;
+
+@class UADSShowOptions;
+
+@protocol UnityAdsShowDelegate <NSObject>
+
+- (void)unityAdsShowComplete:(NSString *)placementId withFinishState:(UnityAdsShowCompletionState)state;
+
+- (void)unityAdsShowFailed:(NSString *)placementId withError:(UnityAdsShowError)error withMessage:(NSString *)message;
+
+- (void)unityAdsShowStart:(NSString *)placementId;
+
+- (void)unityAdsShowClick:(NSString *)placementId;
+
+@end
 
 @interface UnityAds : NSObject
 
@@ -227,6 +334,15 @@ typedef NS_ENUM(NSInteger, UnityServicesError) {
 /**
  *  Initializes UnityAds. UnityAds should be initialized when app starts.
  *
+ *  @param gameId   Unique identifier for a game, given by Unity Ads admin tools or Unity editor.
+ *  @param initializationDelegate delegate for UnityAdsInitialization
+ */
++ (void)initialize:(NSString *)gameId
+        initializationDelegate:(nullable id<UnityAdsInitializationDelegate>)initializationDelegate;
+
+/**
+ *  Initializes UnityAds. UnityAds should be initialized when app starts.
+ *
  *  @param gameId        Unique identifier for a game, given by Unity Ads admin tools or Unity editor.
  *  @param delegate      delegate for UnityAdsDelegate callbacks
  *  @param testMode      Set this flag to `YES` to indicate test mode and show only test ads.
@@ -236,13 +352,24 @@ typedef NS_ENUM(NSInteger, UnityServicesError) {
           testMode:(BOOL)testMode __attribute__((deprecated("Please migrate to using initialize without a delegate and add the delegate with the addDelegate method")));
 
 /**
-*  Initializes UnityAds. UnityAds should be initialized when app starts.
-*
-*  @param gameId        Unique identifier for a game, given by Unity Ads admin tools or Unity editor.
-*  @param testMode      Set this flag to `YES` to indicate test mode and show only test ads.
-*/
+ *  Initializes UnityAds. UnityAds should be initialized when app starts.
+ *
+ *  @param gameId        Unique identifier for a game, given by Unity Ads admin tools or Unity editor.
+ *  @param testMode      Set this flag to `YES` to indicate test mode and show only test ads.
+ */
 + (void)initialize:(NSString *)gameId
           testMode:(BOOL)testMode;
+
+/**
+ * Initializes UnityAds. UnityAds should be initialized when app starts.
+ *
+ *  @param gameId        Unique identifier for a game, given by Unity Ads admin tools or Unity editor.
+ *  @param testMode      Set this flag to `YES` to indicate test mode and show only test ads.
+ *  @param initializationDelegate delegate for UnityAdsInitialization
+ */
++ (void)initialize:(NSString *)gameId
+          testMode:(BOOL)testMode
+          initializationDelegate:(nullable id<UnityAdsInitializationDelegate>)initializationDelegate;
 
 /**
  *  Initializes UnityAds. UnityAds should be initialized when app starts.
@@ -271,25 +398,88 @@ typedef NS_ENUM(NSInteger, UnityServicesError) {
     enablePerPlacementLoad:(BOOL)enablePerPlacementLoad;
 
 /**
+ *  Initializes UnityAds. UnityAds should be initialized when app starts.
+ *  Note: The `load` API is in closed beta and available upon invite only. If you would like to be considered for the beta, please contact Unity Ads Support.
+ *
+ *  @param gameId        Unique identifier for a game, given by Unity Ads admin tools or Unity editor.
+ *  @param testMode      Set this flag to `YES` to indicate test mode and show only test ads.
+ *  @param enablePerPlacementLoad Set this flag to `YES` to disable automatic placement caching. When this is enabled, developer must call `load` on placements before calling show
+ *  @param initializationDelegate delegate for UnityAdsInitialization
+ */
++ (void)initialize:(NSString *)gameId
+                  testMode:(BOOL)testMode
+    enablePerPlacementLoad:(BOOL)enablePerPlacementLoad
+    initializationDelegate:(nullable id<UnityAdsInitializationDelegate>)initializationDelegate;
+
+/**
  *  Load a placement to make it available to show. Ads generally take a few seconds to finish loading before they can be shown.
  *  Note: The `load` API is in closed beta and available upon invite only. If you would like to be considered for the beta, please contact Unity Ads Support.
  *
  *  @param placementId The placement ID, as defined in Unity Ads admin tools.
  */
 + (void)load:(NSString *)placementId;
+
+/**
+ *  Load a placement to make it available to show. Ads generally take a few seconds to finish loading before they can be shown.
+ *  Note: The `load` API is in closed beta and available upon invite only. If you would like to be considered for the beta, please contact Unity Ads Support.
+ *
+ *  @param placementId The placement ID, as defined in Unity Ads admin tools.
+ *  @param loadDelegate The load delegate.
+ */
++ (void) load:(NSString *)placementId
+ loadDelegate:(nullable id<UnityAdsLoadDelegate>)loadDelegate;
+
+/**
+ *  Load a placement to make it available to show. Ads generally take a few seconds to finish loading before they can be shown.
+ *  Note: The `load` API is in closed beta and available upon invite only. If you would like to be considered for the beta, please contact Unity Ads Support.
+ *
+ *  @param placementId The placement ID, as defined in Unity Ads admin tools.
+ *  @param options The load options.
+ *  @param loadDelegate The load delegate.
+ */
++ (void) load:(NSString *)placementId
+      options:(UADSLoadOptions *)options
+ loadDelegate:(nullable id<UnityAdsLoadDelegate>)loadDelegate;
+
+
 /**
  *  Show an ad using the defaul placement.
  *
  *  @param viewController The `UIViewController` that is to present the ad view controller.
  */
-+ (void)show:(UIViewController *)viewController;
++ (void)show:(UIViewController *)viewController __attribute__((deprecated("Please migrate to using show call with placementId and showDelegate instead")));
 /**
  *  Show an ad using the provided placement ID.
  *
  *  @param viewController The `UIViewController` that is to present the ad view controller.
  *  @param placementId    The placement ID, as defined in Unity Ads admin tools.
  */
-+ (void)show:(UIViewController *)viewController placementId:(NSString *)placementId;
++ (void)show:(UIViewController *)viewController placementId:(NSString *)placementId __attribute__((deprecated("Please migrate to using show call with showDelegate instead")));;
+/**
+ *  Show an ad using the provided placement ID.
+ *
+ *  @param viewController The `UIViewController` that is to present the ad view controller.
+ *  @param placementId    The placement ID, as defined in Unity Ads admin tools.
+ *  @param showDelegate The show delegate.
+ */
++ (void)show:(UIViewController *)viewController placementId:(NSString *)placementId showDelegate:(nullable id<UnityAdsShowDelegate>)showDelegate;
+/**
+ *  Show an ad using the provided placement ID.
+ *
+ *  @param viewController The `UIViewController` that is to present the ad view controller.
+ *  @param placementId    The placement ID, as defined in Unity Ads admin tools.
+ *  @param options    Additional options
+ */
++ (void)show:(UIViewController *)viewController placementId:(NSString *)placementId options:(UADSShowOptions *)options __attribute__((deprecated("Please migrate to using show call with showDelegate instead")));;
+/**
+ *  Show an ad using the provided placement ID.
+ *
+ *  @param viewController The `UIViewController` that is to present the ad view controller.
+ *  @param placementId    The placement ID, as defined in Unity Ads admin tools.
+ *  @param options    Additional options
+ *  @param showDelegate The show delegate.
+ */
++ (void)show:(UIViewController *)viewController placementId:(NSString *)placementId options:(UADSShowOptions *)options showDelegate:(nullable id<UnityAdsShowDelegate>)showDelegate;
 /**
  *  Provides the currently assigned `UnityAdsDelegate`. Meant to support use of single delegate
  *
@@ -379,6 +569,12 @@ typedef NS_ENUM(NSInteger, UnityServicesError) {
  *  @return If `YES`, Unity Ads has been successfully initialized.
  */
 + (BOOL)isInitialized;
+/**
+ * Get request token.
+ *
+ * @return Active token or null if no active token is available.
+ */
++ (NSString* __nullable)getToken;
 
 @end
 

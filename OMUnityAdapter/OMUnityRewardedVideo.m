@@ -30,10 +30,10 @@
 }
 
 - (void)show:(UIViewController*)vc {
-    Class unityClass = NSClassFromString(@"UnityAds");
-    if (unityClass && [unityClass respondsToSelector:@selector(show: placementId:)]) {
-        [unityClass show:vc placementId:_pid];
+    if ([self isReady]) {
+        [[OMUnityRouter sharedInstance] showVideo:_pid withVC:vc];
     }
+    
 }
 
 #pragma mark -- OMUnityDelegate
@@ -82,6 +82,12 @@
         [_delegate rewardedVideoCustomEventDidClose:self];
     }
     
+}
+
+- (void)omUnityShowFailed:(NSError *)error {
+    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
+        [_delegate rewardedVideoCustomEventDidFailToShow:self withError:error];
+    }
 }
 
 @end

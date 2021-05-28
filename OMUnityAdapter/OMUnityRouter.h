@@ -16,15 +16,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)omUnityDidClick;
 - (void)omUnityRewardedVideoEnd;
 - (void)omUnityDidFinish:(BOOL)skipped;
+- (void)omUnityFailToShow:(NSError *)error;
 
 @end
 
-@interface OMUnityRouter : NSObject<UnityAdsDelegate,UnityAdsExtendedDelegate>
+@interface OMUnityRouter : NSObject<UnityAdsDelegate,UnityAdsExtendedDelegate,UnityAdsShowDelegate>
 @property (nonatomic, strong) NSMutableDictionary *placementDelegateMap;
 
 + (instancetype)sharedInstance;
 - (void)registerPidDelegate:(NSString*)pid delegate:(id)delegate;
-
+- (void)showVideo:(NSString *)pid withVC:(UIViewController*)vc;
 
 @end
 

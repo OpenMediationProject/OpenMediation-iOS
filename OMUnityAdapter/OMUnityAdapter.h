@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 #import "OMMediationAdapter.h"
 
-static NSString * const UnityAdapterVersion = @"2.0.2";
+static NSString * const UnityAdapterVersion = @"2.0.3";
 
 @interface OMUnityAdapter : NSObject<OMMediationAdapter>
 
