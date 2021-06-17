@@ -1,8 +1,8 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#import "OMHyBidBid.h"
-#import "OMHyBidClass.h"
+#import "OMPubNativeBid.h"
+#import "OMPubNativeClass.h"
 #import "OMInterstitialCustomEvent.h"
 #import "OMRewardedVideoCustomEvent.h"
 #import "OMBannerCustomEvent.h"
@@ -39,13 +39,13 @@ typedef void (^bidCompletionHandler)(NSDictionary *bidResponse);
 
 static NSMutableDictionary *bidBlockMapNew = nil;
 
-@protocol OMHyBidBid<OMInterstitialCustomEvent,OMCustomEventDelegate,OMRewardedVideoCustomEvent,OMBannerCustomEvent,OMNativeCustomEvent>
+@protocol OMPubNativeBid<OMInterstitialCustomEvent,OMCustomEventDelegate,OMRewardedVideoCustomEvent,OMBannerCustomEvent,OMNativeCustomEvent>
 
 @property(nonatomic, weak, nullable) id<HyBidDelegate> bidDelegate;
 
 @end
 
-@implementation OMHyBidBid
+@implementation OMPubNativeBid
 
 + (void)bidWithNetworkItem:(OMBidNetworkItem*)networkItem adFormat:(NSString*)format adSize:(CGSize)size responseCallback:(void(^)(NSDictionary *bidResponseData))callback {
      NSString *appKey = networkItem.appKey;
@@ -71,7 +71,7 @@ static NSMutableDictionary *bidBlockMapNew = nil;
     
     if (adapterClass && ([adapterClass instancesRespondToSelector:@selector(initWithParameter:)] || [adapterClass instancesRespondToSelector:@selector(initWithFrame:adParameter:rootViewController:)]||[adapterClass instancesRespondToSelector:@selector(initWithParameter:rootVC:)]) ) {
         
-        id <OMHyBidBid> adapter = nil;
+        id <OMPubNativeBid> adapter = nil;
         
         if ([adapterClass instancesRespondToSelector:@selector(initWithParameter:)]) { //IV RV
             adapter = [[instanceContainerCls sharedInstance]getInstance:instanceID block:^id{

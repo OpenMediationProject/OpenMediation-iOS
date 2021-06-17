@@ -16,7 +16,7 @@
         return;
     }
     
-    [OMConfig sharedInstance].initState = OMInitStateInitializing;
+    [OMConfig sharedInstance].initState = ([[OMConfig sharedInstance]initSuccess]?OMInitStateReinitialize:OMInitStateInitializing);
     OMLogD(@"init key = %@" ,appKey);
     [OMConfig sharedInstance].baseHost = host;
     [OMConfig sharedInstance].appKey = appKey;
@@ -32,7 +32,9 @@
                 completionHandler(nil);
             } else {
                 OMLogD(@"init failed:%@", error.localizedDescription);
-                [OMConfig sharedInstance].initState = OMInitStateDefault;
+                if (![[OMConfig sharedInstance]initSuccess]) {
+                    [OMConfig sharedInstance].initState = OMInitStateDefault;
+                }
                 NSError * omError = [OMError omRequestError:OMErrorModuleInit error:error];
                 NSError * developerError = [OMSDKError errorWithAdtError:omError];
                 [OMSDKError throwDeveloperError:developerError];

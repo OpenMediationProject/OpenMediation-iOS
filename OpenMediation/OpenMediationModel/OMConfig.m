@@ -9,6 +9,10 @@
 #import "OMToolUmbrella.h"
 #import "OMEventManager.h"
 
+@interface OpenMediation : NSObject
++ (void)reinit;
+@end
+
 NSString *kOpenMediatonInitSuccessNotification = @"kOpenMediatonInitSuccessNotification";
 
 static OMConfig *_instance = nil;
@@ -29,7 +33,7 @@ static OMConfig *_instance = nil;
                            @(OpenMediationAdFormatNative):@"Native",\
                            @(OpenMediationAdFormatInterstitial):@"Interstitial",\
                            @(OpenMediationAdFormatRewardedVideo):@"RewardedVideo"};
-        _adnSDKName = @{@(OMAdNetworkPangle):@"Pangle",@(OMAdNetworkHelium):@"Helium"};
+        _adnSDKName = @{@(OMAdNetworkPangle):@"Pangle",@(OMAdNetworkHelium):@"Helium",@(OMAdNetworkPubNative):@"PubNative"};
         _baseHost = @"";
         _appKey = @"";
         _hbUrl = @"";
@@ -39,13 +43,6 @@ static OMConfig *_instance = nil;
         _erUrl = @"";
         _cdUrl = @"";
         _openDebug = YES;
-        _adnNameMap = [NSMutableDictionary dictionary];
-        _adnAppkeyMap = [NSMutableDictionary dictionary];
-        _adnNickName = [NSMutableDictionary dictionary];
-        _adUnitList = [NSMutableArray array];
-        _adUnitMap = [NSMutableDictionary dictionary];
-        _instanceMap = [NSMutableDictionary dictionary];
-        _adnPlacementMap = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -55,7 +52,7 @@ static OMConfig *_instance = nil;
 }
 
 - (BOOL)initSuccess {
-    return (_initState == OMInitStateInitialized);
+    return (_initState >= OMInitStateInitialized);
 }
 
 
@@ -66,12 +63,27 @@ static OMConfig *_instance = nil;
     } else if (_initState == OMInitStateInitialized) {
         [[OMEventManager sharedInstance]initSuccess];
         [[NSNotificationCenter defaultCenter]postNotificationName:kOpenMediatonInitSuccessNotification object:nil];
+    } else if (_initState == OMInitStateReinitialize) {
+        [[OMEventManager sharedInstance]addEvent:REINIT_START extraData:nil];
     }
 }
 
 
 - (void)loadCongifData:(NSDictionary *)configData {
+    
+    _adnNameMap = [NSMutableDictionary dictionary];
+    _adnAppkeyMap = [NSMutableDictionary dictionary];
+    _adnNickName = [NSMutableDictionary dictionary];
+    _adUnitList = [NSMutableArray array];
+    _adUnitMap = [NSMutableDictionary dictionary];
+    _instanceMap = [NSMutableDictionary dictionary];
+    _adnPlacementMap = [NSMutableDictionary dictionary];
+    
     _openDebug = [[configData objectForKey:@"d"]boolValue];
+    _reinitInterval = [[configData objectForKey:@"ri"] integerValue];
+    if (_reinitInterval >0) {
+        [self performSelector:@selector(updateConfig)withObject:nil afterDelay:(_reinitInterval*60)];
+    }
     _impressionDataCallBack = [[configData objectForKey:@"ics"]boolValue];
     NSDictionary *apiDic = [configData objectForKey:@"api"];
     if (apiDic && [apiDic isKindOfClass:[NSDictionary class]]) {
@@ -314,4 +326,8 @@ static OMConfig *_instance = nil;
     return instanceID;
 }
 
+
+- (void)updateConfig {
+    [OpenMediation reinit];
+}
 @end

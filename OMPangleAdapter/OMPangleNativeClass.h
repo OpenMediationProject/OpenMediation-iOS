@@ -410,6 +410,188 @@ required. Root view controller for handling ad actions.
 
 @end
 
+//  ***************************  模板渲染
+
+@class BUAdSlot;
+
+@protocol BUMopubAdMarkUpDelegate <NSObject>
+@optional
+
+/** Mopub AdMarkUp
+  */
+- (void)setMopubAdMarkUp:(NSString *)adm;
+
+/// Bidding Token. Now for MSDK in domestic, used for every ad type.
+- (NSString *)biddingToken;
+
+/** Mopub Adaptor get AD type from rit
+  *   @return  @{@"adSlotType": @(1), @"renderType": @(1)}
+  *   adSlotType refer from BUAdSlotAdType in "BUAdSlot.h"
+  *   showType: @"1" express AD   @"2" native AD
+  */
++ (nullable NSDictionary *)AdTypeWithRit:(NSString *)rit error:(NSError **)error;
+
+/** Mopub bidding Adaptor get AD type from adm
+  *  @return  @{@"adSlotType": @(1), @"renderType": @(1)}
+  *  adSlotType refer from BUAdSlotAdType in "BUAdSlot.h"
+  *  showType: @"1" express AD   @"2" native AD
+  */
++ (NSDictionary *)AdTypeWithAdMarkUp:(NSString *)adm;
+
+
+/// Mopub Bidding Token
++ (NSString *)mopubBiddingToken;
+
+@end
+
+@protocol BUNativeAdsManagerDelegate;
+
+@interface BUNativeAdsManager : NSObject <BUMopubAdMarkUpDelegate>
+
+@property (nonatomic, weak, nullable) id<BUNativeAdsManagerDelegate> delegate;
+
+@property (nonatomic, assign, readwrite) CGSize adSize;
+
+- (instancetype)initWithSlot:(BUAdSlot * _Nullable) slot;
+
+- (void)loadAdDataWithCount:(NSInteger)count;
+
+@end
+
+@protocol BUNativeAdsManagerDelegate <NSObject>
+
+@optional
+
+- (void)nativeAdsManagerSuccessToLoad:(BUNativeAdsManager *)adsManager nativeAds:(NSArray<BUNativeAd *> *_Nullable)nativeAdDataArray;
+
+- (void)nativeAdsManager:(BUNativeAdsManager *)adsManager didFailWithError:(NSError *_Nullable)error;
+
+@end
+
+
+@interface BUNativeExpressAdView : UIView
+/**
+ * Whether render is ready
+ */
+@property (nonatomic, assign, readonly) BOOL isReady;
+
+/// media configuration parameters.
+@property (nonatomic, copy, readonly) NSDictionary *mediaExt;
+
+/// video duration.
+@property (nonatomic,assign, readonly) NSInteger videoDuration;
+
+/// Get the already played time.
+@property (nonatomic,assign, readonly) CGFloat currentPlayedTime;
+
+/*
+ required.
+ Root view controller for handling ad actions.
+ */
+@property (nonatomic, weak) UIViewController *rootViewController;
+
+/**
+ required
+ */
+- (void)render;
+
+
+@end
+
+@class BUNativeExpressAdManager;
+
+@protocol BUNativeExpressAdViewDelegate <NSObject>
+
+@optional
+/**
+ * Sent when views successfully load ad
+ */
+- (void)nativeExpressAdSuccessToLoad:(BUNativeExpressAdManager *)nativeExpressAdManager views:(NSArray<__kindof BUNativeExpressAdView *> *)views;
+
+/**
+ * Sent when views fail to load ad
+ */
+- (void)nativeExpressAdFailToLoad:(BUNativeExpressAdManager *)nativeExpressAdManager error:(NSError *_Nullable)error;
+
+/**
+ * This method is called when rendering a nativeExpressAdView successed, and nativeExpressAdView.size.height has been updated
+ */
+- (void)nativeExpressAdViewRenderSuccess:(BUNativeExpressAdView *)nativeExpressAdView;
+
+/**
+ * This method is called when a nativeExpressAdView failed to render
+ */
+- (void)nativeExpressAdViewRenderFail:(BUNativeExpressAdView *)nativeExpressAdView error:(NSError *_Nullable)error;
+
+/**
+ * Sent when an ad view is about to present modal content
+ */
+- (void)nativeExpressAdViewWillShow:(BUNativeExpressAdView *)nativeExpressAdView;
+
+/**
+ * Sent when an ad view is clicked
+ */
+- (void)nativeExpressAdViewDidClick:(BUNativeExpressAdView *)nativeExpressAdView;
+
+/**
+Sent when a playerw playback status changed.
+@param playerState : player state after changed
+*/
+- (void)nativeExpressAdView:(BUNativeExpressAdView *)nativeExpressAdView stateDidChanged:(BUPlayerPlayState)playerState;
+
+/**
+ * Sent when a player finished
+ * @param error : error of player
+ */
+- (void)nativeExpressAdViewPlayerDidPlayFinish:(BUNativeExpressAdView *)nativeExpressAdView error:(NSError *)error;
+
+/**
+ * Sent when a user clicked dislike reasons.
+ * @param filterWords : the array of reasons why the user dislikes the ad
+ */
+- (void)nativeExpressAdView:(BUNativeExpressAdView *)nativeExpressAdView dislikeWithReason:(NSArray<BUDislikeWords *> *)filterWords;
+
+/**
+ * Sent after an ad view is clicked, a ad landscape view will present modal content
+ */
+- (void)nativeExpressAdViewWillPresentScreen:(BUNativeExpressAdView *)nativeExpressAdView;
+
+/**
+ This method is called when another controller has been closed.
+ @param interactionType : open appstore in app or open the webpage or view video ad details page.
+ */
+- (void)nativeExpressAdViewDidCloseOtherController:(BUNativeExpressAdView *)nativeExpressAdView interactionType:(BUInteractionType)interactionType;
+
+@end
+
+@interface BUNativeExpressAdManager : NSObject <BUMopubAdMarkUpDelegate>
+
+@property (nonatomic, strong, nullable) BUAdSlot *adslot;
+
+@property (nonatomic, assign, readwrite) CGSize adSize;
+
+/**
+ The delegate for receiving state change messages from a BUNativeExpressAdManager
+ */
+@property (nonatomic, weak, nullable) id<BUNativeExpressAdViewDelegate> delegate;
+
+
+/**
+ @param size expected ad view size，when size.height is zero, acture height will match size.width
+ */
+- (instancetype)initWithSlot:(BUAdSlot * _Nullable)slot adSize:(CGSize)size;
+
+/**
+ The number of ads requested,The maximum is 3
+ */
+- (void)loadAdDataWithCount:(NSInteger)count;
+@end
+
+@interface BUNativeExpressAdManager (Deprecated)
+- (void)loadAd:(NSInteger)count __attribute__((deprecated("Use loadAdDataWithCount: instead.")));
+@end
+
+
 NS_ASSUME_NONNULL_END
 
 #endif /* OMPangleNativeClass_h */

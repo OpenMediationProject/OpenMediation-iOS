@@ -1,10 +1,10 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#import "OMHyBidNative.h"
-#import "OMHyBidNativeAd.h"
+#import "OMPubNativeNative.h"
+#import "OMPubNativeNativeAd.h"
 
-@implementation OMHyBidNative
+@implementation OMPubNativeNative
 
 - (instancetype)initWithParameter:(NSDictionary *)adParameter rootVC:(UIViewController *)rootViewController {
     if (self = [super init]) {
@@ -53,7 +53,8 @@
 - (void)nativeLoaderDidLoadWithNativeAd:(HyBidNativeAd *)nativeAd {
     self.nativeAd = nativeAd;
     nativeAd.delegate = self;
-    OMHyBidNativeAd *hyBidNativeAd = [[OMHyBidNativeAd alloc] initWithHybidNativeAd:nativeAd];
+    OMPubNativeNativeAd *hyBidNativeAd = [[OMPubNativeNativeAd alloc] initWithHybidNativeAd:nativeAd];
+    
     Class utilsClass = NSClassFromString(@"HyBidHeaderBiddingUtils");
     if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)] && utilsClass && [utilsClass respondsToSelector:@selector(eCPMFromAd:withDecimalPlaces:)]) {
         NSString *price = [utilsClass eCPMFromAd:nativeAd.ad withDecimalPlaces:THREE_DECIMAL_PLACES];

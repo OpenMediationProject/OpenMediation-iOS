@@ -85,8 +85,8 @@ static NSTimer *SDKInitCheckTimer = nil;
 
 + (void)initWithAppKey:(NSString*)appKey baseHost:(NSString*)host completionHandler:(initCompletionHandler)completionHandler {
     OMConfig *config = [OMConfig sharedInstance];
-    if (config.initState == OMInitStateInitializing || config.initState == OMInitStateInitialized) {
-        if (config.initState == OMInitStateInitialized) {
+    if (config.initState == OMInitStateInitializing || [config initSuccess]) {
+        if ([config initSuccess]) {
             completionHandler(nil);
         }
         return;
@@ -96,12 +96,25 @@ static NSTimer *SDKInitCheckTimer = nil;
     [OMInitRequest configureWithAppKey:appKey baseHost:host completionHandler:^(NSError *error) {
         if (!error) {
             [self settingWithConfig];
+            [[OMEventManager sharedInstance]addEvent:INIT_COMPLETE extraData:nil];
             OMLogI(@"OpenMediation SDK init success");
             completionHandler(nil);
         } else {
             [[OMEventManager sharedInstance]addEvent:INIT_FAILED extraData:nil];
             OMLogI(@"OpenMediation SDK init error: %@",error.localizedDescription);
             completionHandler(error);
+        }
+    }];
+}
+
++ (void)reinit {
+    [OMInitRequest configureWithAppKey:[OMConfig sharedInstance].appKey baseHost:[OMConfig sharedInstance].baseHost completionHandler:^(NSError *error) {
+        if (!error) {
+            [[OMEventManager sharedInstance]addEvent:REINIT_COMPLETE extraData:nil];
+            OMLogI(@"OpenMediation SDK reinit success");
+        } else {
+            [[OMEventManager sharedInstance]addEvent:REINIT_FAILED extraData:nil];
+            OMLogI(@"OpenMediation SDK reinit error: %@",error.localizedDescription);
         }
     }];
 }

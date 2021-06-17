@@ -5,6 +5,7 @@
 #import "OMNativeViewCustomEvent.h"
 #import "OMPangleNativeClass.h"
 #import "OMPangleNativeAd.h"
+#import "OMPangleNativeAdView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

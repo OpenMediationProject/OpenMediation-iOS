@@ -10,6 +10,7 @@ typedef NS_ENUM(NSInteger, OMInitState) {
     OMInitStateDefault = 0,
     OMInitStateInitializing = 1,
     OMInitStateInitialized = 2,
+    OMInitStateReinitialize = 3,
 };
 
 @interface OMConfig : NSObject
@@ -22,6 +23,7 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 @property (nonatomic, copy) NSString *appKey;
 
 @property (nonatomic, assign) BOOL openDebug;
+@property (nonatomic, assign) NSInteger reinitInterval;
 @property (nonatomic, copy) NSString *wfUrl;
 @property (nonatomic, copy) NSString *lrUrl;
 @property (nonatomic, copy) NSString *icUrl;
@@ -40,7 +42,6 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 @property (nonatomic, strong) NSMutableDictionary *adUnitMap;
 @property (nonatomic, strong) NSMutableDictionary *instanceMap;
 @property (nonatomic, strong) NSMutableDictionary *adnPlacementMap;
-@property (nonatomic, strong) NSDictionary *configData;
 @property (nonatomic, assign) BOOL clickOpenAppStore;
 @property (nonatomic, assign) BOOL impressionDataCallBack;
 

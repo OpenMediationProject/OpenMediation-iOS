@@ -60,7 +60,39 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface BUNativeExpressBannerView : UIView
+@class BUAdSlot;
+
+@protocol BUMopubAdMarkUpDelegate <NSObject>
+@optional
+
+/** Mopub AdMarkUp
+  */
+- (void)setMopubAdMarkUp:(NSString *)adm;
+
+/// Bidding Token. Now for MSDK in domestic, used for every ad type.
+- (NSString *)biddingToken;
+
+/** Mopub Adaptor get AD type from rit
+  *   @return  @{@"adSlotType": @(1), @"renderType": @(1)}
+  *   adSlotType refer from BUAdSlotAdType in "BUAdSlot.h"
+  *   showType: @"1" express AD   @"2" native AD
+  */
++ (nullable NSDictionary *)AdTypeWithRit:(NSString *)rit error:(NSError **)error;
+
+/** Mopub bidding Adaptor get AD type from adm
+  *  @return  @{@"adSlotType": @(1), @"renderType": @(1)}
+  *  adSlotType refer from BUAdSlotAdType in "BUAdSlot.h"
+  *  showType: @"1" express AD   @"2" native AD
+  */
++ (NSDictionary *)AdTypeWithAdMarkUp:(NSString *)adm;
+
+
+/// Mopub Bidding Token
++ (NSString *)mopubBiddingToken;
+
+@end
+
+@interface BUNativeExpressBannerView : UIView<BUMopubAdMarkUpDelegate>
 
 @property (nonatomic, weak, nullable) id<BUNativeExpressBannerViewDelegate> delegate;
 
@@ -72,19 +104,68 @@ NS_ASSUME_NONNULL_BEGIN
 /// media configuration parameters.
 @property (nonatomic, copy, readonly) NSDictionary *mediaExt;
 
+/**
+ Initializes express banner ad.
+ @param slotID The unique identifier of banner ad.
+ @param rootViewController The root controller where the banner is located.
+ @param adsize Customize the size of the view. Please make sure that the width and height passed in are available.
+ @return BUNativeExpressBannerView
+ */
 - (instancetype)initWithSlotID:(NSString *)slotID
             rootViewController:(UIViewController *)rootViewController
-                        adSize:(CGSize)adsize
-             IsSupportDeepLink:(BOOL)isSupportDeepLink;
+                        adSize:(CGSize)adsize;
 
+/**
+ Initializes carousel express banner ad.
+ @param slotID The unique identifier of banner ad.
+ @param rootViewController The root controller where the banner is located.
+ @param adsize Customize the size of the view. Please make sure that the width and height passed in are available.
+ @param interval The carousel interval, in seconds, is set in the range of 30~120s, and is passed during initialization. If it does not meet the requirements, it will not be in carousel ad.
+ @return BUNativeExpressBannerView
+ */
 - (instancetype)initWithSlotID:(NSString *)slotID
             rootViewController:(UIViewController *)rootViewController
                         adSize:(CGSize)adsize
-             IsSupportDeepLink:(BOOL)isSupportDeepLink
+                      interval:(NSInteger)interval;
+
+/**
+ Initializes express banner ad.
+ @param slot A object, through which you can pass in the banner unique identifier, ad type, and so on
+ @param rootViewController The root controller where the banner is located.
+ @param adsize Customize the size of the view. Please make sure that the width and height passed in are available.
+ @return BUNativeExpressBannerView
+ */
+- (instancetype)initWithSlot:(BUAdSlot *)slot
+            rootViewController:(UIViewController *)rootViewController
+                      adSize:(CGSize)adsize;
+
+/**
+ Initializes carousel express banner ad.
+ @param slot A object, through which you can pass in the banner unique identifier, ad type, and so on
+ @param rootViewController The root controller where the banner is located.
+ @param adsize Customize the size of the view. Please make sure that the width and height passed in are available.
+ @param interval The carousel interval, in seconds, is set in the range of 30~120s, and is passed during initialization. If it does not meet the requirements, it will not be in carousel ad.
+ @return BUNativeExpressBannerView
+ */
+- (instancetype)initWithSlot:(BUAdSlot *)slot
+            rootViewController:(UIViewController *)rootViewController
+                        adSize:(CGSize)adsize
                       interval:(NSInteger)interval;
 
 - (void)loadAdData;
 
+@end
+
+@interface BUNativeExpressBannerView (Deprecated)
+- (instancetype)initWithSlotID:(NSString *)slotID
+            rootViewController:(UIViewController *)rootViewController
+                        adSize:(CGSize)adsize
+             IsSupportDeepLink:(BOOL)isSupportDeepLink DEPRECATED_MSG_ATTRIBUTE("Use initWithSlotID:rootViewController:adSize: instead.");
+- (instancetype)initWithSlotID:(NSString *)slotID
+            rootViewController:(UIViewController *)rootViewController
+                        adSize:(CGSize)adsize
+             IsSupportDeepLink:(BOOL)isSupportDeepLink
+                      interval:(NSInteger)interval DEPRECATED_MSG_ATTRIBUTE("Use initWithSlotID:rootViewController:adSize:interval: instead.");
 @end
 
 NS_ASSUME_NONNULL_END

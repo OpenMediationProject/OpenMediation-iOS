@@ -241,7 +241,7 @@ let package = Package(
         ),
         .target(
             name: "OpenMediationPubNativeAdapter",
-            path: "OMHyBidAdapter",
+            path: "OMPubNativeAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),

@@ -3,7 +3,7 @@
 
 #import "OMPangleAdapter.h"
 
-static BOOL _expressAdAPI = NO;
+static BOOL _internalAPI = NO;
 
 @implementation OMPangleAdapter
 
@@ -11,12 +11,12 @@ static BOOL _expressAdAPI = NO;
     return PangleAdapterVersion;
 }
 
-+ (BOOL)expressAdAPI {
-    return _expressAdAPI;
++ (BOOL)internalAPI {
+    return _internalAPI;
 }
 
-+ (void)setExpressAdAPI:(BOOL)expressAdAPI {
-    _expressAdAPI = expressAdAPI;
++ (void)setInternalAPI:(BOOL)internalAPI {
+    _internalAPI = internalAPI;
 }
 
 + (void)setConsent:(BOOL)consent {
@@ -39,7 +39,12 @@ static BOOL _expressAdAPI = NO;
         return;
     }
     
-    if(buadClass && [buadClass respondsToSelector:@selector(setAppID:)]) {
+    if(buadClass && [buadClass respondsToSelector:@selector(setAppID:)] && [buadClass respondsToSelector:@selector(setTerritory:)]) {
+        if ([OMPangleAdapter internalAPI]) {
+            [buadClass setTerritory:BUAdSDKTerritory_CN];
+        }else{
+            [buadClass setTerritory:BUAdSDKTerritory_NO_CN];
+        }
         [buadClass setAppID:key];
         completionHandler(nil);
     }else{

@@ -13,6 +13,12 @@
 
 #define INIT_FAILED                 104
 
+#define REINIT_START                105
+
+#define REINIT_COMPLETE             106
+
+#define REINIT_FAILED               107
+
 
 #define REFRESH_INTERVAL            110
 

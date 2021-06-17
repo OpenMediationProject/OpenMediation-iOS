@@ -137,7 +137,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkFyber):@"Fyber",
             @(OMAdNetworkSigMob):@"SigMob",
             @(OMAdNetworkKsAd):@"KuaiShou",
-            @(OMAdNetworkHyBid):@"HyBid"
+            @(OMAdNetworkPubNative):@"PubNative"
         };
         
         _adnSdkClassMap = @{
@@ -159,7 +159,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkFyber):@"IASDKCore",
             @(OMAdNetworkSigMob):@"WindAds",
             @(OMAdNetworkKsAd):@"KSAdSDKManager",
-            @(OMAdNetworkHyBid):@"HyBid"
+            @(OMAdNetworkPubNative):@"HyBid"
         };
         
         _adnSDKInitState = [NSMutableDictionary dictionary];
@@ -314,7 +314,7 @@ static OMMediations *_instance = nil;
             }
         }
             break;
-        case OMAdNetworkHyBid:
+        case OMAdNetworkPubNative:
         {
             if (sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]) {
                 sdkVersion = [sdkClass sdkVersion];

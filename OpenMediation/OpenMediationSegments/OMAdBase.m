@@ -520,7 +520,7 @@
 
 - (void)omLoadOptimalFill:(NSString*)instanceID {
     OMLogD(@"%@ Optimal fill instance %@",self.pid,instanceID);
-//    [self notifyAvailable:YES];
+    [self notifyAvailable:YES];
 }
 
 - (void)omLoadNoFill {
@@ -684,8 +684,6 @@
             [allInstanceStateInUnit  addObject:[allInstanceState objectForKey:instance.instanceID]];
         }
     }
-    
-    OMLogD(@"%@ instance state all %@",_pid,allInstanceStateInUnit);
     return [allInstanceStateInUnit copy];
       
 }
@@ -705,7 +703,7 @@
 #pragma mark - OMCustomEventDelegate
 
 
-- (void)customEvent:(id)instanceAdapter didLoadAd:(id)didLoadAd {
+- (void)customEvent:(id)instanceAdapter didLoadAd:(id)adObject {
     NSString *instanceID = [self checkInstanceIDWithAdapter:instanceAdapter];
     if (instanceID) {
         OMLogD(@"%@ instance %@ load success",self.pid,instanceID);
@@ -720,11 +718,11 @@
             }
         }
         
-        if (didLoadAd) {
+        if (adObject) {
             if (_adFormat == OpenMediationAdFormatNative) {
-                [_didLoadAdObjects setObject:didLoadAd forKey:instanceID];
+                [_didLoadAdObjects setObject:adObject forKey:instanceID];
             } else if(_adFormat == OpenMediationAdFormatCrossPromotion) {//revenue data
-                NSDictionary *revenueData = (NSDictionary*)didLoadAd;
+                NSDictionary *revenueData = (NSDictionary*)adObject;
                 instance.revenue = [[revenueData objectForKey:@"r"]floatValue]/1000.0;
                 instance.revenuePrecision = [[revenueData objectForKey:@"rp"]integerValue];
             }
@@ -932,8 +930,9 @@
             }
         }
         [wrapperData setObject:[NSNumber numberWithInteger:instance.realInstancePriority] forKey:@"priority"];
-        
-        [wrapperData setObject:[NSNumber numberWithInteger:_adLoader.cacheCount] forKey:@"cs"];
+        if ([_adLoader isKindOfClass:[OMSmartLoad class]]) {
+            [wrapperData setObject:[NSNumber numberWithInteger:((OMSmartLoad*)_adLoader).cacheCount] forKey:@"cs"];
+        }
         NSDictionary *adNetworkInfo = [[[OMMediations sharedInstance]adNetworkInfo]objectForKey:@(adnID)];
         if (adNetworkInfo) {
             [wrapperData addEntriesFromDictionary:adNetworkInfo];

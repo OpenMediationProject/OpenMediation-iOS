@@ -2,13 +2,13 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import <Foundation/Foundation.h>
-#import "OMHyBidNativeClass.h"
+#import "OMPubNativeNativeClass.h"
 #import "OMNativeCustomEvent.h"
-#import "OMHyBidClass.h"
+#import "OMPubNativeClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMHyBidNative : NSObject<OMNativeCustomEvent,HyBidNativeAdLoaderDelegate,HyBidNativeAdDelegate>
+@interface OMPubNativeNative : NSObject<OMNativeCustomEvent,HyBidNativeAdLoaderDelegate,HyBidNativeAdDelegate>
 
 @property (nonatomic, strong) HyBidNativeAdLoader *nativeAdLoader;
 @property (nonatomic, strong) HyBidNativeAd *nativeAd;

@@ -63,7 +63,7 @@
             [_videoAd presentFromRootViewController:vc userDidEarnRewardHandler:^{
                 weakSelf.reward = weakSelf.videoAd.adReward;
                 if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
-                    [weakSelf.delegate rewardedVideoCustomEventDidReceiveReward:self];
+                    [weakSelf.delegate rewardedVideoCustomEventDidReceiveReward:weakSelf];
                 }
             }];
         }

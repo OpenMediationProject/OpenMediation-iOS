@@ -1,9 +1,9 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#import "OMHyBidInterstitial.h"
+#import "OMPubNativeInterstitial.h"
 
-@implementation OMHyBidInterstitial
+@implementation OMPubNativeInterstitial
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter {
     if (self = [super init]) {

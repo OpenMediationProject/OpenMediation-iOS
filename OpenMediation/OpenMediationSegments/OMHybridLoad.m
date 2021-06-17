@@ -8,20 +8,21 @@
 
 - (instancetype)initWithPid:(NSString*)pid adFormat:(OpenMediationAdFormat)format {
     if (self = [super initWithPid:pid adFormat:format]) {
-        OMUnit *unit = [[OMConfig sharedInstance].adUnitMap objectForKey:self.pid];
-        if (!unit || unit.batchSize <= 0) {
-            _batchSize = 2;
-            OMLogD(@"%@ batch size use default %zd",self.pid,self.batchSize);
-        } else {
-            _batchSize = unit.batchSize;
-            _fanoutType = unit.fanout;
-        }
+
     }
     return self;
 }
 
 - (void)loadWithAction:(OMLoadAction)action {
     [super loadWithAction:action];
+    OMUnit *unit = [[OMConfig sharedInstance].adUnitMap objectForKey:self.pid];
+    if (!unit || unit.batchSize <= 0) {
+        _batchSize = 2;
+        OMLogD(@"%@ batch size use default %zd",self.pid,self.batchSize);
+    } else {
+        _batchSize = unit.batchSize;
+        _fanoutType = unit.fanout;
+    }
     [self requestWaterfallWithAction:action];
 }
 

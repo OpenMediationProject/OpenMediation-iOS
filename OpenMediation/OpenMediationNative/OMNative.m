@@ -19,6 +19,10 @@
 - (instancetype)initWithMediatedAd:(id<OMMediatedNativeAd>)mediatedAd;
 @end
 
+@interface OMNativeAdView : UIView
+- (instancetype)initWithMediatedAdView:(UIView *)mediatedAdView;
+@end
+
 @interface OMNative()<nativeCustomEventDelegate>
 
 @end
@@ -70,7 +74,7 @@
 }
 
 - (void)nativeCustomEventWillShow:(id<OMNativeCustomEvent>)adapter {
-    [self showInstance:self.adLoader.optimalFillInstance];
+    [self showInstance:[self checkInstanceIDWithAdapter:adapter]];
     [self adshow:adapter];
     [self omWillExposure];
 }
@@ -81,20 +85,26 @@
         id<OMMediatedNativeAd> mediatedNativeAd = [self.didLoadAdObjects objectForKey:self.adLoader.optimalFillInstance];
         if (mediatedNativeAd && [mediatedNativeAd conformsToProtocol:@protocol(OMMediatedNativeAd)]) {
             OMNativeAd *nativeAd = [[OMNativeAd alloc]initWithMediatedAd:mediatedNativeAd];
-            if (self.adLoader && self.adLoader.optimalFillInstance && [self.didLoadAdObjects objectForKey:self.adLoader.optimalFillInstance] && _delegate && [_delegate respondsToSelector:@selector(omNative:didLoad:)]) {
+            if (_delegate && [_delegate respondsToSelector:@selector(omNative:didLoad:)]) {
                 [self addNativeEvent:CALLBACK_LOAD_SUCCESS extraData:nil];
                 [_delegate omNative:self didLoad:nativeAd];
             }
+        } else if (mediatedNativeAd && [mediatedNativeAd isKindOfClass:[UIView class]]) {
+            OMNativeAdView *nativeAdView = [[OMNativeAdView alloc] initWithMediatedAdView:(UIView*)mediatedNativeAd];
+            if (_delegate && [_delegate respondsToSelector:@selector(omNative:didLoadAdView:)]) {
+                [self addNativeEvent:CALLBACK_LOAD_SUCCESS extraData:nil];
+                [_delegate omNative:self didLoadAdView:nativeAdView];
+            }
         }
     }
-    
 }
+
 - (void)omDidFail:(NSError*)error {
     if (_delegate && [_delegate respondsToSelector:@selector(omNative:didFailWithError:)]) {
         [self addNativeEvent:CALLBACK_LOAD_ERROR extraData:@{@"msg":OM_SAFE_STRING([error description])}];
         [_delegate omNative:self didFailWithError:error];
     }
-
+    
 }
 
 - (void)nativeCustomEventDidClick:(id<OMNativeCustomEvent>)adapter {
@@ -114,7 +124,7 @@
         [self addNativeEvent:CALLBACK_CLICK extraData:nil];
         [_delegate omNativeDidClick:self];
     }
-
+    
 }
 
 - (void)addNativeEvent:(NSInteger)eventID extraData:data {

@@ -38,6 +38,7 @@
     }
     nativeAd.rendering = YES;
     _nativeAd = nativeAd;
+    [_nativeAdView removeFromSuperview];
     [_currentNativeView removeFromSuperview];
     
     if (_nativeAd.mediatedAd && [_nativeAd.mediatedAd.nativeViewClass length]>0) {
@@ -73,10 +74,14 @@
     _mediaView = mediaView;
 }
 
-
+-(void)setNativeAdView:(OMNativeAdView *)nativeAdView {
+    [_nativeAdView removeFromSuperview];
+    _nativeAdView = nativeAdView;
+    [self addSubview:(UIView *)nativeAdView];
+}
 
 - (void)addSubview:(UIView *)view {
-    if (view != _currentNativeView) {
+    if (view != _currentNativeView && view != _nativeAdView) {
         [_addedSubviews addObject:view];
         if (_currentNativeView) {
             [_currentNativeView addSubview:view];

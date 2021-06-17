@@ -8,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMPangleRewardedVideo : NSObject<BURewardedVideoAdDelegate,OMRewardedVideoCustomEvent>
+@interface OMPangleRewardedVideo : NSObject<BURewardedVideoAdDelegate,BUNativeExpressRewardedVideoAdDelegate,OMRewardedVideoCustomEvent>
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, strong) BURewardedVideoAd *rewardedVideoAd;
 @property (nonatomic, assign) BOOL adReadyFlag;

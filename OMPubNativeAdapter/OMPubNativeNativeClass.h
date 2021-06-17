@@ -1,8 +1,8 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#ifndef OMHyBidNativeClass_h
-#define OMHyBidNativeClass_h
+#ifndef OMPubNativeNativeClass_h
+#define OMPubNativeNativeClass_h
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
@@ -120,4 +120,4 @@ IB_DESIGNABLE
 
 @end
 
-#endif /* OMHyBidNativeClass_h */
+#endif /* OMPubNativeNativeClass_h */

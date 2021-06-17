@@ -12,6 +12,7 @@
 #import "OpenMediationAdFormats.h"
 #import "OMBid.h"
 #import "OMLoad.h"
+#import "OMSmartLoad.h"
 #import "OMScene.h"
 
 typedef void(^hbRequestCompletionHandler)(NSArray *bidInstances);

@@ -1,14 +1,20 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#ifndef OMHyBidClass_h
-#define OMHyBidClass_h
+#ifndef OMPubNativeClass_h
+#define OMPubNativeClass_h
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^HyBidCompletionBlock)(BOOL);
+
+typedef enum {
+    UNKNOWN,
+    TOP,
+    BOTTOM
+} BannerPosition;
 
 @interface HyBid : NSObject
 
@@ -100,7 +106,7 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 
 @end
 
-@interface HyBidAdView : UIView
+@interface HyBidAdView : UIView <HyBidAdRequestDelegate, HyBidAdPresenterDelegate, HyBidSignalDataProcessorDelegate>
 
 @property (nonatomic, strong) HyBidAdRequest *adRequest;
 @property (nonatomic, strong) HyBidAd *ad;
@@ -108,12 +114,13 @@ typedef void (^HyBidCompletionBlock)(BOOL);
 @property (nonatomic, assign) BOOL isMediation;
 @property (nonatomic, strong) HyBidAdSize *adSize;
 @property (nonatomic, assign) BOOL autoShowOnLoad;
+@property (nonatomic) BannerPosition bannerPosition;
 
 - (instancetype)initWithSize:(HyBidAdSize *)adSize NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
+- (void)loadWithZoneID:(NSString *)zoneID withPosition:(BannerPosition)bannerPosition andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
 - (void)setupAdView:(UIView *)adView;
 - (void)renderAd;
 - (void)renderAdWithContent:(NSString *)adContent withDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
@@ -146,4 +153,4 @@ typedef enum {
 
 NS_ASSUME_NONNULL_END
 
-#endif /* OMHyBidClass_h */
+#endif /* OMPubNativeClass_h */

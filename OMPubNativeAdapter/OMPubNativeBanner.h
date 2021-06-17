@@ -2,13 +2,13 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import <Foundation/Foundation.h>
-#import "OMHyBidClass.h"
+#import "OMPubNativeClass.h"
 #import "OMBannerCustomEvent.h"
-#import "OMHyBidClass.h"
+#import "OMPubNativeClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMHyBidBanner : UIView<OMBannerCustomEvent,HyBidAdViewDelegate>
+@interface OMPubNativeBanner : UIView<OMBannerCustomEvent,HyBidAdViewDelegate>
 @property (nonatomic, strong) HyBidAdView *bannerAdView;
 @property (nonatomic, copy) NSString *pid;
 @property(nonatomic, weak, nullable) id<bannerCustomEventDelegate> delegate;

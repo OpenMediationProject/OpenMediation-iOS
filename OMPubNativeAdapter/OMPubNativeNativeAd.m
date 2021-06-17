@@ -1,9 +1,9 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#import "OMHyBidNativeAd.h"
+#import "OMPubNativeNativeAd.h"
 
-@implementation OMHyBidNativeAd
+@implementation OMPubNativeNativeAd
 
 -(instancetype)initWithHybidNativeAd:(HyBidNativeAd *)hyBidNativeAd {
     self = [super init];
@@ -14,7 +14,7 @@
         _iconUrl = [hyBidNativeAd iconUrl];
         _rating = [hyBidNativeAd rating].doubleValue;
         _callToAction = [hyBidNativeAd callToActionTitle];
-        _nativeViewClass = @"OMHyBidNativeView";
+        _nativeViewClass = @"OMPubNativeNativeView";
     }
     return self;
 }

@@ -3,13 +3,13 @@
 
 #import <Foundation/Foundation.h>
 #import "OMMediationAdapter.h"
-#import "OMHyBidClass.h"
+#import "OMPubNativeClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const HyBidAdapterVersion = @"2.0.3";
+static NSString * const PubNativeAdapterVersion = @"2.0.4";
 
-@interface OMHyBidAdapter : NSObject<OMMediationAdapter>
+@interface OMPubNativeAdapter : NSObject<OMMediationAdapter>
 
 + (NSString*)adapterVerison;
 

@@ -113,6 +113,7 @@ typedef NS_ENUM(NSUInteger, BUFullScreenVideoAdType) {
 
 @class BUNativeExpressFullscreenVideoAd;
 
+//define the type of native express video ad
 typedef NS_ENUM(NSUInteger, BUNativeExpressFullScreenAdType) {
     BUNativeExpressFullScreenAdTypeEndcard              = 0,        // video + endcard
     BUNativeExpressFullScreenAdTypeVideoPlayable        = 1,        // video + playable
@@ -202,7 +203,39 @@ This method is used to get the type of nativeExpressFullScreenVideo ad
 
 @end
 
-@interface BUNativeExpressFullscreenVideoAd : NSObject
+@class BUAdSlot;
+
+@protocol BUMopubAdMarkUpDelegate <NSObject>
+@optional
+
+/** Mopub AdMarkUp
+  */
+- (void)setMopubAdMarkUp:(NSString *)adm;
+
+/// Bidding Token. Now for MSDK in domestic, used for every ad type.
+- (NSString *)biddingToken;
+
+/** Mopub Adaptor get AD type from rit
+  *   @return  @{@"adSlotType": @(1), @"renderType": @(1)}
+  *   adSlotType refer from BUAdSlotAdType in "BUAdSlot.h"
+  *   showType: @"1" express AD   @"2" native AD
+  */
++ (nullable NSDictionary *)AdTypeWithRit:(NSString *)rit error:(NSError **)error;
+
+/** Mopub bidding Adaptor get AD type from adm
+  *  @return  @{@"adSlotType": @(1), @"renderType": @(1)}
+  *  adSlotType refer from BUAdSlotAdType in "BUAdSlot.h"
+  *  showType: @"1" express AD   @"2" native AD
+  */
++ (NSDictionary *)AdTypeWithAdMarkUp:(NSString *)adm;
+
+
+/// Mopub Bidding Token
++ (NSString *)mopubBiddingToken;
+
+@end
+
+@interface BUNativeExpressFullscreenVideoAd : NSObject<BUMopubAdMarkUpDelegate>
 
 @property (nonatomic, weak, nullable) id<BUNativeExpressFullscreenVideoAdDelegate> delegate;
 @property (nonatomic, getter=isAdValid, readonly) BOOL adValid __attribute__((deprecated("Use nativeExpressFullscreenVideoAdDidLoad: instead.")));
@@ -218,12 +251,11 @@ This method is used to get the type of nativeExpressFullScreenVideo ad
 - (instancetype)initWithSlotID:(NSString *)slotID;
 
 /**
-adload_seq：（针对聚合广告位）传递本次请求是为“自然日内某设备某广告位置第N次展示机会”发出的广告请求，同物理位置在自然日从1开始计数，不同物理位置独立计数；example：某原生广告位置，当天第5次产生展示机会，这次展示机向穿山甲发送了4次广告请求，则这4次广告请求的"adload_seq"的值应为5。第二天重新开始计数。
-
-prime_rit：（针对聚合广告位）广告物理位置对应的固定穿山甲广告位id，可以使用第一层的广告位id也可以为某一层的广告位id，但要求同一物理位置在该字段固定上报同一广告位id，不频繁更换；example：某原生广告位，当天共发出了1000个请求，这1000个请求中使用了5个不同target的穿山甲rit，用某X rit来作为该位置的标记rit，则这1000次请求的prime_rit都需要上报X rit的rit id。
+ Initializes video ad with slot.
+ @param slot : A object, through which you can pass in the fullscreen unique identifier, ad type, and so on.
+ @return BUNativeExpressFullscreenVideoAd
 */
-
-- (instancetype)initWithSlotID:(NSString *)slotID adloadSeq:(NSInteger)adloadSeq primeRit:(NSString * __nullable)primeRit;
+- (instancetype)initWithSlot:(BUAdSlot *)slot;
 
 /**
  Load video ad datas.

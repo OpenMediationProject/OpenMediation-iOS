@@ -3,7 +3,9 @@
 
 #import <UIKit/UIKit.h>
 @class OMNativeAd;
+#import "OMNativeAdView.h"
 #import "OMNativeMediaView.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -12,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) OMNativeAd *nativeAd;
 @property (nonatomic, strong) OMNativeMediaView *mediaView;
+@property (nonatomic, strong) OMNativeAdView *nativeAdView;
 
 /// This is a method to initialize an OMNativeView.
 /// Parameter frame: the OMNativeView frame.

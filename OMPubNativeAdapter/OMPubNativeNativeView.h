@@ -3,15 +3,15 @@
 
 #import <UIKit/UIKit.h>
 #import "OMNativeViewCustomEvent.h"
-#import "OMHyBidNativeClass.h"
-#import "OMHyBidNativeAd.h"
-#import "OMHyBidNative.h"
+#import "OMPubNativeNativeClass.h"
+#import "OMPubNativeNativeAd.h"
+#import "OMPubNativeNative.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMHyBidNativeView : UIView<OMNativeViewCustomEvent>
+@interface OMPubNativeNativeView : UIView<OMNativeViewCustomEvent>
 
-@property (nonatomic, strong) OMHyBidNativeAd *nativeAd;
+@property (nonatomic, strong) OMPubNativeNativeAd *nativeAd;
 @property (nonatomic, strong) HyBidNativeAdRenderer *renderer; // native view
 @property (nonatomic, strong) UIImageView *mediaView;
 - (instancetype)initWithFrame:(CGRect)frame;

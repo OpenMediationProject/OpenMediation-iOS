@@ -13,6 +13,7 @@
 #import <OpenMediation/OMNativeAd.h>
 #import <OpenMediation/OMNativeView.h>
 #import <OpenMediation/OMNativeMediaView.h>
+#import <OpenMediation/OMNativeAdView.h>
 
 #import <OpenMediation/OMRewardedVideo.h>
 

@@ -1,10 +1,10 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#import "OMHyBidBanner.h"
-#import "OMHyBidAdapter.h"
+#import "OMPubNativeBanner.h"
+#import "OMPubNativeAdapter.h"
 
-@implementation OMHyBidBanner
+@implementation OMPubNativeBanner
 
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController {
     if (self = [super initWithFrame:frame]) {

@@ -1,9 +1,9 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#import "OMHyBidNativeView.h"
+#import "OMPubNativeNativeView.h"
 
-@implementation OMHyBidNativeView
+@implementation OMPubNativeNativeView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
@@ -16,7 +16,7 @@
     _mediaView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
 }
 
-- (void)setNativeAd:(OMHyBidNativeAd*)nativeAd {
+- (void)setNativeAd:(OMPubNativeNativeAd*)nativeAd {
     _nativeAd = nativeAd;
     if (nativeAd.hyBidNativeAd.bannerUrl) {        
         NSURL *imageURL = [NSURL URLWithString:nativeAd.hyBidNativeAd.bannerUrl];

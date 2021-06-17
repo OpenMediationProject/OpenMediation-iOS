@@ -18,19 +18,18 @@
         _instanceLoadState = [NSMutableDictionary dictionary];
         _pid = OM_SAFE_STRING(pid);
         _adFormat = format;
-        
-        OMUnit *unit = [[OMConfig sharedInstance].adUnitMap objectForKey:self.pid];
-        if (!unit || unit.batchTimeout <= 0) {
-            _timeoutSecond = 15;
-            OMLogD(@"%@ timeout use default %zd",self.pid,_timeoutSecond);
-        } else {
-            _timeoutSecond = unit.batchTimeout;
-        }
     }
     return self;
 }
 
 - (void)loadWithAction:(OMLoadAction)action {
+    OMUnit *unit = [[OMConfig sharedInstance].adUnitMap objectForKey:self.pid];
+    if (!unit || unit.batchTimeout <= 0) {
+        _timeoutSecond = 15;
+        OMLogD(@"%@ timeout use default %zd",self.pid,_timeoutSecond);
+    } else {
+        _timeoutSecond = unit.batchTimeout;
+    }
     if (action >= OMLoadActionInit && action <= OMLoadActionManualLoad ) {
         OMLogD(@"%@ load with action %@",_pid,_actionName[(action-1)]);
     }
@@ -98,13 +97,13 @@
 }
 
 - (void)loadGroupTimeout:(NSNumber*)groupIndex {
-    OMLogD(@"%@ group %@ timeout",self.pid,groupIndex);
     NSInteger index = [groupIndex integerValue];
     if (index < _loadGroups.count) {
         NSArray *group = _loadGroups[index];
         for (NSString *instanceID in group) {
             OMInstanceLoadState state = [_instanceLoadState[instanceID]integerValue];
             if (state == OMInstanceLoadStateLoading) {
+                OMLogD(@"%@ instance %@ timeout",self.pid,instanceID);
                 [self saveInstanceLoadState:instanceID state:OMInstanceLoadStateTimeout];
                 if (_delegate && [_delegate respondsToSelector:@selector(omLoadInstanceTimeout:)]) {
                     [_delegate omLoadInstanceTimeout:instanceID];
@@ -121,11 +120,9 @@
     } else {
         OMLogD(@"%@ instance %@ load state %@",_pid,instanceID,self.stateName[loadState]);;
         _instanceLoadState[instanceID] = [NSNumber numberWithInteger:loadState];
-    
-        [self checkOptimalInstance];
-        [self addLoadingInstance];
-        
     }
+    [self checkOptimalInstance];
+    [self addLoadingInstance];
 }
 
 - (void)checkOptimalInstance {

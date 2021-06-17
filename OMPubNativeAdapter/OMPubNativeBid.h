@@ -8,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMHyBidBid : NSObject<OMBidCustomEvent>
+@interface OMPubNativeBid : NSObject<OMBidCustomEvent>
 + (void)bidWithNetworkItem:(OMBidNetworkItem*)networkItem adFormat:(NSString*)format adSize:(CGSize)size responseCallback:(void(^)(NSDictionary *bidResponseData))callback;
 @end
 

@@ -17,7 +17,7 @@
 }
 
 -(void)loadAd {
-    Class BUFullscreenVideoAdClass = NSClassFromString([OMPangleAdapter expressAdAPI]?@"BUNativeExpressFullscreenVideoAd":@"BUFullscreenVideoAd");
+    Class BUFullscreenVideoAdClass = NSClassFromString([OMPangleAdapter internalAPI]?@"BUNativeExpressFullscreenVideoAd":@"BUFullscreenVideoAd");
     if (BUFullscreenVideoAdClass && [[BUFullscreenVideoAdClass alloc] respondsToSelector:@selector(initWithSlotID:)]) {
         
         _fullscreenVideoAd = [[BUFullscreenVideoAdClass alloc] initWithSlotID:_pid];
@@ -30,7 +30,7 @@
 
 -(BOOL)isReady {
     if (_fullscreenVideoAd) {
-        return (_fullscreenVideoAd.adValid && self.adReadyFlag);
+        return self.adReadyFlag;
     }
     return NO;
 }

@@ -7,10 +7,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const PangleAdapterVersion = @"2.0.3";
+static NSString * const PangleAdapterVersion = @"2.0.4";
 
 @interface OMPangleAdapter : NSObject<OMMediationAdapter>
-@property (class, nonatomic) BOOL expressAdAPI;
+@property (class, nonatomic) BOOL internalAPI;
+
 + (NSString*)adapterVerison;
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 + (void)setConsent:(BOOL)consent;

@@ -5,6 +5,7 @@
 
 @class OMNative;
 @class OMNativeAd;
+@class OMNativeAdView;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Sent when an OMNative has been successfully loaded.
 - (void)omNative:(OMNative*)native didLoad:(OMNativeAd*)nativeAd;
+
+/// Sent when an OMNativeAdView has been successfully loaded.
+- (void)omNative:(OMNative*)native didLoadAdView:(OMNativeAdView*)nativeAdView;
 
 /// Sent when an OMNative is failed to load.
 - (void)omNative:(OMNative*)native didFailWithError:(NSError*)error;

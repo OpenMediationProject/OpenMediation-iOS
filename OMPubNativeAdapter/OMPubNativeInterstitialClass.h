@@ -5,7 +5,7 @@
 #define OMHyBigInterstitialClass_h
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "OMHyBidClass.h"
+#import "OMPubNativeClass.h"
 
 @class HyBidAd;
 

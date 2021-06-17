@@ -159,7 +159,6 @@ static OMEventManager * _instance = nil;
         [_eventList removeObjectsInArray:removeEvents];
     }
     [self saveEvents];
-    [self addEvent:INIT_COMPLETE extraData:nil];
 }
 
 - (void)postPackageIfNeed {

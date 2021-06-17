@@ -3,11 +3,11 @@
 
 #import <Foundation/Foundation.h>
 #import "OMMediatedNativeAd.h"
-#import "OMHyBidNativeClass.h"
+#import "OMPubNativeNativeClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMHyBidNativeAd : NSObject<OMMediatedNativeAd>
+@interface OMPubNativeNativeAd : NSObject<OMMediatedNativeAd>
 
 /// Title.
 @property (nonatomic, copy) NSString *title;

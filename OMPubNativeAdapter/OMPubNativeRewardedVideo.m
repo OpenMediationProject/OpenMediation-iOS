@@ -1,9 +1,9 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#import "OMHyBidRewardedVideo.h"
+#import "OMPubNativeRewardedVideo.h"
 
-@implementation OMHyBidRewardedVideo
+@implementation OMPubNativeRewardedVideo
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter {
     if (self = [super init]) {

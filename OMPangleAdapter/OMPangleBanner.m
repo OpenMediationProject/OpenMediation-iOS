@@ -10,7 +10,7 @@
         NSString *pid = [adParameter objectForKey:@"pid"];
         Class BUDBannerAdViewClass = NSClassFromString(@"BUNativeExpressBannerView");
         if (BUDBannerAdViewClass) {
-            _bannerAdView = [[BUDBannerAdViewClass alloc] initWithSlotID:pid rootViewController:rootViewController adSize:CGSizeMake(frame.size.width, frame.size.height) IsSupportDeepLink:YES];
+            _bannerAdView = [[BUDBannerAdViewClass alloc] initWithSlotID:pid rootViewController:rootViewController adSize:CGSizeMake(frame.size.width, frame.size.height)];
             _bannerAdView.delegate = self;
             _bannerAdView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
             [self addSubview:_bannerAdView];

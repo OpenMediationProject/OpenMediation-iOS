@@ -7,7 +7,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-@interface OMPangleInterstitial : NSObject<OMInterstitialCustomEvent,BUFullscreenVideoAdDelegate>
+@interface OMPangleInterstitial : NSObject<OMInterstitialCustomEvent,BUFullscreenVideoAdDelegate,BUNativeExpressFullscreenVideoAdDelegate>
 
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, assign) BOOL adReadyFlag;

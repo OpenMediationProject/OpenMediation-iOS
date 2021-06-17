@@ -18,7 +18,7 @@
 }
 
 -(void)loadAd {
-    Class BURewardedVideoAdClass = NSClassFromString([OMPangleAdapter expressAdAPI]?@"BUNativeExpressRewardedVideoAd":@"BURewardedVideoAd");
+    Class BURewardedVideoAdClass = NSClassFromString([OMPangleAdapter internalAPI]?@"BUNativeExpressRewardedVideoAd":@"BURewardedVideoAd");
     Class BURewardedVideoModelClass = NSClassFromString(@"BURewardedVideoModel");
     if (BURewardedVideoAdClass && BURewardedVideoModelClass && [BURewardedVideoAdClass instancesRespondToSelector:@selector(initWithSlotID:rewardedVideoModel:)]) {
         BURewardedVideoModel *rewardedModel = [[BURewardedVideoModelClass alloc] init];
@@ -32,7 +32,7 @@
 
 -(BOOL)isReady {
     if (_rewardedVideoAd) {
-        return (_rewardedVideoAd.adValid && self.adReadyFlag);
+        return self.adReadyFlag;
     }
     return NO;
 }
