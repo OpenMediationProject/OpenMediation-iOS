@@ -414,36 +414,6 @@ required. Root view controller for handling ad actions.
 
 @class BUAdSlot;
 
-@protocol BUMopubAdMarkUpDelegate <NSObject>
-@optional
-
-/** Mopub AdMarkUp
-  */
-- (void)setMopubAdMarkUp:(NSString *)adm;
-
-/// Bidding Token. Now for MSDK in domestic, used for every ad type.
-- (NSString *)biddingToken;
-
-/** Mopub Adaptor get AD type from rit
-  *   @return  @{@"adSlotType": @(1), @"renderType": @(1)}
-  *   adSlotType refer from BUAdSlotAdType in "BUAdSlot.h"
-  *   showType: @"1" express AD   @"2" native AD
-  */
-+ (nullable NSDictionary *)AdTypeWithRit:(NSString *)rit error:(NSError **)error;
-
-/** Mopub bidding Adaptor get AD type from adm
-  *  @return  @{@"adSlotType": @(1), @"renderType": @(1)}
-  *  adSlotType refer from BUAdSlotAdType in "BUAdSlot.h"
-  *  showType: @"1" express AD   @"2" native AD
-  */
-+ (NSDictionary *)AdTypeWithAdMarkUp:(NSString *)adm;
-
-
-/// Mopub Bidding Token
-+ (NSString *)mopubBiddingToken;
-
-@end
-
 @protocol BUNativeAdsManagerDelegate;
 
 @interface BUNativeAdsManager : NSObject <BUMopubAdMarkUpDelegate>
