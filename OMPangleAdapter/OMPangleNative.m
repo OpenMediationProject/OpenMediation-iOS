@@ -4,7 +4,6 @@
 #import "OMPangleNative.h"
 #import "OMPangleNativeAd.h"
 #import "OMPangleAdapter.h"
-#import "OMPangleNativeAdView.h"
 
 @implementation OMPangleNative
 
@@ -140,9 +139,8 @@
  * This method is called when rendering a nativeExpressAdView successed, and nativeExpressAdView.size.height has been updated
  */
 - (void)nativeExpressAdViewRenderSuccess:(BUNativeExpressAdView *)nativeExpressAdView {
-    OMPangleNativeAdView *nativeAdView = [[OMPangleNativeAdView alloc] initWithNativeAdView:nativeExpressAdView];
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
-        [_delegate customEvent:self didLoadAd:nativeAdView];
+        [_delegate customEvent:self didLoadAd:nativeExpressAdView];
     }
     
 }

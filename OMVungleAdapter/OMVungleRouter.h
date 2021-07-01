@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OMVungleRouter : NSObject<VungleSDKDelegate,VungleSDKHeaderBidding>
 
 @property (nonatomic, assign) BOOL isAdPlaying;
-@property (nonatomic, strong) NSMutableDictionary *placementDelegateMap;
+@property (nonatomic, strong) NSMapTable *placementDelegateMap;
 @property (nonatomic, strong) id vungleSDK;
 
 + (instancetype)sharedInstance;

@@ -39,4 +39,11 @@
     }
 }
 
++ (void)setLogEnable:(BOOL)logEnable {
+    Class loggerClass = NSClassFromString(@"HyBidLogger");
+    if (loggerClass && [loggerClass respondsToSelector:@selector(setLogLevel:)]) {
+        [loggerClass setLogLevel:(logEnable?HyBidLogLevelDebug:HyBidLogLevelNone)];
+    }
+}
+
 @end

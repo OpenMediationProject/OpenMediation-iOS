@@ -9,6 +9,7 @@
 #import "OMEventManager.h"
 #import "OMMediations.h"
 #import "OMInstanceContainer.h"
+#import "OMNativeAdView.h"
 
 @interface OMNativeAd : NSObject
 @property (nonatomic, copy) NSString *title;
@@ -17,10 +18,6 @@
 @property (nonatomic, copy) NSString *callToAction;
 @property (nonatomic, assign) double rating;
 - (instancetype)initWithMediatedAd:(id<OMMediatedNativeAd>)mediatedAd;
-@end
-
-@interface OMNativeAdView : UIView
-- (instancetype)initWithMediatedAdView:(UIView *)mediatedAdView;
 @end
 
 @interface OMNative()<nativeCustomEventDelegate>

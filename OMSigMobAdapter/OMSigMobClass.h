@@ -21,7 +21,7 @@ typedef NS_ENUM (NSInteger, WindAgeRestrictedStatus) {
 @property (copy, nonatomic) NSString* apiKey;
 + (instancetype)options;
 @end
-
+typedef void(^WindAdDebugCallBack)(NSString *msg, int level);
 @interface WindAds : NSObject
 @property (nonatomic,strong) WindAdOptions *adOptions;
 + (instancetype)sharedAds;
@@ -33,6 +33,8 @@ typedef NS_ENUM (NSInteger, WindAgeRestrictedStatus) {
 + (void)setIsAgeRestrictedUser:(WindAgeRestrictedStatus)status;
 + (NSUInteger)getUserAge;
 + (void)setUserAge:(NSUInteger)age;
+- (void)setDebugEnable:(BOOL)enable;
+- (void)setDebugCallBack:(WindAdDebugCallBack)callBack;
 @end
 
 @interface WindAdRequest : NSObject

@@ -55,4 +55,12 @@ static BOOL _internalAPI = NO;
     }
 }
 
++ (void)setLogEnable:(BOOL)logEnable {
+    Class buadClass = NSClassFromString(@"BUAdSDKManager");
+    if (buadClass && [buadClass respondsToSelector:@selector(setLoglevel:)]) {
+        [buadClass setLoglevel:(logEnable?BUAdSDKLogLevelVerbose:BUAdSDKLogLevelNone)];
+    }
+}
+
+
 @end

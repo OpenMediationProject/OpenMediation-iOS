@@ -133,7 +133,7 @@ static OMLoadFrequencryControl * _instance = nil;
     [records addObject:[NSString stringWithFormat:@"%zd",(NSInteger)(timeStamp)]];
     [_placementImprMap setObject:records forKey:placementID];
     [self savePlacementImprData];
-    OMLogD(@"placementID %@ save impression count = %zd",placementID,[records count]);
+    OMLogD(@"placement %@ save impression count = %zd",placementID,[records count]);
 }
 
 
@@ -146,7 +146,7 @@ static OMLoadFrequencryControl * _instance = nil;
     [records addObject:[NSString stringWithFormat:@"%zd",(NSInteger)(timeStamp)]];
     [_instanceImprMap setObject:records forKey:instanceID];
     [self saveInstanceImprData];
-    OMLogD(@"instanceID %@ save impression count = %zd",instanceID,[records count]);
+    OMLogD(@"instance %@ save impression count = %zd",instanceID,[records count]);
 }
 
 - (BOOL)overCapOnPlacement:(NSString*)placementID {
@@ -158,7 +158,7 @@ static OMLoadFrequencryControl * _instance = nil;
         if (imprCount >= adUnit.frequencryCap ) {
             overCap = YES;
             [[OMEventManager sharedInstance]addEvent:PLACEMENT_CAPPED extraData:@{@"pid":placementID}];
-            OMLogD(@"placement =%@ over cap %zd,%zd",placementID,imprCount,adUnit.frequencryCap);
+            OMLogD(@"placement %@ over cap %zd,%zd",placementID,imprCount,adUnit.frequencryCap);
         }
     }
     return overCap;
@@ -189,7 +189,7 @@ static OMLoadFrequencryControl * _instance = nil;
         NSInteger lastLoadTime = [self placmentLastImprTime:placementID];
         if ((now - lastLoadTime) < adUnit.frequencryInterval) {
             lessThanInterval = YES;
-            OMLogD(@" placement =%@ less than load interval %zd,%zd",placementID,(NSInteger)(now - lastLoadTime),adUnit.frequencryInterval);
+            OMLogD(@"placement %@ less than load interval %zd,%zd",placementID,(NSInteger)(now - lastLoadTime),adUnit.frequencryInterval);
         }
     }
     return lessThanInterval;
@@ -214,7 +214,7 @@ static OMLoadFrequencryControl * _instance = nil;
         if (imprCount >= adInstance.frequencryCap) {
             overCap = YES;
             [[OMEventManager sharedInstance]addEvent:INSTANCE_CAPPED extraData:@{@"iid":adInstance.instanceID}];
-            OMLogD(@"instance =%@ over cap %zd,%zd",instanceID,imprCount,adInstance.frequencryCap);
+            OMLogD(@"instance %@ over cap %zd,%zd",instanceID,imprCount,adInstance.frequencryCap);
         }
     }
     return overCap;
@@ -228,7 +228,7 @@ static OMLoadFrequencryControl * _instance = nil;
         NSInteger lastLoadTime = [self instanceLastImprTime:instanceID];
         if ((now - lastLoadTime) < adInstance.frequencryIntercal) {
             lessThanInterval = YES;
-            OMLogD(@"instance =%@ less than load interval %zd,%zd",instanceID,(NSInteger)(now - lastLoadTime),adInstance.frequencryIntercal);
+            OMLogD(@"instance %@ less than load interval %zd,%zd",instanceID,(NSInteger)(now - lastLoadTime),adInstance.frequencryIntercal);
         }
     }
     return lessThanInterval;
@@ -252,7 +252,7 @@ static OMLoadFrequencryControl * _instance = nil;
             if (imprCount >= scene.frequencryCap ) {
                 overCap = YES;
                 [[OMEventManager sharedInstance]addEvent:SCENE_CAPPED extraData:@{@"pid":placementID,@"scene":scene.sceneID}];
-                OMLogD(@"scene =%@ over cap %zd,%zd",scene.sceneName,imprCount,scene.frequencryCap);
+                OMLogD(@"scene %@ over cap %zd,%zd",scene.sceneName,imprCount,scene.frequencryCap);
             }
         }
 

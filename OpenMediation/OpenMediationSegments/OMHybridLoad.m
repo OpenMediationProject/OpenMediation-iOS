@@ -46,7 +46,7 @@
     self.instanceLoadState = [NSMutableDictionary dictionary];
     self.optimalFillInstance = @"";
     if (![insPriority isKindOfClass:[NSArray class]] || insPriority.count == 0) {
-        OMLogD(@"%@ priority empty",self.pid);
+        OMLogD(@"%@ load priority empty",self.pid);
         [self notifyNoFill];
         [self notifyLoadEnd];
         return;

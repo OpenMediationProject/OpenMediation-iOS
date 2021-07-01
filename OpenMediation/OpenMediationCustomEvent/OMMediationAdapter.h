@@ -26,6 +26,8 @@ typedef void (^OMMediationAdapterInitCompletionBlock)(NSError *_Nullable error);
 
 + (void)setUserGender:(NSInteger)userGender;
 
++ (void)setLogEnable:(BOOL)logEnable;
+
 @end
 
 NS_ASSUME_NONNULL_END

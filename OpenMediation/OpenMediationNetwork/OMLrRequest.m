@@ -32,9 +32,9 @@
     if (!jsonError && jsonData && [[OMConfig sharedInstance].lrUrl length]>0) {
         [OMRequest postWithUrl:[self lrUrl] data:jsonData completionHandler:^(NSObject *object, NSError *error) {
             if (error) {
-                OMLogD(@"lr error");
+                OMLogD(@"lr report error");
             } else {
-                OMLogD(@"lr type %zd,pid %@ iid:%@",type,pid,instanceID);
+                OMLogD(@"lr report type %zd, pid %@ instance id:%@",type,pid,instanceID);
             }
         }];
     }

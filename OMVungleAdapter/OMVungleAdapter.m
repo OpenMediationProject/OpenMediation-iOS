@@ -72,4 +72,12 @@
         completionHandler(error);
     }
 }
+
++ (void)setLogEnable:(BOOL)logEnable {
+    Class vungleClass = NSClassFromString(@"VungleSDK");
+    if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)] && [vungleClass instancesRespondToSelector:@selector(setLoggingEnabled:)]) {
+        [[vungleClass sharedSDK] setLoggingEnabled:logEnable];
+    }
+}
+
 @end

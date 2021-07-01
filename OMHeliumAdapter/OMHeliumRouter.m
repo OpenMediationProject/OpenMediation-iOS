@@ -16,7 +16,7 @@ static OMHeliumRouter * _instance = nil;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _placementDelegateMap = [NSMutableDictionary dictionary];
+        _placementDelegateMap = [NSMapTable weakToWeakObjectsMapTable];
         _placementAdMap = [NSMutableDictionary dictionary];
     }
     return self;

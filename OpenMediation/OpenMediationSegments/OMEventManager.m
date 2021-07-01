@@ -126,6 +126,8 @@ static OMEventManager * _instance = nil;
         NSMutableDictionary *eventDic = [NSMutableDictionary dictionary];
         [eventDic setValue:[UIDevice omTimeStamp] forKey:@"ts"];
         [eventDic setValue:eventIDNumber forKey:@"eid"];
+        UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+        [eventDic setValue:[NSNumber numberWithInt:(orientation<=2?1:2)] forKey:@"ot"];
         NSInteger duration = [self eventDuration:eventID extraData:data];
         if ( duration > 0) {
             [eventDic setValue:[NSNumber numberWithInteger:duration] forKey:@"duration"];

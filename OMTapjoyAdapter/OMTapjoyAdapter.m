@@ -18,7 +18,7 @@ static OMTapjoyAdapter * _instance = nil;
         tapjoySDK = [tapjoyClass sharedInstance];
     }
     if (tapjoySDK && [tapjoySDK respondsToSelector:@selector(setSubjectToGDPR:)]) {
-        [tapjoySDK setSubjectToGDPR:(consent?1:0)];
+        [tapjoySDK setSubjectToGDPR:YES];
     }
     if (tapjoySDK && [tapjoySDK respondsToSelector:@selector(setUserConsent:)]) {
         [tapjoySDK setUserConsent:(consent?@"1":@"0")];
@@ -90,5 +90,14 @@ static OMTapjoyAdapter * _instance = nil;
     });
     return _instance;
 }
+
+
++ (void)setLogEnable:(BOOL)logEnable {
+    Class tapjoyClass = NSClassFromString(@"Tapjoy");
+    if (tapjoyClass && [tapjoyClass respondsToSelector:@selector(setDebugEnabled:)]) {
+        [tapjoyClass setDebugEnabled:logEnable];
+    }
+}
+
 
 @end

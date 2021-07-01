@@ -137,7 +137,8 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkFyber):@"Fyber",
             @(OMAdNetworkSigMob):@"SigMob",
             @(OMAdNetworkKsAd):@"KuaiShou",
-            @(OMAdNetworkPubNative):@"PubNative"
+            @(OMAdNetworkPubNative):@"PubNative",
+            @(OMAdNetworkAdmost):@"Admost"
         };
         
         _adnSdkClassMap = @{
@@ -159,7 +160,8 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkFyber):@"IASDKCore",
             @(OMAdNetworkSigMob):@"WindAds",
             @(OMAdNetworkKsAd):@"KSAdSDKManager",
-            @(OMAdNetworkPubNative):@"HyBid"
+            @(OMAdNetworkPubNative):@"HyBid",
+            @(OMAdNetworkAdmost):@"AMRSDK"
         };
         
         _adnSDKInitState = [NSMutableDictionary dictionary];
@@ -321,6 +323,13 @@ static OMMediations *_instance = nil;
             }
         }
             break;
+        case OMAdNetworkAdmost:
+        {
+            if (sdkClass && [sdkClass respondsToSelector:@selector(SDKVersion)]) {
+                sdkVersion = [sdkClass SDKVersion];
+            }
+        }
+            break;
         default:
             break;
     }
@@ -340,6 +349,9 @@ static OMMediations *_instance = nil;
         __weak __typeof(self) weakSelf = self;
         
         if (![self adnSDKInitializing:adnID]) {
+            if ([adapterClass respondsToSelector:@selector(setLogEnable:)]) {
+                [adapterClass setLogEnable:config.openDebug];
+            }
             if (adnID == OMAdNetworkMopub && [pids count]>0) {
                 
                 ///MoPub need init first
@@ -399,7 +411,7 @@ static OMMediations *_instance = nil;
     }else {
         NSError *error = [[NSError alloc] initWithDomain:@"com.om.mediations"
             code:400
-        userInfo:@{NSLocalizedDescriptionKey:@"Failed,sdk or adapter not found"}];
+        userInfo:@{NSLocalizedDescriptionKey:@"Init adn failed,sdk or adapter not found"}];
         completionHandler(error);
     }
 }
@@ -428,7 +440,7 @@ static OMMediations *_instance = nil;
             if ([OMMediations importAdnSDK:adnID]) {
                 OMLogI(@"%@ SDK version %@",[self.adnNameMap objectForKey:@(adnID)],[self adnSDKVersion:adnID]);
                 
-                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:adnID],@"mid",[self adnSDKVersion:adnID],@"msdkv",@"",@"adapterv", nil];
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:adnID],@"mid",[self adnSDKVersion:adnID],@"mediation sdk",@"",@"adapter version", nil];
                 Class adnAdapterClass = [self adnAdapterClass:adnID];
                 if (adnAdapterClass && [adnAdapterClass respondsToSelector:@selector(adapterVerison)]) {
                     OMLogI(@"%@ adapter version %@",[self.adnNameMap objectForKey:@(adnID)],[adnAdapterClass adapterVerison]);

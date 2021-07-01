@@ -3,13 +3,19 @@
 
 #import <Foundation/Foundation.h>
 #import "OMMediationAdapter.h"
+#import "OMUnityClass.h"
 
-static NSString * const UnityAdapterVersion = @"2.0.3";
+NS_ASSUME_NONNULL_BEGIN
 
-@interface OMUnityAdapter : NSObject<OMMediationAdapter>
+static NSString * const UnityAdapterVersion = @"2.0.4";
+
+@interface OMUnityAdapter : NSObject<OMMediationAdapter,UnityAdsInitializationDelegate>
+@property (nonatomic, copy, nullable) OMMediationAdapterInitCompletionBlock initBlock;
 
 + (NSString*)adapterVerison;
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 + (void)setConsent:(BOOL)consent;
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit;
 @end
+
+NS_ASSUME_NONNULL_END

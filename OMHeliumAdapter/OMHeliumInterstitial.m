@@ -39,7 +39,7 @@
     if(!error && [self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     } else if (error) {
-        NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.ads" code:error.errorCode userInfo:@{@"msg":error.errorDescription}];
+        NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.ads" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:error.errorDescription}];
         if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
             [_delegate customEvent:self didFailToLoadWithError:cerror];
         }
@@ -52,7 +52,7 @@
 - (void)omHeliumDidShowWithError:(HeliumError *)error {
     if (error) {
         if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]) {
-            NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.bid" code:error.errorCode userInfo:@{@"msg":error.errorDescription}];
+            NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.bid" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:error.errorDescription}];
             [_delegate interstitialCustomEventDidFailToShow:self error:cerror];
         }
     } else {

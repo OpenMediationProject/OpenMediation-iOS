@@ -52,4 +52,12 @@
     }
 }
 
++ (void)setLogEnable:(BOOL)logEnable {
+    Class fbSetting = NSClassFromString(@"FBAdSettings");
+    if (fbSetting && [fbSetting respondsToSelector:@selector(setLogLevel:)]) {
+        [fbSetting setLogLevel:(logEnable?FBAdLogLevelVerbose:FBAdLogLevelNone)];
+    }
+}
+
+
 @end

@@ -21,7 +21,7 @@ static OMUnityRouter * _instance = nil;
         if (unityClass && [unityClass respondsToSelector:@selector(addDelegate:)]) {
             [unityClass addDelegate:self];
         }
-        _placementDelegateMap = [NSMutableDictionary dictionary];
+        _placementDelegateMap = [NSMapTable weakToWeakObjectsMapTable];
     }
     return self;
 }

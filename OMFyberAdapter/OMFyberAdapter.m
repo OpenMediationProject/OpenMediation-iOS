@@ -63,4 +63,10 @@ NSString * const kIASDKOMAdapterErrorDomain = @"com.om.IASDKAdapter";
     return _instance;
 }
 
++ (void)setLogEnable:(BOOL)logEnable {
+    Class logger = NSClassFromString(@"IALogger");
+    if (logger && [logger respondsToSelector:@selector(setLogLevel:)]) {
+        [logger setLogLevel:(logEnable?IALogLevelVerbose:IALogLevelOff)];
+    }
+}
 @end

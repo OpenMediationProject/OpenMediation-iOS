@@ -7,6 +7,7 @@ NSString *gdprConsentString = nil;
 
 static NSInteger omAdcUserAge;
 static NSInteger omAdcUserGender;
+static BOOL logEnabled = NO;
 
 @implementation OMAdColonyAdapter
 
@@ -50,6 +51,7 @@ static NSInteger omAdcUserGender;
         
         if (adColonyClass && [adColonyClass respondsToSelector:@selector(configureWithAppID:zoneIDs:options:completion:)]) {
             AdColonyAppOptions *options = [NSClassFromString(@"AdColonyAppOptions") new];
+            options.disableLogging = !logEnabled;
             if (gdprConsentString) {
                 options.gdprRequired = YES;
                 options.gdprConsentString = gdprConsentString;
@@ -76,7 +78,15 @@ static NSInteger omAdcUserGender;
             
             
             [adColonyClass configureWithAppID:key zoneIDs:pids options:options completion:^(NSArray<AdColonyZone *> *zones) {
+                if (zones.count>0) {
                     completionHandler(nil);
+                } else {
+                    NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.adcolonyadapter"
+                                                                code:401
+                                                            userInfo:@{NSLocalizedDescriptionKey:@"Failed to get Zone Ids"}];
+                    completionHandler(error);
+                }
+
             }];
         } else {
             NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.adcolonyadapter"
@@ -84,6 +94,10 @@ static NSInteger omAdcUserGender;
                                                     userInfo:@{NSLocalizedDescriptionKey:@"Failed,check init method and key"}];
             completionHandler(error);
         }
+}
+
++ (void)setLogEnable:(BOOL)logEnable {
+    logEnabled = logEnable;
 }
 
 @end

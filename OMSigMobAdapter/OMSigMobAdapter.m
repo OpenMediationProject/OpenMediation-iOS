@@ -51,4 +51,17 @@
     }
 }
 
++ (void)setLogEnable:(BOOL)logEnable {
+    Class windClass = NSClassFromString(@"WindAds");
+    if (windClass && [windClass respondsToSelector:@selector(sharedAds)] && [windClass instancesRespondToSelector:@selector(setDebugEnable:)]) {
+        [[windClass sharedAds] setDebugEnable:logEnable];
+        if (logEnable) {
+            [[windClass sharedAds]setDebugCallBack:^(NSString *msg, int level) {
+                NSLog(@"SigMob: %@",msg);
+            }];
+        }
+    }
+}
+
+
 @end

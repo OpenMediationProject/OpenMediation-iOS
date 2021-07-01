@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface OMHeliumRouter : NSObject <CHBHeliumInterstitialAdDelegate,CHBHeliumRewardedAdDelegate>
-@property (nonatomic, strong) NSMutableDictionary *placementDelegateMap;
+@property (nonatomic, strong) NSMapTable *placementDelegateMap;
 @property (nonatomic, strong) NSMutableDictionary *placementAdMap;
 
 + (instancetype)sharedInstance;

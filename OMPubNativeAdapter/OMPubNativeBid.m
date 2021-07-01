@@ -39,7 +39,7 @@ typedef void (^bidCompletionHandler)(NSDictionary *bidResponse);
 
 static NSMutableDictionary *bidBlockMapNew = nil;
 
-@protocol OMPubNativeBid<OMInterstitialCustomEvent,OMCustomEventDelegate,OMRewardedVideoCustomEvent,OMBannerCustomEvent,OMNativeCustomEvent>
+@protocol OMPubNativeAd<OMInterstitialCustomEvent,OMCustomEventDelegate,OMRewardedVideoCustomEvent,OMBannerCustomEvent,OMNativeCustomEvent>
 
 @property(nonatomic, weak, nullable) id<HyBidDelegate> bidDelegate;
 
@@ -52,7 +52,7 @@ static NSMutableDictionary *bidBlockMapNew = nil;
      NSString *placementID = networkItem.placementID;
     
     if (![appKey length] || ![placementID length]) {
-        callback(@{@"error":@"Required input params(appID placementID) for hybid bid is invalid"});
+        callback(@{@"error":@"Required input params(appID placementID) for PubNative bid is invalid"});
         return;
     }
     
@@ -71,7 +71,7 @@ static NSMutableDictionary *bidBlockMapNew = nil;
     
     if (adapterClass && ([adapterClass instancesRespondToSelector:@selector(initWithParameter:)] || [adapterClass instancesRespondToSelector:@selector(initWithFrame:adParameter:rootViewController:)]||[adapterClass instancesRespondToSelector:@selector(initWithParameter:rootVC:)]) ) {
         
-        id <OMPubNativeBid> adapter = nil;
+        id <OMPubNativeAd> adapter = nil;
         
         if ([adapterClass instancesRespondToSelector:@selector(initWithParameter:)]) { //IV RV
             adapter = [[instanceContainerCls sharedInstance]getInstance:instanceID block:^id{
@@ -96,7 +96,7 @@ static NSMutableDictionary *bidBlockMapNew = nil;
         adapter.bidDelegate = (id<HyBidDelegate>)self;
         [adapter loadAd];
     } else {
-        callback(@{@"error":@"HyBid Bid Adapter class not found"});
+        callback(@{@"error":@"PubNative Bid Adapter class not found"});
     }
 }
 

@@ -6,6 +6,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, FBAdLogLevel) {
+    /// No logging
+    FBAdLogLevelNone,
+    /// Notifications
+    FBAdLogLevelNotification,
+    /// Errors only
+    FBAdLogLevelError,
+    /// Warnings only
+    FBAdLogLevelWarning,
+    /// Standard log level
+    FBAdLogLevelLog,
+    /// Debug logging
+    FBAdLogLevelDebug,
+    /// Log everything (verbose)
+    FBAdLogLevelVerbose
+};
 
 @interface FBAdInitSettings : NSObject
 
@@ -81,6 +97,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param options Processing options you would like to enable for a specific event. Current accepted value is LDU for
 /// Limited Data Use.
 + (void)setDataProcessingOptions:(NSArray<NSString *> *)options;
+
++ (void)setLogLevel:(FBAdLogLevel)level;
 
 @end
 

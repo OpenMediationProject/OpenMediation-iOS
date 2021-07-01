@@ -21,7 +21,7 @@ static OMIronSourceRouter * _instance = nil;
             [IronSourceClass setISDemandOnlyInterstitialDelegate:self];
             [IronSourceClass setISDemandOnlyRewardedVideoDelegate:self];
         }
-        _placementDelegateMap = [NSMutableDictionary dictionary];
+        _placementDelegateMap = [NSMapTable weakToWeakObjectsMapTable];
     }
     return self;
 }

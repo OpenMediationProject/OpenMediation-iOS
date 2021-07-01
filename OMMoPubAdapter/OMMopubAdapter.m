@@ -4,6 +4,8 @@
 #import "OMMopubAdapter.h"
 #import "OMMopubClass.h"
 
+static BOOL logEnabled = NO;
+
 @implementation OMMopubAdapter
 
 + (NSString*)adapterVerison {
@@ -39,6 +41,7 @@
         
         NSString *pid = pids[0];
         MPMoPubConfiguration *sdkConfig = [[MPConfigClass alloc] initWithAdUnitIdForAppInitialization:pid];
+        sdkConfig.loggingLevel = (logEnabled?MPBLogLevelDebug:MPBLogLevelNone);
         [[MoPubClass sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{
             completionHandler(nil);
         }];
@@ -51,4 +54,7 @@
     
 }
 
++ (void)setLogEnable:(BOOL)logEnable {
+    logEnabled = logEnable;
+}
 @end

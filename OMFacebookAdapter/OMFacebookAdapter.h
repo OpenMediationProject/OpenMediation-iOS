@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 #import "OMMediationAdapter.h"
 
-static NSString * const FacebookAdapterVersion = @"2.0.4";
+static NSString * const FacebookAdapterVersion = @"2.0.5";
 
 @interface OMFacebookAdapter : NSObject<OMMediationAdapter>
 

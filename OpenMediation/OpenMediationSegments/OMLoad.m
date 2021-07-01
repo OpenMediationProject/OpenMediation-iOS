@@ -101,9 +101,11 @@
     if (index < _loadGroups.count) {
         NSArray *group = _loadGroups[index];
         for (NSString *instanceID in group) {
+            OMAdNetwork adnID = [[OMConfig sharedInstance]getInstanceAdNetwork:instanceID];
+            NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
             OMInstanceLoadState state = [_instanceLoadState[instanceID]integerValue];
             if (state == OMInstanceLoadStateLoading) {
-                OMLogD(@"%@ instance %@ timeout",self.pid,instanceID);
+                OMLogD(@"%@ adnName %@ instance %@ timeout",self.pid,adnName,instanceID);
                 [self saveInstanceLoadState:instanceID state:OMInstanceLoadStateTimeout];
                 if (_delegate && [_delegate respondsToSelector:@selector(omLoadInstanceTimeout:)]) {
                     [_delegate omLoadInstanceTimeout:instanceID];
@@ -114,11 +116,13 @@
 }
 
 - (void)saveInstanceLoadState:(NSString*)instanceID state:(OMInstanceLoadState)loadState {
+    OMAdNetwork adnID = [[OMConfig sharedInstance]getInstanceAdNetwork:instanceID];
+    NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
     OMInstanceLoadState currentLoadState = [_instanceLoadState[instanceID]integerValue];
     if (OM_STR_EMPTY(instanceID) || (loadState<0) || (loadState > OMInstanceLoadStateCallShow) ||  ((currentLoadState == OMInstanceLoadStateWait) && loadState >OMInstanceLoadStateLoading)) {
-        OMLogD(@"%@ instance %@ load state %zd",_pid,OM_SAFE_STRING(instanceID),(long)loadState);
+        OMLogD(@"%@ adnName %@ instance %@ load state %zd",_pid,adnName,OM_SAFE_STRING(instanceID),(long)loadState);
     } else {
-        OMLogD(@"%@ instance %@ load state %@",_pid,instanceID,self.stateName[loadState]);;
+        OMLogD(@"%@ adnName %@ instance %@ load state %@",_pid,adnName,instanceID,self.stateName[loadState]);;
         _instanceLoadState[instanceID] = [NSNumber numberWithInteger:loadState];
     }
     [self checkOptimalInstance];
@@ -134,9 +138,11 @@
 }
 
 - (void)notifyFill:(NSString*)instanceID {
+    OMAdNetwork adnID = [[OMConfig sharedInstance]getInstanceAdNetwork:instanceID];
+    NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
     if (!_notifyLoadResult) {
         _notifyLoadResult = YES;
-        OMLogD(@"%@ fill:%@",self.pid,instanceID);
+        OMLogD(@"%@ fill adnName %@ instance: %@",self.pid,adnName,instanceID);
         if (_delegate && [_delegate respondsToSelector:@selector(omLoadFill:)]) {
             [_delegate omLoadFill:instanceID];
         }
@@ -144,7 +150,9 @@
 }
 
 - (void)notifyOptimalFill {
-    OMLogD(@"%@ optimal fill:%@",self.pid,self.optimalFillInstance);
+    OMAdNetwork adnID = [[OMConfig sharedInstance]getInstanceAdNetwork:self.optimalFillInstance];
+    NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
+    OMLogD(@"%@ optimal fill adnName %@ instance:%@",self.pid,adnName,self.optimalFillInstance);
     if (_delegate && [_delegate respondsToSelector:@selector(omLoadOptimalFill:)]) {
         [_delegate omLoadOptimalFill:self.optimalFillInstance];
     }

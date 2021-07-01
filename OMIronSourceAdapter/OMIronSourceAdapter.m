@@ -3,7 +3,7 @@
 
 #import "OMIronSourceAdapter.h"
 
-static NSString * const IronSourceAdapterVersion = @"2.0.3";
+static NSString * const IronSourceAdapterVersion = @"2.0.4";
 static BOOL _mediationAPI = NO;
 
 @implementation OMIronSourceAdapter

@@ -4,6 +4,8 @@
 #import "OMUnityAdapter.h"
 #import "OMUnityRouter.h"
 
+static OMUnityAdapter * _instance = nil;
+
 @implementation OMUnityAdapter
 
 + (NSString*)adapterVerison {
@@ -41,8 +43,9 @@
     }
     
     NSString *key = [configuration objectForKey:@"appKey"];
-    if (unityClass && [unityClass respondsToSelector:@selector(initialize:delegate:)] && [key length]>0) {
-        [unityClass initialize:key];
+    if (unityClass && [unityClass respondsToSelector:@selector(initialize:initializationDelegate:)] && [key length]>0) {
+        [OMUnityAdapter sharedInstance].initBlock = completionHandler;
+        [unityClass initialize:key initializationDelegate:[OMUnityAdapter sharedInstance]];
         completionHandler(nil);
     }else{
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.unityadapter"
@@ -51,6 +54,35 @@
         completionHandler(error);
     }
 
+}
+
+- (void)initializationComplete {
+    if (self.initBlock) {
+        self.initBlock(nil);
+        self.initBlock = nil;
+    }
+}
+
+- (void)initializationFailed:(UnityAdsInitializationError)error withMessage:(NSString *)message {
+    if (self.initBlock) {
+        self.initBlock(error?[NSError errorWithDomain:@"om.mediation.heliumadapter" code:error userInfo:@{NSLocalizedDescriptionKey:message}]:nil);
+        self.initBlock = nil;
+    }
+}
+
++ (void)setLogEnable:(BOOL)logEnable {
+    Class unityClass = NSClassFromString(@"UnityAds");
+    if (unityClass && [unityClass respondsToSelector:@selector(setDebugMode:)]) {
+        [unityClass setDebugMode:logEnable];
+    }
+}
+
++ (instancetype)sharedInstance{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instance = [[self alloc] init];
+    });
+    return _instance;
 }
 
 @end

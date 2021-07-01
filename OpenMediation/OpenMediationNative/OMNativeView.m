@@ -71,13 +71,16 @@
 
 - (void)setMediaView:(OMNativeMediaView *)mediaView {
     [_mediaView removeFromSuperview];
+    [_nativeAdView removeFromSuperview];
     _mediaView = mediaView;
 }
 
 -(void)setNativeAdView:(OMNativeAdView *)nativeAdView {
+    [_mediaView removeFromSuperview];
     [_nativeAdView removeFromSuperview];
     _nativeAdView = nativeAdView;
     [self addSubview:(UIView *)nativeAdView];
+    [self addConstraintEqualSuperView:nativeAdView];
 }
 
 - (void)addSubview:(UIView *)view {
@@ -103,5 +106,20 @@
     }
 }
 
+- (void)addConstraintEqualSuperView:(UIView*)view {
+    [view setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    NSLayoutConstraint *topCos = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+    [view.superview addConstraint:topCos];
+    
+    NSLayoutConstraint *bootomCos = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+    [view.superview addConstraint:bootomCos];
+    
+    NSLayoutConstraint *leftCos = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
+    [view.superview addConstraint:leftCos];
+    
+    NSLayoutConstraint *rightCos = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
+    [view.superview addConstraint:rightCos];
+}
 
 @end

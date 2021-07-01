@@ -131,7 +131,7 @@ static OMConfig *_instance = nil;
                 if (OM_IS_NOT_NULL(adnNickName)) {
                     [_adnNickName setObject:adnNickName forKey:adnID];
                 }
-                OMLogV(@"mName=%@,mKey=%@",adnName,adnAppKey);
+                OMLogV(@"adn name=%@,adn key=%@",adnName,adnAppKey);
             }
         }
     }
@@ -148,7 +148,7 @@ static OMConfig *_instance = nil;
                 NSString *mKey = [NSString stringWithFormat:@"%@_%@",[NSString stringWithFormat:@"%zd",instance.adnID],instance.adnPlacementID];
                 [_adnPlacementMap setObject:instance forKey:mKey];
             }
-            OMLogD(@"load pid = %@,format = %@",unit.unitID,[self adFormatName:unit.adFormat]);
+            OMLogD(@"load pid %@,format %@",unit.unitID,[self adFormatName:unit.adFormat]);
         }
     }
 }

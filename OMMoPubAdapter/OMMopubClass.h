@@ -44,9 +44,15 @@ typedef enum
 @end
 
 
+typedef NS_ENUM(NSUInteger, MPBLogLevel) {
+    MPBLogLevelDebug = 20,
+    MPBLogLevelInfo  = 30,
+    MPBLogLevelNone  = 70
+};
+
 @interface MPMoPubConfiguration : NSObject
 
-
+@property (nonatomic, assign) MPBLogLevel loggingLevel;
 /**
  Initializes the @c MPMoPubConfiguration object with the required fields.
  @param adUnitId Any valid ad unit ID used within the app used for app initialization.

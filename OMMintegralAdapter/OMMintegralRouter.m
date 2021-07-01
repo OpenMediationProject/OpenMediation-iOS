@@ -16,7 +16,7 @@ static OMMintegralRouter * _instance = nil;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _placementDelegateMap = [NSMutableDictionary dictionary];
+        _placementDelegateMap = [NSMapTable weakToWeakObjectsMapTable];
     }
     return self;
 }

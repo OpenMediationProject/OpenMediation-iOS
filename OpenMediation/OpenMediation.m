@@ -96,6 +96,7 @@ static NSTimer *SDKInitCheckTimer = nil;
     [OMInitRequest configureWithAppKey:appKey baseHost:host completionHandler:^(NSError *error) {
         if (!error) {
             [self settingWithConfig];
+            [self sendConversionData];
             [[OMEventManager sharedInstance]addEvent:INIT_COMPLETE extraData:nil];
             OMLogI(@"OpenMediation SDK init success");
             completionHandler(nil);
@@ -130,6 +131,20 @@ static NSTimer *SDKInitCheckTimer = nil;
         [[OMCrashHandle sharedInstance]install];
     }
 
+}
+
++ (void)sendConversionData {
+    if ([OMConfig sharedInstance].conversionData)   {
+        NSArray *allKeys = [OMConfig sharedInstance].conversionData.allKeys;
+        for (NSNumber *type in allKeys) {
+            [OMCDRequest postWithType:[type integerValue] data:[[OMConfig sharedInstance].conversionData objectForKey:type] completionHandler:^(NSDictionary * _Nullable object, NSError * _Nullable error) {
+                if (!error) {
+                    OMLogD(@"send af conversion data success");
+                }
+            }];
+        }
+    }
+    
 }
 
 /// Check that `OpenMediation` has been initialized
@@ -263,19 +278,33 @@ static NSTimer *SDKInitCheckTimer = nil;
 #pragma mark - ROAS
 /// calculate each Media Source, Campaign level ROAS, and LTV data
 + (void)sendAFConversionData:(NSDictionary*)conversionInfo {
-    [OMCDRequest postWithType:0 data:conversionInfo completionHandler:^(NSDictionary * _Nullable object, NSError * _Nullable error) {
-        if (!error) {
-            OMLogD(@"send af conversion data success");
+    if ([self isInitialized]) {
+        [OMCDRequest postWithType:0 data:conversionInfo completionHandler:^(NSDictionary * _Nullable object, NSError * _Nullable error) {
+            if (!error) {
+                OMLogD(@"send af conversion data success");
+            }
+        }];
+    } else {
+        if (![OMConfig sharedInstance].conversionData) {
+            [OMConfig sharedInstance].conversionData = [NSMutableDictionary dictionary];
         }
-    }];
+        [[OMConfig sharedInstance].conversionData setObject:conversionInfo forKey:@"0"];
+    }
 }
 
 + (void)sendAFDeepLinkData:(NSDictionary*)attributionData {
-    [OMCDRequest postWithType:1 data:attributionData completionHandler:^(NSDictionary * _Nullable object, NSError * _Nullable error) {
-        if (!error) {
-            OMLogD(@"send af deep link data success");
+    if ([self isInitialized]) {
+        [OMCDRequest postWithType:1 data:attributionData completionHandler:^(NSDictionary * _Nullable object, NSError * _Nullable error) {
+            if (!error) {
+                OMLogD(@"send af deep link data success");
+            }
+        }];
+    } else {
+        if (![OMConfig sharedInstance].conversionData) {
+            [OMConfig sharedInstance].conversionData = [NSMutableDictionary dictionary];
         }
-    }];
+        [[OMConfig sharedInstance].conversionData setObject:attributionData forKey:@"1"];
+    }
 }
 
 #pragma mark - ImpressionData

@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)limitedConnect:(NSString *)sdkKey;
 + (NSString*)getVersion;
 + (void)setUserConsent:(NSString*) value;
++ (void)setDebugEnabled:(BOOL)enabled; 
 @end
 
 @interface TJPrivacyPolicy : NSObject

@@ -67,7 +67,7 @@
 }
 
 - (void)refresh {
-    OMLogD(@"OMBanner refresh");
+    OMLogD(@"OMBanner refresh load");
     [_bannerAd loadAd:OpenMediationAdFormatBanner actionType:OMLoadActionTimer];
 }
 

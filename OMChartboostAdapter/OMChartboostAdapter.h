@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const ChartboostAdapterVersion = @"2.0.2";
+static NSString * const ChartboostAdapterVersion = @"2.0.3";
 
 @interface OMChartboostAdapter : NSObject<OMMediationAdapter>
 

@@ -38,7 +38,7 @@
                if (refreshSecond >0 ) {
                    self.checkCacheTimer = [NSTimer scheduledTimerWithTimeInterval:refreshSecond target:[OMWeakObject proxyWithTarget:self] selector:@selector(checkCache) userInfo:nil repeats:NO];
                    [[NSRunLoop currentRunLoop] addTimer:self.checkCacheTimer forMode:NSRunLoopCommonModes];
-                   OMLogD(@"%@  refresh level %zd timer interval %zd",self.pid,refreshLevel,refreshSecond);
+                   OMLogD(@"%@ refresh level %zd timer interval %zd",self.pid,refreshLevel,refreshSecond);
                }
         }
     }
@@ -124,7 +124,7 @@
     }
     self.instanceLoadState = instanceLoadState;
     if (self.priorityList.count == 0 && !self.fillInstances.count) {
-        OMLogD(@"%@ priority empty",self.pid);
+        OMLogD(@"%@ load priority empty",self.pid);
         [self notifyNoFill];
         [self notifyLoadEnd];
     } else {
@@ -166,7 +166,7 @@
             _cacheCount++;
         }
     }
-    OMLogD(@"%@ loading configCache %zd cache %zd loading %zd mpc %zd",self.pid,self.configCacheCount,self.cacheCount,self.loadingCount,self.maxParallelLoadCount);
+    OMLogD(@"%@ loading configCache %zd cache %zd instance %@ loading %zd maxLoadCount %zd",self.pid,self.configCacheCount,self.cacheCount,[self.fillInstances componentsJoinedByString:@"," ],(long)self.loadingCount,self.maxParallelLoadCount);
     if (!_cacheCount) {
         if (self.fillInstances.count>0) {
             self.optimalFillInstance = self.fillInstances[0];
@@ -180,7 +180,7 @@
         self.replenishCacheNofillCount = 0;//reset replenishCacheNofillCount
         OMLogD(@"%@ reset replenish no fill count 0",self.pid);
         if (self.cacheCount >= self.configCacheCount) {
-            OMLogD(@"%@ cache full,configCache %zd cache %zd",self.pid,self.configCacheCount,self.cacheCount);
+            OMLogD(@"%@ cache full,configCache %zd cache %zd instance %@",self.pid,self.configCacheCount,self.cacheCount,[self.fillInstances componentsJoinedByString:@","]);
             [self notifyLoadEnd];
         }
     }

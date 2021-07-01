@@ -50,4 +50,11 @@
     }
 }
 
++ (void)setLogEnable:(BOOL)logEnable {
+    Class adtimingClass = NSClassFromString(@"AdTimingBid");
+    if (adtimingClass && [adtimingClass respondsToSelector:@selector(setLogEnable:)]) {
+        [adtimingClass setLogEnable:logEnable];
+    }
+}
+
 @end

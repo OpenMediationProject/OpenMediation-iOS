@@ -51,7 +51,14 @@ static OMChartboostAdapter * _instance = nil;
         [chartboostClass startWithAppId:keys[0]
                            appSignature:keys[1]
                              completion:^(BOOL success) {
-            completionHandler(nil);
+            if (success) {
+                completionHandler(nil);
+            } else {
+                NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.chartboostadapter"
+                                                            code:401
+                                                        userInfo:@{NSLocalizedDescriptionKey:@"Init failed"}];
+                completionHandler(error);
+            }
         }];
     }else{
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.chartboostadapter"
@@ -70,4 +77,10 @@ static OMChartboostAdapter * _instance = nil;
 }
 
 
++ (void)setLogEnable:(BOOL)logEnable {
+    Class chartboostClass = NSClassFromString(@"Chartboost");
+    if (chartboostClass && [chartboostClass respondsToSelector:@selector(setLoggingLevel:)]) {
+        [chartboostClass setLoggingLevel:(logEnable?CBLoggingLevelVerbose:CBLoggingLevelOff)];
+    }
+}
 @end

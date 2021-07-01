@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, KSAdSDKLogLevel) {
 @interface KSAdSDKManager : NSObject
 @property (nonatomic, readonly, class) NSString *SDKVersion;
 + (void)setAppId:(NSString *)appId;
++ (void)setLoglevel:(KSAdSDKLogLevel)level;
 @end
 
 typedef NS_ENUM(NSInteger, KSAdShowDirection) {

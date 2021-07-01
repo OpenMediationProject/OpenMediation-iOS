@@ -23,7 +23,7 @@ static OMVungleRouter * _instance = nil;
             _vungleSDK = [vungleClass sharedSDK];
             ((VungleSDK*)_vungleSDK).headerBiddingDelegate = self;
         }
-        _placementDelegateMap = [NSMutableDictionary dictionary];
+        _placementDelegateMap = [NSMapTable weakToWeakObjectsMapTable];
     }
     return self;
 }

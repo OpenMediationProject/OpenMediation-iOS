@@ -34,6 +34,15 @@ typedef NS_ENUM(NSInteger, BUFeedADMode) {
     BUFeedADModeImagePortrait = 16
 };
 
+typedef NS_ENUM(NSInteger, BUAdSDKLogLevel) {
+    BUAdSDKLogLevelNone,
+    BUAdSDKLogLevelError,
+    BUAdSDKLogLevelWarning,
+    BUAdSDKLogLevelInfo,
+    BUAdSDKLogLevelDebug,
+    BUAdSDKLogLevelVerbose,
+};
+
 @protocol BUMopubAdMarkUpDelegate <NSObject>
 @optional
 
@@ -69,6 +78,7 @@ typedef NS_ENUM(NSInteger, BUFeedADMode) {
 + (void)setAppID:(NSString *)appID;
 + (void)setGDPR:(NSInteger)GDPR;
 + (void)setTerritory:(BUAdSDKTerritory)territory;
++ (void)setLoglevel:(BUAdSDKLogLevel)level;
 @end;
 
 NS_ASSUME_NONNULL_END

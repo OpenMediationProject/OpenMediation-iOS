@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMMintegralRouter : NSObject<MTGRewardAdLoadDelegate,MTGRewardAdShowDelegate>
 
-@property (nonatomic, strong) NSMutableDictionary *placementDelegateMap;
+@property (nonatomic, strong) NSMapTable *placementDelegateMap;
 
 @property (nonatomic, strong) id mintegralSDK;
 

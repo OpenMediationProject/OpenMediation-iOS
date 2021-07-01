@@ -17,7 +17,7 @@
     }
     
     [OMConfig sharedInstance].initState = ([[OMConfig sharedInstance]initSuccess]?OMInitStateReinitialize:OMInitStateInitializing);
-    OMLogD(@"init key = %@" ,appKey);
+    OMLogD(@"init key %@" ,appKey);
     [OMConfig sharedInstance].baseHost = host;
     [OMConfig sharedInstance].appKey = appKey;
     [UIDevice omStoreSessionID];

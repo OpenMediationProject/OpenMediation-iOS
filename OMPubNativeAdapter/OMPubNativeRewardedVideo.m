@@ -50,7 +50,7 @@
 }
 
 - (void)rewardedDidFailWithError:(NSError *)error {
-    NSError *hybidError = [[NSError alloc] initWithDomain:@"com.hybid.bid" code:error.code userInfo:@{@"msg":error.description}];
+    NSError *hybidError = [[NSError alloc] initWithDomain:@"com.hybid.bid" code:error.code userInfo:@{NSLocalizedDescriptionKey:error.localizedDescription}];
     if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)]) {
         [_bidDelegate bidReseponse:self bid:nil error:hybidError];
     }

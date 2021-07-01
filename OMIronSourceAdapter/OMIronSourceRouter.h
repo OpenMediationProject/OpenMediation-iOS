@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMIronSourceRouter : NSObject<ISDemandOnlyInterstitialDelegate,ISDemandOnlyRewardedVideoDelegate>
 
-@property (nonatomic, strong) NSMutableDictionary *placementDelegateMap;
+@property (nonatomic, strong) NSMapTable *placementDelegateMap;
 
 + (instancetype)sharedInstance;
 - (void)registerPidDelegate:(NSString*)pid delegate:(id)delegate;

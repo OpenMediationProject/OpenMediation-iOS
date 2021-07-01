@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface OMUnityRouter : NSObject<UnityAdsDelegate,UnityAdsExtendedDelegate,UnityAdsShowDelegate>
-@property (nonatomic, strong) NSMutableDictionary *placementDelegateMap;
+@property (nonatomic, strong) NSMapTable *placementDelegateMap;
 
 + (instancetype)sharedInstance;
 - (void)registerPidDelegate:(NSString*)pid delegate:(id)delegate;

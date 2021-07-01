@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *  const FyberAdapterVersion = @"2.0.2";
+static NSString *  const FyberAdapterVersion = @"2.0.3";
 
 @interface OMFyberAdapter : NSObject
 

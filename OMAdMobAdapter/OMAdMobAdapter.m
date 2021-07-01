@@ -3,7 +3,7 @@
 
 #import "OMAdMobAdapter.h"
 
-static NSString * const AdmobAdapterVersion = @"2.0.5";
+static NSString * const AdmobAdapterVersion = @"2.0.6";
 static BOOL admobNpaAd = NO;
 
 @implementation OMAdMobAdapter
@@ -44,8 +44,9 @@ static BOOL admobNpaAd = NO;
     if(admobClass && [admobClass respondsToSelector:@selector(sharedInstance)]) {
         GADMobileAds *ac = [admobClass sharedInstance];
         if (ac && [ac respondsToSelector:@selector(startWithCompletionHandler:)]) {
-            [ac startWithCompletionHandler:nil];
-            completionHandler(nil);
+            [ac startWithCompletionHandler:^(GADInitializationStatus *status){
+                completionHandler(nil);
+              }];
         }
     }else{
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.admobadapter"

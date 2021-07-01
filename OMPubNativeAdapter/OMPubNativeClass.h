@@ -16,6 +16,14 @@ typedef enum {
     BOTTOM
 } BannerPosition;
 
+typedef enum {
+    HyBidLogLevelNone,
+    HyBidLogLevelError,
+    HyBidLogLevelWarning,
+    HyBidLogLevelInfo,
+    HyBidLogLevelDebug,
+} HyBidLogLevel;
+
 @interface HyBid : NSObject
 
 + (void)setCoppa:(BOOL)enabled;
@@ -148,6 +156,13 @@ typedef enum {
 @interface HyBidHeaderBiddingUtils : NSObject
 
 + (NSString *)eCPMFromAd:(HyBidAd *)ad withDecimalPlaces:(HyBidKeywordMode)decimalPlaces;
+
+@end
+
+@interface HyBidLogger : NSObject
+
+// Method to filter logging with the level passed as the paramter
++ (void)setLogLevel:(HyBidLogLevel)logLevel;
 
 @end
 

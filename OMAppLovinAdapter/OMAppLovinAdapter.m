@@ -3,6 +3,7 @@
 
 #import "OMAppLovinAdapter.h"
 static ALSdk *alShareSDK = nil;
+static BOOL logEnabled = NO;
 
 @implementation OMAppLovinAdapter
 
@@ -41,6 +42,12 @@ static ALSdk *alShareSDK = nil;
     
     if(applovinClass && [applovinClass respondsToSelector:@selector(sharedWithKey:)]) {
         alShareSDK = [applovinClass sharedWithKey:key];
+        if (alShareSDK && [alShareSDK respondsToSelector:@selector(settings)]) {
+            ALSdkSettings *settings =  [alShareSDK settings];
+            if (settings && [settings respondsToSelector:@selector(setIsVerboseLogging:)]) {
+                [settings setIsVerboseLogging:logEnabled];
+            }
+        }
         completionHandler(nil);
     }else{
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.applovinadapter"
@@ -67,4 +74,9 @@ static ALSdk *alShareSDK = nil;
     }
     return window;
 }
+
++ (void)setLogEnable:(BOOL)logEnable {
+    logEnabled = logEnable;
+}
+
 @end

@@ -39,7 +39,7 @@
     if (!error && [self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     } else if(error) {
-        NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.bid" code:error.errorCode userInfo:@{@"msg":error.errorDescription}];
+        NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.bid" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:error.errorDescription}];
         if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
             [_delegate customEvent:self didFailToLoadWithError:cerror];
         }
@@ -54,7 +54,7 @@
 - (void)omHeliumDidShowWithError:(HeliumError *)error {
     if (error) {
         if(error && _delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
-            NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.bid" code:error.errorCode userInfo:@{@"msg":@"The ad failed to show"}];
+            NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.bid" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:@"The ad failed to show"}];
             [_delegate rewardedVideoCustomEventDidFailToShow:self withError:cerror];
         }
     } else {

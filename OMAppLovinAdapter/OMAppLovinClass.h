@@ -12,6 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 @class ALAd;
 @class ALAdService;
 
+@interface ALSdkSettings : NSObject
+
+@property (nonatomic, assign) BOOL isVerboseLogging;
+
+@end
+
 @protocol ALAdLoadDelegate <NSObject>
 
 /**
@@ -121,6 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ALSdk : NSObject
 @property (class, nonatomic, assign, readonly) NSUInteger versionCode;
 @property (strong, nonatomic, readonly) ALAdService *adService;
+@property (nonatomic, strong, readonly) ALSdkSettings *settings;
 + (ALSdk *)shared;
 + (ALSdk *)sharedWithKey:(NSString *)sdkKey;
 @end

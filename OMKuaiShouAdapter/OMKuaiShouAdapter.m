@@ -31,4 +31,10 @@
     }
 }
 
++ (void)setLogEnable:(BOOL)logEnable {
+    Class ksClass = NSClassFromString(@"KSAdSDKManager");
+    if (ksClass && [ksClass respondsToSelector:@selector(setLoglevel:)]) {
+        [ksClass setLoglevel:(logEnable?KSAdSDKLogLevelAll:KSAdSDKLogLevelOff)];
+    }
+}
 @end

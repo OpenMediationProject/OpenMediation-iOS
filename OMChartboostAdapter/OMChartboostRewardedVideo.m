@@ -46,7 +46,7 @@
     }
     
     if(error && _delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
-        NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.ads" code:error.code userInfo:@{@"msg":@"There are no ads fill"}];
+        NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.ads" code:error.code userInfo:@{NSLocalizedDescriptionKey:@"There are no ads fill"}];
         [_delegate customEvent:self didFailToLoadWithError:cerror];
     }
 }
@@ -61,7 +61,7 @@
     }
     
     if(error && _delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
-        NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.ads" code:error.code userInfo:@{@"msg":@"The ad failed to show"}];
+        NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.ads" code:error.code userInfo:@{NSLocalizedDescriptionKey:@"The ad failed to show"}];
         [_delegate rewardedVideoCustomEventDidFailToShow:self withError:cerror];
     }
     

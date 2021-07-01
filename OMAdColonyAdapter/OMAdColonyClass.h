@@ -238,6 +238,8 @@ typedef NS_ENUM(NSInteger, AdColonyZoneType) {
 
 @interface AdColonyAppOptions : AdColonyOptions
 
+@property (nonatomic, assign) BOOL disableLogging;
+
 @property (nonatomic, assign) BOOL gdprRequired;
 
 @property (nonatomic, nullable, strong) NSString *gdprConsentString;

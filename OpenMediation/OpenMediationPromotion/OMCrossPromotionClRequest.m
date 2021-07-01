@@ -13,7 +13,7 @@
 
 + (void)requestCampaignWithPid:(NSString *)pid size:(CGSize)size reqId:(NSString*)reqId actionType:(NSInteger)actionType payload:(NSString*)payload completionHandler:(clCompletionHandler)completionHandler {
     if (OM_STR_EMPTY(pid)) {
-        OMLogD(@"adn cl p empty");
+        OMLogD(@"adn cl pid empty");
         return;
     }
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:[self clParametersWithPid:pid size:size reqId:reqId actionType:actionType payload:payload]];
