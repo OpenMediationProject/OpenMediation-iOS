@@ -9,11 +9,12 @@
     if (self = [super init]) {
         Class bannerClass = NSClassFromString(@"AMRBanner");
         if (bannerClass && [adParameter isKindOfClass:[NSDictionary class]] && bannerClass && [bannerClass respondsToSelector:@selector(bannerForZoneId:)]) {
+            NSString *uid = [adParameter objectForKey:@"uid"];
             _pid = [adParameter objectForKey:@"pid"];
             _native = [bannerClass bannerForZoneId:_pid];
             _native.viewController = rootViewController;
             _native.customNativeSize = CGSizeMake(300, 120);
-            _native.customeNativeXibName = @"AdmostCustomNative";
+            _native.customeNativeXibName = [NSString stringWithFormat:@"AdmostCustomNative%@",uid];
         }
         _native.delegate = self;
     }

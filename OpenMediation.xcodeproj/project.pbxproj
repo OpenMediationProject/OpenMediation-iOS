@@ -223,7 +223,7 @@
 		492371CB268470C90006B8D3 /* native_int_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 492371C0268470C90006B8D3 /* native_int_close.png */; };
 		492371CD268470C90006B8D3 /* amr-adchoices.png in Resources */ = {isa = PBXBuildFile; fileRef = 492371C2268470C90006B8D3 /* amr-adchoices.png */; };
 		492371CE268470C90006B8D3 /* random-grey-variations.png in Resources */ = {isa = PBXBuildFile; fileRef = 492371C3268470C90006B8D3 /* random-grey-variations.png */; };
-		492371D1268470C90006B8D3 /* AdmostCustomNative.xib in Resources */ = {isa = PBXBuildFile; fileRef = 492371C6268470C90006B8D3 /* AdmostCustomNative.xib */; };
+		492371D1268470C90006B8D3 /* AdmostCustomNative4937.xib in Resources */ = {isa = PBXBuildFile; fileRef = 492371C6268470C90006B8D3 /* AdmostCustomNative4937.xib */; };
 		492403BE23F6A2F200687456 /* OMAdTimingAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C8B66A023ED167F00C5B97A /* OMAdTimingAdapter.framework */; };
 		493D84272685C50A00B6FC4E /* OMAdmostBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 493D84252685C50A00B6FC4E /* OMAdmostBid.h */; };
 		493D84282685C50A00B6FC4E /* OMAdmostBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 493D84262685C50A00B6FC4E /* OMAdmostBid.m */; };
@@ -273,6 +273,7 @@
 		49B2A708255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 49B2A706255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.m */; };
 		49B2A71D255EA62D00A22A9A /* OMCrossPromotionVideoController.h in Headers */ = {isa = PBXBuildFile; fileRef = 49B2A71B255EA62C00A22A9A /* OMCrossPromotionVideoController.h */; };
 		49B2A71E255EA62D00A22A9A /* OMCrossPromotionVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49B2A71C255EA62D00A22A9A /* OMCrossPromotionVideoController.m */; };
+		49C17F10269308A00092C023 /* AdmostCustomNative5950.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49C17F0F269308A00092C023 /* AdmostCustomNative5950.xib */; };
 		49C1CF0924AF48B70093F489 /* OMHeliumAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C1CF0224AF48B70093F489 /* OMHeliumAdapter.framework */; };
 		49C40EB325ABF9D200D3C4AB /* OMImpressionData.h in Headers */ = {isa = PBXBuildFile; fileRef = 49C40EB125ABF9D200D3C4AB /* OMImpressionData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		49C40EB425ABF9D200D3C4AB /* OMImpressionData.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C40EB225ABF9D200D3C4AB /* OMImpressionData.m */; };
@@ -984,7 +985,7 @@
 		492371C0268470C90006B8D3 /* native_int_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = native_int_close.png; sourceTree = "<group>"; };
 		492371C2268470C90006B8D3 /* amr-adchoices.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "amr-adchoices.png"; sourceTree = "<group>"; };
 		492371C3268470C90006B8D3 /* random-grey-variations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "random-grey-variations.png"; sourceTree = "<group>"; };
-		492371C6268470C90006B8D3 /* AdmostCustomNative.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdmostCustomNative.xib; sourceTree = "<group>"; };
+		492371C6268470C90006B8D3 /* AdmostCustomNative4937.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdmostCustomNative4937.xib; sourceTree = "<group>"; };
 		4924037A23F690DE00687456 /* ExportOptions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ExportOptions.plist; sourceTree = "<group>"; };
 		4924037B23F690DE00687456 /* Build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Build.sh; sourceTree = "<group>"; };
 		493D84252685C50A00B6FC4E /* OMAdmostBid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMAdmostBid.h; sourceTree = "<group>"; };
@@ -1048,6 +1049,7 @@
 		49B2A706255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionNativeMediaView.m; sourceTree = "<group>"; };
 		49B2A71B255EA62C00A22A9A /* OMCrossPromotionVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionVideoController.h; sourceTree = "<group>"; };
 		49B2A71C255EA62D00A22A9A /* OMCrossPromotionVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionVideoController.m; sourceTree = "<group>"; };
+		49C17F0F269308A00092C023 /* AdmostCustomNative5950.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdmostCustomNative5950.xib; sourceTree = "<group>"; };
 		49C1CF0224AF48B70093F489 /* OMHeliumAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMHeliumAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C1CF0524AF48B70093F489 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49C40EB125ABF9D200D3C4AB /* OMImpressionData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMImpressionData.h; sourceTree = "<group>"; };
@@ -1992,7 +1994,8 @@
 				492371C0268470C90006B8D3 /* native_int_close.png */,
 				492371C2268470C90006B8D3 /* amr-adchoices.png */,
 				492371C3268470C90006B8D3 /* random-grey-variations.png */,
-				492371C6268470C90006B8D3 /* AdmostCustomNative.xib */,
+				492371C6268470C90006B8D3 /* AdmostCustomNative4937.xib */,
+				49C17F0F269308A00092C023 /* AdmostCustomNative5950.xib */,
 			);
 			path = CustomXibs;
 			sourceTree = "<group>";
@@ -3502,13 +3505,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49C17F10269308A00092C023 /* AdmostCustomNative5950.xib in Resources */,
 				0C981BD123D69A1F0074B43A /* LaunchScreen.storyboard in Resources */,
 				0C981BCE23D69A1F0074B43A /* Assets.xcassets in Resources */,
 				492371CD268470C90006B8D3 /* amr-adchoices.png in Resources */,
 				492371CB268470C90006B8D3 /* native_int_close.png in Resources */,
 				0C981BCC23D69A1D0074B43A /* Main.storyboard in Resources */,
 				492371CE268470C90006B8D3 /* random-grey-variations.png in Resources */,
-				492371D1268470C90006B8D3 /* AdmostCustomNative.xib in Resources */,
+				492371D1268470C90006B8D3 /* AdmostCustomNative4937.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

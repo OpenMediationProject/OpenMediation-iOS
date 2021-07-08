@@ -138,7 +138,7 @@
         if (bidInstance) {
             NSString *adnName = [config.adnNameMap objectForKey:@(bidInstance.adnID)];
             NSString *appKey = [config.adnAppkeyMap objectForKey:@(bidInstance.adnID)];
-            OMBidNetworkItem *bidNetworkItem = [OMBidNetworkItem networkItemWithName:adnName appKey:appKey placementID:bidInstance.adnPlacementID timeOut:((bidInstance.hbt<1000)?OMDefaultMaxTimeoutMS:bidInstance.hbt) test:OMBidTest extra:@{@"instanceID":bidInstance.instanceID,@"adnID":[NSNumber numberWithInteger:bidInstance.adnID],@"prefix":@"OM"}];
+            OMBidNetworkItem *bidNetworkItem = [OMBidNetworkItem networkItemWithName:adnName appKey:appKey placementID:bidInstance.adnPlacementID timeOut:((bidInstance.hbt<1000)?OMDefaultMaxTimeoutMS:bidInstance.hbt) test:OMBidTest extra:@{@"unitID":self.pid,@"instanceID":bidInstance.instanceID,@"adnID":[NSNumber numberWithInteger:bidInstance.adnID],@"prefix":@"OM"}];
             [bidItems addObject:bidNetworkItem];
         }
     }

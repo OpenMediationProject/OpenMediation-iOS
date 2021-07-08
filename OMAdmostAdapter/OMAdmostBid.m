@@ -62,6 +62,8 @@ static NSMutableDictionary *bidBlockMapNew = nil;
     }
 
     Class adapterClass = NSClassFromString([NSString stringWithFormat:@"OM%@%@",networkItem.adnName,format]);
+
+    NSString *unitID = networkItem.extraData[@"unitID"];
     
     NSString *instanceID = networkItem.extraData[@"instanceID"];
     
@@ -85,7 +87,7 @@ static NSMutableDictionary *bidBlockMapNew = nil;
             }];
         } else if([adapterClass instancesRespondToSelector:@selector(initWithParameter:rootVC:)]) { //Native
             adapter = [[instanceContainerCls sharedInstance]getInstance:instanceID block:^id{
-                id adapter = [[adapterClass alloc] initWithParameter:@{@"pid":placementID,@"appKey":appKey} rootVC:[UIApplication sharedApplication].keyWindow.rootViewController];
+                id adapter = [[adapterClass alloc] initWithParameter:@{@"pid":placementID,@"appKey":appKey,@"uid":unitID} rootVC:[UIApplication sharedApplication].keyWindow.rootViewController];
                 return adapter;
             }];
         }
