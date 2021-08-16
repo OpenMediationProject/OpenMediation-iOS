@@ -10,30 +10,6 @@
 
 @implementation OMBid
 
-
-- (NSArray*)bidTokens:(NSArray*)networkItems {
-    NSMutableArray * tokens = [NSMutableArray array];
-
-    for (OMBidNetworkItem *networkItem in networkItems) {
-        if (!OM_STR_EMPTY(networkItem.adnName)) {
-            OMAdNetwork adnID = [networkItem.extraData[@"adnID"] integerValue];
-            if (![[OMMediations sharedInstance]adnSDKInitialized:adnID]) {
-                [[OMMediations sharedInstance]initAdNetworkSDKWithId:adnID
-                                                       completionHandler:^(NSError * _Nullable error) {
-                }];
-            }
-            NSString *className = [NSString stringWithFormat:@"OM%@Bid",networkItem.adnName];
-            Class bidClass = NSClassFromString(className);
-            if (bidClass && [bidClass respondsToSelector:@selector(bidderToken)]) {
-                    @synchronized (self) {
-                        [tokens addObject:@{@"iid":OM_SAFE_STRING(networkItem.extraData[@"instanceID"]),@"token":OM_SAFE_STRING([bidClass bidderToken])}];
-                    }
-            }
-        }
-    }
-    return  [tokens copy];
-}
-
 - (void)bidWithNetworkItems:(NSArray*)networkItems adFormat:(NSString*)format adSize:(CGSize)size completionHandler:(bidCompletionHandler)completionHandler {
     _bidNetworkItems = networkItems;
     _completionHandler = completionHandler;

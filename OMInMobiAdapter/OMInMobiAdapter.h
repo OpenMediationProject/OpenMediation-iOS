@@ -2,19 +2,21 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import <Foundation/Foundation.h>
-
 #import "OMMediationAdapter.h"
-#import "OMMopubClass.h"
+#import "OMInMobiClass.h"
 
-static NSString * const MopubAdapterVersion = @"2.0.5";
+NS_ASSUME_NONNULL_BEGIN
 
-@interface OMMopubAdapter : NSObject<OMMediationAdapter>
+static NSString * const InMobiAdapterVersion = @"2.0.0";
+
+@interface OMInMobiAdapter : NSObject<OMMediationAdapter>
 
 + (NSString*)adapterVerison;
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 
-+ (void)setConsent:(BOOL)consent;
 
 @end
+
+NS_ASSUME_NONNULL_END
 

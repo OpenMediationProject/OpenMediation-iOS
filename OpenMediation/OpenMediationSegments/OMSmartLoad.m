@@ -56,28 +56,12 @@
 
 - (void)loadWithAction:(OMLoadAction)action {
     [super loadWithAction:action];
-    
-    OMUnit *unit = [[OMConfig sharedInstance].adUnitMap objectForKey:self.pid];
-    if (!unit || unit.batchSize <= 0) {
-        _maxParallelLoadCount = 2;
-        OMLogD(@"%@ max parallel load use default %zd",self.pid,_maxParallelLoadCount);
-    } else {
-        _maxParallelLoadCount = unit.batchSize;
-    }
-    
-    if (!unit || unit.cacheCount <= 0) {
-        self.unitCacheCount = 2;
-        OMLogD(@"%@ cache use default %zd",self.pid,self.configCacheCount);
-    } else {
-        self.unitCacheCount = unit.cacheCount;
-    }
-    self.configCacheCount = self.unitCacheCount;
-    
+        
     [self checkOptimalInstance];
     if (self.adShow) {
          OMLogD(@"%@ smart load block: adshow",self.pid);
         [self addEvent:LOAD_BLOCKED extraData:@{@"msg":@"ad show"}];
-    } else if (_cacheCount >= self.configCacheCount) {
+    } else if (_cacheCount >= self.configCacheCount && self.configCacheCount>0) {
         OMLogD(@"%@ smart load block: cache full",self.pid);
         [self addEvent:LOAD_BLOCKED extraData:@{@"msg":@"cache full"}];
     } else if (self.loading) {
@@ -111,6 +95,23 @@
 
 - (void)loadWithPriority:(NSArray *)insPriority {
     [super loadWithPriority:insPriority];
+    
+    OMUnit *unit = [[OMConfig sharedInstance].adUnitMap objectForKey:self.pid];
+    if (!unit || unit.batchSize <= 0) {
+        _maxParallelLoadCount = 2;
+        OMLogD(@"%@ max parallel load use default %zd",self.pid,_maxParallelLoadCount);
+    } else {
+        _maxParallelLoadCount = unit.batchSize;
+    }
+    
+    if (!unit || unit.cacheCount <= 0) {
+        self.unitCacheCount = 2;
+        OMLogD(@"%@ cache use default %zd",self.pid,self.configCacheCount);
+    } else {
+        self.unitCacheCount = unit.cacheCount;
+    }
+    self.configCacheCount = self.unitCacheCount;
+    
     _loadingCount = 0;
     if (insPriority && [insPriority isKindOfClass:[NSArray class]]) {
         self.priorityList = insPriority;

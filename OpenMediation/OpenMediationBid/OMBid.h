@@ -17,7 +17,6 @@ typedef void(^bidCompletionHandler)(NSDictionary *bidResponses);
 @property (nonatomic, strong) NSMutableDictionary *bidResponses;
 @property (nonatomic, strong) NSTimer *bidTimer;
 
-- (NSArray*)bidTokens:(NSArray*)networkItems;
 - (void)bidWithNetworkItems:(NSArray*)networkItems adFormat:(NSString*)format adSize:(CGSize)size completionHandler:(bidCompletionHandler)completionHandler;
 
 @end

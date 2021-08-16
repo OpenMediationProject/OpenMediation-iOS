@@ -29,6 +29,7 @@ let package = Package(
         .library(name: "OpenMediationKuaiShouAdapter",targets: ["OpenMediationKuaiShouAdapter"]),
         .library(name: "OpenMediationPubNativeAdapter",targets: ["OpenMediationPubNativeAdapter"]),   
         .library(name: "OpenMediationAdmostAdapter",targets: ["OpenMediationAdmostAdapter"]),        
+        .library(name: "OpenMediationInMobiAdapter",targets: ["OpenMediationInMobiAdapter"]),        
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -253,6 +254,16 @@ let package = Package(
         .target(
             name: "OpenMediationAdmostAdapter",
             path: "OMAdmostAdapter",
+            exclude: ["Info.plist"],
+            cSettings:[
+                .headerSearchPath("."),
+                .headerSearchPath("../OpenMediation/OpenMediationCustomEvent"),
+                .headerSearchPath("../OpenMediation/OpenMediationBid")
+            ]
+        ),
+        .target(
+            name: "OpenMediationInMobiAdapter",
+            path: "OMInMobiAdapter",
             exclude: ["Info.plist"],
             cSettings:[
                 .headerSearchPath("."),

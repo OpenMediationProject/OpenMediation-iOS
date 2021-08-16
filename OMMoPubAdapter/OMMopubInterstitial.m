@@ -48,13 +48,13 @@
 }
 
 
-- (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial {
+- (void)interstitialWillPresent:(MPInterstitialAdController *)interstitial {
     if (!_hasShown && _delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
         [_delegate interstitialCustomEventDidOpen:self];
     }
 }
 
-- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial {
+- (void)interstitialDidPresent:(MPInterstitialAdController *)interstitial {
     if (!_hasShown && _delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]) {
         [_delegate interstitialCustomEventDidShow:self];
     }

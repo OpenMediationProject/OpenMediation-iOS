@@ -138,7 +138,8 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkSigMob):@"SigMob",
             @(OMAdNetworkKsAd):@"KuaiShou",
             @(OMAdNetworkPubNative):@"PubNative",
-            @(OMAdNetworkAdmost):@"Admost"
+            @(OMAdNetworkAdmost):@"Admost",
+            @(OMAdNetworkInMobi):@"InMobi",
         };
         
         _adnSdkClassMap = @{
@@ -161,10 +162,12 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkSigMob):@"WindAds",
             @(OMAdNetworkKsAd):@"KSAdSDKManager",
             @(OMAdNetworkPubNative):@"HyBid",
-            @(OMAdNetworkAdmost):@"AMRSDK"
+            @(OMAdNetworkAdmost):@"AMRSDK",
+            @(OMAdNetworkInMobi):@"IMSdk",
         };
         
         _adnSDKInitState = [NSMutableDictionary dictionary];
+        _adnInitCompletionBlocks = [NSMutableDictionary dictionary];
         
         
     }
@@ -330,6 +333,13 @@ static OMMediations *_instance = nil;
             }
         }
             break;
+        case OMAdNetworkInMobi:
+        {
+            if (sdkClass && [sdkClass respondsToSelector:@selector(getVersion)]) {
+                sdkVersion = [sdkClass getVersion];
+            }
+        }
+            break;
         default:
             break;
     }
@@ -340,11 +350,21 @@ static OMMediations *_instance = nil;
 - (void)initAdNetworkSDKWithId:(OMAdNetwork)adnID completionHandler:(OMMediationInitCompletionBlock)completionHandler {
     OMConfig *config = [OMConfig sharedInstance];
     OMUserData *userData = [OMUserData sharedInstance];
-    Class adapterClass = [self adnAdapterClass:adnID];
+    NSString *adnName = [config adnName:adnID];
+    Class adapterClass = NSClassFromString([NSString stringWithFormat:@"OM%@Adapter",adnName]);
     Class sdkClass = sdkClass = NSClassFromString(OM_SAFE_STRING([self.adnSdkClassMap objectForKey:@(adnID)]));
 
     NSString *key = [config adnAppKey:adnID];
     NSArray *pids = [config adnPlacements:adnID];
+    
+    NSMutableArray *completionBlocks = [NSMutableArray array];
+    if ([_adnInitCompletionBlocks objectForKey:@(adnID)]) {
+        completionBlocks  = [NSMutableArray arrayWithArray:[_adnInitCompletionBlocks objectForKey:@(adnID)]];
+    }
+    [completionBlocks addObject:completionHandler];
+    [_adnInitCompletionBlocks setObject:completionBlocks forKey:@(adnID)];
+    
+    
     if (sdkClass && adapterClass && [adapterClass respondsToSelector:@selector(initSDKWithConfiguration:completionHandler:)]) {
         __weak __typeof(self) weakSelf = self;
         
@@ -361,7 +381,8 @@ static OMMediations *_instance = nil;
                         dispatch_async(dispatch_get_main_queue(), ^{
                             OMAdnSDKInitState state = error?OMAdnSDKInitStateDefault:OMAdnSDKInitStateInitialized;
                             [weakSelf.adnSDKInitState setObject:[NSNumber numberWithInteger:state] forKey:[NSString stringWithFormat:@"%zd",adnID]];
-                            if (completionHandler) {
+                            NSArray *completionBlocks = [weakSelf.adnInitCompletionBlocks objectForKey:@(adnID)];
+                            for (OMMediationInitCompletionBlock completionHandler in completionBlocks) {
                                 completionHandler(error);
                             }
                         });
@@ -400,9 +421,11 @@ static OMMediations *_instance = nil;
                         dispatch_async(dispatch_get_main_queue(), ^{
                             OMAdnSDKInitState state = error?OMAdnSDKInitStateDefault:OMAdnSDKInitStateInitialized;
                             [weakSelf.adnSDKInitState setObject:[NSNumber numberWithInteger:state] forKey:[NSString stringWithFormat:@"%zd",adnID]];
-                            if (completionHandler) {
+                            NSArray *completionBlocks = [weakSelf.adnInitCompletionBlocks objectForKey:@(adnID)];
+                            for (OMMediationInitCompletionBlock completionHandler in completionBlocks) {
                                 completionHandler(error);
                             }
+                            [weakSelf.adnInitCompletionBlocks setObject:@[] forKey:@(adnID)];
                         });
                 }];
             }

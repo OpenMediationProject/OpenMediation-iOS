@@ -19,6 +19,7 @@ typedef NS_ENUM(NSInteger, OMAdnSDKInitState) {
 @property(nonatomic, strong)NSDictionary *adnNameMap;
 @property(nonatomic, strong)NSDictionary *adnSdkClassMap;
 @property (nonatomic, strong) NSMutableDictionary *adnSDKInitState;
+@property (nonatomic, strong) NSMutableDictionary *adnInitCompletionBlocks;
 @property(nonatomic, strong)NSDictionary *adNetworkInfo;
 
 + (BOOL)importAdnSDK:(OMAdNetwork)adnID;

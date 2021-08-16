@@ -1,8 +1,7 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#import "OMAdmostBid.h"
-#import "OMAdmostClass.h"
+#import "OMInMobiBid.h"
 #import "OMInterstitialCustomEvent.h"
 #import "OMRewardedVideoCustomEvent.h"
 #import "OMBannerCustomEvent.h"
@@ -39,20 +38,20 @@ typedef void (^bidCompletionHandler)(NSDictionary *bidResponse);
 
 static NSMutableDictionary *bidBlockMap = nil;
 
-@protocol OMAdmostAd<OMInterstitialCustomEvent,OMCustomEventDelegate,OMRewardedVideoCustomEvent,OMBannerCustomEvent,OMNativeCustomEvent>
+@protocol OMInMobiAd<OMInterstitialCustomEvent,OMCustomEventDelegate,OMRewardedVideoCustomEvent,OMBannerCustomEvent,OMNativeCustomEvent>
 
-@property(nonatomic, weak, nullable) id<AdmostBidDelegate> bidDelegate;
+@property(nonatomic, weak, nullable) id<InMobiBidDelegate> bidDelegate;
 
 @end
 
-@implementation OMAdmostBid
+@implementation OMInMobiBid
 
 + (void)bidWithNetworkItem:(OMBidNetworkItem*)networkItem adFormat:(NSString*)format adSize:(CGSize)size responseCallback:(void(^)(NSDictionary *bidResponseData))callback {
      NSString *appKey = networkItem.appKey;
      NSString *placementID = networkItem.placementID;
     
     if (![appKey length] || ![placementID length]) {
-        callback(@{@"error":@"Required input params(appID placementID) for Admost bid is invalid"});
+        callback(@{@"error":@"Required input params(appID placementID) for InMobi bid is invalid"});
         return;
     }
     
@@ -62,8 +61,6 @@ static NSMutableDictionary *bidBlockMap = nil;
     }
 
     Class adapterClass = NSClassFromString([NSString stringWithFormat:@"OM%@%@",networkItem.adnName,format]);
-
-    NSString *unitID = networkItem.extraData[@"unitID"];
     
     NSString *instanceID = networkItem.extraData[@"instanceID"];
     
@@ -73,7 +70,7 @@ static NSMutableDictionary *bidBlockMap = nil;
     
     if (adapterClass && ([adapterClass instancesRespondToSelector:@selector(initWithParameter:)] || [adapterClass instancesRespondToSelector:@selector(initWithFrame:adParameter:rootViewController:)]||[adapterClass instancesRespondToSelector:@selector(initWithParameter:rootVC:)]) ) {
         
-        id <OMAdmostAd> adapter = nil;
+        id <OMInMobiAd> adapter = nil;
         
         if ([adapterClass instancesRespondToSelector:@selector(initWithParameter:)]) { //IV RV
             adapter = [[instanceContainerCls sharedInstance]getInstance:instanceID block:^id{
@@ -87,7 +84,7 @@ static NSMutableDictionary *bidBlockMap = nil;
             }];
         } else if([adapterClass instancesRespondToSelector:@selector(initWithParameter:rootVC:)]) { //Native
             adapter = [[instanceContainerCls sharedInstance]getInstance:instanceID block:^id{
-                id adapter = [[adapterClass alloc] initWithParameter:@{@"pid":placementID,@"appKey":appKey,@"uid":unitID} rootVC:[UIApplication sharedApplication].keyWindow.rootViewController];
+                id adapter = [[adapterClass alloc] initWithParameter:@{@"pid":placementID,@"appKey":appKey} rootVC:[UIApplication sharedApplication].keyWindow.rootViewController];
                 return adapter;
             }];
         }
@@ -95,10 +92,10 @@ static NSMutableDictionary *bidBlockMap = nil;
             bidBlockMap = [NSMutableDictionary dictionary];
         }
         [bidBlockMap setObject:callback forKey:[NSNumber numberWithUnsignedInteger:[adapter hash]]];
-        adapter.bidDelegate = (id<AdmostBidDelegate>)self;
+        adapter.bidDelegate = (id<InMobiBidDelegate>)self;
         [adapter loadAd];
     } else {
-        callback(@{@"error":@"Admost Bid Adapter class not found"});
+        callback(@{@"error":@"Inmobi Bid Adapter class not found"});
     }
 }
 
@@ -116,11 +113,11 @@ static NSMutableDictionary *bidBlockMap = nil;
             NSMutableDictionary *bidResponseData = [NSMutableDictionary dictionaryWithDictionary:bidInfo];
             
             [bidResponseData setObject:^{
-                NSLog(@"Admost win");
+                NSLog(@"InMobi win");
             } forKey:@"winBlock"];
 
             [bidResponseData setObject:^{
-                NSLog(@"Admost loss");
+                NSLog(@"InMobi loss");
             } forKey:@"lossBlock"];
             
             callback(bidResponseData);
@@ -129,5 +126,6 @@ static NSMutableDictionary *bidBlockMap = nil;
     }
     [bidBlockMap removeObjectForKey:key];
 }
+
 
 @end

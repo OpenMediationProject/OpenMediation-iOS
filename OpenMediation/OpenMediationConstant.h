@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define OPENMEDIATION_SDK_VERSION    @"2.2.7"
+#define OPENMEDIATION_SDK_VERSION    @"2.2.8"
 
 typedef NS_ENUM(NSInteger, OMAdNetwork) {
     OMAdNetworkAdTiming = 1,
@@ -29,6 +29,7 @@ typedef NS_ENUM(NSInteger, OMAdNetwork) {
     OMAdNetworkKsAd = 21,
     OMAdNetworkPubNative = 23,
     OMAdNetworkAdmost = 24,
+    OMAdNetworkInMobi = 26,
     OMAdNetworkFyber = 30,
 };
 

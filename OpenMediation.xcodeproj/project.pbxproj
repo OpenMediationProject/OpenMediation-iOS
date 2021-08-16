@@ -11,7 +11,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 4902B9DC24166F60007A0352 /* Build configuration list for PBXAggregateTarget "BuildFramework" */;
 			buildPhases = (
-				4902B9DF24166FCB007A0352 /* Run Script */,
+				4902B9DF24166FCB007A0352 /* ShellScript */,
 			);
 			dependencies = (
 			);
@@ -179,7 +179,7 @@
 		0C981BF623D6D9A80074B43A /* RewardedVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C981BF523D6D9A80074B43A /* RewardedVideoViewController.m */; };
 		0C981BFC23D6DB4E0074B43A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C981BFB23D6DB4E0074B43A /* MainViewController.m */; };
 		0C9D7B352628611E0022ECC4 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C9D7B1E2628602E0022ECC4 /* libbz2.tbd */; };
-		0CB011B425EE1A9D00C44AFB /* OMHyBidAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CA61A0C25DE70300008AC1F /* OMHyBidAdapter.framework */; };
+		0CB011B425EE1A9D00C44AFB /* OMPubNativeAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CA61A0C25DE70300008AC1F /* OMPubNativeAdapter.framework */; };
 		0CBA3006264AA1AF00189404 /* OMNativeAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CBA3004264AA1AF00189404 /* OMNativeAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0CBA3007264AA1AF00189404 /* OMNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA3005264AA1AF00189404 /* OMNativeAdView.m */; };
 		0CC187B12601F93200375ECC /* OMPubNativeNativeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CC187AA2601F93100375ECC /* OMPubNativeNativeView.h */; };
@@ -210,7 +210,6 @@
 		492018D123F6C20C007C5EA4 /* OMLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 492018CF23F6C20C007C5EA4 /* OMLoad.m */; };
 		4923701626831F5D0006B8D3 /* OMAdmostAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4923701426831F5D0006B8D3 /* OMAdmostAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4923701926831F5D0006B8D3 /* OMAdmostAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4923701226831F5D0006B8D3 /* OMAdmostAdapter.framework */; };
-		4923701A26831F5D0006B8D3 /* OMAdmostAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4923701226831F5D0006B8D3 /* OMAdmostAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4923704D26831F990006B8D3 /* OMAdmostAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4923704C26831F990006B8D3 /* OMAdmostAdapter.m */; };
 		4923706726831FB90006B8D3 /* OMAdmostBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 4923706526831FB90006B8D3 /* OMAdmostBanner.h */; };
 		4923706826831FB90006B8D3 /* OMAdmostBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 4923706626831FB90006B8D3 /* OMAdmostBanner.m */; };
@@ -263,6 +262,17 @@
 		497F02AC25661FE700354846 /* OMCrossPromotionCP.m in Sources */ = {isa = PBXBuildFile; fileRef = 497F02AA25661FE700354846 /* OMCrossPromotionCP.m */; };
 		497F02C12566416A00354846 /* CrossPromotionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 497F02C02566416A00354846 /* CrossPromotionViewController.m */; };
 		499CE5D62577465D00CC6280 /* InitSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 499CE5D52577465D00CC6280 /* InitSettingViewController.m */; };
+		49AD1E4B2696F35000E3F97F /* OMInMobiAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49AD1E492696F35000E3F97F /* OMInMobiAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		49AD1E4E2696F35000E3F97F /* OMInMobiAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49AD1E472696F35000E3F97F /* OMInMobiAdapter.framework */; };
+		49AD1E6C2696F39100E3F97F /* OMInMobiAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49AD1E6B2696F39100E3F97F /* OMInMobiAdapter.m */; };
+		49AD1E9F2696F3E700E3F97F /* OMInMobiBid.h in Headers */ = {isa = PBXBuildFile; fileRef = 49AD1E9D2696F3E700E3F97F /* OMInMobiBid.h */; };
+		49AD1EA02696F3E700E3F97F /* OMInMobiBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 49AD1E9E2696F3E700E3F97F /* OMInMobiBid.m */; };
+		49AD1ED22696F4F300E3F97F /* OMInMobiBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 49AD1ED02696F4F300E3F97F /* OMInMobiBanner.h */; };
+		49AD1ED32696F4F300E3F97F /* OMInMobiBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 49AD1ED12696F4F300E3F97F /* OMInMobiBanner.m */; };
+		49AD1F0A2696F52300E3F97F /* OMInMobiInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 49AD1F082696F52300E3F97F /* OMInMobiInterstitial.h */; };
+		49AD1F0B2696F52300E3F97F /* OMInMobiInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 49AD1F092696F52300E3F97F /* OMInMobiInterstitial.m */; };
+		49AD1F262696F53600E3F97F /* OMInMobiRewardedVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 49AD1F242696F53600E3F97F /* OMInMobiRewardedVideo.h */; };
+		49AD1F272696F53600E3F97F /* OMInMobiRewardedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 49AD1F252696F53600E3F97F /* OMInMobiRewardedVideo.m */; };
 		49B2A659255D48B400A22A9A /* OMCrossPromotionClRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 49B2A657255D48B300A22A9A /* OMCrossPromotionClRequest.h */; };
 		49B2A65A255D48B400A22A9A /* OMCrossPromotionClRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 49B2A658255D48B400A22A9A /* OMCrossPromotionClRequest.m */; };
 		49B2A681255E5B8400A22A9A /* OMCrossPromotionJSBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 49B2A67F255E5B8400A22A9A /* OMCrossPromotionJSBridge.h */; };
@@ -273,7 +283,6 @@
 		49B2A708255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 49B2A706255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.m */; };
 		49B2A71D255EA62D00A22A9A /* OMCrossPromotionVideoController.h in Headers */ = {isa = PBXBuildFile; fileRef = 49B2A71B255EA62C00A22A9A /* OMCrossPromotionVideoController.h */; };
 		49B2A71E255EA62D00A22A9A /* OMCrossPromotionVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49B2A71C255EA62D00A22A9A /* OMCrossPromotionVideoController.m */; };
-		49C17F10269308A00092C023 /* AdmostCustomNative5950.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49C17F0F269308A00092C023 /* AdmostCustomNative5950.xib */; };
 		49C1CF0924AF48B70093F489 /* OMHeliumAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C1CF0224AF48B70093F489 /* OMHeliumAdapter.framework */; };
 		49C40EB325ABF9D200D3C4AB /* OMImpressionData.h in Headers */ = {isa = PBXBuildFile; fileRef = 49C40EB125ABF9D200D3C4AB /* OMImpressionData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		49C40EB425ABF9D200D3C4AB /* OMImpressionData.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C40EB225ABF9D200D3C4AB /* OMImpressionData.m */; };
@@ -684,6 +693,13 @@
 			remoteGlobalIDString = 0C70AA2123D162E70021D67A;
 			remoteInfo = OpenMediation;
 		};
+		49AD1E4C2696F35000E3F97F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0C70AA1923D162E70021D67A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49AD1E462696F35000E3F97F;
+			remoteInfo = OMInMobiAdapter;
+		};
 		49C1CF0724AF48B70093F489 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0C70AA1923D162E70021D67A /* Project object */;
@@ -730,17 +746,6 @@
 			files = (
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		49EA87F7255BB9D000D4B932 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				4923701A26831F5D0006B8D3 /* OMAdmostAdapter.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -932,7 +937,7 @@
 		0C981BFB23D6DB4E0074B43A /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		0C9BD1572616F47F003A0260 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		0C9D7B1E2628602E0022ECC4 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
-		0CA61A0C25DE70300008AC1F /* OMHyBidAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = OMHyBidAdapter.framework; path = OMPubNativeAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0CA61A0C25DE70300008AC1F /* OMPubNativeAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMPubNativeAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA61A2325DE706A0008AC1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CBA0F71259B61DE0002FAF0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CBA3004264AA1AF00189404 /* OMNativeAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMNativeAdView.h; sourceTree = "<group>"; };
@@ -1039,6 +1044,21 @@
 		497F02C02566416A00354846 /* CrossPromotionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrossPromotionViewController.m; sourceTree = "<group>"; };
 		499CE5D42577465D00CC6280 /* InitSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitSettingViewController.h; sourceTree = "<group>"; };
 		499CE5D52577465D00CC6280 /* InitSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitSettingViewController.m; sourceTree = "<group>"; };
+		49AD1E472696F35000E3F97F /* OMInMobiAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMInMobiAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		49AD1E492696F35000E3F97F /* OMInMobiAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMInMobiAdapter.h; sourceTree = "<group>"; };
+		49AD1E4A2696F35000E3F97F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49AD1E6B2696F39100E3F97F /* OMInMobiAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMInMobiAdapter.m; sourceTree = "<group>"; };
+		49AD1E9D2696F3E700E3F97F /* OMInMobiBid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMInMobiBid.h; sourceTree = "<group>"; };
+		49AD1E9E2696F3E700E3F97F /* OMInMobiBid.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMInMobiBid.m; sourceTree = "<group>"; };
+		49AD1ED02696F4F300E3F97F /* OMInMobiBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMInMobiBanner.h; sourceTree = "<group>"; };
+		49AD1ED12696F4F300E3F97F /* OMInMobiBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMInMobiBanner.m; sourceTree = "<group>"; };
+		49AD1F082696F52300E3F97F /* OMInMobiInterstitial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMInMobiInterstitial.h; sourceTree = "<group>"; };
+		49AD1F092696F52300E3F97F /* OMInMobiInterstitial.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMInMobiInterstitial.m; sourceTree = "<group>"; };
+		49AD1F242696F53600E3F97F /* OMInMobiRewardedVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMInMobiRewardedVideo.h; sourceTree = "<group>"; };
+		49AD1F252696F53600E3F97F /* OMInMobiRewardedVideo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMInMobiRewardedVideo.m; sourceTree = "<group>"; };
+		49AD1F782696F61900E3F97F /* OMInMobiClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMInMobiClass.h; sourceTree = "<group>"; };
+		49AD1F792696F62E00E3F97F /* OMInMobiBannerClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMInMobiBannerClass.h; sourceTree = "<group>"; };
+		49AD1F7B2696F65400E3F97F /* OMInMobiInterstitialClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMInMobiInterstitialClass.h; sourceTree = "<group>"; };
 		49B2A657255D48B300A22A9A /* OMCrossPromotionClRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionClRequest.h; sourceTree = "<group>"; };
 		49B2A658255D48B400A22A9A /* OMCrossPromotionClRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionClRequest.m; sourceTree = "<group>"; };
 		49B2A67F255E5B8400A22A9A /* OMCrossPromotionJSBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionJSBridge.h; sourceTree = "<group>"; };
@@ -1049,7 +1069,6 @@
 		49B2A706255EA12E00A22A9A /* OMCrossPromotionNativeMediaView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionNativeMediaView.m; sourceTree = "<group>"; };
 		49B2A71B255EA62C00A22A9A /* OMCrossPromotionVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMCrossPromotionVideoController.h; sourceTree = "<group>"; };
 		49B2A71C255EA62D00A22A9A /* OMCrossPromotionVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMCrossPromotionVideoController.m; sourceTree = "<group>"; };
-		49C17F0F269308A00092C023 /* AdmostCustomNative5950.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdmostCustomNative5950.xib; sourceTree = "<group>"; };
 		49C1CF0224AF48B70093F489 /* OMHeliumAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMHeliumAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C1CF0524AF48B70093F489 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49C40EB125ABF9D200D3C4AB /* OMImpressionData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMImpressionData.h; sourceTree = "<group>"; };
@@ -1372,6 +1391,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49AD1E4E2696F35000E3F97F /* OMInMobiAdapter.framework in Frameworks */,
 				0CE7B57F25C16C5D006E7FA6 /* OMKuaiShouAdapter.framework in Frameworks */,
 				0C1796DE25838D980081ED29 /* OMSigMobAdapter.framework in Frameworks */,
 				4959CE7A23EBEDDF00A433A8 /* OMVungleAdapter.framework in Frameworks */,
@@ -1392,7 +1412,7 @@
 				0C0E57F723E7D2F60015C456 /* SystemConfiguration.framework in Frameworks */,
 				4959CEAD23EBEE5E00A433A8 /* OMTapjoyAdapter.framework in Frameworks */,
 				49C466972451ED5300837816 /* OMTencentAdAdapter.framework in Frameworks */,
-				0CB011B425EE1A9D00C44AFB /* OMHyBidAdapter.framework in Frameworks */,
+				0CB011B425EE1A9D00C44AFB /* OMPubNativeAdapter.framework in Frameworks */,
 				4959CEBE23EBEE7300A433A8 /* OMChartboostAdapter.framework in Frameworks */,
 				4923701926831F5D0006B8D3 /* OMAdmostAdapter.framework in Frameworks */,
 				49C467052451F31700837816 /* OMMopubAdapter.framework in Frameworks */,
@@ -1500,6 +1520,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		49AD1E442696F35000E3F97F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		49C1CEFF24AF48B70093F489 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1597,6 +1624,7 @@
 				0CE9694E25BFFA45005BD497 /* OMKuaiShouAdapter */,
 				0CA6194825DE632A0008AC1F /* OMPubNativeAdapter */,
 				4923701326831F5D0006B8D3 /* OMAdmostAdapter */,
+				49AD1E482696F35000E3F97F /* OMInMobiAdapter */,
 				0C981BC023D69A1D0074B43A /* OpenMediationDemo */,
 				0C31059E26258FD4000898E2 /* OpenMediationSwiftDemo */,
 				4924037623F690DE00687456 /* Script */,
@@ -1630,9 +1658,10 @@
 				49C1CF0224AF48B70093F489 /* OMHeliumAdapter.framework */,
 				0CCF87A625821D78005463AD /* OMSigMobAdapter.framework */,
 				0CE7B37A25C141C6006E7FA6 /* OMKuaiShouAdapter.framework */,
-				0CA61A0C25DE70300008AC1F /* OMHyBidAdapter.framework */,
+				0CA61A0C25DE70300008AC1F /* OMPubNativeAdapter.framework */,
 				0C31059D26258FD4000898E2 /* OpenMediationSwiftDemo.app */,
 				4923701226831F5D0006B8D3 /* OMAdmostAdapter.framework */,
+				49AD1E472696F35000E3F97F /* OMInMobiAdapter.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1995,7 +2024,6 @@
 				492371C2268470C90006B8D3 /* amr-adchoices.png */,
 				492371C3268470C90006B8D3 /* random-grey-variations.png */,
 				492371C6268470C90006B8D3 /* AdmostCustomNative4937.xib */,
-				49C17F0F269308A00092C023 /* AdmostCustomNative5950.xib */,
 			);
 			path = CustomXibs;
 			sourceTree = "<group>";
@@ -2270,6 +2298,27 @@
 				497F020C25650BF900354846 /* OMCrossPromotionDelegate.h */,
 			);
 			path = OpenMediationCrossPromotion;
+			sourceTree = "<group>";
+		};
+		49AD1E482696F35000E3F97F /* OMInMobiAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				49AD1E492696F35000E3F97F /* OMInMobiAdapter.h */,
+				49AD1E6B2696F39100E3F97F /* OMInMobiAdapter.m */,
+				49AD1F782696F61900E3F97F /* OMInMobiClass.h */,
+				49AD1E9D2696F3E700E3F97F /* OMInMobiBid.h */,
+				49AD1E9E2696F3E700E3F97F /* OMInMobiBid.m */,
+				49AD1ED02696F4F300E3F97F /* OMInMobiBanner.h */,
+				49AD1ED12696F4F300E3F97F /* OMInMobiBanner.m */,
+				49AD1F792696F62E00E3F97F /* OMInMobiBannerClass.h */,
+				49AD1F082696F52300E3F97F /* OMInMobiInterstitial.h */,
+				49AD1F092696F52300E3F97F /* OMInMobiInterstitial.m */,
+				49AD1F7B2696F65400E3F97F /* OMInMobiInterstitialClass.h */,
+				49AD1F242696F53600E3F97F /* OMInMobiRewardedVideo.h */,
+				49AD1F252696F53600E3F97F /* OMInMobiRewardedVideo.m */,
+				49AD1E4A2696F35000E3F97F /* Info.plist */,
+			);
+			path = OMInMobiAdapter;
 			sourceTree = "<group>";
 		};
 		49C1CF0324AF48B70093F489 /* OMHeliumAdapter */ = {
@@ -2844,6 +2893,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		49AD1E422696F35000E3F97F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49AD1E9F2696F3E700E3F97F /* OMInMobiBid.h in Headers */,
+				49AD1F0A2696F52300E3F97F /* OMInMobiInterstitial.h in Headers */,
+				49AD1ED22696F4F300E3F97F /* OMInMobiBanner.h in Headers */,
+				49AD1E4B2696F35000E3F97F /* OMInMobiAdapter.h in Headers */,
+				49AD1F262696F53600E3F97F /* OMInMobiRewardedVideo.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		49C1CEFD24AF48B70093F489 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -2985,7 +3046,6 @@
 				0C981BBC23D69A1D0074B43A /* Frameworks */,
 				0C981BBD23D69A1D0074B43A /* Resources */,
 				492403A323F69CCC00687456 /* Embed App Extensions */,
-				49EA87F7255BB9D000D4B932 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3012,6 +3072,7 @@
 				0C3F986B25E4AE6D006B9C29 /* PBXTargetDependency */,
 				0CB011B725EE1A9D00C44AFB /* PBXTargetDependency */,
 				4923701826831F5D0006B8D3 /* PBXTargetDependency */,
+				49AD1E4D2696F35000E3F97F /* PBXTargetDependency */,
 			);
 			name = OpenMediationDemo;
 			productName = OpenMediationDemo;
@@ -3033,7 +3094,7 @@
 			);
 			name = OMPubNativeAdapter;
 			productName = OMChartboostBidAdapter;
-			productReference = 0CA61A0C25DE70300008AC1F /* OMHyBidAdapter.framework */;
+			productReference = 0CA61A0C25DE70300008AC1F /* OMPubNativeAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		0CCF879325821D78005463AD /* OMSigMobAdapter */ = {
@@ -3270,6 +3331,24 @@
 			productReference = 4959CED923EBEE9400A433A8 /* OMMintegralAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		49AD1E462696F35000E3F97F /* OMInMobiAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49AD1E522696F35000E3F97F /* Build configuration list for PBXNativeTarget "OMInMobiAdapter" */;
+			buildPhases = (
+				49AD1E422696F35000E3F97F /* Headers */,
+				49AD1E432696F35000E3F97F /* Sources */,
+				49AD1E442696F35000E3F97F /* Frameworks */,
+				49AD1E452696F35000E3F97F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OMInMobiAdapter;
+			productName = OMInMobiAdapter;
+			productReference = 49AD1E472696F35000E3F97F /* OMInMobiAdapter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		49C1CF0124AF48B70093F489 /* OMHeliumAdapter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 49C1CF0B24AF48B80093F489 /* Build configuration list for PBXNativeTarget "OMHeliumAdapter" */;
@@ -3418,6 +3497,9 @@
 					4959CED823EBEE9400A433A8 = {
 						CreatedOnToolsVersion = 11.2.1;
 					};
+					49AD1E462696F35000E3F97F = {
+						CreatedOnToolsVersion = 12.3;
+					};
 					49C1CF0124AF48B70093F489 = {
 						CreatedOnToolsVersion = 11.2.1;
 					};
@@ -3471,6 +3553,7 @@
 				0CE7B36725C141C6006E7FA6 /* OMKuaiShouAdapter */,
 				0CA619FB25DE70300008AC1F /* OMPubNativeAdapter */,
 				4923701126831F5D0006B8D3 /* OMAdmostAdapter */,
+				49AD1E462696F35000E3F97F /* OMInMobiAdapter */,
 				0C31059C26258FD4000898E2 /* OpenMediationSwiftDemo */,
 			);
 		};
@@ -3505,7 +3588,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49C17F10269308A00092C023 /* AdmostCustomNative5950.xib in Resources */,
 				0C981BD123D69A1F0074B43A /* LaunchScreen.storyboard in Resources */,
 				0C981BCE23D69A1F0074B43A /* Assets.xcassets in Resources */,
 				492371CD268470C90006B8D3 /* amr-adchoices.png in Resources */,
@@ -3614,6 +3696,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		49AD1E452696F35000E3F97F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		49C1CF0024AF48B70093F489 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3652,7 +3741,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4902B9DF24166FCB007A0352 /* Run Script */ = {
+		4902B9DF24166FCB007A0352 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3661,13 +3750,13 @@
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Script/publish.sh\" OpenMediationDemo\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3986,6 +4075,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		49AD1E432696F35000E3F97F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49AD1F0B2696F52300E3F97F /* OMInMobiInterstitial.m in Sources */,
+				49AD1E6C2696F39100E3F97F /* OMInMobiAdapter.m in Sources */,
+				49AD1EA02696F3E700E3F97F /* OMInMobiBid.m in Sources */,
+				49AD1ED32696F4F300E3F97F /* OMInMobiBanner.m in Sources */,
+				49AD1F272696F53600E3F97F /* OMInMobiRewardedVideo.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		49C1CEFE24AF48B70093F489 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4135,6 +4236,11 @@
 			isa = PBXTargetDependency;
 			target = 0C70AA2123D162E70021D67A /* OpenMediation */;
 			targetProxy = 4959CEF823EBF4F800A433A8 /* PBXContainerItemProxy */;
+		};
+		49AD1E4D2696F35000E3F97F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49AD1E462696F35000E3F97F /* OMInMobiAdapter */;
+			targetProxy = 49AD1E4C2696F35000E3F97F /* PBXContainerItemProxy */;
 		};
 		49C1CF0824AF48B70093F489 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4396,6 +4502,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.mediationsdk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4425,6 +4532,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.mediationsdk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -4451,6 +4559,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.adtimingadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4477,6 +4586,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.adtimingadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -4506,7 +4616,7 @@
 					"-ObjC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.sample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.at.stool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -4537,7 +4647,7 @@
 					"-ObjC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.sample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.at.stool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -4564,6 +4674,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.pubnativeadadapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4589,6 +4700,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.pubnativeadadapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -4614,6 +4726,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.sigmobadapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4639,6 +4752,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.sigmobadapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -4664,6 +4778,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.kuaishouadadapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4689,6 +4804,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.kuaishouadadapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -4730,9 +4846,11 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.AdmostAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4754,9 +4872,11 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.AdmostAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -4783,6 +4903,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.admobadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4809,6 +4930,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.admobadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -4834,6 +4956,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.facebookadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4859,6 +4982,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.facebookadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -4884,6 +5008,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.unityadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4909,6 +5034,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.unityadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -4934,6 +5060,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.vungleadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4959,6 +5086,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.vungleadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -4984,6 +5112,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.adcolonyadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -5009,6 +5138,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.adcolonyadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -5034,6 +5164,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.applovinadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -5059,6 +5190,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.applovinadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -5084,6 +5216,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.tapjoyadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -5109,6 +5242,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.tapjoyadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -5134,6 +5268,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.chartboostadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -5159,6 +5294,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.chartboostadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -5184,6 +5320,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.pangleadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -5209,6 +5346,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.pangleadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -5234,6 +5372,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.mintegraladapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -5259,6 +5398,59 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.mintegraladapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		49AD1E502696F35000E3F97F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = R9GTCMNR3E;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = OMInMobiAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.OMInMobiAdapter;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		49AD1E512696F35000E3F97F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = R9GTCMNR3E;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = OMInMobiAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.OMInMobiAdapter;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -5284,6 +5476,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.heliumadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -5309,6 +5502,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.heliumadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -5335,6 +5529,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.tencentadadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -5361,6 +5556,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.tencentadadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -5387,6 +5583,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.ironsourceadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -5413,6 +5610,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.ironsourceadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -5439,6 +5637,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.fyberadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -5465,6 +5664,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.fyberadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -5491,6 +5691,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.mopubadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -5517,6 +5718,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.mopubadapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -5700,6 +5902,15 @@
 			buildConfigurations = (
 				4959CEE323EBEE9400A433A8 /* Debug */,
 				4959CEE423EBEE9400A433A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49AD1E522696F35000E3F97F /* Build configuration list for PBXNativeTarget "OMInMobiAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49AD1E502696F35000E3F97F /* Debug */,
+				49AD1E512696F35000E3F97F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

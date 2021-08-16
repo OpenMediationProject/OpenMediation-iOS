@@ -37,7 +37,7 @@ typedef id _Nullable (^mInstanceInitBlock)(void);
 
 typedef void (^bidCompletionHandler)(NSDictionary *bidResponse);
 
-static NSMutableDictionary *bidBlockMapNew = nil;
+static NSMutableDictionary *bidBlockMap = nil;
 
 @protocol OMPubNativeAd<OMInterstitialCustomEvent,OMCustomEventDelegate,OMRewardedVideoCustomEvent,OMBannerCustomEvent,OMNativeCustomEvent>
 
@@ -89,10 +89,10 @@ static NSMutableDictionary *bidBlockMapNew = nil;
                 return adapter;
             }];
         }
-        if (!bidBlockMapNew) {
-            bidBlockMapNew = [NSMutableDictionary dictionary];
+        if (!bidBlockMap) {
+            bidBlockMap = [NSMutableDictionary dictionary];
         }
-        [bidBlockMapNew setObject:callback forKey:[NSNumber numberWithUnsignedInteger:[adapter hash]]];
+        [bidBlockMap setObject:callback forKey:[NSNumber numberWithUnsignedInteger:[adapter hash]]];
         adapter.bidDelegate = (id<HyBidDelegate>)self;
         [adapter loadAd];
     } else {
@@ -104,7 +104,7 @@ static NSMutableDictionary *bidBlockMapNew = nil;
     
     NSNumber *key = [NSNumber numberWithUnsignedInteger:[bidAdapter hash]];
     
-    bidCompletionHandler callback = [bidBlockMapNew objectForKey:key];
+    bidCompletionHandler callback = [bidBlockMap objectForKey:key];
     
     if (callback) {
         
@@ -125,7 +125,7 @@ static NSMutableDictionary *bidBlockMapNew = nil;
         }
         
     }
-    [bidBlockMapNew removeObjectForKey:key];
+    [bidBlockMap removeObjectForKey:key];
 }
 
 

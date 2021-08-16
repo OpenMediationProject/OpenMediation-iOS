@@ -54,6 +54,12 @@
     
 }
 
+- (void)bannerViewDidRecordClick:(GADBannerView *)bannerView {
+    if (_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]) {
+        [_delegate bannerCustomEventDidClick:self];
+    }
+}
+   
 - (void)bannerViewWillPresentScreen:(GADBannerView *)bannerView {
     if (_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillPresentScreen:)]) {
         [_delegate bannerCustomEventWillPresentScreen:self];
