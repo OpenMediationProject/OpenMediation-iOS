@@ -29,21 +29,21 @@
 
 - (void)didReceiveBanner:(AMRBanner *)banner {
     [self addSubview:_banner.bannerView];
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
-        [_delegate customEvent:self didLoadAd:nil];
-    }
     if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)]) {
         [_bidDelegate bidReseponse:self bid:@{@"price":[NSNumber numberWithDouble:([banner.ecpm doubleValue]/100.0)]} error:nil];
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+        [_delegate customEvent:self didLoadAd:nil];
     }
 }
 
 - (void)didFailToReceiveBanner:(AMRBanner *)banner error:(AMRError *)error {
     NSError *loadError = [[NSError alloc] initWithDomain:@"com.openmediation.admostadapter" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:error.errorDescription}];
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
-        [_delegate customEvent:self didFailToLoadWithError:loadError];
-    }
     if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)]) {
         [_bidDelegate bidReseponse:self bid:nil error:loadError];
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+        [_delegate customEvent:self didFailToLoadWithError:loadError];
     }
 }
 

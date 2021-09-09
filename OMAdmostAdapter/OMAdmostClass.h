@@ -4,11 +4,6 @@
 #ifndef OMAdmostClass_h
 #define OMAdmostClass_h
 
-@protocol AdmostBidDelegate <NSObject>
-
-- (void)bidReseponse:(NSObject *_Nullable)bidAdapter bid:(nullable NSDictionary*)bidInfo error:(nullable NSError*)error;
-@end
-
 typedef NS_ENUM(NSInteger, AMRLogLevel){
     /// No logs
     AMRLogLevelSilent = 0,

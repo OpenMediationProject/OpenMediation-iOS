@@ -6,7 +6,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *const AdTimingAdapterVersion = @"2.0.3";
+static NSString *const AdTimingAdapterVersion = @"2.0.4";
 
 @interface OMAdTimingAdapter : NSObject<OMMediationAdapter>
 

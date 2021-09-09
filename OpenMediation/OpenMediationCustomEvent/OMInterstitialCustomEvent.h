@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "OMCustomEventDelegate.h"
+#import "OMBidCustomEvent.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol OMInterstitialCustomEvent;
@@ -22,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak, nullable) id<interstitialCustomEventDelegate> delegate;
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
 @optional
+- (void)setBidDelegate:(id<OMBidCustomEventDelegate>)bidDelegate;
 - (void)loadAd;
 - (void)loadAdWithBidPayload:(NSString*)bidPayload;
 - (BOOL)isReady;

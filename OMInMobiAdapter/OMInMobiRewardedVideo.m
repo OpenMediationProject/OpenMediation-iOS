@@ -64,11 +64,11 @@
 
 -(void)interstitial:(IMInterstitial*)interstitial didFailToLoadWithError:(IMRequestStatus *)error {
     NSError *loadError = [[NSError alloc] initWithDomain:@"com.openmediation.inmobiadapter" code:error.code userInfo:@{NSLocalizedDescriptionKey:error.localizedDescription}];
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
-        [_delegate customEvent:self didFailToLoadWithError:loadError];
-    }
     if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)]) {
         [_bidDelegate bidReseponse:self bid:nil error:loadError];
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+        [_delegate customEvent:self didFailToLoadWithError:loadError];
     }
 }
 

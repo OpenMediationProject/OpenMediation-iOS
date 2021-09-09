@@ -5,6 +5,7 @@
 #import <Foundation/Foundation.h>
 #import "OMInterstitialCustomEvent.h"
 #import "OMInMobiInterstitialClass.h"
+#import "OMBidCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, strong) IMInterstitial *interstitial;
 @property (nonatomic, weak) id<interstitialCustomEventDelegate> delegate;
-@property (nonatomic, weak) id<InMobiBidDelegate> bidDelegate;
+@property (nonatomic, weak) id<OMBidCustomEventDelegate> bidDelegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
 - (void)loadAd;

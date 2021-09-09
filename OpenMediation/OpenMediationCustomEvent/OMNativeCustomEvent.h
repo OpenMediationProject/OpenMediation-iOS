@@ -4,14 +4,15 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "OMCustomEventDelegate.h"
+#import "OMBidCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol OMNativeCustomEvent;
 
 @protocol nativeCustomEventDelegate <OMCustomEventDelegate>
-- (void)nativeCustomEventWillShow:(id<OMNativeCustomEvent>)adapter;
-- (void)nativeCustomEventDidClick:(id<OMNativeCustomEvent>)adapter;
+- (void)nativeCustomEventWillShow:(id)adObject;
+- (void)nativeCustomEventDidClick:(id)adObject;
 
 @end
 
@@ -19,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<nativeCustomEventDelegate> delegate;
 - (instancetype)initWithParameter:(NSDictionary*)adParameter rootVC:(UIViewController*)rootViewController;
 @optional
+- (void)setBidDelegate:(id<OMBidCustomEventDelegate>)bidDelegate;
 - (void)loadAd;
 - (void)loadAdWithBidPayload:(NSString*)bidPayload;
 @end

@@ -10,11 +10,11 @@
     
     self = [super init];
     if (self) {
-        _nativeResponse = nativeResponse;
-        _title = _nativeResponse.properties[@"title"];
-        _body= _nativeResponse.properties[@"text"];
-        _iconUrl = _nativeResponse.properties[@"iconimage"];
-        _rating = [_nativeResponse.properties[@"starrating"]doubleValue];
+        _adObject =nativeResponse;
+        _title = nativeResponse.properties[@"title"];
+        _body= nativeResponse.properties[@"text"];
+        _iconUrl = nativeResponse.properties[@"iconimage"];
+        _rating = [nativeResponse.properties[@"starrating"]doubleValue];
         _callToAction = @"INSTALL";
         _nativeViewClass = @"OMMopubNativeView";
     }

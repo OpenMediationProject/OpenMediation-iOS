@@ -5,6 +5,7 @@
 #import "OMPubNativeNativeClass.h"
 #import "OMNativeCustomEvent.h"
 #import "OMPubNativeClass.h"
+#import "OMBidCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) HyBidNativeAd *nativeAd;
 @property (nonatomic, weak) id<nativeCustomEventDelegate> delegate;
 @property (nonatomic, strong) NSString *pid;
-@property (nonatomic, weak) id<HyBidDelegate> bidDelegate;
+@property (nonatomic, weak) id<OMBidCustomEventDelegate> bidDelegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter rootVC:(UIViewController*)rootViewController;
 - (void)loadAd;

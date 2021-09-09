@@ -68,16 +68,16 @@
 
 #pragma mark -- OMCrossPromotionNativeAdDelegate
 - (void)OMCrossPromotionNativeAdWillShow:(OMCrossPromotionNativeAd*)natvieAd {
-    [natvieAd.campaign impression:@""];
+    [natvieAd.adObject impression:@""];
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
-        [_delegate nativeCustomEventWillShow:self];
+        [_delegate nativeCustomEventWillShow:natvieAd];
     }
 }
 
 - (void)OMCrossPromotionNativeAdDidClick:(OMCrossPromotionNativeAd*)natvieAd{
     [natvieAd showAd:_rootVC];
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
-        [_delegate nativeCustomEventDidClick:self];
+        [_delegate nativeCustomEventDidClick:natvieAd];
     }
 }
 

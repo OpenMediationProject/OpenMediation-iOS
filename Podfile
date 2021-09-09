@@ -4,7 +4,8 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'OpenMediationDemo' do
   use_frameworks!
-  pod 'AdTimingBidSDK', '5.1.0'
+
+  pod 'AdTimingBidSDK', '5.2.1'
   pod 'Google-Mobile-Ads-SDK', '8.7.0'
   pod 'FBAudienceNetwork', '6.5.1'
   pod 'UnityAds', '3.7.2'

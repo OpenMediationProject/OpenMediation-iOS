@@ -6,7 +6,7 @@
 @implementation OMFacebookNativeAd
 - (instancetype)initWithFBNativeAd:(FBNativeAd*)fbNativeAd {
     if (self = [super init]) {
-        _fbNativeAd = fbNativeAd;
+        _adObject = fbNativeAd;
         _title = [fbNativeAd headline];
         _body = [fbNativeAd bodyText];
         FBAdImage *fbIcon = [fbNativeAd adChoicesIcon];

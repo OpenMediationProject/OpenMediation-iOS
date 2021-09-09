@@ -56,6 +56,7 @@
     [deviceInfo setValue:[UIDevice omCountryCode] forKey:@"lcountry"];
     [deviceInfo setValue:[[OMNetMonitor sharedInstance]omNetworkType] forKey:@"contype"];
     [deviceInfo setValue:[UIDevice omCarrierInfo] forKey:@"carrier"];
+    [deviceInfo setValue:[UIDevice omCarrierIso] forKey:@"gcy"];
     [deviceInfo setValue:[NSNumber numberWithInteger:[UIDevice omFreeRamSize]] forKey:@"fm"];
     [deviceInfo setValue:[NSNumber numberWithInteger:[UIDevice omBatteryLevel]] forKey:@"battery"];
     [deviceInfo setValue:[NSNumber numberWithInt:(int)[UIDevice omLowPowerMode]] forKey:@"lowp"];

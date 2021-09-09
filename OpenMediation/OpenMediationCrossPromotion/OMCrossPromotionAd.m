@@ -99,14 +99,14 @@
 #pragma mark -- crossPromotionCustomEventDelegate
 
 - (void)promotionCustomEventWillAppear:(id<OMCrossPromotionCustomEvent>)adapter {
-    [self adshow:adapter];
+    [self adshow:adapter eventData:nil];
     if (self.delegate && [self.delegate respondsToSelector:@selector(promotionWillAppear:)]) {
         [self.delegate promotionWillAppear:self];
     }
 }
 
 - (void)promotionCustomEventDidClick:(id<OMCrossPromotionCustomEvent>)adapter {
-    [self adClick:adapter];
+    [self adClick:adapter eventData:nil];
     if (self.delegate && [self.delegate respondsToSelector:@selector(promotionDidClick:)]) {
         [self.delegate promotionDidClick:self];
     }

@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Native view class string.
 @property (nonatomic, copy) NSString *nativeViewClass;
 
-@property (nonatomic, strong) AdTimingBidNativeAd *adtNativeAd;
+@property (nonatomic, strong) AdTimingBidNativeAd *adObject;
 
 - (instancetype)initWithAdTimingNativeAd:(AdTimingBidNativeAd*)adtNativeAd;
 

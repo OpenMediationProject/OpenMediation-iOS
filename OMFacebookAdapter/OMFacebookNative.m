@@ -59,7 +59,7 @@
 
 - (void)nativeAdWillLogImpression:(FBNativeAd *)nativeAd {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
-        [_delegate nativeCustomEventWillShow:self];
+        [_delegate nativeCustomEventWillShow:nativeAd];
     }
 }
 
@@ -71,7 +71,7 @@
 
 - (void)nativeAdDidClick:(FBNativeAd *)nativeAd {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
-        [_delegate nativeCustomEventDidClick:self];
+        [_delegate nativeCustomEventDidClick:nativeAd];
     }
 }
 

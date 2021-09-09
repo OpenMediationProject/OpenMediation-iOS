@@ -15,7 +15,7 @@
 
 - (void)setNativeAd:(OMFacebookNativeAd *)nativeAd {
     _nativeAd = nativeAd;
-    FBNativeAd *fbNativeAd = _nativeAd.fbNativeAd;
+    FBNativeAd *fbNativeAd = _nativeAd.adObject;
     Class fbAdChoicesViewClass = NSClassFromString(@"FBAdChoicesView");
     if (fbAdChoicesViewClass) {
         self.adChoicesView = [[fbAdChoicesViewClass alloc]initWithNativeAd:fbNativeAd];
@@ -90,8 +90,8 @@
 - (void)setClickableViews:(NSArray*)clickableViews {
     UIViewController *rootVC = [self rootViewController];
     
-    if (_nativeAd.fbNativeAd && [_nativeAd.fbNativeAd respondsToSelector:@selector(registerViewForInteraction:mediaView:iconView:viewController:clickableViews:)]) {
-        [_nativeAd.fbNativeAd registerViewForInteraction:self mediaView:self.mediaView iconView:nil viewController:rootVC clickableViews:clickableViews];
+    if (_nativeAd.adObject && [_nativeAd.adObject respondsToSelector:@selector(registerViewForInteraction:mediaView:iconView:viewController:clickableViews:)]) {
+        [_nativeAd.adObject registerViewForInteraction:self mediaView:self.mediaView iconView:nil viewController:rootVC clickableViews:clickableViews];
     }
 }
 

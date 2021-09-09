@@ -90,6 +90,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString*)omCarrier;
 
++ (NSString*)omCarrierIso;
+
 + (NSNumber*)omInstallTime;
 
 + (NSNumber*)omFirstLaunchTime;

@@ -17,7 +17,7 @@
 
 typedef void(^hbRequestCompletionHandler)(NSArray *bidInstances);
 
-@interface OMAdBase()<OMLoadDelegate,OMCustomEventDelegate>
+@interface OMAdBase()<OMLoadDelegate,OMCustomEventDelegate,OMBidDelegate>
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, assign) OpenMediationAdFormat adFormat;
@@ -37,11 +37,12 @@ typedef void(^hbRequestCompletionHandler)(NSArray *bidInstances);
 @property (nonatomic, assign) NSInteger abGroup; //0:"",1:A,2:B
 @property (nonatomic, strong) NSDictionary *wfRule; //Waterfall rule data
 @property (nonatomic, copy) NSDictionary *wfInsRevenueData; //Waterfall instance revenue data
-
+@property (nonatomic, strong) NSMutableArray *wfInsList;//instance revenue data
+@property (nonatomic, strong) NSArray *wfInsPriority;//waterfall instance priority;
 //for bid
 @property (nonatomic, strong) OMBid *bid;
 @property (nonatomic, strong) NSMutableDictionary *wfAllBidResonses; //waterfall all bid responses(c2s && s2s)
-@property (nonatomic, strong) NSMutableDictionary *instanceBidResponses; //instance bid response
+@property (nonatomic, strong) NSMutableDictionary *loadedInstanceBidResponses; //loaded instance bid response
 
 @property (nonatomic, strong) OMScene *scene;
 
@@ -57,9 +58,9 @@ typedef void(^hbRequestCompletionHandler)(NSArray *bidInstances);
 - (void)omDidChangedAvailable:(BOOL)available;
 
 - (void)showInstance:(id)instanceID;
-- (void)adshow:(id)instanceAdapter;
+- (void)adshow:(id)instanceAdapter eventData:(NSDictionary*)eventData;
 - (void)adShowFail:(id)instanceAdapter;
-- (void)adClick:(id)instanceAdapter;
+- (void)adClick:(id)instanceAdapter eventData:(NSDictionary*)eventData;
 - (void)adVideoStart:(id)instanceAdapter;
 - (void)adVideoComplete:(id)instanceAdapter;
 - (void)adClose:(id)instanceAdapter;

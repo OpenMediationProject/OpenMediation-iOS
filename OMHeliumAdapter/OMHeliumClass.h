@@ -76,11 +76,6 @@ typedef NS_ENUM( NSUInteger, HeliumErrorCode ) {
 @end
 
 
-@protocol HeliumDelegate <NSObject>
-
-- (void)bidReseponse:(NSObject*)bidAdapter bid:(nullable NSDictionary*)bidInfo error:(nullable NSError*)error;
-@end
-
 NS_ASSUME_NONNULL_END
 
 #endif /* OMHeliumClass_h */

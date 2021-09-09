@@ -37,7 +37,7 @@
 - (void)setNativeAd:(OMAdMobNativeAd*)nativeAd {
     _nativeAd = nativeAd;
     if (self.gadNativeView) {
-        self.gadNativeView.nativeAd = _nativeAd.gadNativeAd;
+        self.gadNativeView.nativeAd = _nativeAd.adObject;
         self.heightConstraint.active = NO;
     }
 }

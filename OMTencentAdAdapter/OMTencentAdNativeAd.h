@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *nativeViewClass;
 
 
-@property (nonatomic, strong) GDTUnifiedNativeAdDataObject *gdtDataObject;
+@property (nonatomic, strong) GDTUnifiedNativeAdDataObject *adObject;
 
 @property (nonatomic, weak) id adLoader;
 

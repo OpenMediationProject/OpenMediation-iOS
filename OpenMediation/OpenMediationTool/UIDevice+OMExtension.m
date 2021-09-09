@@ -145,6 +145,17 @@
     return carrierInfo;
 }
 
++ (NSString*)omCarrierIso {
+    CTTelephonyNetworkInfo *info = [[CTTelephonyNetworkInfo alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    CTCarrier *carrier = [info subscriberCellularProvider];
+#pragma clang diagnostic pop
+    NSString * carrierIso= [carrier isoCountryCode];
+
+    return OM_SAFE_STRING(carrierIso);
+}
+
 + (long long)omMemorySize {
     return [NSProcessInfo processInfo].physicalMemory;
 }

@@ -7,7 +7,7 @@
 - (instancetype)initWithGadNativeAd:(GADNativeAd*)gadNativeAd {
     self = [super init];
     if (self) {
-        _gadNativeAd = gadNativeAd;
+        _adObject = gadNativeAd;
         _title = [gadNativeAd headline];
         _body= [gadNativeAd body];
         id icon = [gadNativeAd icon];

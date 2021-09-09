@@ -41,7 +41,7 @@
 - (void)setNativeAd:(OMAdTimingNativeAd*)nativeAd {
     _nativeAd = nativeAd;
     if (self.adtNativeView) {
-        self.adtNativeView.nativeAd = _nativeAd.adtNativeAd;
+        self.adtNativeView.nativeAd = _nativeAd.adObject;
     }
 }
 

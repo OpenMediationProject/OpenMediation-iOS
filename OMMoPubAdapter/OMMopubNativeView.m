@@ -21,7 +21,7 @@
 
 - (void)setNativeAd:(OMMopubNativeAd*)nativeAd {
     _nativeAd = nativeAd;
-    NSString *mainImageUrl = [_nativeAd.nativeResponse.properties objectForKey:@"mainimage"];
+    NSString *mainImageUrl = [_nativeAd.adObject.properties objectForKey:@"mainimage"];
     if (mainImageUrl) {
         NSURL *imageURL = [NSURL URLWithString:mainImageUrl];
         NSData *imageData = [[NSClassFromString(@"MPNativeCache") sharedCache]
@@ -31,8 +31,8 @@
         }
     }
     
-    if ([_nativeAd.nativeResponse respondsToSelector:@selector(willAttachToView:withAdContentViews:)]) {
-      [_nativeAd.nativeResponse performSelector:@selector(willAttachToView:withAdContentViews:)
+    if ([_nativeAd.adObject respondsToSelector:@selector(willAttachToView:withAdContentViews:)]) {
+      [_nativeAd.adObject performSelector:@selector(willAttachToView:withAdContentViews:)
                       withObject:self
                       withObject:nil];
     } else {
@@ -41,8 +41,8 @@
 }
 
 - (void)viewTapped:(UITapGestureRecognizer *)gr {
-    if (_nativeAd.nativeResponse) {
-      [_nativeAd.nativeResponse performSelector:@selector(adViewTapped)];
+    if (_nativeAd.adObject) {
+      [_nativeAd.adObject performSelector:@selector(adViewTapped)];
     }
 }
 

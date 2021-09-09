@@ -30,6 +30,9 @@
                 if ([bannerAdapter respondsToSelector:@selector(setDelegate:)]) {
                     bannerAdapter.delegate = self;
                 }
+                if ([bannerAdapter respondsToSelector:@selector(setBidDelegate:)]) {
+                    [bannerAdapter performSelector:@selector(setBidDelegate:) withObject:self];
+                }
                 [self.instanceAdapters setObject:bannerAdapter forKey:instanceID];
             }
         }
@@ -67,14 +70,14 @@
 }
 
 - (void)bannerDidImprssion:(UIView*)bannerAdapter {
-    [self adshow:bannerAdapter];
+    [self adshow:bannerAdapter eventData:nil];
     if (self.delegate && [self.delegate respondsToSelector:@selector(bannerWillExposure)]) {
         [self.delegate bannerWillExposure];
     }
 }
 
 - (void)bannerCustomEventDidClick:(id<OMBannerCustomEvent>)adapter {
-    [self adClick:adapter];
+    [self adClick:adapter eventData:nil];
     if (self.delegate && [self.delegate respondsToSelector:@selector(bannerDidClick)]) {
         [self.delegate bannerDidClick];
     }

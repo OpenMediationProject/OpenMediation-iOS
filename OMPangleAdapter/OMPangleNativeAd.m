@@ -7,7 +7,7 @@
 
 - (instancetype)initWithNativeAd:(BUNativeAd*)nativeAd {
     if (self = [super init]) {
-        _nativeAd = nativeAd;
+        _adObject = nativeAd;
         _title = nativeAd.data.AdTitle;
         _body = nativeAd.data.AdDescription;
         _iconUrl = nativeAd.data.icon.imageURL;

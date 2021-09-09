@@ -10,11 +10,10 @@
 
 @implementation OMBid
 
-- (void)bidWithNetworkItems:(NSArray*)networkItems adFormat:(NSString*)format adSize:(CGSize)size completionHandler:(bidCompletionHandler)completionHandler {
+- (void)bidWithNetworkItems:(NSArray*)networkItems adFormat:(NSString*)format adSize:(CGSize)size {
     _bidNetworkItems = networkItems;
-    _completionHandler = completionHandler;
     _bidResponses = [NSMutableDictionary dictionary];
-
+    _bidding = YES;
     
     NSInteger bidMaxTimeOut = 0;
     
@@ -22,23 +21,17 @@
     dispatch_group_t group = dispatch_group_create();
 
     for (OMBidNetworkItem *networkItem in networkItems) {
-        if (!OM_STR_EMPTY(networkItem.adnName)) {
-            OMAdNetwork adnID = [networkItem.extraData[@"adnID"] integerValue];
-            if (![[OMMediations sharedInstance]adnSDKInitialized:adnID]) {
-                [[OMMediations sharedInstance]initAdNetworkSDKWithId:adnID
-                                                       completionHandler:^(NSError * _Nullable error) {
-                }];
+        if (bidMaxTimeOut < networkItem.maxTimeOutMS) {
+            bidMaxTimeOut = networkItem.maxTimeOutMS;
+        }
+        
+        void(^bidBlock)(void) = ^(void) {
+            if (weakSelf && [weakSelf.delegate respondsToSelector:@selector(omBidRequest:)]) {
+                [weakSelf.delegate omBidRequest:networkItem.extraData[@"instanceID"]];
             }
-            
             NSString *className = [NSString stringWithFormat:@"OM%@Bid",networkItem.adnName];
             Class bidClass = NSClassFromString(className);
             if (bidClass && [bidClass respondsToSelector:@selector(bidWithNetworkItem:adFormat:adSize:responseCallback:)]) {
-                NSInteger networkMaxTimeOut = networkItem.maxTimeOutMS;
-                if (bidMaxTimeOut < networkMaxTimeOut) {
-                    bidMaxTimeOut = networkMaxTimeOut;
-                }
-                    dispatch_group_enter(group);
-                    
                 [bidClass bidWithNetworkItem:networkItem adFormat:format adSize:size responseCallback:^(NSDictionary *bidResponseData) {
                         if (weakSelf && bidResponseData) {
                             @synchronized (weakSelf) {
@@ -49,7 +42,31 @@
                         }
                         dispatch_group_leave(group);
                     }];
+            } else {
+                dispatch_group_leave(group);
             }
+        };
+        
+        if (!OM_STR_EMPTY(networkItem.adnName)) {
+            dispatch_group_enter(group);
+            OMAdNetwork adnID = [networkItem.extraData[@"adnID"] integerValue];
+            if (![[OMMediations sharedInstance]adnSDKInitialized:adnID]) {
+                [[OMMediations sharedInstance]initAdNetworkSDKWithId:adnID
+                                                       completionHandler:^(NSError * _Nullable error) {
+                    if (!error) {
+                        bidBlock();
+                    } else {
+                        OMBidResponse *bidResponse = [OMBidResponse buildResponseWithError:[NSString stringWithFormat:@"%@ init failed %@",networkItem.adnName,OM_SAFE_STRING(error.localizedDescription)]];
+
+                        [weakSelf.bidResponses setObject:bidResponse forKey:networkItem.extraData[@"instanceID"] ];
+                        dispatch_group_leave(group);
+                    }
+                }];
+            } else {
+                bidBlock();
+            }
+            
+
         }
     }
     
@@ -88,9 +105,9 @@
             [_bidTimer invalidate];
             _bidTimer = nil;
         }
-        if (self.completionHandler) {
-            self.completionHandler([self.bidResponses copy]);
-            self.completionHandler = nil;
+        if (self.bidding && self.delegate && [self.delegate respondsToSelector:@selector(omBidComplete:)]) {
+            self.bidding = NO;
+            [self.delegate omBidComplete:[self.bidResponses copy]];
         }
     }
 

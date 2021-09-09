@@ -5,6 +5,7 @@
 #import <UIKit/UIKit.h>
 #import "OMNativeCustomEvent.h"
 #import "OMAdmostBannerClass.h"
+#import "OMBidCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) AMRBanner *native;
 @property (nonatomic, copy) NSString *pid;
 @property(nonatomic, weak, nullable) id<nativeCustomEventDelegate> delegate;
-@property (nonatomic, weak) id<AdmostBidDelegate> bidDelegate;
+@property (nonatomic, weak) id<OMBidCustomEventDelegate> bidDelegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter rootVC:(UIViewController*)rootViewController;
 - (void)loadAd;

@@ -28,9 +28,8 @@
 #pragma mark -- AdTimingNativeDelegate
 
 - (void)AdTimingBidNative:(AdTimingBidNative*)native didLoad:(AdTimingBidNativeAd*)nativeAd {
-    
+    nativeAd.delegate = self;
     OMAdTimingNativeAd *adtNativeAd = [[OMAdTimingNativeAd alloc]initWithAdTimingNativeAd:nativeAd];
-    
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:adtNativeAd];
     }
@@ -41,16 +40,14 @@
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
-
-- (void)AdTimingBidNativeWillExposure:(AdTimingBidNative*)native {
+- (void)AdTimingBidNativeAdWillShow:(AdTimingBidNativeAd*)nativeAd {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
-        [_delegate nativeCustomEventWillShow:self];
+        [_delegate nativeCustomEventWillShow:nativeAd];
     }
 }
-
-- (void)AdTimingBidNativeDidClick:(AdTimingBidNative*)native {
+- (void)AdTimingBidNativeAdDidClick:(AdTimingBidNativeAd*)nativeAd {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
-        [_delegate nativeCustomEventDidClick:self];
+        [_delegate nativeCustomEventDidClick:nativeAd];
     }
 }
 

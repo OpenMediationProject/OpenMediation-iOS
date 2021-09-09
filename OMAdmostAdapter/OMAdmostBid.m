@@ -41,7 +41,7 @@ static NSMutableDictionary *bidBlockMap = nil;
 
 @protocol OMAdmostAd<OMInterstitialCustomEvent,OMCustomEventDelegate,OMRewardedVideoCustomEvent,OMBannerCustomEvent,OMNativeCustomEvent>
 
-@property(nonatomic, weak, nullable) id<AdmostBidDelegate> bidDelegate;
+@property(nonatomic, weak, nullable) id<OMBidCustomEventDelegate> bidDelegate;
 
 @end
 
@@ -95,7 +95,7 @@ static NSMutableDictionary *bidBlockMap = nil;
             bidBlockMap = [NSMutableDictionary dictionary];
         }
         [bidBlockMap setObject:callback forKey:[NSNumber numberWithUnsignedInteger:[adapter hash]]];
-        adapter.bidDelegate = (id<AdmostBidDelegate>)self;
+        adapter.bidDelegate = (id<OMBidCustomEventDelegate>)self;
         [adapter loadAd];
     } else {
         callback(@{@"error":@"Admost Bid Adapter class not found"});

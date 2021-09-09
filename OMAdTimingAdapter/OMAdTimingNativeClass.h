@@ -24,12 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// Sent when an AdTimingNative is failed to load.
 - (void)AdTimingBidNative:(AdTimingBidNative*)native didFailWithError:(NSError*)error;
 
-/// Sent immediately before the impression of an AdTimingNative object will be logged.
-- (void)AdTimingBidNativeWillExposure:(AdTimingBidNative*)native;
-
-/// Sent after an ad has been clicked by the person.
-- (void)AdTimingBidNativeDidClick:(AdTimingBidNative*)native;
-
 @end
 
 /// The AdTimingNative represents ad metadata to allow you to construct custom ad views.
@@ -55,6 +49,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@protocol AdTimingBidNativeAdDelegate<NSObject>
+
+@optional
+
+/// Sent immediately before the impression of an AdTimingBidNativeAd will be logged.
+- (void)AdTimingBidNativeAdWillShow:(AdTimingBidNativeAd*)nativeAd;
+
+/// Sent after an ad has been clicked by the person.
+- (void)AdTimingBidNativeAdDidClick:(AdTimingBidNativeAd*)nativeAd;
+
+@end
+
 /// The AdTimingNative represents ad metadata to allow you to construct custom ad views.
 @interface AdTimingBidNativeAd : NSObject
 
@@ -72,6 +78,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Typed access to the ad star rating.
 @property (nonatomic, assign) double rating;
+
+@property (nonatomic, strong) id <AdTimingBidNativeAdDelegate> delegate;
 
 @end
 

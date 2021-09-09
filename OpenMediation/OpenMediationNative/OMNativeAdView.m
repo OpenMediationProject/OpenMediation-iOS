@@ -3,6 +3,14 @@
 
 #import "OMNativeAdView.h"
 #import "OpenMediationConstant.h"
+#import "OMMediatedNativeAd.h"
+#import "OMBidResponse.h"
+
+@interface OMNativeAdView()
+@property (nonatomic, strong) NSString *instanceID;
+@property (nonatomic, strong) NSObject *adapter;
+@property (nonatomic, strong) OMBidResponse *bidResponse;
+@end
 
 @implementation OMNativeAdView
 

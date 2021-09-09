@@ -18,8 +18,8 @@
 
 - (void)setNativeAd:(OMPubNativeNativeAd*)nativeAd {
     _nativeAd = nativeAd;
-    if (nativeAd.hyBidNativeAd.bannerUrl) {        
-        NSURL *imageURL = [NSURL URLWithString:nativeAd.hyBidNativeAd.bannerUrl];
+    if (nativeAd.adObject.bannerUrl) {
+        NSURL *imageURL = [NSURL URLWithString:nativeAd.adObject.bannerUrl];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -27,8 +27,8 @@
             });
         });
     }
-    if ([_nativeAd.hyBidNativeAd respondsToSelector:@selector(startTrackingView:withDelegate:)]) {
-        [_nativeAd.hyBidNativeAd startTrackingView:_mediaView withDelegate:nativeAd.hyBidNativeAd.delegate];
+    if ([_nativeAd.adObject respondsToSelector:@selector(startTrackingView:withDelegate:)]) {
+        [_nativeAd.adObject startTrackingView:_mediaView withDelegate:nativeAd.adObject.delegate];
     }
 }
 

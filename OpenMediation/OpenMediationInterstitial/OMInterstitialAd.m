@@ -60,6 +60,9 @@
                     return adapter;
                 }];
                 interstitialAdapter.delegate = self;
+                if ([interstitialAdapter respondsToSelector:@selector(setBidDelegate:)]) {
+                    [interstitialAdapter performSelector:@selector(setBidDelegate:) withObject:self];
+                }
                 [self.instanceAdapters setObject:interstitialAdapter forKey:instanceID];
             }
         }
@@ -123,7 +126,7 @@
 
 - (void)interstitialCustomEventDidShow:(id<OMInterstitialCustomEvent>)adapter {
 
-    [self adshow:adapter];
+    [self adshow:adapter eventData:nil];
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidShow:)]) {
         [self.delegate interstitialDidShow:self];
     }
@@ -131,7 +134,7 @@
 }
 
 - (void)interstitialCustomEventDidClick:(id<OMInterstitialCustomEvent>)adapter {
-    [self adClick:adapter];
+    [self adClick:adapter eventData:nil];
     if (self.delegate && [self.delegate respondsToSelector:@selector(interstitialDidClick:)]) {
         [self.delegate interstitialDidClick:self];
     }

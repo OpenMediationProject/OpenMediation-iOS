@@ -33,7 +33,7 @@
 
 - (void)setNativeAd:(OMPangleNativeAd*)nativeAd {
     _nativeAd = nativeAd;
-    BUNativeAd *buAd = nativeAd.nativeAd;
+    BUNativeAd *buAd = nativeAd.adObject;
     if (buAd.data.imageMode == BUFeedVideoAdModeImage) {
         id <BUVideoAdViewDelegate> temp = (id <BUVideoAdViewDelegate>) buAd.delegate;
         self.relatedView.videoAdView.delegate = temp;

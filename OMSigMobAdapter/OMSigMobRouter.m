@@ -31,7 +31,7 @@ static OMSigMobRouter * _instance = nil;
                 [_sigmobVideoSDK setDelegate:self];
             }
         }
-        _placementDelegateMap = [NSMutableDictionary dictionary];
+        _placementDelegateMap = [NSMapTable weakToWeakObjectsMapTable];
     }
     return self;
 }

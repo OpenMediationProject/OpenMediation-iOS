@@ -4,11 +4,15 @@
 #import "OMNativeAd.h"
 #import "OpenMediationConstant.h"
 #import "OMMediatedNativeAd.h"
+#import "OMBidResponse.h"
 @interface OMNativeAd()
 
 @property (nonatomic, strong) id<OMMediatedNativeAd> mediatedAd;
 @property (nonatomic, assign) BOOL rendering;
 @property (nonatomic, assign) BOOL impr;
+@property (nonatomic, strong) NSString *instanceID;
+@property (nonatomic, strong) NSObject *adapter;
+@property (nonatomic, strong) OMBidResponse *bidResponse;
 @end
 
 @implementation OMNativeAd

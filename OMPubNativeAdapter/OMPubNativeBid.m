@@ -7,6 +7,7 @@
 #import "OMRewardedVideoCustomEvent.h"
 #import "OMBannerCustomEvent.h"
 #import "OMNativeCustomEvent.h"
+#import "OMBidCustomEvent.h"
 
 @interface OMBidNetworkItem : NSObject
 
@@ -41,7 +42,7 @@ static NSMutableDictionary *bidBlockMap = nil;
 
 @protocol OMPubNativeAd<OMInterstitialCustomEvent,OMCustomEventDelegate,OMRewardedVideoCustomEvent,OMBannerCustomEvent,OMNativeCustomEvent>
 
-@property(nonatomic, weak, nullable) id<HyBidDelegate> bidDelegate;
+@property(nonatomic, weak, nullable) id<OMBidCustomEventDelegate> bidDelegate;
 
 @end
 
@@ -93,7 +94,7 @@ static NSMutableDictionary *bidBlockMap = nil;
             bidBlockMap = [NSMutableDictionary dictionary];
         }
         [bidBlockMap setObject:callback forKey:[NSNumber numberWithUnsignedInteger:[adapter hash]]];
-        adapter.bidDelegate = (id<HyBidDelegate>)self;
+        adapter.bidDelegate = (id<OMBidCustomEventDelegate>)self;
         [adapter loadAd];
     } else {
         callback(@{@"error":@"PubNative Bid Adapter class not found"});

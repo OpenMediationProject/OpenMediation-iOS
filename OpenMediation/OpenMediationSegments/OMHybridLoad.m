@@ -53,7 +53,7 @@
     }
     self.priorityList = insPriority;
     [self groupByBatchSize:_batchSize];
-    [self loadGroupInstane];
+    [self loadGroupInstane:0];
 
 }
 
@@ -97,19 +97,26 @@
 
 - (void)addLoadingInstance {
     if (!self.notifyLoadResult) {
-        BOOL groupLoadFinish = YES;
-        NSInteger loadingGroupIndex = self.loadIndex -1 ;
-        if (loadingGroupIndex < self.loadGroups.count) {
-            NSArray *group = self.loadGroups[loadingGroupIndex];
+        NSArray *groups = [self.loadGroups copy];
+        for (int i=0; i<groups.count; i++) {
+            NSInteger waitLoadCount =0;
+            NSInteger loadEndCount =0;
+            NSArray *group = groups[i];
             for (NSString *instanceID in group) {
                 OMInstanceLoadState loadState = [self.instanceLoadState[instanceID]integerValue];
-                if (loadState <= OMInstanceLoadStateLoading) {
-                    groupLoadFinish = NO;
+                if (loadState == OMInstanceLoadStateWait) {
+                    waitLoadCount++;
+                    break;
+                } else if (loadState > OMInstanceLoadStateLoading) {
+                    loadEndCount++;
                 }
             }
-        }
-        if (groupLoadFinish) {
-           [self loadGroupInstane];
+            if (waitLoadCount == group.count) {
+                [self loadGroupInstane:i];
+                break;
+            } else if (loadEndCount < group.count) { // instance group loading
+                break;
+            }
         }
     }
 }

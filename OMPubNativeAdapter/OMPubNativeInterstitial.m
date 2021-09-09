@@ -49,12 +49,18 @@
         [_bidDelegate bidReseponse:self bid:@{@"price":price} error:nil];
         NSLog(@"PubNative price %@",price);
     }
+    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+        [_delegate customEvent:self didLoadAd:nil];
+    }
 }
 
 - (void)interstitialDidFailWithError:(NSError *)error {
-    NSError *hybidError = [[NSError alloc] initWithDomain:@"com.hybid.bid" code:error.code userInfo:@{NSLocalizedDescriptionKey:error.localizedDescription}];
+    NSError *hybidError = [[NSError alloc] initWithDomain:@"com.mediation.pubnativeadapter" code:error.code userInfo:@{NSLocalizedDescriptionKey:error.localizedDescription}];
     if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)]) {
         [_bidDelegate bidReseponse:self bid:nil error:hybidError];
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+        [_delegate customEvent:self didFailToLoadWithError:hybidError];
     }
 }
 

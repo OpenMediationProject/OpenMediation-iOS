@@ -39,7 +39,7 @@ static NSMutableDictionary *bidBlockMap = nil;
 
 @protocol OMHeliumAd<OMInterstitialCustomEvent>
 
-@property(nonatomic, weak, nullable) id<HeliumDelegate> bidDelegate;
+@property(nonatomic, weak, nullable) id<OMBidCustomEventDelegate> bidDelegate;
 
 @end
 
@@ -80,7 +80,7 @@ static NSMutableDictionary *bidBlockMap = nil;
         
         [bidBlockMap setObject:callback forKey:[NSNumber numberWithUnsignedInteger:[interstitialAdapter hash]]];
         
-        interstitialAdapter.bidDelegate = (id<HeliumDelegate>)self;
+        interstitialAdapter.bidDelegate = (id<OMBidCustomEventDelegate>)self;
         [interstitialAdapter loadAd];
         
     } else {

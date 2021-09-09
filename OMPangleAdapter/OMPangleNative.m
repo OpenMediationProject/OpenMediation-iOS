@@ -66,7 +66,7 @@
 
 - (void)nativeAdDidBecomeVisible:(BUNativeAd *)nativeAd {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
-        [_delegate nativeCustomEventWillShow:self];
+        [_delegate nativeCustomEventWillShow:nativeAd];
     }
 }
 
@@ -78,7 +78,7 @@
 
 - (void)nativeAdDidClick:(BUNativeAd *)nativeAd withView:(UIView *_Nullable)view {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
-        [_delegate nativeCustomEventDidClick:self];
+        [_delegate nativeCustomEventDidClick:nativeAd];
     }
 }
 
@@ -157,7 +157,7 @@
  */
 - (void)nativeExpressAdViewWillShow:(BUNativeExpressAdView *)nativeExpressAdView {
     if (!_hasShown && _delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
-        [_delegate nativeCustomEventWillShow:self];
+        [_delegate nativeCustomEventWillShow:nativeExpressAdView];
     }
 }
 
@@ -166,7 +166,7 @@
  */
 - (void)nativeExpressAdViewDidClick:(BUNativeExpressAdView *)nativeExpressAdView {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
-        [_delegate nativeCustomEventDidClick:self];
+        [_delegate nativeCustomEventDidClick:nativeExpressAdView];
     }
     _hasShown = YES;
 }

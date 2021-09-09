@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *nativeViewClass;
 
 
-@property (nonatomic, strong) FBNativeAd *fbNativeAd;
+@property (nonatomic, strong) FBNativeAd *adObject;
 
 - (instancetype)initWithFBNativeAd:(FBNativeAd*)fbNativeAd;
 @end

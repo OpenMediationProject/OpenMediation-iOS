@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OMCustomEventDelegate.h"
+#import "OMBidCustomEvent.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol OMBannerCustomEvent;
@@ -19,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak, nullable) id<bannerCustomEventDelegate> delegate;
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController;
 @optional
+- (void)setBidDelegate:(id<OMBidCustomEventDelegate>)bidDelegate;
 - (void)loadAd;
 - (void)loadAdWithBidPayload:(NSString*)bidPayload;
 @end

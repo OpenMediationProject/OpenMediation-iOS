@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *nativeViewClass;
 
 
-@property (nonatomic, strong) MPNativeAd *nativeResponse;
+@property (nonatomic, strong) MPNativeAd *adObject;
 
 - (instancetype)initWithMopubResponse:(MPNativeAd*)nativeResponse;
 

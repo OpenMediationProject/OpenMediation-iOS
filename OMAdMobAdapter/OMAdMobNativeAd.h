@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *nativeViewClass;
 
 
-@property (nonatomic, strong) GADNativeAd *gadNativeAd;
+@property (nonatomic, strong) GADNativeAd *adObject;
 
 - (instancetype)initWithGadNativeAd:(GADNativeAd*)gadNativeAd;
 @end

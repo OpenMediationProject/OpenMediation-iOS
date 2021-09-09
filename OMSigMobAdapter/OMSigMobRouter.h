@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMSigMobRouter : NSObject<WindInterstitialAdDelegate,WindRewardedVideoAdDelegate>
 
-@property (nonatomic, strong) NSMutableDictionary *placementDelegateMap;
+@property (nonatomic, strong) NSMapTable *placementDelegateMap;
 
 @property (nonatomic, strong) id sigmobInterstitialSDK;
 @property (nonatomic, strong) id sigmobVideoSDK;

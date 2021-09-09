@@ -463,7 +463,7 @@ static OMMediations *_instance = nil;
             if ([OMMediations importAdnSDK:adnID]) {
                 OMLogI(@"%@ SDK version %@",[self.adnNameMap objectForKey:@(adnID)],[self adnSDKVersion:adnID]);
                 
-                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:adnID],@"mid",[self adnSDKVersion:adnID],@"mediation sdk",@"",@"adapter version", nil];
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:adnID],@"mid",[self adnSDKVersion:adnID],@"msdkv",@"",@"adapterv", nil];
                 Class adnAdapterClass = [self adnAdapterClass:adnID];
                 if (adnAdapterClass && [adnAdapterClass respondsToSelector:@selector(adapterVerison)]) {
                     OMLogI(@"%@ adapter version %@",[self.adnNameMap objectForKey:@(adnID)],[adnAdapterClass adapterVerison]);

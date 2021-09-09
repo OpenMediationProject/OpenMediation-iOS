@@ -19,7 +19,7 @@
 
 - (void)setNativeAd:(OMCrossPromotionNativeAd *)nativeAd {
     _nativeAd  = nativeAd;
-    _imgView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[nativeAd.campaign mainImgCachePath]]];
+    _imgView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[nativeAd.adObject mainImgCachePath]]];
 }
 
 - (void)click {

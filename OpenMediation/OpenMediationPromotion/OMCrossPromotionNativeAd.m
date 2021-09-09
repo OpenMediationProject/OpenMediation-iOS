@@ -8,7 +8,7 @@
 
 - (instancetype)initWithCampaign:(OMCrossPromotionCampaign *)campaign {
     if (self = [super init]) {
-        _campaign = campaign;
+        _adObject = campaign;
         _title = OM_SAFE_STRING(campaign.model.app[@"title"]);
         _body = campaign.model.descn;
         _iconUrl = OM_SAFE_STRING(campaign.model.app[@"icon"]);
@@ -20,7 +20,7 @@
 }
 
 - (void)showAd:(UIViewController*)rootViewController {
-    [_campaign clickAndShowAd:rootViewController sceneID:@""];
+    [_adObject clickAndShowAd:rootViewController sceneID:@""];
 }
 
 @end

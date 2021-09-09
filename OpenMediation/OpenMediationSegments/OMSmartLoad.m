@@ -22,10 +22,10 @@
         [self.checkCacheTimer invalidate];
         self.checkCacheTimer = nil;
     }
-    
+    NSInteger refreshSecond = 30;
+    NSInteger refreshLevel = -1;
     OMUnit *unit = [[OMConfig sharedInstance].adUnitMap objectForKey:self.pid];
     if (unit) {
-        NSInteger refreshLevel = 0;
         for (refreshLevel=0; (refreshLevel<unit.refreshLevels.count); refreshLevel++) {
             if (self.replenishCacheNofillCount < [unit.refreshLevels[refreshLevel] integerValue]) {
                 break;
@@ -34,13 +34,13 @@
         refreshLevel = (refreshLevel < unit.refreshTimes.count)?refreshLevel:unit.refreshTimes.count-1;
         
         if (refreshLevel >=0 && refreshLevel < unit.refreshTimes.count) {
-            NSInteger refreshSecond = [unit.refreshTimes[refreshLevel] integerValue];
-               if (refreshSecond >0 ) {
-                   self.checkCacheTimer = [NSTimer scheduledTimerWithTimeInterval:refreshSecond target:[OMWeakObject proxyWithTarget:self] selector:@selector(checkCache) userInfo:nil repeats:NO];
-                   [[NSRunLoop currentRunLoop] addTimer:self.checkCacheTimer forMode:NSRunLoopCommonModes];
-                   OMLogD(@"%@ refresh level %zd timer interval %zd",self.pid,refreshLevel,refreshSecond);
-               }
+              refreshSecond = [unit.refreshTimes[refreshLevel] integerValue];
         }
+    }
+    if (refreshSecond >0 ) {
+        self.checkCacheTimer = [NSTimer scheduledTimerWithTimeInterval:refreshSecond target:[OMWeakObject proxyWithTarget:self] selector:@selector(checkCache) userInfo:nil repeats:NO];
+        [[NSRunLoop currentRunLoop] addTimer:self.checkCacheTimer forMode:NSRunLoopCommonModes];
+        OMLogD(@"%@ refresh level %zd timer interval %zd",self.pid,refreshLevel,refreshSecond);
     }
 
 }
@@ -58,7 +58,7 @@
     [super loadWithAction:action];
         
     [self checkOptimalInstance];
-    if (self.adShow) {
+    if (self.adFormat != OpenMediationAdFormatNative && self.adShow) {
          OMLogD(@"%@ smart load block: adshow",self.pid);
         [self addEvent:LOAD_BLOCKED extraData:@{@"msg":@"ad show"}];
     } else if (_cacheCount >= self.configCacheCount && self.configCacheCount>0) {
@@ -125,7 +125,8 @@
     }
     self.instanceLoadState = instanceLoadState;
     if (self.priorityList.count == 0 && !self.fillInstances.count) {
-        OMLogD(@"%@ load priority empty",self.pid);
+        self.replenishCacheNofillCount++;
+        OMLogD(@"%@ load priority empty replenish no fill count %zd",self.pid,self.replenishCacheNofillCount);
         [self notifyNoFill];
         [self notifyLoadEnd];
     } else {
@@ -135,8 +136,8 @@
             self.configCacheCount = self.priorityList.count;
             OMLogD(@"%@ priority count less than cache count use min %zd ",self.pid,self.configCacheCount);
         }
-        [self checkOptimalInstance];
         [self groupByBatchSize:1];
+        [self checkOptimalInstance];
         [self addLoadingInstance];
     }
     
@@ -145,7 +146,7 @@
 - (void)saveInstanceLoadState:(NSString*)instanceID state:(OMInstanceLoadState)loadState {
     if (loadState == OMInstanceLoadStateSuccess && [[OMConfig sharedInstance]getInstanceByinstanceID:instanceID]) {
         [self.fillInstances addObject:instanceID];
-    }else if (loadState == OMInstanceLoadStateCallShow) {
+    } else if (loadState == OMInstanceLoadStateWait || loadState == OMInstanceLoadStateCallShow) {
         [self.fillInstances removeObject:instanceID];
     }
     [super saveInstanceLoadState:instanceID state:loadState];
@@ -155,39 +156,35 @@
 - (void)checkOptimalInstance {
     _loadingCount = 0;
     _cacheCount = 0;
+    NSInteger loadFinishCount = 0;
     self.optimalFillInstance = @"";
+    NSMutableArray *cacheInstances = [NSMutableArray array];
     for (NSString *instanceID in self.priorityList) {
         OMInstanceLoadState loadState = [self.instanceLoadState[instanceID]integerValue];
         if (loadState == OMInstanceLoadStateLoading) {
             _loadingCount++;
-        } else if (loadState == OMInstanceLoadStateCallShow || (loadState == OMInstanceLoadStateSuccess && [self.delegate omCheckInstanceReady:instanceID])) {
-            if (![self.optimalFillInstance length]) {
-                self.optimalFillInstance =  instanceID;
-            }
-            _cacheCount++;
+        } else if (loadState > OMInstanceLoadStateLoading) {
+            loadFinishCount++;
+            if (loadState == OMInstanceLoadStateCallShow || (loadState == OMInstanceLoadStateSuccess && [self.delegate omCheckInstanceReady:instanceID])) {
+               if (![self.optimalFillInstance length]) {
+                   self.optimalFillInstance =  instanceID;
+               }
+               [cacheInstances addObject:instanceID];
+               _cacheCount++;
+           }
         }
     }
-    OMLogD(@"%@ loading configCache %zd cache %zd instance %@ loading %zd maxLoadCount %zd",self.pid,self.configCacheCount,self.cacheCount,[self.fillInstances componentsJoinedByString:@"," ],(long)self.loadingCount,self.maxParallelLoadCount);
+    OMLogD(@"%@ loading configCache %zd cache %zd instance %@ loading %zd maxLoadCount %zd",self.pid,self.configCacheCount,self.cacheCount,[cacheInstances componentsJoinedByString:@"," ],(long)self.loadingCount,self.maxParallelLoadCount);
     if (!_cacheCount) {
         if (self.fillInstances.count>0) {
             self.optimalFillInstance = self.fillInstances[0];
-            OMLogD(@"%@ no cache instance,, use preload instance %@",self.pid,self.optimalFillInstance);
+            OMLogD(@"%@ no cache instance, use preload instance %@",self.pid,self.optimalFillInstance);
         }
     }
-    
-    if ([self.optimalFillInstance length]>0) {
-        [self notifyOptimalFill];
-        [self notifyFill:self.optimalFillInstance];
-        self.replenishCacheNofillCount = 0;//reset replenishCacheNofillCount
-        OMLogD(@"%@ reset replenish no fill count 0",self.pid);
+    if ( (self.cacheCount >= self.configCacheCount) || (loadFinishCount == self.priorityList.count && self.priorityList.count>0)) {
         if (self.cacheCount >= self.configCacheCount) {
-            OMLogD(@"%@ cache full,configCache %zd cache %zd instance %@",self.pid,self.configCacheCount,self.cacheCount,[self.fillInstances componentsJoinedByString:@","]);
-            [self notifyLoadEnd];
-        }
-    }
-    
-    if (_loadingCount == 0 && self.loadIndex >= self.priorityList.count) {
-        if (![self.optimalFillInstance length]) {
+            OMLogD(@"%@ cache full,configCache %zd cache %zd instance %@",self.pid,self.configCacheCount,self.cacheCount,[cacheInstances componentsJoinedByString:@","]);
+        } else if (![self.optimalFillInstance length]) {
             if (!self.notifyLoadResult) {
                 self.replenishCacheNofillCount++;
             }
@@ -196,19 +193,27 @@
         }
         [self notifyLoadEnd];
     }
+    
+    if ([self.optimalFillInstance length]>0) {
+        [self notifyOptimalFill];
+        [self notifyFill:self.optimalFillInstance];
+        if (self.replenishCacheNofillCount >0) {
+            self.replenishCacheNofillCount = 0;//reset replenishCacheNofillCount
+            OMLogD(@"%@ reset replenish no fill count 0",self.pid);
+        }
+    }
 }
 
 
 - (void)addLoadingInstance {
     if (self.loading && (self.loadingCount + self.cacheCount < self.configCacheCount) && (self.loadingCount < self.maxParallelLoadCount)) {
-        if (self.loadIndex < self.priorityList.count) {
-            NSString *instanceID = self.priorityList[self.loadIndex];
-            if ([[self.instanceLoadState objectForKey:instanceID]integerValue] >= OMInstanceLoadStateSuccess) {
-                self.loadIndex++;
-                [self checkOptimalInstance];
-                [self addLoadingInstance];
-            } else {
-                [self loadGroupInstane];
+        NSArray *groups = [self.loadGroups copy];
+        for (int i=0; i<groups.count; i++) {
+            NSArray *group = groups[i];
+            NSString *instanceID = [group firstObject];
+            if ([[self.instanceLoadState objectForKey:instanceID]integerValue] == OMInstanceLoadStateWait) {
+                [self loadGroupInstane:i];
+                break;
             }
         }
     }

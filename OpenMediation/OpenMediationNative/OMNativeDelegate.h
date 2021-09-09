@@ -24,10 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)omNative:(OMNative*)native didFailWithError:(NSError*)error;
 
 /// Sent immediately before the impression of an OMNative object will be logged.
-- (void)omNativeWillExposure:(OMNative*)native;
+- (void)omNative:(OMNative*)native nativeAdDidShow:(OMNativeAd*)nativeAd;
 
 /// Sent after an ad has been clicked by the person.
-- (void)omNativeDidClick:(OMNative*)native;
+- (void)omNative:(OMNative*)native nativeAdDidClick:(OMNativeAd*)nativeAd;
 
 @end
 

@@ -206,6 +206,8 @@
 		0CF881072473857600ED2CBD /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CF881062473857600ED2CBD /* SplashViewController.m */; };
 		49097843240383EA00D39DF5 /* OMUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 49097842240383EA00D39DF5 /* OMUnit.m */; };
 		490978452403841300D39DF5 /* NSError+OMExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 490978442403841300D39DF5 /* NSError+OMExtension.m */; };
+		491BA52726BD4D050019AE9F /* OMNativeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 491BA52526BD4D050019AE9F /* OMNativeManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		491BA52826BD4D050019AE9F /* OMNativeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 491BA52626BD4D050019AE9F /* OMNativeManager.m */; };
 		492018D023F6C20C007C5EA4 /* OMLoad.h in Headers */ = {isa = PBXBuildFile; fileRef = 492018CE23F6C20C007C5EA4 /* OMLoad.h */; };
 		492018D123F6C20C007C5EA4 /* OMLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 492018CF23F6C20C007C5EA4 /* OMLoad.m */; };
 		4923701626831F5D0006B8D3 /* OMAdmostAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4923701426831F5D0006B8D3 /* OMAdmostAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -969,6 +971,8 @@
 		0CF881062473857600ED2CBD /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
 		49097842240383EA00D39DF5 /* OMUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMUnit.m; sourceTree = "<group>"; };
 		490978442403841300D39DF5 /* NSError+OMExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+OMExtension.m"; sourceTree = "<group>"; };
+		491BA52526BD4D050019AE9F /* OMNativeManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMNativeManager.h; sourceTree = "<group>"; };
+		491BA52626BD4D050019AE9F /* OMNativeManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMNativeManager.m; sourceTree = "<group>"; };
 		492018CE23F6C20C007C5EA4 /* OMLoad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMLoad.h; sourceTree = "<group>"; };
 		492018CF23F6C20C007C5EA4 /* OMLoad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMLoad.m; sourceTree = "<group>"; };
 		4923701226831F5D0006B8D3 /* OMAdmostAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMAdmostAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1800,6 +1804,8 @@
 		0C86487323EA6FA300CB942D /* OpenMediationNative */ = {
 			isa = PBXGroup;
 			children = (
+				491BA52526BD4D050019AE9F /* OMNativeManager.h */,
+				491BA52626BD4D050019AE9F /* OMNativeManager.m */,
 				0C86487823EA6FA400CB942D /* OMNative.h */,
 				0C86487F23EA6FA400CB942D /* OMNative.m */,
 				0C86487D23EA6FA400CB942D /* OMNativeAd.h */,
@@ -2541,6 +2547,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				491BA52726BD4D050019AE9F /* OMNativeManager.h in Headers */,
 				49C40EB325ABF9D200D3C4AB /* OMImpressionData.h in Headers */,
 				0CBA3006264AA1AF00189404 /* OMNativeAdView.h in Headers */,
 				49C40ECA25ABFA2600D3C4AB /* OMImpressionDataDelegate.h in Headers */,
@@ -3814,6 +3821,7 @@
 				497B96E8255D244D0024592E /* OMCrossPromotionDownloader.m in Sources */,
 				0C0E57FC23E7EE4B0015C456 /* OMLrRequest.m in Sources */,
 				49DE5A0E23EC4BAE00F89345 /* OMDependTask.m in Sources */,
+				491BA52826BD4D050019AE9F /* OMNativeManager.m in Sources */,
 				0C5DB6BA23E9822400842709 /* OMLoadFrequencryControl.m in Sources */,
 				49EA8834255BC71000D4B932 /* OMCrossPromotionNativeView.m in Sources */,
 				0C86488323EA6FA400CB942D /* OMNativeMediaView.m in Sources */,

@@ -75,13 +75,13 @@
 
 - (void)nativeAdDidRecordImpression:(GADNativeAd *)nativeAd {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
-        [_delegate nativeCustomEventWillShow:self];
+        [_delegate nativeCustomEventWillShow:nativeAd];
     }
 }
 
 - (void)nativeAdDidRecordClick:(GADNativeAd *)nativeAd {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
-        [_delegate nativeCustomEventDidClick:self];
+        [_delegate nativeCustomEventDidClick:nativeAd];
     }
 }
 

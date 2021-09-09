@@ -9,6 +9,7 @@
 
 #import <OpenMediation/OMInterstitial.h>
 
+#import <OpenMediation/OMNativeManager.h>
 #import <OpenMediation/OMNative.h>
 #import <OpenMediation/OMNativeAd.h>
 #import <OpenMediation/OMNativeView.h>

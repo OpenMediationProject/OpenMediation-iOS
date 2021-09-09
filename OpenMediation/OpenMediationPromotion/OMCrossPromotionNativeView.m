@@ -19,7 +19,7 @@
 
 - (void)setNativeAd:(OMCrossPromotionNativeAd *)nativeAd {
     _nativeAd = nativeAd;
-    _campaign = _nativeAd.campaign;
+    _campaign = _nativeAd.adObject;
     if(_mediaView) {
         _mediaView.nativeAd = _nativeAd;
     }

@@ -49,8 +49,9 @@
         self.instanceAdapters = [NSMutableDictionary dictionary];
         self.didLoadAdObjects = [NSMutableDictionary dictionary];
         self.didLoadAdnName = [NSMutableDictionary dictionary];
-        self.instanceBidResponses = [NSMutableDictionary dictionary];
+        self.loadedInstanceBidResponses = [NSMutableDictionary dictionary];
         self.bid = [[OMBid alloc]init];
+        self.bid.delegate = self;
     }
     return self;
 }
@@ -66,7 +67,9 @@
 
 - (void)loadAd:(OpenMediationAdFormat)adFormat actionType:(OMLoadAction)action {
     OMLogD(@"%@ loadAd action:%zd",self.pid,action);
-    if (_loadAction != OMLoadActionManualLoad) {
+    if (action == OMLoadActionManualLoad) {
+        self.callLoad = YES;
+    } else {
         [self addEvent:((adFormat == OpenMediationAdFormatBanner)?REFRESH_INTERVAL:ATTEMPT_TO_BRING_NEW_FEED) instance:@"" extraData:nil];
     }
 
@@ -108,17 +111,18 @@
     if (!self.adLoader) {
         OMUnit *unit = [[OMConfig sharedInstance].adUnitMap objectForKey:_pid];
         _adFormat = unit.adFormat;
-        Class loadClass = NSClassFromString(((unit.adFormat<OpenMediationAdFormatRewardedVideo || unit.adFormat == OpenMediationAdFormatSplash)?@"OMHybridLoad":@"OMSmartLoad"));
+        Class loadClass = NSClassFromString(((unit.adFormat<OpenMediationAdFormatNative || unit.adFormat == OpenMediationAdFormatSplash)?@"OMHybridLoad":@"OMSmartLoad"));
         if (loadClass && [loadClass instancesRespondToSelector:@selector(initWithPid:adFormat:)]) {
             self.adLoader = [[loadClass alloc]initWithPid:_pid adFormat:unit.adFormat];
             self.adLoader.delegate = self;
         }
     }
     
-    self.callLoad = (action == OMLoadActionManualLoad);
-    self.replenishLoad = !self.callLoad;
     if ((_adFormat == OpenMediationAdFormatInterstitial || _adFormat == OpenMediationAdFormatRewardedVideo) && [self isReady]) {
         [self notifyAvailable:YES];
+    } else if(_adFormat == OpenMediationAdFormatNative && self.callLoad && [self isReady]) {
+        self.callLoad = NO;
+        [self omDidLoad];
     }
     [self.adLoader loadWithAction:action];
     
@@ -145,15 +149,15 @@
     return [bidItems copy];
 }
 
-- (NSDictionary*)checkReadyInstanceBidResponses {
+- (NSDictionary*)checkReadyloadedInstanceBidResponses {
     NSMutableDictionary *bidResponses = [NSMutableDictionary dictionary];
     OMUnit *unit = [[OMConfig sharedInstance].adUnitMap objectForKey:_pid];
     if (unit) {
-        OMLogD(@"%@ instance bid responses %@",self.pid,[[self.instanceBidResponses allKeys] componentsJoinedByString:@","]);
+        OMLogD(@"%@ instance bid responses %@",self.pid,[[self.loadedInstanceBidResponses allKeys] componentsJoinedByString:@","]);
         for (NSString *instanceID in unit.hbInstances) {
-            OMBidResponse *bidResponse = [self.instanceBidResponses objectForKey:instanceID];
-            if ( (unit.adFormat == OpenMediationAdFormatRewardedVideo || unit.adFormat == OpenMediationAdFormatInterstitial) && (bidResponse && (bidResponse.expire <= 0 || (bidResponse.expire > (NSInteger)([NSDate date].timeIntervalSince1970*1000))))) {
-                [bidResponses setObject:[self.instanceBidResponses objectForKey:instanceID] forKey:instanceID];
+            OMBidResponse *bidResponse = [self.loadedInstanceBidResponses objectForKey:instanceID];
+            if ( (unit.adFormat == OpenMediationAdFormatNative || unit.adFormat == OpenMediationAdFormatRewardedVideo || unit.adFormat == OpenMediationAdFormatInterstitial) && (bidResponse && (bidResponse.expire <= 0 || (bidResponse.expire > (NSInteger)([NSDate date].timeIntervalSince1970*1000))))) {
+                [bidResponses setObject:[self.loadedInstanceBidResponses objectForKey:instanceID] forKey:instanceID];
                 
             } else {
                 if (bidResponse) {
@@ -190,13 +194,13 @@
 
 - (void)notifyLossBid {
     NSMutableArray *wfAllBidResonses = [NSMutableArray arrayWithArray:[_wfAllBidResonses allKeys]];
-    NSArray *loadInstances = [_instanceBidResponses allKeys];
+    NSArray *loadInstances = [_loadedInstanceBidResponses allKeys];
     [wfAllBidResonses removeObjectsInArray:loadInstances];
     
     for (NSString *instanceID in wfAllBidResonses) {
         OMBidResponse *bidResponse = [_wfAllBidResonses objectForKey:instanceID];
         [bidResponse notifyLossWithReasonCode:OMBidLossedReasonCodeNotHiggestBidder];
-        [self.instanceBidResponses removeObjectForKey:instanceID];
+        [self.loadedInstanceBidResponses removeObjectForKey:instanceID];
         OMLogD(@"%@ bid loss %zd",instanceID,OMBidLossedReasonCodeNotHiggestBidder);
         [self addEvent:INSTANCE_BID_LOSE instance:instanceID extraData:nil];
     }
@@ -207,7 +211,8 @@
 #pragma mark - OMLoadDelegate
 
 - (void)omLoadReqeustWithAction:(OMLoadAction)action {
-    if (action == OMLoadActionTimer) {
+    self.loadAction = action;
+    if (self.loadAction == OMLoadActionTimer) {
         self.replenishLoad = YES;
     }
     self.wfReqId = [NSUUID UUID].UUIDString;
@@ -216,7 +221,7 @@
         return;
     }
     
-    NSDictionary *bidResponses = [self checkReadyInstanceBidResponses];
+    NSDictionary *bidResponses = [self checkReadyloadedInstanceBidResponses];
     
     NSArray *tokens = [self getS2STokens:[bidResponses allKeys]];
     
@@ -293,43 +298,44 @@
 }
 
 - (void)parseInstanceListWithResponse:(NSDictionary*)response {
-    NSArray *ins = [NSArray array];
+    self.wfInsPriority = [NSArray array];
     if ([response objectForKey:@"ins"] && [[response objectForKey:@"ins"]isKindOfClass:[NSArray class]]) {
-        ins = [response objectForKey:@"ins"];
+        self.wfInsPriority = [response objectForKey:@"ins"];
     }
     if ([response objectForKey:@"c2s"] && [[response objectForKey:@"c2s"]isKindOfClass:[NSArray class]]) {
         NSArray *c2sIns = [response objectForKey:@"c2s"];
-        
-        for (NSNumber *ins in c2sIns) {
-            [self addEvent:INSTANCE_BID_REQUEST instance:[NSString stringWithFormat:@"%@",ins] extraData:nil];
-        }
-        
-        [self.bid bidWithNetworkItems:[self bidNetworkItmes:c2sIns] adFormat:[[OMConfig sharedInstance]adFormatName:self.adFormat] adSize:_size completionHandler:^( NSDictionary * _Nonnull bidResponses) {
-            __weak typeof(self) weakSelf = self;
-            NSMutableDictionary *c2sResponses = [NSMutableDictionary dictionary];
-            NSArray *allBidIns = [bidResponses allKeys];
-            for (NSString *instanceID in allBidIns) {
-                OMBidResponse *bidResponse = [bidResponses objectForKey:instanceID];
-                if (bidResponse.isSuccess) {
-                    [self addEvent:INSTANCE_BID_RESPONSE instance:instanceID extraData:@{@"bid":[NSNumber numberWithInt:1],@"price":[NSNumber numberWithDouble:bidResponse.price],@"cur":bidResponse.currency}];
-                    OMLogD(@"%@ instance %@ bid response price %lf currency %@",self.pid,instanceID,bidResponse.price,bidResponse.currency);
-                    [c2sResponses setObject:bidResponse forKey:instanceID];
-                    if (weakSelf.adFormat == OpenMediationAdFormatNative) {
-                        [weakSelf.didLoadAdObjects setObject:bidResponse.adObject forKey:instanceID];
-                    }
-                } else {
-                    [self addEvent:INSTANCE_BID_FAILED instance:instanceID extraData:@{@"msg":OM_SAFE_STRING(bidResponse.errorMsg)}];
-                    OMLogD(@"%@ instance %@ bid failed",self.pid,instanceID);
-                }
-            }
-            [self.wfAllBidResonses addEntriesFromDictionary:c2sResponses];
-            [self sortInstancePriorityWithIns:ins c2sBidResponses:c2sResponses];
-        }];
-        
-        
+        [self.bid bidWithNetworkItems:[self bidNetworkItmes:c2sIns] adFormat:[[OMConfig sharedInstance]adFormatName:self.adFormat] adSize:_size];
+
     } else {
-        [self sortInstancePriorityWithIns:ins c2sBidResponses:@{}];
+        [self sortInstancePriorityWithIns:self.wfInsPriority c2sBidResponses:@{}];
     }
+}
+
+#pragma mark - OMBidDelegate
+
+- (void)omBidRequest:(NSString *)instance {
+    [self addEvent:INSTANCE_BID_REQUEST instance:[NSString stringWithFormat:@"%@",instance] extraData:nil];
+}
+
+- (void)omBidComplete:(NSDictionary*)bidResponses {
+    __weak typeof(self) weakSelf = self;
+    NSMutableDictionary *successBidResponses = [NSMutableDictionary dictionary];
+    NSArray *allBidIns = [bidResponses allKeys];
+    for (NSString *instanceID in allBidIns) {
+        OMBidResponse *bidResponse = [bidResponses objectForKey:instanceID];
+        if (bidResponse.isSuccess) {
+            [self addEvent:INSTANCE_BID_RESPONSE instance:instanceID extraData:@{@"bid":[NSNumber numberWithInt:1],@"price":[NSNumber numberWithDouble:bidResponse.price],@"cur":bidResponse.currency}];
+            OMLogD(@"%@ instance %@ bid response price %lf currency %@",self.pid,instanceID,bidResponse.price,bidResponse.currency);
+            [successBidResponses setObject:bidResponse forKey:instanceID];
+            if (weakSelf.adFormat == OpenMediationAdFormatNative) {
+                [weakSelf.didLoadAdObjects setObject:bidResponse.adObject forKey:instanceID];
+            }
+        } else {
+            [self addEvent:INSTANCE_BID_FAILED instance:instanceID extraData:@{@"msg":OM_SAFE_STRING(bidResponse.errorMsg)}];
+            OMLogD(@"%@ instance %@ bid failed",self.pid,instanceID);
+        }
+    }
+    [self sortInstancePriorityWithIns:self.wfInsPriority c2sBidResponses:successBidResponses];
 }
 
 - (void)sortInstancePriorityWithIns:(NSArray*)ins c2sBidResponses:(NSDictionary*)bidResponses {
@@ -341,27 +347,27 @@
         [c2sInstances addObject:@{@"id":@([instanceID integerValue]),@"i":@(0),@"r":@(response.price),@"rp":@(1)}];
     }
     
-    NSMutableArray *instanceList = [NSMutableArray arrayWithArray:ins];
+    self.wfInsList = [NSMutableArray arrayWithArray:ins];
     for (NSDictionary *c2sIns in c2sInstances) {
         NSInteger inserIndex = -1;
-        for (int i=0; i<instanceList.count; i++) {
-            NSDictionary *ins = instanceList[i];
+        for (int i=0; i<self.wfInsList.count; i++) {
+            NSDictionary *ins = self.wfInsList[i];
             if([c2sIns[@"r"] compare:ins[@"r"]] == NSOrderedDescending) {
                 inserIndex = i;
                 break;
             }
         }
-        if (inserIndex >=0 && inserIndex< instanceList.count) {
-            [instanceList insertObject:c2sIns atIndex:inserIndex];
+        if (inserIndex >=0 && inserIndex< self.wfInsList.count) {
+            [self.wfInsList insertObject:c2sIns atIndex:inserIndex];
         }else {
-            [instanceList addObject:c2sIns];
+            [self.wfInsList addObject:c2sIns];
         }
     }
     NSMutableArray *insPriority = [NSMutableArray array];
     NSMutableDictionary *wfInsRevenueData = [NSMutableDictionary dictionary];
 
-    for (NSInteger i=0; i<[instanceList count]; i++) {
-        NSDictionary *insData  = instanceList[i];
+    for (NSInteger i=0; i<[self.wfInsList count]; i++) {
+        NSDictionary *insData  = self.wfInsList[i];
         NSString *insId = [NSString stringWithFormat:@"%@",[insData objectForKey:@"id"]];
         [insPriority addObject:insId];
         [wfInsRevenueData setObject:insData forKey:insId];
@@ -370,8 +376,8 @@
     OMLogD(@"%@ waterfall response ins %@",self.pid,[insPriority componentsJoinedByString:@","]);
     
     self.wfInsRevenueData = [wfInsRevenueData copy];
-    [self.adLoader loadWithPriority:insPriority];
-
+    self.wfInsPriority = [insPriority copy];
+    [self.adLoader loadWithPriority: self.wfInsPriority];
 }
 
 
@@ -449,9 +455,9 @@
 
     if (adapter && [adapter respondsToSelector:@selector(isReady)] && [adapter isReady]) {
         OMLogD(@"%@ load adnName %@ instance %@ ready true",self.pid,adnName,instanceID);
-        if (instanceBidResponse && (adnID == OMAdNetworkVungle)) {
+        if (instanceBidResponse) {
             @synchronized (self) {
-                [_instanceBidResponses setObject:instanceBidResponse forKey:instanceID];
+                [_loadedInstanceBidResponses setObject:instanceBidResponse forKey:instanceID];
             }
         }
         if (!instance.hb) {
@@ -464,10 +470,13 @@
     } else if (instanceBidResponse && !OM_STR_EMPTY((NSString*)instanceBidResponse.payLoad) && adapter && [adapter respondsToSelector:@selector(loadAdWithBidPayload:)]) {
         OMLogD(@"%@ load adnName %@ instance %@ with bid payload",self.pid,adnName,instanceID);
            @synchronized (self) {
-               [_instanceBidResponses setObject:instanceBidResponse forKey:instanceID];
+               [_loadedInstanceBidResponses setObject:instanceBidResponse forKey:instanceID];
            }
         [self addEvent:INSTANCE_PAYLOAD_REQUEST instance:instanceID extraData:nil];
         [adapter loadAdWithBidPayload:(NSString*)instanceBidResponse.payLoad];
+    } else if (instance.hb && adapter && [adapter respondsToSelector:@selector(loadAd)]) {
+        [self addEvent:INSTANCE_BID_REQUEST instance:instanceID extraData:nil];
+        [adapter loadAd];
     } else if (!instance.hb && adapter && [adapter respondsToSelector:@selector(loadAd)]) {
         OMLogD(@"%@ load adnName %@ instance %@ adapter call load",self.pid,adnName,instanceID);
         [OMLrRequest postWithType:OMLRTypeInstanceLoad pid:self.pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:_loadAction scene:@"" abt:instance.abGroup bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:@""];//lr instance load;
@@ -502,7 +511,10 @@
     
     
     if ((_adFormat < OpenMediationAdFormatRewardedVideo) || (_adFormat == OpenMediationAdFormatSplash)) {
-        [self omDidLoad];
+        if (self.callLoad) {
+            self.callLoad = NO;
+            [self omDidLoad];
+        }
     } else {
         [self notifyAvailable:YES];
     }
@@ -512,7 +524,14 @@
     OMAdNetwork adnID = [[OMConfig sharedInstance]getInstanceAdNetwork:instanceID];
     NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
     OMLogD(@"%@ optimal fill adnName %@ instance %@",self.pid,adnName,instanceID);
-    [self notifyAvailable:YES];
+    if (_adFormat == OpenMediationAdFormatInterstitial || _adFormat == OpenMediationAdFormatRewardedVideo || _adFormat == OpenMediationAdFormatCrossPromotion) {
+        [self notifyAvailable:YES];
+    } else if (_adFormat == OpenMediationAdFormatNative) {
+        if (self.callLoad) {
+            self.callLoad = NO;
+            [self omDidLoad];
+        }
+    }
 }
 
 - (void)omLoadNoFill {
@@ -522,6 +541,19 @@
 }
 
 - (void)omLoadEnd {
+    BOOL supplementCache = NO;
+    
+    NSDictionary *instanceState = [self.adLoader.instanceLoadState copy];
+    for (NSString *instanceID in instanceState) {
+        OMInstanceLoadState loadState = [instanceState[instanceID]integerValue];
+        if (loadState == OMInstanceLoadStateCallShow) {
+            [self.adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
+            supplementCache = YES;
+        }
+    }
+    if ([_adLoader isKindOfClass:NSClassFromString(@"OMSmartLoad")] && supplementCache) {
+        [self loadAd:_adFormat actionType:OMLoadActionCloseEvent];
+    }
     [self notifyLossBid];
 }
 
@@ -531,30 +563,36 @@
 }
 
 - (BOOL)omCheckInstanceReady:(NSString*)instanceID {
-    BOOL instanceReady = NO;
+    BOOL instanceReady = YES;
     id adapter = [_instanceAdapters objectForKey:instanceID];
     if (adapter && [adapter respondsToSelector:@selector(isReady)]) {
         instanceReady = [adapter isReady];
     }
     if (!instanceReady) {
-        [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];//instance available state changed
-        OMBidResponse *bidResponse = [self.instanceBidResponses objectForKey:instanceID];
+        if (_adLoader.loading) {
+            [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateCallShow];//instance available state changed
+        } else {
+            [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];//instance available state changed
+        }
+        OMBidResponse *bidResponse = [self.loadedInstanceBidResponses objectForKey:instanceID];
         if (bidResponse) {
             [bidResponse notifyLossWithReasonCode:OMBidLossedReasonCodeNotShow];
             [self addEvent:INSTANCE_BID_LOSE instance:instanceID extraData:nil];
             OMLogD(@"%@ bid loss %zd",instanceID,OMBidLossedReasonCodeNotShow);
         }
-        [self.instanceBidResponses removeObjectForKey:instanceID];
+        [self.loadedInstanceBidResponses removeObjectForKey:instanceID];
     }
     return instanceReady;
 }
 
-- (void)sendDidFailWithErrorType:(OMErrorCode)errorCode{
-    NSError *error = [OMError omErrorWithCode:errorCode];
-    NSError *developerError = [OMSDKError errorWithAdtError:error];
-    [OMSDKError throwDeveloperError:developerError];
-    _callLoad = NO;
-    [self performSelector:@selector(omDidFail:) withObject:developerError afterDelay:0.5];
+- (void)sendDidFailWithErrorType:(OMErrorCode)errorCode {
+    if (self.callLoad) {
+        self.callLoad = NO;
+        NSError *error = [OMError omErrorWithCode:errorCode];
+        NSError *developerError = [OMSDKError errorWithAdtError:error];
+        [OMSDKError throwDeveloperError:developerError];
+        [self performSelector:@selector(omDidFail:) withObject:developerError afterDelay:0.5];
+    }
 }
 
 - (void)omDidLoad {
@@ -684,7 +722,7 @@
 
 - (BOOL)isReady {
     BOOL isReady = NO;
-    if (_adLoader && [_adLoader isReady] && !_adLoader.adShow) {
+    if (_adLoader && [_adLoader isReady] && (!_adLoader.adShow  || _adFormat == OpenMediationAdFormatNative)) {
         isReady = YES;
     }
     return isReady;
@@ -739,13 +777,13 @@
     OMAdNetwork adnID = [[OMConfig sharedInstance]getInstanceAdNetwork:instanceID];
     NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
     if (instanceID) {
-        OMBidResponse *bidResponse = [self.instanceBidResponses objectForKey:instanceID];
+        OMBidResponse *bidResponse = [self.loadedInstanceBidResponses objectForKey:instanceID];
         if (bidResponse) {
             [bidResponse notifyLossWithReasonCode:OMBidLossedReasonCodeInternalError];
             [self addEvent:INSTANCE_BID_LOSE instance:instanceID extraData:nil];
             OMLogD(@"%@ bid loss %zd",instanceID,OMBidLossedReasonCodeInternalError);
         }
-        [self.instanceBidResponses removeObjectForKey:instanceID];
+        [self.loadedInstanceBidResponses removeObjectForKey:instanceID];
         
         NSString *code = [NSString stringWithFormat:@"%zd",error.code];
         NSString *msg = [error isKindOfClass:[NSError class]]?OM_SAFE_STRING(error.localizedDescription):@"";
@@ -761,13 +799,67 @@
     }
 }
 
+- (void)bidReseponse:(NSObject *)bidAdapter bid:(NSDictionary*)bidInfo error:( NSError*)error {
+    if (!error) {
+        NSString *instanceID = [self checkInstanceIDWithAdapter:bidAdapter];
+        OMAdNetwork adnID = [[OMConfig sharedInstance]getInstanceAdNetwork:instanceID];
+        NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
+        
+        
+        OMBidResponse *bidResponse = [OMBidResponse buildResponseWithData:bidInfo];
+        [self.wfAllBidResonses setObject:bidResponse forKey:instanceID];
+        [self.loadedInstanceBidResponses setObject:bidResponse forKey:instanceID];
+        [self addEvent:INSTANCE_BID_RESPONSE instance:instanceID extraData:@{@"bid":[NSNumber numberWithInt:1],@"price":[NSNumber numberWithDouble:bidResponse.price],@"cur":bidResponse.currency}];
+        
+        OMLogD(@"%@ adnName %@ instance %@ bid price %@",self.pid,adnName,instanceID,[NSNumber numberWithDouble:bidResponse.price]);
+        
+        NSDictionary *c2sIns = @{@"id":@([instanceID integerValue]),@"i":@(0),@"r":@(bidResponse.price),@"rp":@(1)};
+        
+        NSMutableDictionary *wfInsRevenueData =   [NSMutableDictionary dictionaryWithDictionary:self.wfInsRevenueData];
+        [wfInsRevenueData setObject:c2sIns forKey:instanceID];
+        self.wfInsRevenueData = [wfInsRevenueData copy];
+        
+        if ([_adLoader isKindOfClass:[OMSmartLoad class] ]) {
+            NSInteger c2sIndex = [_adLoader.priorityList indexOfObject:instanceID];
+            [self.wfInsList removeObjectAtIndex:c2sIndex];
+            
+            NSInteger inserIndex = -1;
+            for (int i=0; i<self.wfInsList.count; i++) {
+                NSDictionary *ins = self.wfInsList[i];
+                if([c2sIns[@"r"] compare:ins[@"r"]] == NSOrderedDescending) {
+                    inserIndex = i;
+                    break;
+                }
+            }
+            if (inserIndex >=0 && inserIndex< self.wfInsList.count) {
+                [self.wfInsList insertObject:c2sIns atIndex:inserIndex];
+            }else {
+                [self.wfInsList addObject:c2sIns];
+                inserIndex = self.wfInsList.count-1;
+            }
+            
+            NSMutableArray *insPriority = [NSMutableArray array];
+            
+            for (NSInteger i=0; i<[self.wfInsList count]; i++) {
+                NSDictionary *insData  = self.wfInsList[i];
+                NSString *insId = [NSString stringWithFormat:@"%@",[insData objectForKey:@"id"]];
+                [insPriority addObject:insId];
+            }
+            
+            OMLogD(@"%@ waterfall resort ins priority %@",self.pid,[insPriority componentsJoinedByString:@","]);
+            _adLoader.priorityList = [insPriority copy];
+            [_adLoader groupByBatchSize:1];
+            [_adLoader checkOptimalInstance];
+        }
+    }
+}
 
 
 #pragma mark - show
 
 - (void)showInstance:(id)instanceID {
     if (!OM_STR_EMPTY(instanceID)) {
-        OMBidResponse *bidResponse = [self.instanceBidResponses objectForKey:instanceID];
+        OMBidResponse *bidResponse = [self.loadedInstanceBidResponses objectForKey:instanceID];
         if (bidResponse) {
             [bidResponse win];
             [self addEvent:INSTANCE_BID_WIN instance:instanceID extraData:nil];
@@ -781,7 +873,7 @@
     [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
-- (void)adshow:(id)instanceAdapter {
+- (void)adshow:(id)instanceAdapter eventData:(NSDictionary*)eventData {
     self.adLoader.adShow = YES;
     [self notifyAvailable:NO];
     NSString *instanceID = [self checkInstanceIDWithAdapter:instanceAdapter];
@@ -813,17 +905,19 @@
     NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
     OMLogD(@"%@ adnName %@ instance %@ show fail",self.pid,adnName,OM_SAFE_STRING(instanceID));
     [self addEvent:INSTANCE_SHOW_FAILED instance:instanceID extraData:nil];
-    [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
+    if (!_adLoader.loading) {
+        [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
+    }
     [self loadAd:_adFormat actionType:OMLoadActionCloseEvent];
 }
 
-- (void)adClick:(id)instanceAdapter {
+- (void)adClick:(id)instanceAdapter eventData:(NSDictionary*)eventData {
     NSString *instanceID = [self checkInstanceIDWithAdapter:instanceAdapter];
     OMAdNetwork adnID = [[OMConfig sharedInstance]getInstanceAdNetwork:instanceID];
     NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
     OMInstance *instance = [[OMConfig sharedInstance]getInstanceByinstanceID:instanceID];
     OMLogD(@"%@ adnName %@ instance %@ click",self.pid,adnName,OM_SAFE_STRING(instanceID));
-    [self addEvent:INSTANCE_CLICKED instance:instanceID extraData:nil];
+    [self addEvent:INSTANCE_CLICKED instance:instanceID extraData:eventData];
     [OMLrRequest postWithType:OMLRTypeInstanceClick pid:_pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:0 scene:self.showSceneID abt:(instance?-1:instance.abGroup) bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];
     
     
@@ -857,10 +951,12 @@
     NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
     OMLogD(@"%@ adnName %@ instance %@ close",self.pid,adnName,OM_SAFE_STRING(instanceID));
     [self addEvent:INSTANCE_CLOSED instance:instanceID extraData:nil];
-    [self.instanceBidResponses removeObjectForKey:instanceID];
-    [self.adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
-    if (_adFormat != OpenMediationAdFormatSplash) {
-        [self loadAd:_adFormat actionType:OMLoadActionCloseEvent];
+    [self.loadedInstanceBidResponses removeObjectForKey:instanceID];
+    if(!self.adLoader.loading) {
+        [self.adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
+        if ([_adLoader isKindOfClass:NSClassFromString(@"OMSmartLoad")]) {
+            [self loadAd:_adFormat actionType:OMLoadActionCloseEvent];
+        }
     }
 }
 
@@ -925,16 +1021,15 @@
         OMInstance *instance = [[OMConfig sharedInstance]getInstanceByinstanceID:instanceID];
         if (instance) {
             [wrapperData setObject:OM_SAFE_STRING(instance.wfReqId) forKey:@"reqId"];
-            [wrapperData setObject:@(instance.ruleId) forKey:@"ruleId"];
+            [wrapperData setObject:instance.ruleId?@(instance.ruleId):@([[self.wfRule objectForKey:@"id"] integerValue]) forKey:@"ruleId"];
             [wrapperData setObject:@(instance.abGroup) forKey:@"abt"];
-
+            [wrapperData setObject:instance.hb?[NSNumber numberWithInt:1]:[NSNumber numberWithInt:0] forKey:@"bid"];
         }
 
         
-        if([self.instanceBidResponses objectForKey:instanceID]) {
-            OMBidResponse *bidResponse = [self.instanceBidResponses objectForKey:instanceID];
+        if([self.loadedInstanceBidResponses objectForKey:instanceID]) {
+            OMBidResponse *bidResponse = [self.loadedInstanceBidResponses objectForKey:instanceID];
             if(bidResponse) {
-                [wrapperData setObject:[NSNumber numberWithInt:1] forKey:@"bid"];
                 [wrapperData setObject:[NSNumber numberWithDouble:bidResponse.price] forKey:@"price"];
                 [wrapperData setObject:bidResponse.currency forKey:@"cur"];
             }

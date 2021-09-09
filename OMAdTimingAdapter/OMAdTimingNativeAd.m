@@ -15,7 +15,7 @@
 
 - (instancetype)initWithAdTimingNativeAd:(AdTimingBidNativeAd*)adtNativeAd {
     if (self = [super init]) {
-        _adtNativeAd = adtNativeAd;
+        _adObject = adtNativeAd;
         _title = [adtNativeAd title];
         _body = [adtNativeAd body];
         _iconUrl = [NSString stringWithFormat:@"%@",[adtNativeAd iconUrl]];

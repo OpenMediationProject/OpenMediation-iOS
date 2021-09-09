@@ -143,11 +143,6 @@ typedef enum {
 @class HyBidNativeAdRenderer;
 
 
-@protocol HyBidDelegate <NSObject>
-
-- (void)bidReseponse:(NSObject *_Nullable)bidAdapter bid:(nullable NSDictionary*)bidInfo error:(nullable NSError*)error;
-@end
-
 typedef enum {
     TWO_DECIMAL_PLACES,
     THREE_DECIMAL_PLACES,

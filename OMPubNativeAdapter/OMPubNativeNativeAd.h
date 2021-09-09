@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *nativeViewClass;
 
 
-@property (nonatomic, strong) HyBidNativeAd *hyBidNativeAd;
+@property (nonatomic, strong) HyBidNativeAd *adObject;
 
 - (instancetype)initWithHybidNativeAd:(HyBidNativeAd*)hyBidNativeAd;
 

@@ -102,16 +102,22 @@ static OMEventManager * _instance = nil;
         startTime = [self eventTime:LOAD extraData:data];
     } else if (eventID == INSTANCE_INIT_SUCCESS || eventID == INSTANCE_INIT_FAILED) {
         startTime = [self eventTime:INSTANCE_INIT_START extraData:data];
+    } else if (eventID == INSTANCE_BID_RESPONSE || eventID == INSTANCE_BID_FAILED) {
+        startTime = [self eventTime:INSTANCE_BID_REQUEST extraData:data];
     } else if (eventID == INSTANCE_LOAD_ERROR || eventID == INSTANCE_LOAD_SUCCESS) {
         startTime = [self eventTime:INSTANCE_LOAD extraData:data];
+    } else if (eventID == INSTANCE_PAYLOAD_SUCCESS || eventID == INSTANCE_PAYLOAD_FAIL) {
+        startTime = [self eventTime:INSTANCE_PAYLOAD_REQUEST extraData:data];
+    }  else if (eventID == INSTANCE_BID_WIN || eventID == INSTANCE_BID_LOSE) {
+        startTime = [self eventTime:INSTANCE_BID_RESPONSE extraData:data];
+    } else if (eventID == INSTANCE_SHOW) {
+        startTime = MAX([self eventTime:INSTANCE_PAYLOAD_SUCCESS extraData:data], [self eventTime:INSTANCE_LOAD_SUCCESS extraData:data]);
     } else if (eventID == INSTANCE_SHOW_SUCCESS || eventID == INSTANCE_SHOW_FAILED) {
         startTime = [self eventTime:INSTANCE_SHOW extraData:data];
     } else if (eventID == INSTANCE_CLICKED || eventID == INSTANCE_CLOSED) {
         startTime = [self eventTime:INSTANCE_SHOW_SUCCESS extraData:data];
     } else if (eventID == INSTANCE_VIDEO_COMPLETED) {
         startTime = [self eventTime:INSTANCE_VIDEO_START extraData:data];
-    } else if (eventID == INSTANCE_BID_RESPONSE || eventID == INSTANCE_BID_FAILED) {
-        startTime = [self eventTime:INSTANCE_BID_REQUEST extraData:data];
     }
     if (startTime) {
         duration = [[UIDevice omTimeStamp]integerValue] - startTime;

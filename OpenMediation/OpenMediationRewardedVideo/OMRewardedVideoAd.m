@@ -49,6 +49,9 @@
                     return adapter;
                 }] ;
                 videoAdapter.delegate = self;
+                if ([videoAdapter respondsToSelector:@selector(setBidDelegate:)]) {
+                    [videoAdapter performSelector:@selector(setBidDelegate:) withObject:self];
+                }
                 [self.instanceAdapters setObject:videoAdapter forKey:instanceID];
             }
         }
@@ -120,7 +123,7 @@
 }
 
 - (void)rewardedVideoCustomEventVideoStart:(id<OMRewardedVideoCustomEvent>)adapter {
-    [self adshow:adapter];
+    [self adshow:adapter eventData:nil];
     [self adVideoStart:adapter];
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoDidStart:)]) {
         [_delegate rewardedVideoDidStart:self];
@@ -136,7 +139,7 @@
 
 - (void)rewardedVideoCustomEventDidClick:(id<OMRewardedVideoCustomEvent>)adapter {
     
-    [self adClick:adapter];
+    [self adClick:adapter eventData:nil];
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoDidClick:)]) {
         [_delegate rewardedVideoDidClick:self];
     }

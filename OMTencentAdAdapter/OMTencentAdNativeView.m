@@ -41,7 +41,7 @@
 
 - (void)setNativeAd:(OMTencentAdNativeAd *)nativeAd{
     _nativeAd = nativeAd;
-    GDTUnifiedNativeAdDataObject *gdtDataObject = _nativeAd.gdtDataObject;
+    GDTUnifiedNativeAdDataObject *gdtDataObject = _nativeAd.adObject;
     NSURL *imageURL = [NSURL URLWithString:gdtDataObject.imageUrl];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
@@ -89,7 +89,7 @@
     
     
     if ([_gdtNativeView respondsToSelector:@selector(registerDataObject:clickableViews:)]) {
-        [_gdtNativeView registerDataObject:_nativeAd.gdtDataObject clickableViews:@[self.gdtNativeView]];
+        [_gdtNativeView registerDataObject:_nativeAd.adObject clickableViews:@[self.gdtNativeView]];
     }
 }
 
@@ -105,7 +105,7 @@
 
     [_gdtNativeView unregisterDataObject];
     if ([_gdtNativeView respondsToSelector:@selector(registerDataObject:clickableViews:)]) {
-        [_gdtNativeView registerDataObject:_nativeAd.gdtDataObject clickableViews:clickableViews];
+        [_gdtNativeView registerDataObject:_nativeAd.adObject clickableViews:clickableViews];
     }
 }
 

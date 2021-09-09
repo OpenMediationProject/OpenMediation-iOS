@@ -6,11 +6,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol InMobiBidDelegate <NSObject>
-
-- (void)bidReseponse:(NSObject *_Nullable)bidAdapter bid:(nullable NSDictionary*)bidInfo error:(nullable NSError*)error;
-@end
-
 typedef NS_ENUM(NSInteger, IMSDKLogLevel) {
     kIMSDKLogLevelNone,
     kIMSDKLogLevelError,

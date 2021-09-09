@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 #import "OMCustomEventDelegate.h"
 #import <UIKit/UIKit.h>
+#import "OMBidCustomEvent.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol OMSplashCustomEvent;
@@ -20,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak, nullable) id<splashCustomEventDelegate> delegate;
 - (instancetype)initWithParameter:(NSDictionary *)adParameter adSize:(CGSize)size;
 @optional
+- (void)setBidDelegate:(id<OMBidCustomEventDelegate>)bidDelegate;
 - (void)loadAd;
 - (void)loadAdWithBidPayload:(NSString*)bidPayload;
 - (BOOL)isReady;

@@ -8,7 +8,7 @@
 -(instancetype)initWithHybidNativeAd:(HyBidNativeAd *)hyBidNativeAd {
     self = [super init];
     if (self) {
-        _hyBidNativeAd = hyBidNativeAd;
+        _adObject = hyBidNativeAd;
         _title = [hyBidNativeAd title];
         _body= [hyBidNativeAd body];
         _iconUrl = [hyBidNativeAd iconUrl];

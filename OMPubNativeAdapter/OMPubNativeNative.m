@@ -33,20 +33,23 @@
 
 - (void)nativeAd:(HyBidNativeAd *)nativeAd impressionConfirmedWithView:(UIView *)view {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
-        [_delegate nativeCustomEventWillShow:self];
+        [_delegate nativeCustomEventWillShow:nativeAd];
     }
 }
 
 - (void)nativeAdDidClick:(HyBidNativeAd *)nativeAd {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
-        [_delegate nativeCustomEventDidClick:self];
+        [_delegate nativeCustomEventDidClick:nativeAd];
     }
 }
 
 - (void)nativeLoaderDidFailWithError:(NSError *)error {
-    NSError *hybidError = [[NSError alloc] initWithDomain:@"com.hybid.bid" code:error.code userInfo:@{NSLocalizedDescriptionKey:error.localizedDescription}];
+    NSError *hybidError = [[NSError alloc] initWithDomain:@"com.mediation.pubnativeadapter" code:error.code userInfo:@{NSLocalizedDescriptionKey:error.localizedDescription}];
     if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)]) {
         [_bidDelegate bidReseponse:self bid:nil error:hybidError];
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+        [_delegate customEvent:self didFailToLoadWithError:hybidError];
     }
 }
 
@@ -54,11 +57,14 @@
     self.nativeAd = nativeAd;
     nativeAd.delegate = self;
     OMPubNativeNativeAd *hyBidNativeAd = [[OMPubNativeNativeAd alloc] initWithHybidNativeAd:nativeAd];
-    
     Class utilsClass = NSClassFromString(@"HyBidHeaderBiddingUtils");
     if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)] && utilsClass && [utilsClass respondsToSelector:@selector(eCPMFromAd:withDecimalPlaces:)]) {
         NSString *price = [utilsClass eCPMFromAd:nativeAd.ad withDecimalPlaces:THREE_DECIMAL_PLACES];
         [_bidDelegate bidReseponse:self bid:@{@"price":price,@"adObject":hyBidNativeAd} error:nil];
+    }
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+        [_delegate customEvent:self didLoadAd:hyBidNativeAd];
     }
 }
 

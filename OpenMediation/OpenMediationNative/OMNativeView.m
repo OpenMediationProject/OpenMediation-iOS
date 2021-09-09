@@ -20,7 +20,6 @@
 @property (nonatomic, strong) NSMutableArray *addedSubviews;
 @end
 
-
 @implementation OMNativeView
 
 - (instancetype)initWithFrame:(CGRect)frame {

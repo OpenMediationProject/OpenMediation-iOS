@@ -5,6 +5,7 @@
 #import "OMRewardedVideoCustomEvent.h"
 #import "OMPubNativeRewardedVideoClass.h"
 #import "OMPubNativeClass.h"
+#import "OMBidCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isReady;
 @property (nonatomic, assign) BOOL isMediation;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;
-@property (nonatomic, weak) id<HyBidDelegate> bidDelegate;
+@property (nonatomic, weak) id<OMBidCustomEventDelegate> bidDelegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
 - (void)loadAd;

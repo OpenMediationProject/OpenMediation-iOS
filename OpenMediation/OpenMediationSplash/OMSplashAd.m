@@ -60,14 +60,14 @@
 }
 
 - (void)splashCustomEventDidShow:(id<OMSplashCustomEvent>)adapter {
-    [self adshow:adapter];
+    [self adshow:adapter eventData:nil];
     if (_delegate && [_delegate respondsToSelector:@selector(splashDidShow)]) {
         [self.delegate splashDidShow];
     }
 }
 
 - (void)splashCustomEventDidClick:(id<OMSplashCustomEvent>)adapter {
-    [self adClick:adapter];
+    [self adClick:adapter eventData:nil];
     if (_delegate && [_delegate respondsToSelector:@selector(splashDidClick)]) {
         [self.delegate splashDidClick];
     }

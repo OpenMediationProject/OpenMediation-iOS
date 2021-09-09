@@ -50,8 +50,7 @@ typedef NS_ENUM(NSInteger, OMInstanceLoadState) {
 @property (nonatomic, assign) NSInteger timeoutSecond;
 @property (nonatomic, strong) NSArray *priorityList;
 @property (nonatomic, strong) NSMutableDictionary *instanceLoadState;
-@property (nonatomic, assign) NSInteger loadIndex;
-@property (nonatomic, strong) NSMutableArray *loadGroups;
+@property (nonatomic, strong) NSArray *loadGroups;
 @property (nonatomic, copy) NSString *optimalFillInstance;
 @property (nonatomic, assign) BOOL notifyLoadResult;
 @property (nonatomic, assign) BOOL loading;
@@ -68,8 +67,9 @@ typedef NS_ENUM(NSInteger, OMInstanceLoadState) {
 
 - (void)requestWaterfallWithAction:(OMLoadAction)action;
 - (void)groupByBatchSize:(NSInteger)batchSize;
-- (void)loadGroupInstane;
+- (void)loadGroupInstane:(NSInteger)groupIndex;
 - (void)saveInstanceLoadState:(NSString*)instanceID state:(OMInstanceLoadState)loadState;
+- (void)checkOptimalInstance;
 - (void)notifyOptimalFill;
 - (void)notifyFill:(NSString*)instanceID;
 - (void)notifyNoFill;

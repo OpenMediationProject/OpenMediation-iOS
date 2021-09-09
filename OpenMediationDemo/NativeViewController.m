@@ -2,6 +2,7 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import "NativeViewController.h"
+#import "OMNativeManager.h"
 
 @interface NativeViewController ()
 @property (nonatomic, strong) OMNative *native;
@@ -49,9 +50,8 @@
 }
 
 - (void)loadAd {
-    self.native = [[OMNative alloc]initWithPlacementID:self.loadID];
-    _native.delegate = self;
-    [_native loadAd];
+    [[OMNativeManager sharedInstance]addDelegate:self];
+    [[OMNativeManager sharedInstance]loadWithPlacementID:self.loadID];
 }
 
 -(void)showItemAction {
@@ -73,7 +73,7 @@
     _iconView.image =[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.nativeAd.iconUrl]]];
     _titleLabel.text = self.nativeAd.title;
     _bodyLabel.text = self.nativeAd.body;
-    [_nativeView setClickableViews:@[_iconView,_titleLabel]];
+    [_nativeView setClickableViews:@[_iconView,_titleLabel,self.nativeView.mediaView]];
     self.showItem.enabled = YES;
     self.removeItem.enabled = YES;
     [self showLog:@"Native ad did load"];
@@ -90,11 +90,12 @@
     [self showLog:@"Native ad load fail"];
 }
 
-- (void)omNativeWillExposure:(OMNative*)native {
+- (void)omNative:(OMNative*)native nativeAdDidShow:(OMNativeAd*)nativeAd {
     [self showLog:@"Native ad impression"];
 }
 
-- (void)omNativeDidClick:(OMNative*)native {
+- (void)omNative:(OMNative*)native nativeAdDidClick:(OMNativeAd*)nativeAd {
     [self showLog:@"Native ad click"];
 }
+
 @end

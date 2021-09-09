@@ -7,7 +7,7 @@
 
 -(instancetype)initWithGdtDataObject:(GDTUnifiedNativeAdDataObject *)gdtDataObject {
     if (self = [super init]) {
-        _gdtDataObject = gdtDataObject;
+        _adObject = gdtDataObject;
         _title = [gdtDataObject title];
         _body= [gdtDataObject desc];
         _iconUrl = [gdtDataObject iconUrl];

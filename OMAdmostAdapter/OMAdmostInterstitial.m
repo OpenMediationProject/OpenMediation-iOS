@@ -40,11 +40,11 @@
 #pragma mark - AMRInterstitialDelegate
 
 - (void)didReceiveInterstitial:(AMRInterstitial *)interstitial {
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
-        [_delegate customEvent:self didLoadAd:nil];
-    }
     if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)]) {
         [_bidDelegate bidReseponse:self bid:@{@"price":[NSNumber numberWithDouble:([interstitial.ecpm doubleValue]/100.0)]} error:nil];
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+        [_delegate customEvent:self didLoadAd:nil];
     }
 }
 

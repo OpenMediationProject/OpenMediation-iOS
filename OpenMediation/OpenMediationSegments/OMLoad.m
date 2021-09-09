@@ -36,6 +36,8 @@
 }
 
 - (void)requestWaterfallWithAction:(OMLoadAction)action {
+    _notifyLoadResult = NO;
+    _loading = YES;
     if (action >= OMLoadActionInit && action <= OMLoadActionManualLoad ) {
         OMLogD(@"%@ request waterfall with action %@",_pid,_actionName[(action-1)]);
     }
@@ -50,9 +52,6 @@
 }
 
 - (void)loadWithPriority:(NSArray *)insPriority {
-    _notifyLoadResult = NO;
-    _loading = YES;
-    _loadIndex = 0;
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     OMLogD(@"%@ load start",self.pid);
 }
@@ -62,7 +61,7 @@
 }
 
 - (void)groupByBatchSize:(NSInteger)batchSize {
-    _loadGroups = [NSMutableArray array];
+    NSMutableArray *groups = [NSMutableArray array];
     if (batchSize > [_priorityList count]) {
         batchSize = [_priorityList count];
     }
@@ -76,16 +75,17 @@
             [adns addObject:[NSNumber numberWithInteger:adn]];
         }
         
-        [_loadGroups addObject:group];
+        [groups addObject:group];
         OMLogD(@"%@ group = %@, adn = %@",self.pid,[group componentsJoinedByString:@","],[adns componentsJoinedByString:@","]);
     }
+    _loadGroups = [groups copy];
 }
 
-- (void)loadGroupInstane {
-    if (_loadIndex < _loadGroups.count) {
-        [self performSelector:@selector(loadGroupTimeout:) withObject:@(_loadIndex) afterDelay:_timeoutSecond];
-        NSArray *group = _loadGroups[_loadIndex];
-        _loadIndex++;
+- (void)loadGroupInstane:(NSInteger)groupIndex {
+    NSArray *groups = [self.loadGroups copy];
+    if (groupIndex < groups.count) {
+        NSArray *group = groups[groupIndex];
+        [self performSelector:@selector(loadGroupTimeout:) withObject:group afterDelay:_timeoutSecond];
         for (NSString *instanceID in group) {
             [self saveInstanceLoadState:instanceID state:OMInstanceLoadStateLoading];
             if (_delegate && [_delegate respondsToSelector:@selector(omLoadInstance:)]) {
@@ -96,20 +96,16 @@
     }
 }
 
-- (void)loadGroupTimeout:(NSNumber*)groupIndex {
-    NSInteger index = [groupIndex integerValue];
-    if (index < _loadGroups.count) {
-        NSArray *group = _loadGroups[index];
-        for (NSString *instanceID in group) {
-            OMAdNetwork adnID = [[OMConfig sharedInstance]getInstanceAdNetwork:instanceID];
-            NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
-            OMInstanceLoadState state = [_instanceLoadState[instanceID]integerValue];
-            if (state == OMInstanceLoadStateLoading) {
-                OMLogD(@"%@ adnName %@ instance %@ timeout",self.pid,adnName,instanceID);
-                [self saveInstanceLoadState:instanceID state:OMInstanceLoadStateTimeout];
-                if (_delegate && [_delegate respondsToSelector:@selector(omLoadInstanceTimeout:)]) {
-                    [_delegate omLoadInstanceTimeout:instanceID];
-                }
+- (void)loadGroupTimeout:(NSArray*)group {
+    for (NSString *instanceID in group) {
+        OMAdNetwork adnID = [[OMConfig sharedInstance]getInstanceAdNetwork:instanceID];
+        NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
+        OMInstanceLoadState state = [_instanceLoadState[instanceID]integerValue];
+        if (state == OMInstanceLoadStateLoading) {
+            OMLogD(@"%@ adnName %@ instance %@ timeout",self.pid,adnName,instanceID);
+            [self saveInstanceLoadState:instanceID state:OMInstanceLoadStateTimeout];
+            if (_delegate && [_delegate respondsToSelector:@selector(omLoadInstanceTimeout:)]) {
+                [_delegate omLoadInstanceTimeout:instanceID];
             }
         }
     }

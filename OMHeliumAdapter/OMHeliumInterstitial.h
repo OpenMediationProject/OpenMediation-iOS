@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 #import "OMHeliumRouter.h"
 #import "OMInterstitialCustomEvent.h"
+#import "OMBidCustomEvent.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -12,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, weak) id<interstitialCustomEventDelegate> delegate;
-@property (nonatomic, weak) id<HeliumDelegate> bidDelegate;
+@property (nonatomic, weak) id<OMBidCustomEventDelegate> bidDelegate;
 @property (nonatomic, strong) NSDictionary *biInfo;
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
 - (void)loadAd;
