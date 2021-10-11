@@ -56,10 +56,17 @@
 
 - (void)loadWithAction:(OMLoadAction)action {
     [super loadWithAction:action];
-        
+    if (action == OMLoadActionTimer) {
+        [self isAdAvailable];
+        if (![OMConfig sharedInstance].autoCache) {
+            OMLogD(@"%@ load block: auto cache off",self.pid);
+            [self addEvent:LOAD_BLOCKED extraData:@{@"msg":@"auto cache off"}];
+            return;
+        }
+    }
     [self checkOptimalInstance];
     if (self.adFormat != OpenMediationAdFormatNative && self.adShow) {
-         OMLogD(@"%@ smart load block: adshow",self.pid);
+        OMLogD(@"%@ smart load block: adshow",self.pid);
         [self addEvent:LOAD_BLOCKED extraData:@{@"msg":@"ad show"}];
     } else if (_cacheCount >= self.configCacheCount && self.configCacheCount>0) {
         OMLogD(@"%@ smart load block: cache full",self.pid);
@@ -92,6 +99,26 @@
     return isReady;
 }
 
+- (BOOL)isAdAvailable {
+    BOOL isAdAvailable = NO;
+    for (NSString *instanceID in self.priorityList) {
+        OMInstance *instance = [[OMConfig sharedInstance] getInstanceByinstanceID:instanceID];
+        if ([[self.instanceLoadState objectForKey:instanceID] integerValue] == OMInstanceLoadStateSuccess) {
+            NSInteger now = (NSInteger)([[NSDate date]timeIntervalSince1970]);
+            if (instance.expiredTime >0 && instance.expiredTime <= now) {
+                if (self.loading) {
+                    [self saveInstanceLoadState:instanceID state:OMInstanceLoadStateCallShow];
+                } else {
+                    [self saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
+                }
+            }else{
+                isAdAvailable = YES;
+                break;
+            }
+        }
+    }
+    return isAdAvailable;
+}
 
 - (void)loadWithPriority:(NSArray *)insPriority {
     [super loadWithPriority:insPriority];
@@ -106,7 +133,7 @@
     
     if (!unit || unit.cacheCount <= 0) {
         self.unitCacheCount = 2;
-        OMLogD(@"%@ cache use default %zd",self.pid,self.configCacheCount);
+        OMLogD(@"%@ cache use default %zd",self.pid,self.unitCacheCount);
     } else {
         self.unitCacheCount = unit.cacheCount;
     }

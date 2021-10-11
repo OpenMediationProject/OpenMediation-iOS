@@ -43,6 +43,7 @@ static OMConfig *_instance = nil;
         _erUrl = @"";
         _cdUrl = @"";
         _openDebug = YES;
+        _autoCache = YES;
     }
     return self;
 }
@@ -78,7 +79,7 @@ static OMConfig *_instance = nil;
     _adUnitMap = [NSMutableDictionary dictionary];
     _instanceMap = [NSMutableDictionary dictionary];
     _adnPlacementMap = [NSMutableDictionary dictionary];
-    
+    _adnExpiredTime = [NSMutableDictionary dictionary];
     _openDebug = [[configData objectForKey:@"d"]boolValue];
     _reinitInterval = [[configData objectForKey:@"ri"] integerValue];
     if (_reinitInterval >0) {
@@ -121,6 +122,8 @@ static OMConfig *_instance = nil;
             NSString *adnNickName = [dic objectForKey:@"nn"];
             NSString *adnAppKey = [dic objectForKey:@"k"];
             NSString *adnSDKName = [_adnSDKName objectForKey:adnID];
+            NSInteger expiredTime = [[dic objectForKey:@"et"]integerValue];
+            
             if (OM_IS_NOT_NULL(adnID) && OM_IS_NOT_NULL(adnName) && OM_IS_NOT_NULL(adnAppKey)) {
                 if (OM_IS_NOT_NULL(adnSDKName)) {
                     adnName = adnSDKName;
@@ -128,6 +131,7 @@ static OMConfig *_instance = nil;
                 [_adnNameMap setObject:adnName forKey:adnID];
                 [_adnAppkeyMap setObject:adnAppKey forKey:adnID];
                 [_adnNickName setObject:adnName forKey:adnID];
+                [_adnExpiredTime setObject:@(expiredTime) forKey:adnID];
                 if (OM_IS_NOT_NULL(adnNickName)) {
                     [_adnNickName setObject:adnNickName forKey:adnID];
                 }
@@ -169,6 +173,14 @@ static OMConfig *_instance = nil;
         adnNickName = [_adnNickName objectForKey:@(adnID)];
     }
     return adnNickName;
+}
+
+- (NSInteger)adnExpiredTime:(OMAdNetwork)adnID {
+    NSInteger adnExpiredTime = 0;
+    if ([_adnExpiredTime objectForKey:@(adnID)]) {
+        adnExpiredTime = [[_adnExpiredTime objectForKey:@(adnID)]integerValue];
+    }
+    return adnExpiredTime;
 }
 
 - (NSString *)adnAppKey:(OMAdNetwork)adnID {
@@ -330,4 +342,48 @@ static OMConfig *_instance = nil;
 - (void)updateConfig {
     [OpenMediation reinit];
 }
+
+- (void)saveConfigData:(NSDictionary*)configData appKey:(NSString*)appKey version:(NSString*)version {
+    if (_useCacheAdFormat > 0) {
+        NSString *omDataPath = [NSString omDataPath];
+        NSString *configCachePath = [omDataPath stringByAppendingPathComponent:[NSString stringWithFormat:@"config_%@_%@.plist",version,appKey]];
+        [configData writeToFile:configCachePath atomically:YES];
+    }
+}
+
+- (NSDictionary*)configCacheData:(NSString*)appKey version:(NSString*)version {
+    NSDictionary *configData = nil;
+    if (_useCacheAdFormat > 0) {
+        NSString *omDataPath = [NSString omDataPath];
+        NSString *configCachePath = [omDataPath stringByAppendingPathComponent:[NSString stringWithFormat:@"config_%@_%@.plist",version,appKey]];
+        if ([[NSFileManager defaultManager]fileExistsAtPath:configCachePath]) {
+            configData = [NSDictionary dictionaryWithContentsOfFile:configCachePath];
+        }
+    }
+    return  configData;
+}
+
+- (void)saveWaterfallData:(NSDictionary*)waterfallData placementID:(NSString*)pid version:(NSString*)version {
+    OMUnit *unit = [self.adUnitMap objectForKey:pid];
+    if (unit && (unit.adFormat & _useCacheAdFormat)) {
+        NSString *omDataPath = [NSString omDataPath];
+        NSString *waterfallCachePath = [omDataPath stringByAppendingPathComponent:[NSString stringWithFormat:@"waterfall_%@_%@.plist",version,pid]];
+        [waterfallData writeToFile:waterfallCachePath atomically:YES];
+    }
+}
+
+- (NSDictionary*)waterfallCacheData:(NSString*)pid version:(NSString*)version {
+    NSDictionary *waterfallData = nil;
+    OMUnit *unit = [self.adUnitMap objectForKey:pid];
+    if (unit && (unit.adFormat & _useCacheAdFormat)) {
+        NSString *omDataPath = [NSString omDataPath];
+        NSString *waterfallCachePath = [omDataPath stringByAppendingPathComponent:[NSString stringWithFormat:@"waterfall_%@_%@.plist",version,pid]];
+        if ([[NSFileManager defaultManager]fileExistsAtPath:waterfallCachePath]) {
+            waterfallData = [NSDictionary dictionaryWithContentsOfFile:waterfallCachePath];
+        }
+    }
+    return waterfallData;
+}
+
+
 @end

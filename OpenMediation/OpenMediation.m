@@ -25,7 +25,7 @@
 - (void)preload;
 @end
 
-static OpenMediationAdFormat initAdFormats = 0;
+static OpenMediationAdFormat initAdFormats = OpenMediationAdFormatNone;
 
 #define SDKInitCheckInterval 3.0
 
@@ -35,6 +35,10 @@ static OpenMediationAdFormat initAdFormats = 0;
 static NSTimer *SDKInitCheckTimer = nil;
 
 @implementation OpenMediation
+
++ (void)setUseCacheAdFormat:(OpenMediationAdFormat)useCacheAdFormat {
+    [OMConfig sharedInstance].useCacheAdFormat = useCacheAdFormat;
+}
 
 + (void)initWithAppKey:(NSString*)appKey {
     [self initWithAppKey:appKey baseHost:@"https://s.openmediation.com"];
@@ -98,7 +102,6 @@ static NSTimer *SDKInitCheckTimer = nil;
             [self settingWithConfig];
             [self sendConversionData];
             [[OMEventManager sharedInstance]addEvent:INIT_COMPLETE extraData:nil];
-            OMLogI(@"OpenMediation SDK init success");
             completionHandler(nil);
         } else {
             [[OMEventManager sharedInstance]addEvent:INIT_FAILED extraData:nil];
@@ -355,6 +358,8 @@ static NSTimer *SDKInitCheckTimer = nil;
     [OMLogMoudle openLog:logEnable];
 }
 
-
++ (void)setAutoCache:(BOOL)autoCache {
+    [OMConfig sharedInstance].autoCache = autoCache;
+}
 
 @end

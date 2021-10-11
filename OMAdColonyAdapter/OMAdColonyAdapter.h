@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const AdColonyAdapterVersion = @"2.0.4";
+static NSString * const AdColonyAdapterVersion = @"2.0.5";
 
 @interface OMAdColonyAdapter : NSObject<OMMediationAdapter>
 

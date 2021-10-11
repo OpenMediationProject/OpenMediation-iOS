@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) FBRewardedVideoAd *faceBookPlacement;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;
 @property (nonatomic, assign) BOOL ready;
+@property (nonatomic, getter=isAdValid, readonly) BOOL adValid;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
 - (void)loadAd;

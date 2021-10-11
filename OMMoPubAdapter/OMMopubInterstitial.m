@@ -71,9 +71,10 @@
 }
 
 - (void)interstitialDidExpire:(MPInterstitialAdController *)interstitial {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(customEventAdDidExpired:)]) {
+        [_delegate customEventAdDidExpired:self];
+    }
 }
-
 
 - (void)interstitialDidReceiveTapEvent:(MPInterstitialAdController *)interstitial {
     if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClick:)]) {

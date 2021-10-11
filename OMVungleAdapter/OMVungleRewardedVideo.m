@@ -51,6 +51,13 @@
     }
 }
 
+- (void)omVungleShowFailed:(NSError*)error {
+    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
+        [_delegate rewardedVideoCustomEventDidFailToShow:self withError:error];
+    }
+}
+
+
 - (void)omVungleDidClick {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
         [_delegate rewardedVideoCustomEventDidClick:self];

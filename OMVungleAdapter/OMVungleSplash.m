@@ -48,6 +48,12 @@
     }
 }
 
+- (void)omVungleShowFailed:(NSError*)error {
+    if (_delegate && [_delegate respondsToSelector:@selector(splashCustomEventFailToShow:error:)]) {
+        [_delegate splashCustomEventFailToShow:self error:error];
+    }
+}
+
 - (void)omVungleDidClick {
     if (_delegate && [_delegate respondsToSelector:@selector(splashCustomEventDidClick:)]) {
         [_delegate splashCustomEventDidClick:self];

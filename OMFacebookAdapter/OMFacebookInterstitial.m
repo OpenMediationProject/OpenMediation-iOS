@@ -33,6 +33,9 @@
 }
 
 - (BOOL)isReady{
+    if (_facebookInterstitial && [_facebookInterstitial respondsToSelector:@selector(isAdValid)]) {
+        return _facebookInterstitial.isAdValid && _ready;
+    }
     return _ready;
 }
 
@@ -78,4 +81,5 @@
     }
     
 }
+
 @end

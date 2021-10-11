@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
               action:(NSInteger)action
                scene:(NSString *)sceneID
                  abt:(NSInteger)abTest
+                 abtId:(NSInteger)abtId
                  bid:(BOOL)bid
                reqId:(NSString *)reqId
               ruleId:(NSInteger)ruleId

@@ -42,12 +42,16 @@
         OMLogD(@"%@ request waterfall with action %@",_pid,_actionName[(action-1)]);
     }
 
-    if (_delegate && [_delegate respondsToSelector:@selector(omLoadReqeustWithAction:)]) {
-        [_delegate omLoadReqeustWithAction:action];
+    if (_delegate && [_delegate respondsToSelector:@selector(omLoadRequestWithAction:)]) {
+        [_delegate omLoadRequestWithAction:action];
     }
 }
 
 - (BOOL)isReady {
+    return NO;
+}
+
+- (BOOL)isAdAvailable {
     return NO;
 }
 

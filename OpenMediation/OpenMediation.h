@@ -99,6 +99,11 @@ extern NSString *kOpenMediatonInitSuccessNotification;
 /// log enable,default is YES
 + (void)setLogEnable:(BOOL)logEnable;
 
++ (void)setUseCacheAdFormat:(OpenMediationAdFormat)useCacheAdFormat;
+
+/// set auto cache,default is YES
++ (void)setAutoCache:(BOOL)autoCache;
+
 @end
 
 NS_ASSUME_NONNULL_END

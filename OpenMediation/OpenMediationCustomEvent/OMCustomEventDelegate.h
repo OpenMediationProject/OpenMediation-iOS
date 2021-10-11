@@ -9,6 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)customEvent:(id)adapter didLoadAd:(nullable id)adObject;
 - (void)customEvent:(id)adapter didLoadWithAdnName:(NSString*)adnName;
 - (void)customEvent:(id)adapter didFailToLoadWithError:(NSError*)error;
+- (void)customEventAdDidExpired:(id)adapter;
 @end
 
 NS_ASSUME_NONNULL_END

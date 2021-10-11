@@ -109,12 +109,15 @@
             }
         }
         
-        if(self.adLoader.loading) {
-            [self.adLoader saveInstanceLoadState:self.adLoader.optimalFillInstance state:OMInstanceLoadStateCallShow];
-        } else {
-            [self.adLoader saveInstanceLoadState:self.adLoader.optimalFillInstance state:OMInstanceLoadStateCallShow];
-            [self.adLoader saveInstanceLoadState:self.adLoader.optimalFillInstance state:OMInstanceLoadStateWait];
-            [self loadAd:self.adFormat actionType:OMLoadActionCloseEvent];
+        [self.adLoader saveInstanceLoadState:self.adLoader.optimalFillInstance state:OMInstanceLoadStateCallShow];
+        
+        if(!self.adLoader.loading) {
+            __weak __typeof(self) weakSelf = self;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [weakSelf.adLoader saveInstanceLoadState:self.adLoader.optimalFillInstance state:OMInstanceLoadStateWait];
+                [weakSelf loadAd:self.adFormat actionType:OMLoadActionCloseEvent];
+            });
+            
         }
     }
 }

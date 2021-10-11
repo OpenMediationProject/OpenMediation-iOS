@@ -49,8 +49,8 @@
 }
 
 - (BOOL)isReady {
-    if (_tapjoyPlacement && [_tapjoyPlacement respondsToSelector:@selector(isContentReady)]) {
-        return _tapjoyPlacement.contentReady;
+    if (_tapjoyPlacement && [_tapjoyPlacement respondsToSelector:@selector(isContentReady)] && [_tapjoyPlacement respondsToSelector:@selector(isContentAvailable)]) {
+        return _tapjoyPlacement.contentReady && _tapjoyPlacement.contentAvailable;
     } else {
         return NO;
     }
@@ -80,13 +80,12 @@
     }
 }
 
-
-
 - (void)videoDidFail:(TJPlacement*)placement error:(NSString*)errorMsg {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
         [_delegate rewardedVideoCustomEventDidFailToShow:self withError:[NSError errorWithDomain:@"com.tapjoy.video" code:-1 userInfo:@{NSLocalizedDescriptionKey:errorMsg}]];
     }
 }
+
 - (void)contentDidAppear:(TJPlacement *)placement {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
         [_delegate rewardedVideoCustomEventDidOpen:self];
@@ -101,7 +100,6 @@
     }
 }
 
-
 - (void)videoDidComplete:(TJPlacement*)placement {
     
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]) {
@@ -112,7 +110,6 @@
         [_delegate rewardedVideoCustomEventDidReceiveReward:self];
     }
 }
-
 
 - (void)didClick:(TJPlacement*)placement {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {

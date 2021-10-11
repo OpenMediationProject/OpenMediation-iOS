@@ -12,7 +12,6 @@
         _appID = [adParameter objectForKey:@"appKey"];
     }
     return self;
-    
 }
 
 -(void)loadAd{
@@ -28,7 +27,8 @@
 
 -(BOOL)isReady{
     if (_rewardedVideoAd) {
-        return _rewardedVideoAd.adValid;
+        NSInteger now = (NSInteger)([[NSDate date]timeIntervalSince1970]);
+        return _rewardedVideoAd.adValid && ((_rewardedVideoAd.expiredTimestamp - now)>0);
     }
     return NO;
 }
@@ -54,7 +54,6 @@
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
-    
 }
 
 - (void)gdt_rewardVideoAdWillVisible:(GDTRewardVideoAd *)rewardedVideoAd{

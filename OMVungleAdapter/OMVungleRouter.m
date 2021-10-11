@@ -76,8 +76,12 @@ static OMVungleRouter * _instance = nil;
             VungleSDK *vungle = [vungleClass sharedSDK];
             self.isAdPlaying = YES;
             BOOL success = [vungle playAd:viewController options:options placementID:placementID error:&error];
-            if (!success) {
+            if (!success || error) {
                 self.isAdPlaying = NO;
+                id<OMVungleAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementID];
+                if (delegate && [delegate respondsToSelector:@selector(omVungleShowFailed:)]) {
+                    [delegate omVungleShowFailed:(error?error:[NSError errorWithDomain:@"com.om.vungleadapter" code:0 userInfo:@{NSLocalizedDescriptionKey:@"Error nil"}])];
+                }
             }
         }
     }

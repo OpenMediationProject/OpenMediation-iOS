@@ -56,7 +56,7 @@
             }
             if (adapterClass && [adapterClass instancesRespondToSelector:@selector(initWithParameter:)]) {
                 id <OMInterstitialCustomEvent> interstitialAdapter = [[OMInstanceContainer sharedInstance]getInstance:instanceID block:^id{
-                    id adapter = [[adapterClass alloc] initWithParameter:@{@"pid":mediationPid,@"appKey":[[OMConfig sharedInstance]adnAppKey:adnID] }];
+                    id adapter = [[adapterClass alloc] initWithParameter:@{@"pid":mediationPid,@"appKey":[[OMConfig sharedInstance]adnAppKey:adnID]}];
                     return adapter;
                 }];
                 interstitialAdapter.delegate = self;
@@ -79,6 +79,7 @@
 }
 
 - (BOOL)isReady {
+    
     return [super isReady];
 }
 

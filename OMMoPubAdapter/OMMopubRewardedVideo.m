@@ -103,4 +103,10 @@
     }
 }
 
+- (void)rewardedAdDidExpireForAdUnitID:(NSString *)adUnitID {
+    if (_delegate && [_delegate respondsToSelector:@selector(customEventAdDidExpired:)]) {
+        [_delegate customEventAdDidExpired:self];
+    }
+}
+
 @end

@@ -19,13 +19,22 @@
              instanceState:(NSArray*)instanceState
          completionHandler:(wfCompletionHandler)completionHandler {
     NSDictionary *parameters = [self wfParametersWithPid:pid size:size actionType:actionType reqId:reqId bidResponses:bidResponses tokens:tokens instanceState:instanceState];
+    OMConfig *config = [OMConfig sharedInstance];
+    NSDictionary *cacheWaterfallData = [config waterfallCacheData:pid version:@"v4"];
+    if (cacheWaterfallData) {
+        completionHandler(cacheWaterfallData, nil);
+    }
+    
     NSError *jsonError;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:&jsonError];
     if (jsonData && !jsonError && [[OMConfig sharedInstance].wfUrl length]>0) {
         [OMRequest postWithUrl:[self waterfallUrl] data:jsonData completionHandler:^(NSObject *object, NSError *error) {
             if (!error) {
                 if ([object isKindOfClass:[NSDictionary class]]) {
-                    completionHandler((NSDictionary *)object, nil);
+                    [config saveWaterfallData:(NSDictionary*)object placementID:pid version:@"v4"];
+                    if(!cacheWaterfallData) {
+                        completionHandler((NSDictionary *)object, nil);
+                    }
                 } else {
                     completionHandler(nil,[NSError omNetworkError:OMRequestErrorInvalidResponseData]);
                 }

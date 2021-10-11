@@ -16,8 +16,8 @@
 #include <mach/mach_host.h>
 #include <sys/sysctl.h>
 
-@interface AppsFlyerTracker : NSObject
-+ (id)sharedTracker;
+@interface AppsFlyerLib : NSObject
++ (id)shared;
 - (NSString *)getAppsFlyerUID;
 @end
 
@@ -438,9 +438,9 @@
 
 + (NSString*)omAFUid {
     NSString *uid = @"";
-    Class af = NSClassFromString(@"AppsFlyerTracker");
-    if (af && [af respondsToSelector:@selector(sharedTracker)] && [af instancesRespondToSelector:@selector(getAppsFlyerUID)] ) {
-        AppsFlyerTracker *sdk = [af sharedTracker];
+    Class af = NSClassFromString(@"AppsFlyerLib");
+    if (af && [af respondsToSelector:@selector(shared)] && [af instancesRespondToSelector:@selector(getAppsFlyerUID)] ) {
+        AppsFlyerLib *sdk = [af shared];
         uid = OM_SAFE_STRING([sdk getAppsFlyerUID]);
     }
     return uid;

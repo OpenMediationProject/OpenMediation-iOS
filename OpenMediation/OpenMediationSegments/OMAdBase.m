@@ -67,24 +67,6 @@
 
 - (void)loadAd:(OpenMediationAdFormat)adFormat actionType:(OMLoadAction)action {
     OMLogD(@"%@ loadAd action:%zd",self.pid,action);
-    if (action == OMLoadActionManualLoad) {
-        self.callLoad = YES;
-    } else {
-        [self addEvent:((adFormat == OpenMediationAdFormatBanner)?REFRESH_INTERVAL:ATTEMPT_TO_BRING_NEW_FEED) instance:@"" extraData:nil];
-    }
-
-    if (_adLoader.loading) {
-        OMLogD(@"%@ load block: loading",_pid);
-        [self addEvent:LOAD_BLOCKED instance:nil extraData:@{@"msg":@"loading"}];
-        return;
-    }
-    if (![[OMLoadFrequencryControl sharedInstance]allowLoadOnPlacement:_pid]) {
-        OMLogD(@"%@ load block: frequency capped",_pid);
-        [self addEvent:LOAD_BLOCKED instance:nil extraData:@{@"msg":@"frequency capped"}];
-        [self sendDidFailWithErrorType:OMErrorLoadFrequencry];
-        return;
-    }
-    
     [[OMDependTask sharedInstance]addTaskDependOjbect:[OMConfig sharedInstance] keyPath:@"initState" observeValues:@[@"2",@"0"] observeTask:^{
         if (![OMConfig sharedInstance].initSuccess) {
             OMLogD(@"%@ load block: sdk not initialized",self.pid);
@@ -118,9 +100,32 @@
         }
     }
     
-    if ((_adFormat == OpenMediationAdFormatInterstitial || _adFormat == OpenMediationAdFormatRewardedVideo) && [self isReady]) {
+    if (action == OMLoadActionManualLoad) {
+        self.callLoad = YES;
+    } else {
+        [self addEvent:((_adFormat == OpenMediationAdFormatBanner)?REFRESH_INTERVAL:ATTEMPT_TO_BRING_NEW_FEED) instance:@"" extraData:nil];
+        if (![OMConfig sharedInstance].autoCache) {
+            OMLogD(@"%@ load block: auto cache off",_pid);
+            [self addEvent:LOAD_BLOCKED instance:nil extraData:@{@"msg":@"auto cache off"}];
+            return;
+        }
+    }
+
+    if (_adLoader.loading) {
+        OMLogD(@"%@ load block: loading",_pid);
+        [self addEvent:LOAD_BLOCKED instance:nil extraData:@{@"msg":@"loading"}];
+        return;
+    }
+    if (![[OMLoadFrequencryControl sharedInstance]allowLoadOnPlacement:_pid]) {
+        OMLogD(@"%@ load block: frequency capped",_pid);
+        [self addEvent:LOAD_BLOCKED instance:nil extraData:@{@"msg":@"frequency capped"}];
+        [self sendDidFailWithErrorType:OMErrorLoadFrequencry];
+        return;
+    }
+    
+    if ((_adFormat == OpenMediationAdFormatInterstitial || _adFormat == OpenMediationAdFormatRewardedVideo) && [self isReady] && [self isAdAvailable]) {
         [self notifyAvailable:YES];
-    } else if(_adFormat == OpenMediationAdFormatNative && self.callLoad && [self isReady]) {
+    } else if(_adFormat == OpenMediationAdFormatNative && self.callLoad && [self isReady] && [self isAdAvailable]) {
         self.callLoad = NO;
         [self omDidLoad];
     }
@@ -210,14 +215,20 @@
 
 #pragma mark - OMLoadDelegate
 
-- (void)omLoadReqeustWithAction:(OMLoadAction)action {
+- (void)omLoadRequestWithAction:(OMLoadAction)action {
     self.loadAction = action;
     if (self.loadAction == OMLoadActionTimer) {
         self.replenishLoad = YES;
     }
     self.wfReqId = [NSUUID UUID].UUIDString;
     if (_adFormat == OpenMediationAdFormatCrossPromotion) {
-        [self.adLoader loadWithPriority:@[[[OMConfig sharedInstance]checkinstanceIDWithAdNetwork:OMAdNetworkCrossPromotion adnPlacementID:self.pid]]]; //交叉推广不请求wf接口
+        NSMutableArray *instancePriority = [NSMutableArray array];
+        NSString *instanceID = [[OMConfig sharedInstance]checkinstanceIDWithAdNetwork:OMAdNetworkCrossPromotion adnPlacementID:self.pid];
+        if ([instanceID length]>0) {
+            [instancePriority addObject:instanceID];
+        }
+        
+        [self.adLoader loadWithPriority:[instancePriority copy]]; //交叉推广不请求wf接口
         return;
     }
     
@@ -225,7 +236,7 @@
     
     NSArray *tokens = [self getS2STokens:[bidResponses allKeys]];
     
-    [OMLrRequest postWithType:OMLRTypeWaterfallLoad pid:self.pid adnID:0 instanceID:@"" action:self.loadAction scene:@"" abt:0 bid:NO reqId:self.wfReqId ruleId:0 revenue:0 rp:0 ii:0 adn:@""];//lr load
+    [OMLrRequest postWithType:OMLRTypeWaterfallLoad pid:self.pid adnID:0 instanceID:@"" action:self.loadAction scene:@"" abt:0 abtId:0 bid:NO reqId:self.wfReqId ruleId:0 revenue:0 rp:0 ii:0 adn:@""];//lr load
     
     [self addEvent:LOAD instance:nil extraData:@{@"reqId":OM_SAFE_STRING(self.wfReqId)}];//load event
     
@@ -257,6 +268,7 @@
 - (void)parseAbGroupValueWIthResponse:(NSDictionary*)response {
     if ([response objectForKey:@"abt"]) {
         self.abGroup = [[response objectForKey:@"abt"]integerValue];
+        self.abTestId = [[response objectForKey:@"abtId"]integerValue];
     } else {
         self.abGroup = -1; //no ab test
     }
@@ -369,7 +381,9 @@
     for (NSInteger i=0; i<[self.wfInsList count]; i++) {
         NSDictionary *insData  = self.wfInsList[i];
         NSString *insId = [NSString stringWithFormat:@"%@",[insData objectForKey:@"id"]];
-        [insPriority addObject:insId];
+        if ([insId length]>0) {
+            [insPriority addObject:insId];
+        }
         [wfInsRevenueData setObject:insData forKey:insId];
     }
     
@@ -394,6 +408,7 @@
         OMInstance *instance = [[OMConfig sharedInstance] getInstanceByinstanceID:instanceID];
         instance.wfReqId = self.wfReqId;
         instance.abGroup = self.abGroup;
+        instance.abTestId = self.abTestId;
         instance.realInstancePriority = [_adLoader.priorityList indexOfObject:instanceID];
         if (self.wfRule) {
             instance.ruleId = [[self.wfRule objectForKey:@"id"] integerValue];
@@ -452,8 +467,16 @@
         [self instanceLoadBlockWithError:OMErrorLoadFrequencry instanceID:instanceID];
         return;
     }
-
+    
     if (adapter && [adapter respondsToSelector:@selector(isReady)] && [adapter isReady]) {
+        
+        NSInteger adnExpiredTime = [[OMConfig sharedInstance] adnExpiredTime:adnID];
+        if (adnExpiredTime>0) {
+            instance.expiredTime = (NSInteger)([[NSDate date]timeIntervalSince1970]) + adnExpiredTime;
+        } else {
+            instance.expiredTime = 0;
+        }
+        
         OMLogD(@"%@ load adnName %@ instance %@ ready true",self.pid,adnName,instanceID);
         if (instanceBidResponse) {
             @synchronized (self) {
@@ -462,9 +485,9 @@
         }
         if (!instance.hb) {
             [self addEvent:INSTANCE_LOAD instance:instanceID extraData:nil];
-            [OMLrRequest postWithType:OMLRTypeInstanceLoad pid:self.pid adnID:adnID instanceID:instanceID action:_loadAction scene:@"" abt:instance.abGroup bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:@""];//lr load;
+            [OMLrRequest postWithType:OMLRTypeInstanceLoad pid:self.pid adnID:adnID instanceID:instanceID action:_loadAction scene:@"" abt:instance.abGroup abtId:instance.abTestId bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:@""];//lr load;
             [self addEvent:INSTANCE_LOAD_SUCCESS instance:instanceID extraData:nil];
-            [OMLrRequest postWithType:OMLRTypeInstanceReady pid:self.pid adnID:adnID instanceID:instanceID action:_loadAction scene:@"" abt:instance.abGroup bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];//lr ready;
+            [OMLrRequest postWithType:OMLRTypeInstanceReady pid:self.pid adnID:adnID instanceID:instanceID action:_loadAction scene:@"" abt:instance.abGroup abtId:instance.abTestId  bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];//lr ready;
         }
         [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateSuccess];
     } else if (instanceBidResponse && !OM_STR_EMPTY((NSString*)instanceBidResponse.payLoad) && adapter && [adapter respondsToSelector:@selector(loadAdWithBidPayload:)]) {
@@ -479,7 +502,7 @@
         [adapter loadAd];
     } else if (!instance.hb && adapter && [adapter respondsToSelector:@selector(loadAd)]) {
         OMLogD(@"%@ load adnName %@ instance %@ adapter call load",self.pid,adnName,instanceID);
-        [OMLrRequest postWithType:OMLRTypeInstanceLoad pid:self.pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:_loadAction scene:@"" abt:instance.abGroup bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:@""];//lr instance load;
+        [OMLrRequest postWithType:OMLRTypeInstanceLoad pid:self.pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:_loadAction scene:@"" abt:instance.abGroup abtId:instance.abTestId bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:@""];//lr instance load;
         [self addEvent:INSTANCE_LOAD instance:instanceID extraData:nil];
         [adapter loadAd];
     }
@@ -507,11 +530,13 @@
     OMLogD(@"%@ loader fill adnName %@ instance %@",self.pid,adnName,instanceID)
     OMInstance *instance = [[OMConfig sharedInstance] getInstanceByinstanceID:instanceID];
     
-    [OMLrRequest postWithType:OMLRTypeWaterfallReady pid:self.pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:_loadAction scene:@"" abt:instance.abGroup bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:instance.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];//lr ready
+    [OMLrRequest postWithType:OMLRTypeWaterfallReady pid:self.pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:_loadAction scene:@"" abt:instance.abGroup abtId:instance.abTestId bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:instance.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];//lr ready
     
     
     if ((_adFormat < OpenMediationAdFormatRewardedVideo) || (_adFormat == OpenMediationAdFormatSplash)) {
-        if (self.callLoad) {
+        if (_adFormat == OpenMediationAdFormatBanner) {
+            [self omDidLoad];
+        }else if(self.callLoad){
             self.callLoad = NO;
             [self omDidLoad];
         }
@@ -721,13 +746,14 @@
 #pragma mark - isReady
 
 - (BOOL)isReady {
-    BOOL isReady = NO;
-    if (_adLoader && [_adLoader isReady] && (!_adLoader.adShow  || _adFormat == OpenMediationAdFormatNative)) {
-        isReady = YES;
-    }
-    return isReady;
+    return (_adLoader && [_adLoader isReady] && (!_adLoader.adShow  || _adFormat == OpenMediationAdFormatNative));
 }
 
+#pragma mark - isAdAvailable
+
+- (BOOL)isAdAvailable {
+    return (_adLoader && [_adLoader isAdAvailable]);
+}
 
 
 #pragma mark - OMCustomEventDelegate
@@ -741,10 +767,16 @@
         OMLogD(@"%@ adnName %@ instance %@ load success",self.pid,adnName,instanceID);
         OMInstance *instance = [[OMConfig sharedInstance]getInstanceByinstanceID:instanceID];
         if (instance) {
+            NSInteger adnExpiredTime = [[OMConfig sharedInstance] adnExpiredTime:adnID];
+            if (adnExpiredTime>0) {
+                instance.expiredTime = (NSInteger)([[NSDate date]timeIntervalSince1970]) + adnExpiredTime;
+            } else {
+                instance.expiredTime = 0;
+            }
             if (instance.hb) {
                 [self addEvent:INSTANCE_PAYLOAD_SUCCESS instance:instanceID extraData:nil];
             } else {
-                [OMLrRequest postWithType:OMLRTypeInstanceReady pid:self.pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:_loadAction scene:@"" abt:self.abGroup bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];//lr ready
+                [OMLrRequest postWithType:OMLRTypeInstanceReady pid:self.pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:_loadAction scene:@"" abt:self.abGroup abtId:self.abTestId bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];//lr ready
                 
                 [self addEvent:INSTANCE_LOAD_SUCCESS instance:instanceID extraData:nil];
             }
@@ -843,7 +875,9 @@
             for (NSInteger i=0; i<[self.wfInsList count]; i++) {
                 NSDictionary *insData  = self.wfInsList[i];
                 NSString *insId = [NSString stringWithFormat:@"%@",[insData objectForKey:@"id"]];
-                [insPriority addObject:insId];
+                if ([insId length]>0) {
+                    [insPriority addObject:insId];
+                }
             }
             
             OMLogD(@"%@ waterfall resort ins priority %@",self.pid,[insPriority componentsJoinedByString:@","]);
@@ -884,7 +918,7 @@
     [self addEvent:INSTANCE_SHOW_SUCCESS instance:instanceID extraData:nil];
     
     OMInstance *instance = [[OMConfig sharedInstance] getInstanceByinstanceID:instanceID];
-    [OMLrRequest postWithType:OMLRTypeInstanceImpression pid:_pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:0 scene:self.showSceneID abt:(instance?-1:instance.abGroup) bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.realInstancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];
+    [OMLrRequest postWithType:OMLRTypeInstanceImpression pid:_pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:0 scene:self.showSceneID abt:(instance?instance.abGroup:-1) abtId:(instance?instance.abTestId:-1) bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.realInstancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];
     
     [[OMLoadFrequencryControl sharedInstance]recordImprOnPlacement:_pid sceneID:self.showSceneID];
     [[OMLoadFrequencryControl sharedInstance]recordImprOnInstance:OM_SAFE_STRING(instanceID)];
@@ -918,7 +952,7 @@
     OMInstance *instance = [[OMConfig sharedInstance]getInstanceByinstanceID:instanceID];
     OMLogD(@"%@ adnName %@ instance %@ click",self.pid,adnName,OM_SAFE_STRING(instanceID));
     [self addEvent:INSTANCE_CLICKED instance:instanceID extraData:eventData];
-    [OMLrRequest postWithType:OMLRTypeInstanceClick pid:_pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:0 scene:self.showSceneID abt:(instance?-1:instance.abGroup) bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];
+    [OMLrRequest postWithType:OMLRTypeInstanceClick pid:_pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:0 scene:self.showSceneID abt:(instance?instance.abGroup:-1) abtId:(instance?instance.abTestId:-1) bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];
     
     
     
@@ -931,7 +965,7 @@
     OMInstance *instance = [[OMConfig sharedInstance]getInstanceByinstanceID:instanceID];
     OMLogD(@"%@ adnName %@ instance %@ video start",self.pid,adnName,OM_SAFE_STRING(instanceID));
     [self addEvent:INSTANCE_VIDEO_START instance:instanceID extraData:nil];
-    [OMLrRequest postWithType:OMLRTypeVideoStart pid:_pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:0 scene:self.showSceneID abt:(instance?-1:instance.abGroup) bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];
+    [OMLrRequest postWithType:OMLRTypeVideoStart pid:_pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:0 scene:self.showSceneID abt:(instance?instance.abGroup:-1) abtId:(instance?instance.abTestId:-1) bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];
 }
 
 - (void)adVideoComplete:(id)instanceAdapter {
@@ -941,7 +975,7 @@
     OMInstance *instance = [[OMConfig sharedInstance]getInstanceByinstanceID:instanceID];
     OMLogD(@"%@ adnName %@ instance %@ video end",self.pid,adnName,OM_SAFE_STRING(instanceID));
     [self addEvent:INSTANCE_VIDEO_COMPLETED instance:instanceID extraData:nil];
-    [OMLrRequest postWithType:OMLRTypeVideoComplete pid:_pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:0 scene:self.showSceneID abt:(instance?-1:instance.abGroup) bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];
+    [OMLrRequest postWithType:OMLRTypeVideoComplete pid:_pid adnID:[[OMConfig sharedInstance]getInstanceAdNetwork:instanceID] instanceID:instanceID action:0 scene:self.showSceneID abt:(instance?instance.abGroup:-1) abtId:(instance?instance.abTestId:-1) bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];
 }
 
 - (void)adClose:(id)instanceAdapter {
@@ -968,6 +1002,16 @@
     [self addEvent:INSTANCE_VIDEO_REWARDED instance:instanceID extraData:nil];
 }
 
+- (void)adExpired:(id)instanceAdapter {
+    NSString *instanceID = [self checkInstanceIDWithAdapter:instanceAdapter];
+    if (_adLoader.loading) {
+        [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateCallShow];
+    } else {
+        [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
+    }
+    [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
+    [self loadAd:_adFormat actionType:OMLoadActionCloseEvent];
+}
 
 - (NSString*)checkInstanceIDWithAdapter:(id)adapter {
     NSString *adapterInstanceID = @"";
@@ -1023,6 +1067,7 @@
             [wrapperData setObject:OM_SAFE_STRING(instance.wfReqId) forKey:@"reqId"];
             [wrapperData setObject:instance.ruleId?@(instance.ruleId):@([[self.wfRule objectForKey:@"id"] integerValue]) forKey:@"ruleId"];
             [wrapperData setObject:@(instance.abGroup) forKey:@"abt"];
+            [wrapperData setObject:@(instance.abTestId) forKey:@"abtId"];
             [wrapperData setObject:instance.hb?[NSNumber numberWithInt:1]:[NSNumber numberWithInt:0] forKey:@"bid"];
         }
 

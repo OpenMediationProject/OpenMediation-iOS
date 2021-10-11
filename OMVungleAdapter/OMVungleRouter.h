@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 - (void)omVungleDidStart;
+- (void)omVungleShowFailed:(NSError*)error;
 - (void)omVungleRewardedVideoEnd;
 - (void)omVungleDidFinish:(BOOL)skipped;
 - (void)omVungleWillLeaveApplication;

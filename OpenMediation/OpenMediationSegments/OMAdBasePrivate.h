@@ -35,6 +35,7 @@ typedef void(^hbRequestCompletionHandler)(NSArray *bidInstances);
 
 @property (nonatomic, copy) NSString *wfReqId;
 @property (nonatomic, assign) NSInteger abGroup; //0:"",1:A,2:B
+@property (nonatomic, assign) NSInteger abTestId;
 @property (nonatomic, strong) NSDictionary *wfRule; //Waterfall rule data
 @property (nonatomic, copy) NSDictionary *wfInsRevenueData; //Waterfall instance revenue data
 @property (nonatomic, strong) NSMutableArray *wfInsList;//instance revenue data

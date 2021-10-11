@@ -21,6 +21,13 @@
     [OMConfig sharedInstance].baseHost = host;
     [OMConfig sharedInstance].appKey = appKey;
     [UIDevice omStoreSessionID];
+    
+    NSDictionary *configCacheData = [[OMConfig sharedInstance]configCacheData:appKey version:@"v1"];
+    if (configCacheData) {
+        [[OMConfig sharedInstance] loadCongifData:configCacheData];
+        completionHandler(nil);
+    }
+    
     NSDictionary *parameters = [self initParameters];
     NSError *jsonError;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:&jsonError];
@@ -28,8 +35,10 @@
         [OMRequest postWithUrl:[self initUrl] data:jsonData completionHandler:^(NSObject *object, NSError *error) {
             if (!error) {
                 NSDictionary *configDic = (NSDictionary *)object;
+                [[OMConfig sharedInstance]saveConfigData:configDic appKey:appKey version:@"v1"];
                 [[OMConfig sharedInstance] loadCongifData:configDic];
                 completionHandler(nil);
+                OMLogI(@"OpenMediation SDK init success");
             } else {
                 OMLogD(@"init failed:%@", error.localizedDescription);
                 if (![[OMConfig sharedInstance]initSuccess]) {

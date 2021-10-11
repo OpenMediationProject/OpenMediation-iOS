@@ -95,4 +95,10 @@
     }
 }
 
+- (void)adColonyInterstitialExpired:(AdColonyInterstitial * _Nonnull)interstitial {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(customEventAdDidExpired:)]) {
+        [self.delegate customEventAdDidExpired:self];
+    }
+}
+
 @end

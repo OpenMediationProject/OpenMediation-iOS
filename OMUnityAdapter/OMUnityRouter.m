@@ -92,7 +92,11 @@ static OMUnityRouter * _instance = nil;
 }
 
 - (void)unityAdsShowComplete:(NSString *)placementId withFinishState:(UnityAdsShowCompletionState)state {
+    id<OMUnityAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     
+    if (delegate && [delegate respondsToSelector:@selector(omUnityRewardedVideoEnd)]) {
+        [delegate omUnityRewardedVideoEnd];
+    }
 }
 
 - (void)unityAdsShowFailed:(NSString *)placementId withError:(UnityAdsShowError)error withMessage:(NSString *)message {

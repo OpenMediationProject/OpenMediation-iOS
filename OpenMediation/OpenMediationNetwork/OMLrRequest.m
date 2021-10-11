@@ -15,6 +15,7 @@
               action:(NSInteger)action
                scene:(NSString *)sceneID
                  abt:(NSInteger)abTest
+                 abtId:(NSInteger)abtId
                  bid:(BOOL)bid
                reqId:(NSString *)reqId
               ruleId:(NSInteger)ruleId
@@ -26,7 +27,7 @@
     if ((type == OMLRTypeSDKInit || type == OMLRTypeWaterfallLoad || (unit.adFormat == OpenMediationAdFormatCrossPromotion && type == OMLRTypeWaterfallReady))) {
         return;
     }
-    NSDictionary *parameters = [self lrParametersWithType:type pid:pid adnID:adnID instanceID:instanceID action:action scene:sceneID abt:abTest bid:bid reqId:reqId ruleId:ruleId revenue:revenue rp:rp ii:ii adn:adnName];
+    NSDictionary *parameters = [self lrParametersWithType:type pid:pid adnID:adnID instanceID:instanceID action:action scene:sceneID abt:abTest abtId:abtId bid:bid reqId:reqId ruleId:ruleId revenue:revenue rp:rp ii:ii adn:adnName];
     NSError *jsonError;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameters options:0 error:&jsonError];
     if (!jsonError && jsonData && [[OMConfig sharedInstance].lrUrl length]>0) {
@@ -52,6 +53,7 @@
                                 action:(NSInteger)action
                                  scene:(NSString *)sceneID
                                    abt:(NSInteger)abTest
+                                   abtId:(NSInteger)abtId
                                    bid:(BOOL)bid
                                  reqId:(NSString *)reqId
                                 ruleId:(NSInteger)ruleId
@@ -75,8 +77,11 @@
     if (type >= OMLRTypeInstanceImpression && [sceneID length] > 0) {
         lrParameters[@"scene"] = @([sceneID integerValue]);
     }
-    if (abTest>=0) {
+    if (abTest >= 0) {
         lrParameters[@"abt"] = @(abTest);
+    }
+    if (abtId >= 0) {
+        lrParameters[@"abtId"] = @(abtId);
     }
     if (bid) {
         lrParameters[@"bid"] = @(1);

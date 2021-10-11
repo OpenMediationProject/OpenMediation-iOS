@@ -18,8 +18,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:[WelcomeViewController alloc]]init];
     [self.window makeKeyAndVisible];
-    
-    [OpenMediation initWithAppKey:[self getAppKey] baseHost:[self getBaseHost] adFormat:(OpenMediationAdFormatInterstitial|OpenMediationAdFormatRewardedVideo|OpenMediationAdFormatCrossPromotion)];
+    [OpenMediation setUseCacheAdFormat:OpenMediationAdFormatSplash];
+    [OpenMediation initWithAppKey:[self getAppKey] baseHost:[self getBaseHost] adFormat:(OpenMediationAdFormatInterstitial|OpenMediationAdFormatRewardedVideo|OpenMediationAdFormatCrossPromotion)];    
     return YES;
 }
 

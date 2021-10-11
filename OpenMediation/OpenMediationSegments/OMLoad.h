@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, OMInstanceLoadState) {
 
 @protocol OMLoadDelegate <NSObject>
 
-- (void)omLoadReqeustWithAction:(OMLoadAction)action;
+- (void)omLoadRequestWithAction:(OMLoadAction)action;
 - (void)omLoadInstance:(NSString*)instanceID;
 - (void)omLoadInstanceTimeout:(NSString *)instanceID;
 - (void)omLoadFill:(NSString*)instanceID;
@@ -64,6 +64,8 @@ typedef NS_ENUM(NSInteger, OMInstanceLoadState) {
 - (void)loadWithPriority:(NSArray *)insPriority;
 - (BOOL)isReady;
 - (void)resetContext; //for test
+
+- (BOOL)isAdAvailable;
 
 - (void)requestWaterfallWithAction:(OMLoadAction)action;
 - (void)groupByBatchSize:(NSInteger)batchSize;

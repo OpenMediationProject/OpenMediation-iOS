@@ -38,6 +38,8 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 @property (nonatomic, strong) NSMutableDictionary *adnNickName;
 @property (nonatomic, strong) NSMutableDictionary *adnAppkeyMap;
 @property (nonatomic, strong) NSDictionary *adnSDKName;
+@property (nonatomic, strong) NSMutableDictionary *adnExpiredTime;
+
 @property (nonatomic, strong) NSMutableArray *adUnitList;
 @property (nonatomic, strong) NSMutableDictionary *adUnitMap;
 @property (nonatomic, strong) NSMutableDictionary *instanceMap;
@@ -45,7 +47,8 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 @property (nonatomic, strong) NSMutableDictionary *conversionData;
 @property (nonatomic, assign) BOOL clickOpenAppStore;
 @property (nonatomic, assign) BOOL impressionDataCallBack;
-
+@property (nonatomic, assign) OpenMediationAdFormat useCacheAdFormat;
+@property (nonatomic, assign) BOOL autoCache;
 
 + (instancetype)sharedInstance;
 
@@ -62,6 +65,8 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 - (NSString *)adnNickName:(OMAdNetwork)adnID;
 
 - (NSString *)adnAppKey:(OMAdNetwork)adnID;
+
+- (NSInteger)adnExpiredTime:(OMAdNetwork)adnID;
 
 //MARK: - AdUinit
 - (void)loadAdUnits:(NSArray *)adUnits;
@@ -99,6 +104,14 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 
 //MARK: - AdNetwork Placements
 - (NSArray *)adnPlacements:(OMAdNetwork)adnID;
+
+- (void)saveConfigData:(NSDictionary*)configData appKey:(NSString*)appKey version:(NSString*)version;
+
+- (NSDictionary*)configCacheData:(NSString*)appKey version:(NSString*)version;
+
+- (void)saveWaterfallData:(NSDictionary*)waterfallData placementID:(NSString*)pid version:(NSString*)version;
+
+- (NSDictionary*)waterfallCacheData:(NSString*)pid version:(NSString*)version;
 
 @end
 
