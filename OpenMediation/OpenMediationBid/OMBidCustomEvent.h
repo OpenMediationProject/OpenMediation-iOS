@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol OMBidCustomEventDelegate <OMCustomEventDelegate>
 
 @optional
-- (void)bidReseponse:(NSObject*)bidAdapter bid:(NSDictionary*)bidInfo error:(NSError*)error;
+- (void)bidReseponse:(NSObject*)bidAdapter bid:(nullable NSDictionary*)bidInfo error:(nullable NSError*)error;
 
 @end
 

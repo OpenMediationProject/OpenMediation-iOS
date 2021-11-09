@@ -58,7 +58,7 @@
             if (adapterClass && [adapterClass instancesRespondToSelector:@selector(initWithParameter:rootVC:)]) {
                 id <OMNativeCustomEvent> nativeAdapter = [self.instanceAdapters objectForKey:instanceID];
                 if (!nativeAdapter) {
-                    nativeAdapter = [[adapterClass alloc] initWithParameter:@{@"pid":mediationPid,@"appKey":[[OMConfig sharedInstance]adnAppKey:adnID] }rootVC:self.rootViewController];
+                    nativeAdapter = [[adapterClass alloc] initWithParameter:@{@"pid":mediationPid,@"appKey":[[OMConfig sharedInstance]adnAppKey:adnID],@"uid":self.pid} rootVC:self.rootViewController];
                     nativeAdapter.delegate = self;
                     if ([nativeAdapter respondsToSelector:@selector(setBidDelegate:)]) {
                         [nativeAdapter performSelector:@selector(setBidDelegate:) withObject:self];

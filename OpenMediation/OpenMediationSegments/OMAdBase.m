@@ -67,6 +67,9 @@
 
 - (void)loadAd:(OpenMediationAdFormat)adFormat actionType:(OMLoadAction)action {
     OMLogD(@"%@ loadAd action:%zd",self.pid,action);
+    if (action == OMLoadActionManualLoad) {
+        self.callLoad = YES;
+    }
     [[OMDependTask sharedInstance]addTaskDependOjbect:[OMConfig sharedInstance] keyPath:@"initState" observeValues:@[@"2",@"0"] observeTask:^{
         if (![OMConfig sharedInstance].initSuccess) {
             OMLogD(@"%@ load block: sdk not initialized",self.pid);
@@ -100,9 +103,7 @@
         }
     }
     
-    if (action == OMLoadActionManualLoad) {
-        self.callLoad = YES;
-    } else {
+    if (action != OMLoadActionManualLoad) {
         [self addEvent:((_adFormat == OpenMediationAdFormatBanner)?REFRESH_INTERVAL:ATTEMPT_TO_BRING_NEW_FEED) instance:@"" extraData:nil];
         if (![OMConfig sharedInstance].autoCache) {
             OMLogD(@"%@ load block: auto cache off",_pid);
@@ -831,6 +832,16 @@
     }
 }
 
+- (void)customEventAdDidExpired:(id)adapter {
+    NSString *instanceID = [self checkInstanceIDWithAdapter:adapter];
+    if (_adLoader.loading) {
+        [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateCallShow];
+    } else {
+        [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
+        [self loadAd:_adFormat actionType:OMLoadActionCloseEvent];
+    }
+}
+
 - (void)bidReseponse:(NSObject *)bidAdapter bid:(NSDictionary*)bidInfo error:( NSError*)error {
     if (!error) {
         NSString *instanceID = [self checkInstanceIDWithAdapter:bidAdapter];
@@ -1000,17 +1011,6 @@
     NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
     OMLogD(@"%@ adnName %@ instance %@ receive reward",self.pid,adnName,OM_SAFE_STRING(instanceID));
     [self addEvent:INSTANCE_VIDEO_REWARDED instance:instanceID extraData:nil];
-}
-
-- (void)adExpired:(id)instanceAdapter {
-    NSString *instanceID = [self checkInstanceIDWithAdapter:instanceAdapter];
-    if (_adLoader.loading) {
-        [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateCallShow];
-    } else {
-        [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
-    }
-    [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
-    [self loadAd:_adFormat actionType:OMLoadActionCloseEvent];
 }
 
 - (NSString*)checkInstanceIDWithAdapter:(id)adapter {

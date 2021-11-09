@@ -7,14 +7,10 @@
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter rootVC:(UIViewController*)rootViewController {
     if (self = [super init]) {
-        Class bannerClass = NSClassFromString(@"AMRBanner");
-        if (bannerClass && [adParameter isKindOfClass:[NSDictionary class]] && bannerClass && [bannerClass respondsToSelector:@selector(bannerForZoneId:)]) {
-            NSString *uid = [adParameter objectForKey:@"uid"];
+        if (adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
+            _uid = [adParameter objectForKey:@"uid"];
             _pid = [adParameter objectForKey:@"pid"];
-            _native = [bannerClass bannerForZoneId:_pid];
-            _native.viewController = rootViewController;
-            _native.customNativeSize = CGSizeMake(300, 120);
-            _native.customeNativeXibName = [NSString stringWithFormat:@"AdmostCustomNative%@",uid];
+            _controller = rootViewController;
         }
         _native.delegate = self;
     }
@@ -22,6 +18,14 @@
 }
 
 - (void)loadAd {
+    Class bannerClass = NSClassFromString(@"AMRBanner");
+    if (bannerClass && [bannerClass respondsToSelector:@selector(bannerForZoneId:)]) {;
+        _native = [bannerClass bannerForZoneId:_pid];
+        _native.viewController = _controller;
+        _native.customNativeSize = CGSizeMake(300, 120);
+        _native.customeNativeXibName = [NSString stringWithFormat:@"AdmostCustomNative%@",_uid];
+        _native.delegate = self;
+    }
     if (_native && [_native respondsToSelector:@selector(loadBanner)]) {
         [_native loadBanner];
     }
