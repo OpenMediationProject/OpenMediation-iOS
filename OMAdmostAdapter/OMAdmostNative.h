@@ -11,12 +11,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMAdmostNative : NSObject<OMNativeCustomEvent,AMRBannerDelegate>
 
-@property (nonatomic, strong) AMRBanner *native;
+@property (nonatomic, strong, nullable) AMRBanner *native;
 @property (nonatomic, copy) NSString *uid;
 @property (nonatomic, copy) NSString *pid;
-@property (nonatomic, strong) UIViewController *controller;
 @property(nonatomic, weak, nullable) id<nativeCustomEventDelegate> delegate;
 @property (nonatomic, weak) id<OMBidCustomEventDelegate> bidDelegate;
+@property (nonatomic, strong) NSObject *baseView;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter rootVC:(UIViewController*)rootViewController;
 - (void)loadAd;

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -235,6 +235,8 @@
 		49468C1824B75A2F00AF4E06 /* OMBidNetworkItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 49468C1124B75A2F00AF4E06 /* OMBidNetworkItem.h */; };
 		49468C1924B75A2F00AF4E06 /* OMBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 49468C1224B75A2F00AF4E06 /* OMBid.m */; };
 		49468C1A24B75A2F00AF4E06 /* OMBidResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 49468C1324B75A2F00AF4E06 /* OMBidResponse.h */; };
+		494C46B62744EBED008E1950 /* OMAdMostNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 494C46B42744EBED008E1950 /* OMAdMostNativeAdView.m */; };
+		494C46B72744EBED008E1950 /* OMAdMostNativeAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 494C46B52744EBED008E1950 /* OMAdMostNativeAdView.h */; };
 		4959CE3F23EBE98B00A433A8 /* OMAdMobAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959CE3823EBE98B00A433A8 /* OMAdMobAdapter.framework */; };
 		4959CE5823EBEB8800A433A8 /* OMFacebookAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959CE5123EBEB8800A433A8 /* OMFacebookAdapter.framework */; };
 		4959CE6923EBED0A00A433A8 /* OMUnityAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959CE6223EBED0A00A433A8 /* OMUnityAdapter.framework */; };
@@ -1006,6 +1008,8 @@
 		49468C1124B75A2F00AF4E06 /* OMBidNetworkItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMBidNetworkItem.h; sourceTree = "<group>"; };
 		49468C1224B75A2F00AF4E06 /* OMBid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMBid.m; sourceTree = "<group>"; };
 		49468C1324B75A2F00AF4E06 /* OMBidResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMBidResponse.h; sourceTree = "<group>"; };
+		494C46B42744EBED008E1950 /* OMAdMostNativeAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMAdMostNativeAdView.m; sourceTree = "<group>"; };
+		494C46B52744EBED008E1950 /* OMAdMostNativeAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMAdMostNativeAdView.h; sourceTree = "<group>"; };
 		4959CE3823EBE98B00A433A8 /* OMAdMobAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMAdMobAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4959CE3B23EBE98B00A433A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4959CE5123EBEB8800A433A8 /* OMFacebookAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMFacebookAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2012,6 +2016,8 @@
 				49237100268329F20006B8D3 /* OMAdmostBannerClass.h */,
 				492370B626831FFC0006B8D3 /* OMAdmostNative.h */,
 				492370B726831FFC0006B8D3 /* OMAdmostNative.m */,
+				494C46B52744EBED008E1950 /* OMAdMostNativeAdView.h */,
+				494C46B42744EBED008E1950 /* OMAdMostNativeAdView.m */,
 				4923708026831FD20006B8D3 /* OMAdmostInterstitial.h */,
 				4923708126831FD20006B8D3 /* OMAdmostInterstitial.m */,
 				4923711826832F3F0006B8D3 /* OMAdmostInterstitialClass.h */,
@@ -2739,6 +2745,7 @@
 				4923706726831FB90006B8D3 /* OMAdmostBanner.h in Headers */,
 				4923701626831F5D0006B8D3 /* OMAdmostAdapter.h in Headers */,
 				4923709D26831FE70006B8D3 /* OMAdmostRewardedVideo.h in Headers */,
+				494C46B72744EBED008E1950 /* OMAdMostNativeAdView.h in Headers */,
 				4923708226831FD20006B8D3 /* OMAdmostInterstitial.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3958,6 +3965,7 @@
 				493D84282685C50A00B6FC4E /* OMAdmostBid.m in Sources */,
 				4923706826831FB90006B8D3 /* OMAdmostBanner.m in Sources */,
 				4923709E26831FE70006B8D3 /* OMAdmostRewardedVideo.m in Sources */,
+				494C46B62744EBED008E1950 /* OMAdMostNativeAdView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

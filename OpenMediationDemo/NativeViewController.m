@@ -80,6 +80,7 @@
 }
 
 - (void)omNative:(OMNative *)native didLoadAdView:(OMNativeAdView *)nativeAdView {
+    self.nativeView.hidden = NO;
     self.nativeView.nativeAdView = nativeAdView;
     self.showItem.enabled = YES;
     self.removeItem.enabled = YES;
@@ -97,5 +98,6 @@
 - (void)omNative:(OMNative*)native nativeAdDidClick:(OMNativeAd*)nativeAd {
     [self showLog:@"Native ad click"];
 }
+
 
 @end

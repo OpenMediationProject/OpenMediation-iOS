@@ -2,6 +2,24 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMAdmostNative.h"
+#import "OMAdMostNativeAdView.h"
+#import <objc/runtime.h>
+
+static char const *const kOMAdapterNativeAdViewKey= "OMAdapterNativeAdView";
+
+
+@implementation AMRBanner(OMAdMostAdapter)
+
+- (void)setOmNativeAdView:(OMAdMostNativeAdView*)nativeAdView {
+    objc_setAssociatedObject(self, &kOMAdapterNativeAdViewKey, nativeAdView, OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (OMAdMostNativeAdView*)omNativeAdView {
+    OMAdMostNativeAdView *admostNativeAdView = objc_getAssociatedObject(self, &kOMAdapterNativeAdViewKey);
+    return admostNativeAdView;
+}
+
+@end
 
 @implementation OMAdmostNative
 
@@ -10,7 +28,6 @@
         if (adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
             _uid = [adParameter objectForKey:@"uid"];
             _pid = [adParameter objectForKey:@"pid"];
-            _controller = rootViewController;
         }
         _native.delegate = self;
     }
@@ -21,9 +38,21 @@
     Class bannerClass = NSClassFromString(@"AMRBanner");
     if (bannerClass && [bannerClass respondsToSelector:@selector(bannerForZoneId:)]) {;
         _native = [bannerClass bannerForZoneId:_pid];
-        _native.viewController = _controller;
-        _native.customNativeSize = CGSizeMake(300, 120);
-        _native.customeNativeXibName = [NSString stringWithFormat:@"AdmostCustomNative%@",_uid];
+        NSString *xibFile = [NSString stringWithFormat:@"AdmostCustomNative%@",_uid];
+        Class baseView = NSClassFromString(@"AMRNativeAdBaseView");
+        if (baseView && [[NSFileManager defaultManager]fileExistsAtPath:[[NSBundle mainBundle] pathForResource:xibFile ofType:@"nib"] ]) {
+            self.baseView = [[baseView alloc]initWithFrame:CGRectZero];
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:xibFile owner:self.baseView options:nil];
+            if (nib.count>0) {
+                UIView *xibView = [nib firstObject];
+                CGFloat width = xibView.frame.size.width;
+                if (!width) {
+                    width = [UIScreen mainScreen].bounds.size.width;
+                }
+                _native.customNativeSize = CGSizeMake(width, xibView.frame.size.height);
+            }
+        }
+        _native.customeNativeXibName = xibFile;
         _native.delegate = self;
     }
     if (_native && [_native respondsToSelector:@selector(loadBanner)]) {
@@ -34,15 +63,15 @@
 #pragma mark - AMRBannerDelegate
 
 - (void)didReceiveBanner:(AMRBanner *)banner {
-    for (UIView *view in banner.bannerView.subviews) {
-        [self addConstraintEqualSuperView:view];
-    }
+    OMAdMostNativeAdView *nativeAdView = [[OMAdMostNativeAdView alloc]initWithAdmostNativeAd:_native];
+    [banner setOmNativeAdView:nativeAdView];
     if (_bidDelegate && [_bidDelegate respondsToSelector:@selector(bidReseponse:bid:error:)]) {
-        [_bidDelegate bidReseponse:self bid:@{@"price":[NSNumber numberWithDouble:([banner.ecpm doubleValue]/100.0)],@"adObject":banner.bannerView} error:nil];
+        [_bidDelegate bidReseponse:self bid:@{@"price":[NSNumber numberWithDouble:([banner.ecpm doubleValue]/100.0)],@"adObject":nativeAdView} error:nil];
     }
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
-        [_delegate customEvent:self didLoadAd:banner.bannerView];
+        [_delegate customEvent:self didLoadAd:nativeAdView];
     }
+    self.native = nil;
 }
 
 - (void)didFailToReceiveBanner:(AMRBanner *)banner error:(AMRError *)error {
@@ -53,27 +82,13 @@
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:loadError];
     }
+    self.native = nil;
 }
 
 - (void)didClickBanner:(AMRBanner *)banner {
     if(_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
-        [_delegate nativeCustomEventDidClick:self];
+        [_delegate nativeCustomEventDidClick:[banner omNativeAdView]];
     }
 }
 
-- (void)addConstraintEqualSuperView:(UIView*)view {
-    [view setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
-    NSLayoutConstraint *topCos = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-    [view.superview addConstraint:topCos];
-    
-    NSLayoutConstraint *bootomCos = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
-    [view.superview addConstraint:bootomCos];
-    
-    NSLayoutConstraint *leftCos = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
-    [view.superview addConstraint:leftCos];
-    
-    NSLayoutConstraint *rightCos = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
-    [view.superview addConstraint:rightCos];
-}
 @end
