@@ -457,4 +457,8 @@
     return btime;
 }
 
++ (float)brightness {
+    return [UIScreen mainScreen].brightness;
+}
+
 @end

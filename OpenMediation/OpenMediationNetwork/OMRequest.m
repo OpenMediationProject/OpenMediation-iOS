@@ -28,6 +28,12 @@
     [iosInfo setValue:[UIDevice omTimeZoneAbbreviation] forKey:@"tz_ab"];
     [iosInfo setValue:[NSString stringWithFormat:@"%.2f",(([UIDevice omRamSize]>>20)/1024.0)] forKey:@"tdsg"];
     [iosInfo setValue:[NSString stringWithFormat:@"%.2f",([UIDevice omFreeRamSize]/1024.0)] forKey:@"rdsg"];
+    [iosInfo setValue:[NSNumber numberWithFloat:[UIDevice brightness]] forKey:@"brightness"];
+    if (@available(iOS 11.0, *)) {
+        [iosInfo setValue:[NSNumber numberWithInteger:[[NSProcessInfo processInfo]thermalState]] forKey:@"thrmal"];
+        ;
+    }
+    
     return [iosInfo copy];
     
 }

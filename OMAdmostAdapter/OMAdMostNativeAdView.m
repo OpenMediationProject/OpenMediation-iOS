@@ -3,6 +3,10 @@
 
 #import "OMAdMostNativeAdView.h"
 
+@interface OMAdMostNative : NSObject
+- (void)didShowBanner:(AMRBanner*)banner;
+@end
+
 @implementation OMAdMostNativeAdView
 
 - (instancetype)initWithAdmostNativeAd:(AMRBanner*)nativeAd {
@@ -11,6 +15,19 @@
         [self addSubview:nativeAd.bannerView];
     }
     return self;
+}
+
+- (void)observeView:(UIView*)view visible:(BOOL)visible {
+    if (visible) {
+        if (!_impr) {
+            _impr  =YES;
+            SEL showSelector =  NSSelectorFromString(@"didShowBanner:");
+            if (self.nativeAd && self.nativeAd.delegate && [self.nativeAd.delegate respondsToSelector:showSelector] ) {
+                OMAdMostNative *native = (OMAdMostNative*)self.nativeAd.delegate;
+                [native didShowBanner:self.nativeAd];
+            }
+        }
+    }
 }
 
 @end

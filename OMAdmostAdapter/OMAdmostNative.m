@@ -85,6 +85,12 @@ static char const *const kOMAdapterNativeAdViewKey= "OMAdapterNativeAdView";
     self.native = nil;
 }
 
+- (void)didShowBanner:(AMRBanner*)banner {
+    if(_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
+        [_delegate nativeCustomEventWillShow:[banner omNativeAdView]];
+    }
+}
+
 - (void)didClickBanner:(AMRBanner *)banner {
     if(_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
         [_delegate nativeCustomEventDidClick:[banner omNativeAdView]];

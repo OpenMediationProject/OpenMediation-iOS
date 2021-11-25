@@ -7,6 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMAdMostNativeAdView : UIView
 @property (nonatomic, strong) AMRBanner *nativeAd;
+@property (nonatomic, assign) BOOL impr;
 
 - (instancetype)initWithAdmostNativeAd:(AMRBanner*)nativeAd;
 

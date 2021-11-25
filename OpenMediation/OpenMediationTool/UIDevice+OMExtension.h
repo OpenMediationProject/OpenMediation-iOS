@@ -100,6 +100,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (long long)omBootTime;
 
++ (float)brightness;
+
 @end
 
 NS_ASSUME_NONNULL_END

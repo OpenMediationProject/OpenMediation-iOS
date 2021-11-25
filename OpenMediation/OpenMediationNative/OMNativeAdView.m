@@ -5,6 +5,7 @@
 #import "OpenMediationConstant.h"
 #import "OMMediatedNativeAd.h"
 #import "OMBidResponse.h"
+#import "OMExposureMonitor.h"
 
 @interface OMNativeAdView()
 @property (nonatomic, strong) NSString *instanceID;
@@ -17,6 +18,7 @@
 - (instancetype)initWithMediatedAdView:(UIView *)mediatedAdView {
     self = [super initWithFrame:mediatedAdView.bounds];
     if (self) {
+        [[OMExposureMonitor sharedInstance]addObserver:mediatedAdView forView:mediatedAdView];
         [self addSubview:(UIView *)mediatedAdView];
         [self addConstraintEqualSuperView:mediatedAdView];
     }

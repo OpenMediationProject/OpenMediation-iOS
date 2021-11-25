@@ -113,7 +113,6 @@
                 }
             }else{
                 isAdAvailable = YES;
-                break;
             }
         }
     }
