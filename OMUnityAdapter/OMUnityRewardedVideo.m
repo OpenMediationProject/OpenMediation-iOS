@@ -8,37 +8,30 @@
 - (instancetype)initWithParameter:(NSDictionary*)adParameter {
     if (self = [super init]) {
         _pid = [adParameter objectForKey:@"pid"];
-        [[OMUnityRouter sharedInstance]registerPidDelegate:_pid delegate:self];
+        [[OMUnityRouter sharedInstance] registerPidDelegate:_pid delegate:self];
     }
     return self;
 }
 
 - (void)loadAd {
-    if ([self isReady]) {
-      //ready
-        [self omUnityDidload];
-    }
+    [[OMUnityRouter sharedInstance] loadPlacmentID:_pid];
 }
 
 - (BOOL)isReady {
-    Class unityClass = NSClassFromString(@"UnityAds");
-    BOOL isReady = NO;
-    if (unityClass && [unityClass respondsToSelector:@selector(isReady:)]) {
-        isReady = [unityClass isReady:_pid];
-    }
-    return isReady;
+    return _isUnityAdReady;
 }
 
 - (void)show:(UIViewController*)vc {
     if ([self isReady]) {
         [[OMUnityRouter sharedInstance] showVideo:_pid withVC:vc];
     }
-    
+    _isUnityAdReady = NO;
 }
 
 #pragma mark -- OMUnityDelegate
 
 - (void)omUnityDidload {
+    _isUnityAdReady = YES;
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
@@ -84,7 +77,7 @@
     
 }
 
-- (void)omUnityShowFailed:(NSError *)error {
+- (void)omUnityFailToShow:(NSError *)error {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
         [_delegate rewardedVideoCustomEventDidFailToShow:self withError:error];
     }

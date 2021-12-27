@@ -20,7 +20,7 @@
 
 - (void)loadAd{
     Class GDTInterstitialClass = NSClassFromString(@"GDTUnifiedInterstitialAd");
-    if (GDTInterstitialClass && [[GDTInterstitialClass alloc] respondsToSelector:@selector(initWithAppId:placementId:)]) {
+    if (GDTInterstitialClass && [[GDTInterstitialClass alloc] respondsToSelector:@selector(initWithPlacementId:)]) {
         _interstitial = [[GDTInterstitialClass alloc] initWithPlacementId:_pid];
         _interstitial.delegate = self;
     }

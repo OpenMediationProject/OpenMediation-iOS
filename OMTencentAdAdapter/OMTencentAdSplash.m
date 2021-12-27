@@ -44,10 +44,10 @@
  *  开屏广告素材加载成功
  */
 - (void)splashAdDidLoad:(GDTSplashAd *)splashAd{
+    self.isLoadSuccess = YES;
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
-    self.isLoadSuccess = YES;
 }
 
 

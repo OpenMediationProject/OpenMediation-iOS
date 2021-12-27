@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const UnityAdapterVersion = @"2.0.5";
+static NSString * const UnityAdapterVersion = @"2.0.6";
 
 @interface OMUnityAdapter : NSObject<OMMediationAdapter,UnityAdsInitializationDelegate>
 @property (nonatomic, copy, nullable) OMMediationAdapterInitCompletionBlock initBlock;

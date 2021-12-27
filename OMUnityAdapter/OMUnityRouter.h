@@ -20,11 +20,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface OMUnityRouter : NSObject<UnityAdsDelegate,UnityAdsExtendedDelegate,UnityAdsShowDelegate>
+@interface OMUnityRouter : NSObject<UnityAdsLoadDelegate,UnityAdsShowDelegate>
 @property (nonatomic, strong) NSMapTable *placementDelegateMap;
 
 + (instancetype)sharedInstance;
 - (void)registerPidDelegate:(NSString*)pid delegate:(id)delegate;
+- (void)loadPlacmentID:(NSString *)pid;
 - (void)showVideo:(NSString *)pid withVC:(UIViewController*)vc;
 
 @end

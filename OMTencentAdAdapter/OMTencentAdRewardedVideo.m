@@ -16,7 +16,7 @@
 
 -(void)loadAd{
     Class GDTRewardedVideoAdClass = NSClassFromString(@"GDTRewardVideoAd");
-    if (GDTRewardedVideoAdClass && GDTRewardedVideoAdClass && [GDTRewardedVideoAdClass instancesRespondToSelector:@selector(initWithAppId:placementId:)]) {
+    if (GDTRewardedVideoAdClass && GDTRewardedVideoAdClass && [GDTRewardedVideoAdClass instancesRespondToSelector:@selector(initWithPlacementId:)]) {
         _rewardedVideoAd = [[GDTRewardedVideoAdClass alloc] initWithPlacementId:_pid];
         _rewardedVideoAd.delegate = self;
     }
@@ -98,7 +98,7 @@
     }
 }
 
-- (void)gdt_rewardVideoAdDidRewardEffective:(GDTRewardVideoAd *)rewardedVideoAd{
+- (void)gdt_rewardVideoAdDidRewardEffective:(GDTRewardVideoAd *)rewardedVideoAd info:(NSDictionary *)info {
     if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
         [_delegate rewardedVideoCustomEventDidReceiveReward:self];
     }

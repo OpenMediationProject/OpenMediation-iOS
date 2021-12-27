@@ -17,10 +17,6 @@ static OMUnityRouter * _instance = nil;
 
 - (instancetype)init {
     if (self = [super init]) {
-        Class unityClass = NSClassFromString(@"UnityAds");
-        if (unityClass && [unityClass respondsToSelector:@selector(addDelegate:)]) {
-            [unityClass addDelegate:self];
-        }
         _placementDelegateMap = [NSMapTable weakToWeakObjectsMapTable];
     }
     return self;
@@ -30,9 +26,11 @@ static OMUnityRouter * _instance = nil;
     [_placementDelegateMap setObject:delegate forKey:pid];
 }
 
-// load success
-- (void)unityAdsAdLoaded:(NSString *)placementId {
-    
+- (void)loadPlacmentID:(NSString *)pid {
+    Class unityClass = NSClassFromString(@"UnityAds");
+    if (unityClass && [unityClass respondsToSelector:@selector(load:loadDelegate:)]) {
+        [unityClass load:pid loadDelegate:self];
+    }
 }
 
 - (void)showVideo:(NSString *)pid withVC:(UIViewController*)vc {
@@ -42,64 +40,39 @@ static OMUnityRouter * _instance = nil;
     }
 }
 
-// load failed
-- (void)unityAdsAdFailedToLoad:(NSString *)placementId {
-    NSError *error = [NSError errorWithDomain:@"com.om.mediation" code:-1 userInfo:@{NSLocalizedDescriptionKey:@"unity ads load failed"}];
-    id<OMUnityAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
-    if (delegate && [delegate respondsToSelector:@selector(omUnityDidFailToLoad:)]) {
-        [delegate omUnityDidFailToLoad:error];
-    }
-}
-
-- (void)unityAdsReady:(NSString *)placementId {
+// load success
+- (void)unityAdsAdLoaded:(NSString *)placementId {
     id<OMUnityAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     if (delegate && [delegate respondsToSelector:@selector(omUnityDidload)]) {
         [delegate omUnityDidload];
     }
 }
 
-
-- (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message {
-    
-}
-
-- (void)unityAdsDidStart:(NSString *)placementId {
+// load failed
+- (void)unityAdsAdFailedToLoad: (NSString *)placementId
+                     withError: (UnityAdsLoadError)error
+                   withMessage: (NSString *)message {
+    NSError *unityError = [NSError errorWithDomain:@"com.om.mediation" code:-1 userInfo:@{NSLocalizedDescriptionKey:@"unity ads load failed"}];
     id<OMUnityAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
-    
-    if (delegate && [delegate respondsToSelector:@selector(omUnityDidStart)]) {
-        [delegate omUnityDidStart];
+    if (delegate && [delegate respondsToSelector:@selector(omUnityDidFailToLoad:)]) {
+        [delegate omUnityDidFailToLoad:unityError];
     }
 }
 
-- (void)unityAdsDidFinish:(NSString *)placementId withFinishState:(UnityAdsFinishState)state {
+
+- (void)unityAdsShowComplete: (NSString *)placementId withFinishState: (UnityAdsShowCompletionState)state {
     id<OMUnityAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     
     if (delegate && [delegate respondsToSelector:@selector(omUnityDidFinish:)]) {
-        [delegate omUnityDidFinish:(state != kUnityAdsFinishStateCompleted)];
+        [delegate omUnityDidFinish:(state != kUnityShowCompletionStateCompleted)];
     }
-}
-
-- (void)unityAdsDidClick:(NSString *)placementId {
-    id<OMUnityAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
-    
-    if (delegate && [delegate respondsToSelector:@selector(omUnityDidClick)]) {
-        [delegate omUnityDidClick];
-    }
-}
-
-- (void)unityAdsPlacementStateChanged:(NSString *)placementId oldState:(UnityAdsPlacementState)oldState newState:(UnityAdsPlacementState)newState {
-    
-}
-
-- (void)unityAdsShowComplete:(NSString *)placementId withFinishState:(UnityAdsShowCompletionState)state {
-    id<OMUnityAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     
     if (delegate && [delegate respondsToSelector:@selector(omUnityRewardedVideoEnd)]) {
         [delegate omUnityRewardedVideoEnd];
     }
 }
 
-- (void)unityAdsShowFailed:(NSString *)placementId withError:(UnityAdsShowError)error withMessage:(NSString *)message {
+- (void)unityAdsShowFailed: (NSString *)placementId withError: (UnityAdsShowError)error withMessage: (NSString *)message {
     NSError *errors = [[NSError alloc]initWithDomain:@"com.unity.ads" code:error userInfo: @{NSLocalizedDescriptionKey:message}];
     id<OMUnityAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     if (delegate && [delegate respondsToSelector:@selector(omUnityFailToShow:)]) {
@@ -107,14 +80,20 @@ static OMUnityRouter * _instance = nil;
     }
 }
 
-- (void)unityAdsShowStart:(NSString *)placementId {
-
-}
-
-- (void)unityAdsShowClick:(NSString *)placementId {
+- (void)unityAdsShowStart: (NSString *)placementId {
+    id<OMUnityAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
     
+    if (delegate && [delegate respondsToSelector:@selector(omUnityDidStart)]) {
+        [delegate omUnityDidStart];
+    }
 }
 
-
+- (void)unityAdsShowClick: (NSString *)placementId {
+    id<OMUnityAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementId];
+    
+    if (delegate && [delegate respondsToSelector:@selector(omUnityDidClick)]) {
+        [delegate omUnityDidClick];
+    }
+}
 
 @end

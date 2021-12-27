@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OMUnityRewardedVideo : NSObject<OMUnityAdapterDelegate,OMRewardedVideoCustomEvent>
 @property (nonatomic, copy) NSString *pid;
+@property (nonatomic, assign) BOOL isUnityAdReady;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
