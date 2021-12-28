@@ -31,17 +31,114 @@ typedef NS_ENUM (NSUInteger, GDTRewardAdType) {
     GDTRewardAdTypePage = 1 //激励浏览
 };
 
-//typedef NS_ENUM(NSInteger, GDTAdBiddingLossReason) {
-//    GDTAdBiddingLossReasonLowPrice          = 1,        // 竞争力不足
-//    GDTAdBiddingLossReasonLoadTimeout       = 2,        // 返回超时
-//    GDTAdBiddingLossReasonNoAd              = 3,        // 无广告回包
-//    GDTAdBiddingLossReasonAdDataError       = 4,        // 回包不合法
-//    GDTAdBiddingLossReasonOther             = 10001     // 其他
-//};
-
+typedef enum GDTSDKLoginType {
+    GDTSDKLoginTypeUnknow = 0,
+    GDTSDKLoginTypeWeiXin = 1,    //微信账号
+    GDTSDKLoginTypeQQ = 2,        //QQ账号
+} GDTSDKLoginType;
 
 @class GDTServerSideVerificationOptions;
-@class GDTLoadAdParams;
+@class GDTRewardVideoAd;
+
+@interface GDTLoadAdParams : NSObject
+
+//登陆账号类型:QQ or weixin
+@property (nonatomic, assign) GDTSDKLoginType loginType;
+
+//登陆账号体系分配的appID，如QQ分配的appID或是微信分配的appID
+@property (nonatomic, copy) NSString *loginAppId;
+
+//登陆账号体系分配的openID，如QQ分配的openId或是微信分配的openId
+@property (nonatomic, copy) NSString *loginOpenId;
+
+//透传字段，key跟value都由调用方自行指定
+@property (nonatomic, strong) NSDictionary *dictionary;
+
+//透传字段，非qq小游戏
+@property (nonatomic, copy) NSDictionary *devExtra;
+
+@end
+
+@protocol GDTRewardedVideoAdDelegate <NSObject>
+
+@optional
+
+
+/**
+ 广告数据加载成功回调
+
+ @param rewardedVideoAd GDTRewardVideoAd 实例
+ */
+- (void)gdt_rewardVideoAdDidLoad:(GDTRewardVideoAd *)rewardedVideoAd;
+
+/**
+ 视频数据下载成功回调，已经下载过的视频会直接回调
+
+ @param rewardedVideoAd GDTRewardVideoAd 实例
+ */
+- (void)gdt_rewardVideoAdVideoDidLoad:(GDTRewardVideoAd *)rewardedVideoAd;
+
+/**
+ 视频播放页即将展示回调
+
+ @param rewardedVideoAd GDTRewardVideoAd 实例
+ */
+- (void)gdt_rewardVideoAdWillVisible:(GDTRewardVideoAd *)rewardedVideoAd;
+
+/**
+ 视频广告曝光回调
+
+ @param rewardedVideoAd GDTRewardVideoAd 实例
+ */
+- (void)gdt_rewardVideoAdDidExposed:(GDTRewardVideoAd *)rewardedVideoAd;
+
+/**
+ 视频播放页关闭回调
+
+ @param rewardedVideoAd GDTRewardVideoAd 实例
+ */
+- (void)gdt_rewardVideoAdDidClose:(GDTRewardVideoAd *)rewardedVideoAd;
+
+/**
+ 视频广告信息点击回调
+
+ @param rewardedVideoAd GDTRewardVideoAd 实例
+ */
+- (void)gdt_rewardVideoAdDidClicked:(GDTRewardVideoAd *)rewardedVideoAd;
+
+/**
+ 视频广告各种错误信息回调
+
+ @param rewardedVideoAd GDTRewardVideoAd 实例
+ @param error 具体错误信息
+ */
+- (void)gdt_rewardVideoAd:(GDTRewardVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error;
+
+/**
+ 视频广告播放达到激励条件回调
+
+ @param rewardedVideoAd GDTRewardVideoAd 实例
+ */
+- (void)gdt_rewardVideoAdDidRewardEffective:(GDTRewardVideoAd *)rewardedVideoAd GDT_DEPRECATED_MSG_ATTRIBUTE("接口即将废弃，请使用 gdt_rewardVideoAdDidRewardEffective:info:");
+
+
+/**
+ 视频广告播放达到激励条件回调
+
+ @param rewardedVideoAd GDTRewardVideoAd 实例
+ @param info 包含此次广告行为的一些信息，例如 @{@"GDT_TRANS_ID":@"930f1fc8ac59983bbdf4548ee40ac353"}, 通过@“GDT_TRANS_ID”可获取此次广告行为的交易id
+ */
+- (void)gdt_rewardVideoAdDidRewardEffective:(GDTRewardVideoAd *)rewardedVideoAd info:(NSDictionary *)info;
+
+/**
+ 视频广告视频播放完成
+
+ @param rewardedVideoAd GDTRewardVideoAd 实例
+ */
+- (void)gdt_rewardVideoAdDidPlayFinish:(GDTRewardVideoAd *)rewardedVideoAd;
+
+@end
+
 
 @protocol GDTRewardedVideoAdDelegate;
 
@@ -139,87 +236,6 @@ typedef NS_ENUM (NSUInteger, GDTRewardAdType) {
  *  激励广告的类型，需在gdt_rewardVideoAdDidLoad回调后调用
  */
 - (GDTRewardAdType)rewardAdType;
-
-@end
-
-
-@protocol GDTRewardedVideoAdDelegate <NSObject>
-
-@optional
-
-
-/**
- 广告数据加载成功回调
-
- @param rewardedVideoAd GDTRewardVideoAd 实例
- */
-- (void)gdt_rewardVideoAdDidLoad:(GDTRewardVideoAd *)rewardedVideoAd;
-
-/**
- 视频数据下载成功回调，已经下载过的视频会直接回调
-
- @param rewardedVideoAd GDTRewardVideoAd 实例
- */
-- (void)gdt_rewardVideoAdVideoDidLoad:(GDTRewardVideoAd *)rewardedVideoAd;
-
-/**
- 视频播放页即将展示回调
-
- @param rewardedVideoAd GDTRewardVideoAd 实例
- */
-- (void)gdt_rewardVideoAdWillVisible:(GDTRewardVideoAd *)rewardedVideoAd;
-
-/**
- 视频广告曝光回调
-
- @param rewardedVideoAd GDTRewardVideoAd 实例
- */
-- (void)gdt_rewardVideoAdDidExposed:(GDTRewardVideoAd *)rewardedVideoAd;
-
-/**
- 视频播放页关闭回调
-
- @param rewardedVideoAd GDTRewardVideoAd 实例
- */
-- (void)gdt_rewardVideoAdDidClose:(GDTRewardVideoAd *)rewardedVideoAd;
-
-/**
- 视频广告信息点击回调
-
- @param rewardedVideoAd GDTRewardVideoAd 实例
- */
-- (void)gdt_rewardVideoAdDidClicked:(GDTRewardVideoAd *)rewardedVideoAd;
-
-/**
- 视频广告各种错误信息回调
-
- @param rewardedVideoAd GDTRewardVideoAd 实例
- @param error 具体错误信息
- */
-- (void)gdt_rewardVideoAd:(GDTRewardVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error;
-
-/**
- 视频广告播放达到激励条件回调
-
- @param rewardedVideoAd GDTRewardVideoAd 实例
- */
-- (void)gdt_rewardVideoAdDidRewardEffective:(GDTRewardVideoAd *)rewardedVideoAd GDT_DEPRECATED_MSG_ATTRIBUTE("接口即将废弃，请使用 gdt_rewardVideoAdDidRewardEffective:info:");
-
-
-/**
- 视频广告播放达到激励条件回调
-
- @param rewardedVideoAd GDTRewardVideoAd 实例
- @param info 包含此次广告行为的一些信息，例如 @{@"GDT_TRANS_ID":@"930f1fc8ac59983bbdf4548ee40ac353"}, 通过@“GDT_TRANS_ID”可获取此次广告行为的交易id
- */
-- (void)gdt_rewardVideoAdDidRewardEffective:(GDTRewardVideoAd *)rewardedVideoAd info:(NSDictionary *)info;
-
-/**
- 视频广告视频播放完成
-
- @param rewardedVideoAd GDTRewardVideoAd 实例
- */
-- (void)gdt_rewardVideoAdDidPlayFinish:(GDTRewardVideoAd *)rewardedVideoAd;
 
 @end
 
