@@ -5,7 +5,7 @@
 #define OMTencentAdRewardedVideoClass_h
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
+#import "OMTencentAdClass.h"
 
 #if defined(__has_attribute)
 #if __has_attribute(deprecated)
@@ -31,13 +31,13 @@ typedef NS_ENUM (NSUInteger, GDTRewardAdType) {
     GDTRewardAdTypePage = 1 //激励浏览
 };
 
-typedef NS_ENUM(NSInteger, GDTAdBiddingLossReason) {
-    GDTAdBiddingLossReasonLowPrice          = 1,        // 竞争力不足
-    GDTAdBiddingLossReasonLoadTimeout       = 2,        // 返回超时
-    GDTAdBiddingLossReasonNoAd              = 3,        // 无广告回包
-    GDTAdBiddingLossReasonAdDataError       = 4,        // 回包不合法
-    GDTAdBiddingLossReasonOther             = 10001     // 其他
-};
+//typedef NS_ENUM(NSInteger, GDTAdBiddingLossReason) {
+//    GDTAdBiddingLossReasonLowPrice          = 1,        // 竞争力不足
+//    GDTAdBiddingLossReasonLoadTimeout       = 2,        // 返回超时
+//    GDTAdBiddingLossReasonNoAd              = 3,        // 无广告回包
+//    GDTAdBiddingLossReasonAdDataError       = 4,        // 回包不合法
+//    GDTAdBiddingLossReasonOther             = 10001     // 其他
+//};
 
 
 @class GDTServerSideVerificationOptions;

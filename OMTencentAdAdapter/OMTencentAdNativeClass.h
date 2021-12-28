@@ -44,6 +44,18 @@ typedef NS_ENUM(NSInteger, GDTVastAdEventType) {
 };
 
 
+typedef NS_ENUM(NSUInteger, GDTVideoPlayPolicy) {
+    GDTVideoPlayPolicyUnknow = 0, // 默认值，未设置
+    GDTVideoPlayPolicyAuto = 1,   // 用户角度看起来是自动播放
+    GDTVideoPlayPolicyManual = 2  // 用户角度看起来是手动播放或点击后播放
+};
+
+typedef NS_ENUM(NSUInteger, GDTVideoRenderType) {
+    GDTVideoRenderTypeUnknow = 0,
+    GDTVideoRenderTypeSDK = 1,
+    GDTVideoRenderTypeDeveloper = 2
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 
