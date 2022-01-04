@@ -179,6 +179,13 @@
 		0C981BF623D6D9A80074B43A /* RewardedVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C981BF523D6D9A80074B43A /* RewardedVideoViewController.m */; };
 		0C981BFC23D6DB4E0074B43A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C981BFB23D6DB4E0074B43A /* MainViewController.m */; };
 		0C9D7B352628611E0022ECC4 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C9D7B1E2628602E0022ECC4 /* libbz2.tbd */; };
+		0C9DA69E2784465800C9A21D /* OMMintegralNativeClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C9DA6972784465600C9A21D /* OMMintegralNativeClass.h */; };
+		0C9DA69F2784465800C9A21D /* OMMintegralNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9DA6982784465600C9A21D /* OMMintegralNative.m */; };
+		0C9DA6A02784465800C9A21D /* OMMintegralNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9DA6992784465700C9A21D /* OMMintegralNativeView.m */; };
+		0C9DA6A12784465800C9A21D /* OMMintegralNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9DA69A2784465700C9A21D /* OMMintegralNativeAd.m */; };
+		0C9DA6A22784465800C9A21D /* OMMintegralNativeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C9DA69B2784465700C9A21D /* OMMintegralNativeView.h */; };
+		0C9DA6A32784465800C9A21D /* OMMintegralNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C9DA69C2784465700C9A21D /* OMMintegralNative.h */; };
+		0C9DA6A42784465800C9A21D /* OMMintegralNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C9DA69D2784465800C9A21D /* OMMintegralNativeAd.h */; };
 		0CB011B425EE1A9D00C44AFB /* OMPubNativeAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CA61A0C25DE70300008AC1F /* OMPubNativeAdapter.framework */; };
 		0CBA3006264AA1AF00189404 /* OMNativeAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CBA3004264AA1AF00189404 /* OMNativeAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0CBA3007264AA1AF00189404 /* OMNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA3005264AA1AF00189404 /* OMNativeAdView.m */; };
@@ -941,6 +948,13 @@
 		0C981BFB23D6DB4E0074B43A /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		0C9BD1572616F47F003A0260 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		0C9D7B1E2628602E0022ECC4 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
+		0C9DA6972784465600C9A21D /* OMMintegralNativeClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMMintegralNativeClass.h; sourceTree = "<group>"; };
+		0C9DA6982784465600C9A21D /* OMMintegralNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMMintegralNative.m; sourceTree = "<group>"; };
+		0C9DA6992784465700C9A21D /* OMMintegralNativeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMMintegralNativeView.m; sourceTree = "<group>"; };
+		0C9DA69A2784465700C9A21D /* OMMintegralNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMMintegralNativeAd.m; sourceTree = "<group>"; };
+		0C9DA69B2784465700C9A21D /* OMMintegralNativeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMMintegralNativeView.h; sourceTree = "<group>"; };
+		0C9DA69C2784465700C9A21D /* OMMintegralNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMMintegralNative.h; sourceTree = "<group>"; };
+		0C9DA69D2784465800C9A21D /* OMMintegralNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMMintegralNativeAd.h; sourceTree = "<group>"; };
 		0CA61A0C25DE70300008AC1F /* OMPubNativeAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMPubNativeAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA61A2325DE706A0008AC1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CBA0F71259B61DE0002FAF0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2266,6 +2280,13 @@
 				49FD9AFD25A5D02300787598 /* OMMintegralBid.m */,
 				49FD9AF425A5D02200787598 /* OMMintegralBidClass.h */,
 				49FD9AFE25A5D02300787598 /* OMMintegralClass.h */,
+				0C9DA69C2784465700C9A21D /* OMMintegralNative.h */,
+				0C9DA6982784465600C9A21D /* OMMintegralNative.m */,
+				0C9DA69D2784465800C9A21D /* OMMintegralNativeAd.h */,
+				0C9DA69A2784465700C9A21D /* OMMintegralNativeAd.m */,
+				0C9DA69B2784465700C9A21D /* OMMintegralNativeView.h */,
+				0C9DA6992784465700C9A21D /* OMMintegralNativeView.m */,
+				0C9DA6972784465600C9A21D /* OMMintegralNativeClass.h */,
 				49FD9B0125A5D02400787598 /* OMMintegralInterstitial.h */,
 				49FD9B0225A5D02400787598 /* OMMintegralInterstitial.m */,
 				49FD9AF225A5D02100787598 /* OMMintegralInterstitialClass.h */,
@@ -2891,8 +2912,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C9DA6A42784465800C9A21D /* OMMintegralNativeAd.h in Headers */,
 				49FD9B1525A5D02500787598 /* OMMintegralInterstitial.h in Headers */,
 				49FD9B0825A5D02500787598 /* OMMintegralBidClass.h in Headers */,
+				0C9DA6A22784465800C9A21D /* OMMintegralNativeView.h in Headers */,
+				0C9DA69E2784465800C9A21D /* OMMintegralNativeClass.h in Headers */,
 				49FD9B0A25A5D02500787598 /* OMMintegralBid.h in Headers */,
 				49FD9B0925A5D02500787598 /* OMMintegralBannerClass.h in Headers */,
 				49FD9B0F25A5D02500787598 /* OMMintegralRewardedVideo.h in Headers */,
@@ -2904,6 +2928,7 @@
 				49FD9B1325A5D02500787598 /* OMMintegralRouter.h in Headers */,
 				49FD9B0C25A5D02500787598 /* OMMintegralAdapter.h in Headers */,
 				49FD9B0625A5D02500787598 /* OMMintegralInterstitialClass.h in Headers */,
+				0C9DA6A32784465800C9A21D /* OMMintegralNative.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4084,7 +4109,10 @@
 				49FD9B0B25A5D02500787598 /* OMMintegralRouter.m in Sources */,
 				49FD9B1625A5D02500787598 /* OMMintegralInterstitial.m in Sources */,
 				49FD9B1425A5D02500787598 /* OMMintegralBanner.m in Sources */,
+				0C9DA6A12784465800C9A21D /* OMMintegralNativeAd.m in Sources */,
 				49FD9B1725A5D02500787598 /* OMMintegralRewardedVideo.m in Sources */,
+				0C9DA69F2784465800C9A21D /* OMMintegralNative.m in Sources */,
+				0C9DA6A02784465800C9A21D /* OMMintegralNativeView.m in Sources */,
 				49FD9B1125A5D02500787598 /* OMMintegralBid.m in Sources */,
 				49FD9B0725A5D02500787598 /* OMMintegralSplash.m in Sources */,
 				49FD9B0525A5D02500787598 /* OMMintegralAdapter.m in Sources */,

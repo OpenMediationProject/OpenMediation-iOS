@@ -37,38 +37,37 @@ static OMMintegralRouter * _instance = nil;
 - (void)loadPlacmentID:(NSString *)pid {
     Class MTGRewardAdManagerClass = NSClassFromString(@"MTGRewardAdManager");
     if (MTGRewardAdManagerClass && [MTGRewardAdManagerClass respondsToSelector:@selector(sharedInstance)]) {
-        _mintegralSDK = [MTGRewardAdManagerClass sharedInstance];
+        _rvAdManager = [MTGRewardAdManagerClass sharedInstance];
     }
-    if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(loadVideoWithPlacementId:unitId:delegate:)]) {
-        [_mintegralSDK loadVideoWithPlacementId:@"" unitId:pid delegate:self];
+    if (_rvAdManager && [_rvAdManager respondsToSelector:@selector(loadVideoWithPlacementId:unitId:delegate:)]) {
+        [_rvAdManager loadVideoWithPlacementId:@"" unitId:pid delegate:self];
     }
 }
 
 - (void)loadPlacmentID:(NSString *)pid withBidPayload:(NSString *)bidPayload {
     Class MTGBidRewardAdManagerClass = NSClassFromString(@"MTGBidRewardAdManager");
     if (MTGBidRewardAdManagerClass && [MTGBidRewardAdManagerClass respondsToSelector:@selector(sharedInstance)]) {
-        _mintegralSDK = [MTGBidRewardAdManagerClass sharedInstance];
+        _rvBidAdManager = [MTGBidRewardAdManagerClass sharedInstance];
     }
-    if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(loadVideoWithBidToken:placementId:unitId:delegate:)]) {
-        [_mintegralSDK loadVideoWithBidToken:bidPayload placementId:@"" unitId:pid delegate:self];
+    if (_rvBidAdManager && [_rvBidAdManager respondsToSelector:@selector(loadVideoWithBidToken:placementId:unitId:delegate:)]) {
+        [_rvBidAdManager loadVideoWithBidToken:bidPayload placementId:@"" unitId:pid delegate:self];
     }
 }
 
 - (BOOL)isReady:(NSString *)pid {
-    BOOL isReady = NO;
-    if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(isVideoReadyToPlayWithPlacementId:unitId:)]) {
-        isReady = [_mintegralSDK isVideoReadyToPlayWithPlacementId:@"" unitId:pid];
-        NSLog(@"mintegral %@ ready %zd",pid,(NSInteger)isReady);
+    if (_rvAdManager) {
+        return [_rvAdManager isVideoReadyToPlayWithPlacementId:@"" unitId:pid];
+    }else if (_rvBidAdManager) {
+        return [_rvBidAdManager isVideoReadyToPlayWithPlacementId:@"" unitId:pid];
     }
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)1*NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-//        NSLog(@"call test %zd",(NSInteger)[self isReady:pid]); 
-//    });
-    return isReady;
+    return NO;
 }
 
 - (void)showVideo:(NSString *)pid withVC:(UIViewController*)vc {
-    if (_mintegralSDK && [_mintegralSDK respondsToSelector:@selector(showVideoWithPlacementId:unitId:withRewardId:userId:delegate:viewController:)]) {
-        [_mintegralSDK showVideoWithPlacementId:@"" unitId:pid withRewardId:@"" userId:@"" delegate:self viewController:vc];
+    if (_rvAdManager && [self isReady:pid] && [_rvAdManager respondsToSelector:@selector(showVideoWithPlacementId:unitId:withRewardId:userId:delegate:viewController:)]) {
+        [_rvAdManager showVideoWithPlacementId:@"" unitId:pid withRewardId:@"" userId:@"" delegate:self viewController:vc];
+    }else if (_rvBidAdManager && [self isReady:pid] && [_rvBidAdManager respondsToSelector:@selector(showVideoWithPlacementId:unitId:withRewardId:userId:delegate:viewController:)]) {
+        [_rvBidAdManager showVideoWithPlacementId:@"" unitId:pid withRewardId:@"" userId:@"" delegate:self viewController:vc];
     }
 }
 
@@ -96,7 +95,6 @@ static OMMintegralRouter * _instance = nil;
         [delegate omMintegralDidStart];
     }
 }
-
 
 //Show Reward Video Ad Failed Delegate
 - (void)onVideoAdShowFailed:(nullable NSString *)placementId unitId:(nullable NSString *)unitId withError:(nonnull NSError *)error {

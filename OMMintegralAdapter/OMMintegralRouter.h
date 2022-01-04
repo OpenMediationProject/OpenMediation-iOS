@@ -21,8 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OMMintegralRouter : NSObject<MTGRewardAdLoadDelegate,MTGRewardAdShowDelegate>
 
 @property (nonatomic, strong) NSMapTable *placementDelegateMap;
-
-@property (nonatomic, strong) id mintegralSDK;
+@property (nonatomic, strong) MTGRewardAdManager *rvAdManager;
+@property (nonatomic, strong) MTGBidRewardAdManager *rvBidAdManager;
 
 + (instancetype)sharedInstance;
 - (void)registerPidDelegate:(NSString*)pid delegate:(id)delegate;

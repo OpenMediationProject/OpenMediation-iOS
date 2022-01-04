@@ -55,6 +55,15 @@ completely
 - (void)onVideoAdShowSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId;
 
 /**
+ *  Called when the ad display success,It will be called only when bidding is used.
+ 
+ *  @param placementId - the placementId string of the Ad that display success.
+ *  @param unitId - the unitId string of the Ad that display success.
+ *  @param bidToken - the bidToken string of the Ad that display success.
+ */
+- (void)onVideoAdShowSuccess:(nullable NSString *)placementId unitId:(nullable NSString *)unitId bidToken:(nullable NSString *)bidToken;
+
+/**
  *  Called when the ad failed to display for some reason
  
  *  @param placementId      - the placementId string of the Ad that failed to be displayed.
