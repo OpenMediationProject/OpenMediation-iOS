@@ -73,6 +73,7 @@
             weakSelf.campaign.clickHanlerDelegate = weakSelf;
             [campaign cacheMaterielCompletion:^{
                 if(weakSelf) {
+                    [[OMCrossPromotionExposureMonitor sharedInstance]addObserver:self forView:self];
                     if(weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
                         [weakSelf.delegate customEvent:self didLoadAd:weakSelf.campaign.model.originData];
                     }
@@ -128,11 +129,6 @@
     if (_delegate && [_delegate respondsToSelector:@selector(promotionCustomEventDidDisAppear:)]) {
         [_delegate promotionCustomEventDidDisAppear:self];
     }
-}
-
-- (void)drawRect:(CGRect)rect {
-    [[OMCrossPromotionExposureMonitor sharedInstance]addObserver:self forView:self];
-    [super drawRect:rect];
 }
 
 - (void)observeView:(UIView*)view visible:(BOOL)visible {

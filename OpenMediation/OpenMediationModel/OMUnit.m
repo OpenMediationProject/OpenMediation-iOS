@@ -7,52 +7,64 @@
 @implementation OMUnit
 - (instancetype)initWithUnitData:(NSDictionary*)unitData {
     if (self = [super init]) {
-        _unitModel = unitData;
+        _instanceMap = nil;
         _unitID = [NSString stringWithFormat:@"%@",[unitData objectForKey:@"id"]];
-        _name = OM_SAFE_STRING([unitData objectForKey:@"n"]);
-        _adFormat = (1<<[[unitData objectForKey:@"t"]integerValue]);
-        _main = [[unitData objectForKey:@"main"]integerValue];
-        _frequencryCap = [[unitData objectForKey:@"fc"]integerValue];
-        _frequencryUnit = [[unitData objectForKey:@"fu"]integerValue];
-        _frequencryInterval = [[unitData objectForKey:@"fi"]integerValue];
-        _batchSize = [[unitData objectForKey:@"bs"]integerValue];
-        _batchTimeout = [[unitData objectForKey:@"pt"]integerValue];
-        _fanout = [[unitData objectForKey:@"fo"]boolValue];
-        _cacheCount = [[unitData objectForKey:@"cs"]integerValue];
-        _waterfallReloadTime = [[unitData objectForKey:@"rlw"]integerValue];
-        _hb = [[unitData objectForKey:@"hb"] integerValue];
-        _instanceList = [NSMutableArray array];
-        _hbInstances = [NSMutableArray array];
-        _instanceMap = [NSMutableDictionary dictionary];
-        NSArray *instances = [unitData objectForKey:@"ins"];
-        if (instances && [instances isKindOfClass:[NSArray class]] && [instances count]>0 ) {
-            for (NSDictionary *unitData in instances) {
-                OMInstance *instance = [[OMInstance alloc]initWithUnitID:_unitID instanceData:unitData];
-                [_instanceList addObject:instance];
-                [_instanceMap setObject:instance forKey:instance.instanceID];
-                if (instance.hb) {
-                    [_hbInstances addObject:instance.instanceID];
-                }
-            }
-        }
-        _sceneList = [NSMutableArray array];
-        _sceneMapKeyId = [NSMutableDictionary dictionary];
-        _sceneMapKeyName = [NSMutableDictionary dictionary];
-        NSArray *scenes = [unitData objectForKey:@"scenes"];
-        if (scenes && [scenes isKindOfClass:[NSArray class]] && [scenes count] > 0) {
-            for (NSDictionary *sceneDic in scenes) {
-                OMScene *scene = [[OMScene alloc] initWithUnitID:_unitID sceneData:sceneDic];
-                [_sceneList addObject:scene];
-                [_sceneMapKeyId setObject:scene forKey:scene.sceneID];
-                [_sceneMapKeyName setObject:scene forKey:scene.sceneName];
-                if (scene.defaultScene) {
-                    self.defaultScene = scene;
-                }
-            }
-        }
-        [self sortRefreshLevel:unitData[@"rfs"]];
+        [self updateWithUnitData:unitData];
     }
     return self;
+}
+
+- (void)updateWithUnitData:(NSDictionary*)unitData {
+    _cachedInstanceMap = _instanceMap?[_instanceMap copy]:nil;
+    _unitModel = unitData;
+    _name = OM_SAFE_STRING([unitData objectForKey:@"n"]);
+    _adFormat = (1<<[[unitData objectForKey:@"t"]integerValue]);
+    _main = [[unitData objectForKey:@"main"]integerValue];
+    _frequencryCap = [[unitData objectForKey:@"fc"]integerValue];
+    _frequencryUnit = [[unitData objectForKey:@"fu"]integerValue];
+    _frequencryInterval = [[unitData objectForKey:@"fi"]integerValue];
+    _batchSize = [[unitData objectForKey:@"bs"]integerValue];
+    _batchTimeout = [[unitData objectForKey:@"pt"]integerValue];
+    _fanout = [[unitData objectForKey:@"fo"]boolValue];
+    _cacheCount = [[unitData objectForKey:@"cs"]integerValue];
+    _waterfallReloadTime = [[unitData objectForKey:@"rlw"]integerValue];
+    _hb = [[unitData objectForKey:@"hb"] integerValue];
+    _instanceList = [NSMutableArray array];
+    _hbInstances = [NSMutableArray array];
+    _instanceMap = [NSMutableDictionary dictionary];
+    NSArray *instances = [unitData objectForKey:@"ins"];
+    if (instances && [instances isKindOfClass:[NSArray class]] && [instances count]>0 ) {
+        for (NSDictionary *instanceData in instances) {
+            NSString *instanceID = [NSString stringWithFormat:@"%@",[instanceData objectForKey:@"id"]];
+            OMInstance *instance = _cachedInstanceMap?[_cachedInstanceMap objectForKey:instanceID]:nil;
+            if (!instance) {
+                instance = [[OMInstance alloc]initWithUnitID:_unitID instanceData:instanceData];
+            } else {
+                [instance updateWithInstanceData:instanceData];
+            }
+            [_instanceList addObject:instance];
+            [_instanceMap setObject:instance forKey:instance.instanceID];
+            if (instance.hb) {
+                [_hbInstances addObject:instance.instanceID];
+            }
+        }
+    }
+    _sceneList = [NSMutableArray array];
+    _sceneMapKeyId = [NSMutableDictionary dictionary];
+    _sceneMapKeyName = [NSMutableDictionary dictionary];
+    NSArray *scenes = [unitData objectForKey:@"scenes"];
+    if (scenes && [scenes isKindOfClass:[NSArray class]] && [scenes count] > 0) {
+        for (NSDictionary *sceneDic in scenes) {
+            OMScene *scene = [[OMScene alloc] initWithUnitID:_unitID sceneData:sceneDic];
+            [_sceneList addObject:scene];
+            [_sceneMapKeyId setObject:scene forKey:scene.sceneID];
+            [_sceneMapKeyName setObject:scene forKey:scene.sceneName];
+            if (scene.defaultScene) {
+                self.defaultScene = scene;
+            }
+        }
+    }
+    [self sortRefreshLevel:unitData[@"rfs"]];
 }
 
 - (void)sortRefreshLevel:(NSDictionary*)levelDict {

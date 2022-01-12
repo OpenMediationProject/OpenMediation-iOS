@@ -34,6 +34,7 @@ static OMConfig *_instance = nil;
                            @(OpenMediationAdFormatInterstitial):@"Interstitial",\
                            @(OpenMediationAdFormatRewardedVideo):@"RewardedVideo"};
         _adnSDKName = @{@(OMAdNetworkPangle):@"Pangle",@(OMAdNetworkHelium):@"Helium",@(OMAdNetworkPubNative):@"PubNative"};
+        _adUnitMap = nil;
         _baseHost = @"";
         _appKey = @"";
         _hbUrl = @"";
@@ -71,7 +72,7 @@ static OMConfig *_instance = nil;
 
 
 - (void)loadCongifData:(NSDictionary *)configData {
-    
+    _cachedUnitMap = _adUnitMap?[_adUnitMap copy]:nil;
     _adnNameMap = [NSMutableDictionary dictionary];
     _adnAppkeyMap = [NSMutableDictionary dictionary];
     _adnNickName = [NSMutableDictionary dictionary];
@@ -144,7 +145,13 @@ static OMConfig *_instance = nil;
 - (void)loadAdUnits:(NSArray *)adUnits {
     for (NSDictionary *adUnit in adUnits) {
         if ([adUnit isKindOfClass:[NSDictionary class]]) {
-            OMUnit *unit = [[OMUnit alloc] initWithUnitData:adUnit];
+            NSString *unitID = [NSString stringWithFormat:@"%@",[adUnit objectForKey:@"id"]];
+            OMUnit *unit = _cachedUnitMap?[_cachedUnitMap objectForKey:unitID]:nil;
+            if (!unit) {
+                unit = [[OMUnit alloc] initWithUnitData:adUnit];
+            } else {
+                [unit updateWithUnitData:adUnit];
+            }
             [_adUnitList addObject:unit];
             [_adUnitMap setObject:unit forKey:unit.unitID];
             [_instanceMap addEntriesFromDictionary:unit.instanceMap];

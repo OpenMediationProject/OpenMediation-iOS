@@ -42,6 +42,7 @@ typedef NS_ENUM(NSInteger, OMInitState) {
 
 @property (nonatomic, strong) NSMutableArray *adUnitList;
 @property (nonatomic, strong) NSMutableDictionary *adUnitMap;
+@property (nonatomic, strong) NSDictionary *cachedUnitMap;
 @property (nonatomic, strong) NSMutableDictionary *instanceMap;
 @property (nonatomic, strong) NSMutableDictionary *adnPlacementMap;
 @property (nonatomic, strong) NSMutableDictionary *conversionData;

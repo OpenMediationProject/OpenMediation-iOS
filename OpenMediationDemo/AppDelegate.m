@@ -14,6 +14,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    if (@available(iOS 14, *)) {
+        ATTrackingManagerAuthorizationStatus status = ATTrackingManager.trackingAuthorizationStatus;
+        Class fbSettingCls = NSClassFromString(@"FBAdSettings");
+        if (fbSettingCls && [fbSettingCls respondsToSelector:@selector(setAdvertiserTrackingEnabled:)]) {
+            [fbSettingCls setAdvertiserTrackingEnabled:(status == ATTrackingManagerAuthorizationStatusAuthorized)];
+        }
+    }
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = [[[UINavigationController alloc] initWithRootViewController:[WelcomeViewController alloc]]init];

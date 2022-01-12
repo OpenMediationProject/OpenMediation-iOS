@@ -61,6 +61,7 @@
                 [ska setObject:[[NSUUID alloc] initWithUUIDString:[_ska objectForKey:@"adNetworkNonce"]] forKey:@"adNetworkNonce"];
                 _ska = [ska copy];
             }
+            _skai = cData[@"skai"];
             _originData = cData;
         }
     }

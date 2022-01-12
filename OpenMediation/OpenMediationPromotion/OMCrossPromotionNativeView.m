@@ -38,6 +38,14 @@
 }
 
 - (void)observeView:(UIView*)view visible:(BOOL)visible {
+    if (self.visible != visible) {
+        self.visible = visible;
+        if (self.visible) {
+            [self.campaign skStartImpression];
+        } else {
+            [self.campaign skEndImpression];
+        }
+    }
     if(visible) {
         if(!_nativeAd.impr) {
              _nativeAd.impr  =YES;

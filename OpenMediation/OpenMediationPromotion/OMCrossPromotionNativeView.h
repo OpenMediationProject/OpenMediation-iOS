@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) OMCrossPromotionNativeMediaView *mediaView;
 @property (nonatomic, strong) UIImageView *adChoicesView;
 @property (nonatomic, strong) OMCrossPromotionCampaign *campaign;
+@property (nonatomic, assign) BOOL visible;
 
 @end
 

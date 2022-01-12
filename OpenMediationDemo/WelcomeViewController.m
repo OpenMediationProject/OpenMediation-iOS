@@ -4,8 +4,7 @@
 #import "WelcomeViewController.h"
 #import "MainViewController.h"
 #import "InitSettingViewController.h"
-#import <AppTrackingTransparency/AppTrackingTransparency.h>
-#import <AdSupport/AdSupport.h>
+
 
 @import OpenMediation;
 
@@ -39,6 +38,10 @@
 - (void)requestIDFAAuthorization {
     if (@available(iOS 14, *)) {
         [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+            Class fbSettingCls = NSClassFromString(@"FBAdSettings");
+            if (fbSettingCls && [fbSettingCls respondsToSelector:@selector(setAdvertiserTrackingEnabled:)]) {
+                [fbSettingCls setAdvertiserTrackingEnabled:(status == ATTrackingManagerAuthorizationStatusAuthorized)];
+            }
             if (status == ATTrackingManagerAuthorizationStatusAuthorized) {
                 NSString *idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
                 NSLog(@"IDFA: %@",idfa);

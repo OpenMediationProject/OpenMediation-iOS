@@ -67,6 +67,13 @@
 		0C3ED79D263698FF00C0A3C4 /* OMPubNativeBid.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C3ED798263698FF00C0A3C4 /* OMPubNativeBid.m */; };
 		0C3ED79E263698FF00C0A3C4 /* OMPubNativeAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C3ED799263698FF00C0A3C4 /* OMPubNativeAdapter.h */; };
 		0C3F986825E4AE6D006B9C29 /* OpenMediation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C70AA2223D162E70021D67A /* OpenMediation.framework */; };
+		0C517C89277AE8E70001098A /* OMMintegralNativeClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C517C82277AE8E60001098A /* OMMintegralNativeClass.h */; };
+		0C517C8A277AE8E70001098A /* OMMintegralNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C517C83277AE8E60001098A /* OMMintegralNativeAd.h */; };
+		0C517C8B277AE8E70001098A /* OMMintegralNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C517C84277AE8E60001098A /* OMMintegralNative.m */; };
+		0C517C8C277AE8E70001098A /* OMMintegralNativeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C517C85277AE8E60001098A /* OMMintegralNativeView.h */; };
+		0C517C8D277AE8E70001098A /* OMMintegralNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C517C86277AE8E60001098A /* OMMintegralNative.h */; };
+		0C517C8E277AE8E70001098A /* OMMintegralNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C517C87277AE8E60001098A /* OMMintegralNativeAd.m */; };
+		0C517C8F277AE8E70001098A /* OMMintegralNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C517C88277AE8E60001098A /* OMMintegralNativeView.m */; };
 		0C5DB60D23E93D1000842709 /* OMErrorRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C5DB60B23E93D1000842709 /* OMErrorRequest.h */; };
 		0C5DB60E23E93D1000842709 /* OMErrorRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5DB60C23E93D1000842709 /* OMErrorRequest.m */; };
 		0C5DB64A23E94D1500842709 /* NSString+OMExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5DB64823E94D1400842709 /* NSString+OMExtension.m */; };
@@ -170,7 +177,6 @@
 		0C981BCE23D69A1F0074B43A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C981BCD23D69A1F0074B43A /* Assets.xcassets */; };
 		0C981BD123D69A1F0074B43A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C981BCF23D69A1F0074B43A /* LaunchScreen.storyboard */; };
 		0C981BD423D69A1F0074B43A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C981BD323D69A1F0074B43A /* main.m */; };
-		0C981BD823D69C8B0074B43A /* OpenMediation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C70AA2223D162E70021D67A /* OpenMediation.framework */; };
 		0C981BDB23D6D44B0074B43A /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C981BDA23D6D44B0074B43A /* WelcomeViewController.m */; };
 		0C981BDE23D6D6360074B43A /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C981BDD23D6D6360074B43A /* BaseViewController.m */; };
 		0C981BED23D6D9710074B43A /* BannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C981BEC23D6D9710074B43A /* BannerViewController.m */; };
@@ -179,13 +185,6 @@
 		0C981BF623D6D9A80074B43A /* RewardedVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C981BF523D6D9A80074B43A /* RewardedVideoViewController.m */; };
 		0C981BFC23D6DB4E0074B43A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C981BFB23D6DB4E0074B43A /* MainViewController.m */; };
 		0C9D7B352628611E0022ECC4 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C9D7B1E2628602E0022ECC4 /* libbz2.tbd */; };
-		0C9DA69E2784465800C9A21D /* OMMintegralNativeClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C9DA6972784465600C9A21D /* OMMintegralNativeClass.h */; };
-		0C9DA69F2784465800C9A21D /* OMMintegralNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9DA6982784465600C9A21D /* OMMintegralNative.m */; };
-		0C9DA6A02784465800C9A21D /* OMMintegralNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9DA6992784465700C9A21D /* OMMintegralNativeView.m */; };
-		0C9DA6A12784465800C9A21D /* OMMintegralNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9DA69A2784465700C9A21D /* OMMintegralNativeAd.m */; };
-		0C9DA6A22784465800C9A21D /* OMMintegralNativeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C9DA69B2784465700C9A21D /* OMMintegralNativeView.h */; };
-		0C9DA6A32784465800C9A21D /* OMMintegralNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C9DA69C2784465700C9A21D /* OMMintegralNative.h */; };
-		0C9DA6A42784465800C9A21D /* OMMintegralNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C9DA69D2784465800C9A21D /* OMMintegralNativeAd.h */; };
 		0CB011B425EE1A9D00C44AFB /* OMPubNativeAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CA61A0C25DE70300008AC1F /* OMPubNativeAdapter.framework */; };
 		0CBA3006264AA1AF00189404 /* OMNativeAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CBA3004264AA1AF00189404 /* OMNativeAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0CBA3007264AA1AF00189404 /* OMNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA3005264AA1AF00189404 /* OMNativeAdView.m */; };
@@ -805,6 +804,13 @@
 		0C3ED797263698FF00C0A3C4 /* OMPubNativeAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMPubNativeAdapter.m; sourceTree = "<group>"; };
 		0C3ED798263698FF00C0A3C4 /* OMPubNativeBid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMPubNativeBid.m; sourceTree = "<group>"; };
 		0C3ED799263698FF00C0A3C4 /* OMPubNativeAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMPubNativeAdapter.h; sourceTree = "<group>"; };
+		0C517C82277AE8E60001098A /* OMMintegralNativeClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMMintegralNativeClass.h; sourceTree = "<group>"; };
+		0C517C83277AE8E60001098A /* OMMintegralNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMMintegralNativeAd.h; sourceTree = "<group>"; };
+		0C517C84277AE8E60001098A /* OMMintegralNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMMintegralNative.m; sourceTree = "<group>"; };
+		0C517C85277AE8E60001098A /* OMMintegralNativeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMMintegralNativeView.h; sourceTree = "<group>"; };
+		0C517C86277AE8E60001098A /* OMMintegralNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMMintegralNative.h; sourceTree = "<group>"; };
+		0C517C87277AE8E60001098A /* OMMintegralNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMMintegralNativeAd.m; sourceTree = "<group>"; };
+		0C517C88277AE8E60001098A /* OMMintegralNativeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMMintegralNativeView.m; sourceTree = "<group>"; };
 		0C5DB60B23E93D1000842709 /* OMErrorRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMErrorRequest.h; sourceTree = "<group>"; };
 		0C5DB60C23E93D1000842709 /* OMErrorRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMErrorRequest.m; sourceTree = "<group>"; };
 		0C5DB64823E94D1400842709 /* NSString+OMExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OMExtension.m"; sourceTree = "<group>"; };
@@ -948,13 +954,6 @@
 		0C981BFB23D6DB4E0074B43A /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		0C9BD1572616F47F003A0260 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		0C9D7B1E2628602E0022ECC4 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
-		0C9DA6972784465600C9A21D /* OMMintegralNativeClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMMintegralNativeClass.h; sourceTree = "<group>"; };
-		0C9DA6982784465600C9A21D /* OMMintegralNative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMMintegralNative.m; sourceTree = "<group>"; };
-		0C9DA6992784465700C9A21D /* OMMintegralNativeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMMintegralNativeView.m; sourceTree = "<group>"; };
-		0C9DA69A2784465700C9A21D /* OMMintegralNativeAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMMintegralNativeAd.m; sourceTree = "<group>"; };
-		0C9DA69B2784465700C9A21D /* OMMintegralNativeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMMintegralNativeView.h; sourceTree = "<group>"; };
-		0C9DA69C2784465700C9A21D /* OMMintegralNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMMintegralNative.h; sourceTree = "<group>"; };
-		0C9DA69D2784465800C9A21D /* OMMintegralNativeAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMMintegralNativeAd.h; sourceTree = "<group>"; };
 		0CA61A0C25DE70300008AC1F /* OMPubNativeAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMPubNativeAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA61A2325DE706A0008AC1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CBA0F71259B61DE0002FAF0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1425,7 +1424,6 @@
 				0C0E57F623E7D2EE0015C456 /* iAd.framework in Frameworks */,
 				0C3F986825E4AE6D006B9C29 /* OpenMediation.framework in Frameworks */,
 				4959CE9C23EBEE5100A433A8 /* OMAppLovinAdapter.framework in Frameworks */,
-				0C981BD823D69C8B0074B43A /* OpenMediation.framework in Frameworks */,
 				0C0E57F823E7D2FD0015C456 /* CoreTelephony.framework in Frameworks */,
 				49C1CF0924AF48B70093F489 /* OMHeliumAdapter.framework in Frameworks */,
 				0C9D7B352628611E0022ECC4 /* libbz2.tbd in Frameworks */,
@@ -2276,17 +2274,17 @@
 				49FD9AFC25A5D02300787598 /* OMMintegralBanner.h */,
 				49FD9B0025A5D02400787598 /* OMMintegralBanner.m */,
 				49FD9AF525A5D02200787598 /* OMMintegralBannerClass.h */,
+				0C517C86277AE8E60001098A /* OMMintegralNative.h */,
+				0C517C84277AE8E60001098A /* OMMintegralNative.m */,
+				0C517C83277AE8E60001098A /* OMMintegralNativeAd.h */,
+				0C517C87277AE8E60001098A /* OMMintegralNativeAd.m */,
+				0C517C85277AE8E60001098A /* OMMintegralNativeView.h */,
+				0C517C88277AE8E60001098A /* OMMintegralNativeView.m */,
+				0C517C82277AE8E60001098A /* OMMintegralNativeClass.h */,
 				49FD9AF625A5D02200787598 /* OMMintegralBid.h */,
 				49FD9AFD25A5D02300787598 /* OMMintegralBid.m */,
 				49FD9AF425A5D02200787598 /* OMMintegralBidClass.h */,
 				49FD9AFE25A5D02300787598 /* OMMintegralClass.h */,
-				0C9DA69C2784465700C9A21D /* OMMintegralNative.h */,
-				0C9DA6982784465600C9A21D /* OMMintegralNative.m */,
-				0C9DA69D2784465800C9A21D /* OMMintegralNativeAd.h */,
-				0C9DA69A2784465700C9A21D /* OMMintegralNativeAd.m */,
-				0C9DA69B2784465700C9A21D /* OMMintegralNativeView.h */,
-				0C9DA6992784465700C9A21D /* OMMintegralNativeView.m */,
-				0C9DA6972784465600C9A21D /* OMMintegralNativeClass.h */,
 				49FD9B0125A5D02400787598 /* OMMintegralInterstitial.h */,
 				49FD9B0225A5D02400787598 /* OMMintegralInterstitial.m */,
 				49FD9AF225A5D02100787598 /* OMMintegralInterstitialClass.h */,
@@ -2912,23 +2910,23 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C9DA6A42784465800C9A21D /* OMMintegralNativeAd.h in Headers */,
 				49FD9B1525A5D02500787598 /* OMMintegralInterstitial.h in Headers */,
 				49FD9B0825A5D02500787598 /* OMMintegralBidClass.h in Headers */,
-				0C9DA6A22784465800C9A21D /* OMMintegralNativeView.h in Headers */,
-				0C9DA69E2784465800C9A21D /* OMMintegralNativeClass.h in Headers */,
+				0C517C89277AE8E70001098A /* OMMintegralNativeClass.h in Headers */,
 				49FD9B0A25A5D02500787598 /* OMMintegralBid.h in Headers */,
 				49FD9B0925A5D02500787598 /* OMMintegralBannerClass.h in Headers */,
 				49FD9B0F25A5D02500787598 /* OMMintegralRewardedVideo.h in Headers */,
 				49FD9B0E25A5D02500787598 /* OMMintegralSplash.h in Headers */,
 				49FD9B0425A5D02500787598 /* OMMintegralRewardedVideoClass.h in Headers */,
+				0C517C8A277AE8E70001098A /* OMMintegralNativeAd.h in Headers */,
 				49FD9B1225A5D02500787598 /* OMMintegralClass.h in Headers */,
 				49FD9B1025A5D02500787598 /* OMMintegralBanner.h in Headers */,
 				49FD9B0D25A5D02500787598 /* OMMintegralSplashClass.h in Headers */,
 				49FD9B1325A5D02500787598 /* OMMintegralRouter.h in Headers */,
 				49FD9B0C25A5D02500787598 /* OMMintegralAdapter.h in Headers */,
+				0C517C8C277AE8E70001098A /* OMMintegralNativeView.h in Headers */,
 				49FD9B0625A5D02500787598 /* OMMintegralInterstitialClass.h in Headers */,
-				0C9DA6A32784465800C9A21D /* OMMintegralNative.h in Headers */,
+				0C517C8D277AE8E70001098A /* OMMintegralNative.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3485,7 +3483,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = AdTiming;
 				TargetAttributes = {
 					0C31059C26258FD4000898E2 = {
@@ -4109,13 +4107,13 @@
 				49FD9B0B25A5D02500787598 /* OMMintegralRouter.m in Sources */,
 				49FD9B1625A5D02500787598 /* OMMintegralInterstitial.m in Sources */,
 				49FD9B1425A5D02500787598 /* OMMintegralBanner.m in Sources */,
-				0C9DA6A12784465800C9A21D /* OMMintegralNativeAd.m in Sources */,
 				49FD9B1725A5D02500787598 /* OMMintegralRewardedVideo.m in Sources */,
-				0C9DA69F2784465800C9A21D /* OMMintegralNative.m in Sources */,
-				0C9DA6A02784465800C9A21D /* OMMintegralNativeView.m in Sources */,
+				0C517C8B277AE8E70001098A /* OMMintegralNative.m in Sources */,
 				49FD9B1125A5D02500787598 /* OMMintegralBid.m in Sources */,
 				49FD9B0725A5D02500787598 /* OMMintegralSplash.m in Sources */,
+				0C517C8F277AE8E70001098A /* OMMintegralNativeView.m in Sources */,
 				49FD9B0525A5D02500787598 /* OMMintegralAdapter.m in Sources */,
+				0C517C8E277AE8E70001098A /* OMMintegralNativeAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4515,6 +4513,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -4638,6 +4637,7 @@
 		0C981BD623D69A1F0074B43A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R9GTCMNR3E;
@@ -4669,6 +4669,7 @@
 		0C981BD723D69A1F0074B43A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R9GTCMNR3E;

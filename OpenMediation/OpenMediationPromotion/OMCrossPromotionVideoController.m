@@ -60,12 +60,13 @@ static NSString *const  close_image_string = @"iVBORw0KGgoAAAANSUhEUgAAADwAAAA8C
     [super viewWillAppear:animated];
     _appSettingStatusBarHidden = [[UIApplication sharedApplication]isStatusBarHidden];
     [UIApplication sharedApplication].statusBarHidden = YES;
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    if(_delegate && [_delegate respondsToSelector:@selector(promotionVideoOpen)]) {
-        [_delegate promotionVideoOpen];
+    if (!self.presentedViewController) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+            [self.campaign skStartImpression];
+        });
+        if(_delegate && [_delegate respondsToSelector:@selector(promotionVideoOpen)]) {
+            [_delegate promotionVideoOpen];
+        }
     }
 }
 
@@ -77,8 +78,11 @@ static NSString *const  close_image_string = @"iVBORw0KGgoAAAANSUhEUgAAADwAAAA8C
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(promotionVideoClose)]) {
-        [self.delegate promotionVideoClose];
+    if (!self.presentedViewController) {
+        [self.campaign skEndImpression];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(promotionVideoClose)]) {
+            [self.delegate promotionVideoClose];
+        }
     }
 }
 

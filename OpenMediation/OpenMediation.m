@@ -104,7 +104,7 @@ static NSTimer *SDKInitCheckTimer = nil;
             [[OMEventManager sharedInstance]addEvent:INIT_COMPLETE extraData:nil];
             completionHandler(nil);
         } else {
-            [[OMEventManager sharedInstance]addEvent:INIT_FAILED extraData:nil];
+            [[OMEventManager sharedInstance]addEvent:INIT_FAILED extraData:@{@"msg":OM_SAFE_STRING(error.localizedDescription)}];
             OMLogI(@"OpenMediation SDK init error: %@",error.localizedDescription);
             completionHandler(error);
         }
@@ -146,6 +146,7 @@ static NSTimer *SDKInitCheckTimer = nil;
                 }
             }];
         }
+        [OMConfig sharedInstance].conversionData = [NSMutableDictionary dictionary];
     }
     
 }

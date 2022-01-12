@@ -30,8 +30,9 @@
     [iosInfo setValue:[NSString stringWithFormat:@"%.2f",([UIDevice omFreeRamSize]/1024.0)] forKey:@"rdsg"];
     [iosInfo setValue:[NSNumber numberWithFloat:[UIDevice brightness]] forKey:@"brightness"];
     if (@available(iOS 11.0, *)) {
-        [iosInfo setValue:[NSNumber numberWithInteger:[[NSProcessInfo processInfo]thermalState]] forKey:@"thrmal"];
-        ;
+        if ([[NSProcessInfo processInfo]respondsToSelector:@selector(thermalState)]) {
+            [iosInfo setValue:[NSNumber numberWithInteger:[[NSProcessInfo processInfo]thermalState]] forKey:@"thrmal"];
+        }
     }
     
     return [iosInfo copy];

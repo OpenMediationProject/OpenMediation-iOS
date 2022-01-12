@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger expiredTime;
 
 - (instancetype)initWithUnitID:(NSString *)unitID instanceData:(NSDictionary *)instanceData;
-
+- (void)updateWithInstanceData:(NSDictionary*)instanceData;
 
 @end
 

@@ -126,8 +126,11 @@ static OMCrashHandle * _instance = nil;
 }
 
 - (void)install {
-    [self installUncaughtExceptionHandler];
-    [self installSignalHandler];
+    if (!_installed) {
+        [self installUncaughtExceptionHandler];
+        [self installSignalHandler];
+        _installed = YES;
+    }
 }
 
 
@@ -208,8 +211,7 @@ static OMCrashHandle * _instance = nil;
     }
 }
 
-- (void)sendCrashLog
-{
+- (void)sendCrashLog {
     @synchronized (self) {
         if (_crashLogs.count>0) {
             NSDictionary *crashLog = [_crashLogs objectAtIndex:0];

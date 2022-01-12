@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray *instanceList;
 @property (nonatomic, strong) NSMutableArray *hbInstances;
 @property (nonatomic, strong) NSMutableDictionary *instanceMap;
+@property (nonatomic, strong) NSDictionary *cachedInstanceMap;
 @property (nonatomic, strong) NSMutableArray *sceneList;
 @property (nonatomic, strong) NSMutableDictionary *sceneMapKeyId;
 @property (nonatomic, strong) NSMutableDictionary *sceneMapKeyName;
@@ -35,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger hb;
 
 - (instancetype)initWithUnitData:(NSDictionary*)unitData;
+- (void)updateWithUnitData:(NSDictionary*)unitData;
 - (OMScene*)getSceneById:(NSString*)sceneID;
 - (OMScene*)getSceneByName:(NSString*)name;
 - (NSDictionary*)modelData;

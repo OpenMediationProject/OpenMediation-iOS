@@ -6,6 +6,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OMCrashHandle : NSObject
+@property (nonatomic, assign) BOOL installed;
 @property(strong, nonatomic) NSMutableArray *crashLogs;
 
 + (instancetype)sharedInstance;

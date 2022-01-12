@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OMCrossPromotionNativeAd : NSObject<OMMediatedNativeAd>
 
 @property (nonatomic, strong) OMCrossPromotionCampaign *adObject;
-@property (nonatomic, strong) id <OMCrossPromotionNativeAdDelegate> adDelegate;
+@property (nonatomic, weak) id <OMCrossPromotionNativeAdDelegate> adDelegate;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *body;
 @property (nonatomic, copy) NSString *iconUrl;

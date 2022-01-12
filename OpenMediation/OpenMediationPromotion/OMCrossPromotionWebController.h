@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIProgressView *progressView;
 @property (nonatomic, strong) UIButton *closeItem;
 @property (nonatomic, assign) BOOL appSettingStatusBarHidden;
-@property (nonatomic, assign) id<OMWebViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<OMWebViewControllerDelegate> delegate;
 
 @end
 

@@ -209,6 +209,47 @@
     }
 }
 
+
+- (void)skStartImpression {
+    if (@available(iOS 14.5, *)) {
+        if(!_model.iswv && _model.app && _model.app[@"id"] && _model.ska && _model.skai) {
+            self.skImpr = [[SKAdImpression alloc]init];
+            self.skImpr.version = OM_SAFE_STRING([_model.ska objectForKey:@"adNetworkPayloadVersion"]);
+            self.skImpr.adNetworkIdentifier = OM_SAFE_STRING([_model.ska objectForKey:@"adNetworkId"]);
+            self.skImpr.adCampaignIdentifier = @([[_model.ska objectForKey:@"adNetworkCampaignId"] integerValue]);
+            self.skImpr.advertisedAppStoreItemIdentifier = @([_model.app[@"id"] integerValue]);
+            self.skImpr.adImpressionIdentifier = OM_SAFE_STRING([_model.skai objectForKey:@"nonce"]);
+            self.skImpr.sourceAppStoreItemIdentifier = @([[_model.ska objectForKey:@"adNetworkSourceAppStoreIdentifier"] integerValue]);
+            self.skImpr.timestamp = @([[_model.ska objectForKey:@"adNetworkImpressionTimestamp"] integerValue]);
+            self.skImpr.signature = OM_SAFE_STRING([_model.skai objectForKey:@"sign"]);
+            [SKAdNetwork startImpression:self.skImpr completionHandler:^(NSError * _Nullable error) {
+                if (error) {
+                    OMLogD(@"SKAdNetwork start impression %@ error  %@",self.model.app[@"id"],error);
+                } else {
+                    OMLogD(@"SKAdNetwork start impression %@",self.model.app[@"id"]);
+                }
+            }];
+        }
+    }
+}
+
+- (void)skEndImpression {
+    if (self.skImpr) {
+        if (@available(iOS 14.5, *)) {
+            [SKAdNetwork endImpression:self.skImpr completionHandler:^(NSError * _Nullable error) {
+                self.skImpr = nil;
+                if (error) {
+                    OMLogD(@"SKAdNetwork end impression %@ error  %@",self.model.app[@"id"],error);
+                } else {
+                    OMLogD(@"SKAdNetwork end impression %@",self.model.app[@"id"]);
+                }
+            }];
+        }
+    }
+}
+
+
+
 - (void)imprTrack {
     [self imprTrack:nil];
 }
@@ -313,4 +354,7 @@
     }
 }
 
+- (void)dealloc {
+    [self skEndImpression];
+}
 @end

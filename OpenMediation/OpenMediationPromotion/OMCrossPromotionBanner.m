@@ -26,6 +26,7 @@
 @property (nonatomic, weak) UIViewController *rootViewController;
 @property (nonatomic, strong) NSString *placementID;
 @property (nonatomic, assign) BOOL impr;
+@property (nonatomic, assign) BOOL visible;
 
 @end
 
@@ -104,6 +105,7 @@
                         [weakSelf.delegate customEvent:self didLoadAd:nil];
                     }
                     weakSelf.impr = NO;
+                    weakSelf.visible = NO;
                     [self addSubview:self.adWebView];
                     self.jsBridge.campaign = campaign;
                     [self.adWebView loadHTMLString:[weakSelf.campaign webHtmlStr] baseURL:[NSURL fileURLWithPath:[NSString omUrlCachePath:[weakSelf.campaign webUrl]]]];
@@ -119,6 +121,14 @@
 }
 
 - (void)observeView:(UIView*)view visible:(BOOL)visible {
+    if (self.visible != visible) {
+        self.visible = visible;
+        if (self.visible) {
+            [_campaign skStartImpression];
+        } else {
+            [_campaign skEndImpression];
+        }
+    }
     if(visible) {
         if(!_impr) {
             _impr  =YES;

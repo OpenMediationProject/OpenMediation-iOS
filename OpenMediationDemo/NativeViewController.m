@@ -6,13 +6,13 @@
 
 @interface NativeViewController ()
 @property (nonatomic, strong) OMNative *native;
-@property (nonatomic, strong) OMNativeAd *nativeAd;
 @property (nonatomic, strong) OMNativeView *nativeView;
 @property (nonatomic, strong) OMNativeAdView *nativeAdView;
 
 @property (nonatomic, strong) UIImageView *iconView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *bodyLabel;
+@property (nonatomic, strong) UILabel *action;
 @end
 
 
@@ -32,16 +32,27 @@
         _nativeView.mediaView = [[OMNativeMediaView alloc]initWithFrame:CGRectZero];
         _nativeView.mediaView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 250);
         [_nativeView addSubview:_nativeView.mediaView];
-        _iconView = [[UIImageView alloc]initWithFrame:CGRectMake(self.view.frame.size.width-40, 0, 40, 40)];
+        _iconView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 255, 40, 40)];
         [_nativeView addSubview:_iconView];
         
-        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 270, self.view.frame.size.width, 15)];
-        _titleLabel.font = [UIFont systemFontOfSize:13];
+        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 255, self.view.frame.size.width-100, 15)];
+        _titleLabel.font = [UIFont systemFontOfSize:16];
         [_nativeView addSubview:_titleLabel];
         
-        _bodyLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 285, self.view.frame.size.width, 15)];
-        _bodyLabel.font = [UIFont systemFontOfSize:13];
+        _bodyLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 270, self.view.frame.size.width-150, 30)];
+        _bodyLabel.numberOfLines = 0;
+        _bodyLabel.font = [UIFont systemFontOfSize:10];
         [_nativeView addSubview:_bodyLabel];
+        
+        _action = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width-80, 265, 60, 30)];
+        _action.layer.cornerRadius = 3;
+        _action.layer.masksToBounds = YES;
+        _action.layer.borderColor = [UIColor blackColor].CGColor;
+        _action.layer.borderWidth = 1;
+        _action.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
+        _action.textAlignment = NSTextAlignmentCenter;
+        
+        [_nativeView addSubview:_action];
         
         
         _nativeView.hidden = YES;
@@ -70,9 +81,10 @@
 
 - (void)omNative:(OMNative*)native didLoad:(OMNativeAd*)nativeAd {
     self.nativeView.nativeAd = nativeAd;
-    _iconView.image =[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.nativeAd.iconUrl]]];
-    _titleLabel.text = self.nativeAd.title;
-    _bodyLabel.text = self.nativeAd.body;
+    _iconView.image =[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:nativeAd.iconUrl]]];
+    _titleLabel.text = nativeAd.title;
+    _bodyLabel.text = nativeAd.body;
+    _action.text = nativeAd.callToAction;
     [_nativeView setClickableViews:@[_iconView,_titleLabel,self.nativeView.mediaView]];
     self.showItem.enabled = YES;
     self.removeItem.enabled = YES;

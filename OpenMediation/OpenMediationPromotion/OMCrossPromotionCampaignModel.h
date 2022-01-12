@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger expire; //campaign expire time in seconds
 @property (nonatomic, assign) NSInteger rt; //Retargeting flag
 @property (nonatomic, strong) NSDictionary *ska; //ios 14 SKAdNetwork
+@property (nonatomic, strong) NSDictionary *skai;//ios 14.5 SKAdNetwork impression
 
 
 - (instancetype)initWithCampaignData:(NSDictionary*)cData;

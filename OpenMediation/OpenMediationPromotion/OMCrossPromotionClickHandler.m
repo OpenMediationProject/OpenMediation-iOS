@@ -61,7 +61,9 @@
             _adUrl = [_adUrl stringByReplacingOccurrencesOfString:@"{scene}" withString:sceneID];
         }
         webVC.url = _adUrl;
-        [rootVC presentViewController:[[UINavigationController alloc]initWithRootViewController:webVC] animated:YES completion:^{
+        UINavigationController *webNav=  [[UINavigationController alloc]initWithRootViewController:webVC];
+        webNav.modalPresentationStyle = UIModalPresentationFullScreen;
+        [rootVC presentViewController:webNav animated:YES completion:^{
             
         }];
         if(_delegate && [_delegate respondsToSelector:@selector(clickHandlerWillPresentScreen)]) {
