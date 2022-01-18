@@ -6,7 +6,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const MintegralAdapterVersion = @"2.0.4";
+static NSString * const MintegralAdapterVersion = @"2.0.5";
 
 @interface OMMintegralAdapter : NSObject<OMMediationAdapter>
 

@@ -5,11 +5,12 @@
 
 @implementation OMMintegralNativeAd
 
--(instancetype)initWithMtgNativeAd:(MTGCampaign *)mtgCampaign withManager:(MTGNativeAdManager *)mtgManager {
+-(instancetype)initWithMtgNativeAd:(MTGCampaign *)mtgCampaign withManager:(MTGNativeAdManager *)mtgManager withBidManager:(MTGBidNativeAdManager *)mtgBidManager {
     self = [super init];
     if (self) {
         _adObject = mtgCampaign;
         _mtgManager = mtgManager;
+        _mtgBidManager = mtgBidManager;
         _title = [mtgCampaign appName];
         _body = [mtgCampaign appDesc];
         _iconUrl = [mtgCampaign iconUrl];

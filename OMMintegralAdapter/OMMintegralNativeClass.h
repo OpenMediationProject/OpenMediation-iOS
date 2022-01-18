@@ -146,6 +146,238 @@ typedef NS_ENUM(NSInteger, MTGAdTemplateType) {
 @class MTGNativeAdManager;
 @class MTGBidNativeAdManager;
 
+#pragma mark - MTGBidNativeAdManager
+
+
+
+/*!
+ @protocol MTGBidNativeAdManagerDelegate
+ @abstract Messages from MTGBidNativeAdManager indicating success or failure loading ads.
+ */
+
+@protocol MTGBidNativeAdManagerDelegate <NSObject>
+
+@optional
+
+
+/*!
+ 
+ When the MTGBidNativeAdManager has finished loading a batch of ads this message will be sent. A batch of ads may be loaded in response to calling loadAds.
+ @param nativeAds A array contains native ads (MTGCampaign).
+ 
+ */
+- (void)nativeAdsLoaded:(nullable NSArray *)nativeAds bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
+
+
+/*!
+ 
+ When the MTGBidNativeAdManager has reached a failure while attempting to load a batch of ads this message will be sent to the application.
+ @param error An NSError object with information about the failure.
+ 
+ */
+- (void)nativeAdsFailedToLoadWithError:(nonnull NSError *)error bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
+
+/*!
+ 
+ Sent after an ad has been clicked by a user.
+ 
+ @param nativeAd An MTGCampaign object sending the message.
+ */
+- (void)nativeAdDidClick:(nonnull MTGCampaign *)nativeAd bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
+
+
+/*!
+ 
+ Sent after an ad url did start to resolve.
+ 
+ @param clickUrl The click url of the ad.
+ */
+- (void)nativeAdClickUrlWillStartToJump:(nonnull NSURL *)clickUrl bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
+/*!
+ 
+ Sent after an ad url has jumped to a new url.
+ 
+ @param jumpUrl The url during jumping.
+ 
+ @discussion It will not be called if a ad's final jump url has been cached
+ */
+- (void)nativeAdClickUrlDidJumpToUrl:(nonnull NSURL *)jumpUrl bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
+
+
+/*!
+ 
+ Sent after an ad url did reach the final jump url.
+ 
+ @param finalUrl the final jump url of the click url.
+ @param error the error generated between jumping.
+ */
+
+- (void)nativeAdClickUrlDidEndJump:(nullable NSURL *)finalUrl
+                             error:(nullable NSError *)error bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
+
+
+- (void)nativeAdImpressionWithType:(MTGAdSourceType)type bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
+
+
+
+@end
+
+@interface MTGBidNativeAdManager : NSObject
+
+/*!
+ @property
+ 
+ @abstract The delegate
+ 
+ @discussion All delegate method will be called in main thread.
+ */
+@property (nonatomic, weak, nullable) id <MTGBidNativeAdManagerDelegate> delegate;
+
+/*!
+ @property
+ 
+ @discussion Show the  loading view when to click on ads.
+ The default is yes
+ */
+@property (nonatomic, assign) BOOL showLoadingView;
+
+/*!
+@property
+
+@discussion ad current placementId .
+*/
+
+@property (nonatomic, readonly) NSString *_Nullable placementId;
+
+/*!
+ @property
+ 
+ @discussion ad current UnitId .
+ */
+@property (nonatomic, readonly) NSString * _Nonnull currentUnitId;
+
+/**
+* get the id of this request ad,call  after nativeAdsLoaded.
+*/
+@property (nonatomic, readonly) NSString *_Nullable requestId;
+
+/*!
+ @property
+ 
+ @discussion The current ViewController of display ad.
+ the "ViewController" parameters are assigned as calling the init or Registerview method
+ */
+@property (nonatomic, weak) UIViewController * _Nullable  viewController;
+
+
+/*!
+ 
+ Initialize the native ads manager which is for loading ads. (MTGCampaign)
+ 
+ @param unitId The id of the ad unit. You can create your unit id from our Portal.
+ @param viewController The UIViewController that will be used to present SKStoreProductViewController
+ (iTunes Store product information) or the in-app browser. If not set, it will be the root viewController of your current UIWindow. But it may failed to present our view controller if your rootViewController is presenting other view controller. So set this property is necessary.
+ */
+- (nonnull instancetype)initWithPlacementId:(nullable NSString *)placementId
+                                     unitID:(nonnull NSString *)unitId
+              presentingViewController:(nullable UIViewController *)viewController;
+
+
+/*!
+ 
+ Initialize the native ads manager which is for loading ads with more options.
+ 
+ @param unitId The id of the ad unit. You can create your unit id from our Portal.
+ @param autoCacheImage If you pass YES, SDK will download the image resource automatically when you get the campaign. The default is NO.
+ @param viewController The UIViewController that will be used to present SKStoreProductViewController
+ (iTunes Store product information) or the in-app browser. If not set, it will be the root viewController of your current UIWindow. But it may failed to present our view controller if your rootViewController is presenting other view controller. So set this property is necessary.
+ */
+- (nonnull instancetype)initWithPlacementId:(nullable NSString *)placementId
+                                     unitID:(nonnull NSString *)unitId
+                        autoCacheImage:(BOOL)autoCacheImage
+              presentingViewController:(nullable UIViewController *)viewController;
+
+
+/*!
+ This method is used to request ads with the token you got previously
+ 
+ @param bidToken    - the token from bid request within MTGBidFramework.
+ */
+- (void)loadWithBidToken:(nonnull NSString *)bidToken;
+
+
+/*!
+ 
+ This is a method to associate a MTGCampaign with the UIView you will use to display the native ads.
+ 
+ @param view The UIView you created to render all the native ads data elements.
+ @param campaign The campaign you associate with the view.
+ 
+ @discussion The whole area of the UIView will be clickable.
+ */
+- (void)registerViewForInteraction:(nonnull UIView *)view
+                      withCampaign:(nonnull MTGCampaign *)campaign;
+
+/*!
+ 
+ This is a method to disconnect a MTGCampaign with the UIView you used to display the native ads.
+ 
+ @param view The UIView you created to render all the native ads data elements.
+ 
+ */
+- (void)unregisterView:(nonnull UIView *)view;
+
+/*!
+ 
+ This is a method to associate a MTGCampaign with the UIView you will use to display the native ads and set clickable areas.
+ 
+ @param view The UIView you created to render all the native ads data elements.
+ @param clickableViews An array of UIView you created to render the native ads data element, e.g. CallToAction button, Icon image, which you want to specify as clickable.
+ @param campaign The campaign you associate with the view.
+ 
+ */
+- (void)registerViewForInteraction:(nonnull UIView *)view
+                withClickableViews:(nonnull NSArray *)clickableViews
+                      withCampaign:(nonnull MTGCampaign *)campaign;
+
+/*!
+ 
+ This is a method to disconnect a MTGCampaign with the UIView you used to display the native ads.
+ 
+ @param view The UIView you created to render all the native ads data elements.
+ @param clickableViews An array of UIView you created to render the native ads data element, e.g. CallToAction button, Icon image, which you want to specify as clickable.
+ 
+ */
+- (void)unregisterView:(nonnull UIView *)view clickableViews:(nonnull NSArray *)clickableViews;
+
+/*!
+ 
+ This is a method to clean the cache nativeAd.
+ 
+ */
+- (void)cleanAdsCache;
+
+/*!
+ 
+ Set the video display area size.
+ 
+ @param size The display area size.
+ 
+ */
+-(void)setVideoViewSize:(CGSize)size;
+
+/*!
+ 
+ Set the video display area size.
+ 
+ @param width The display area width.
+ @param height The display area height.
+ */
+-(void)setVideoViewSizeWithWidth:(CGFloat)width height:(CGFloat)height;
+
+
+@end
+
 /*!
  @protocol MTGNativeAdManagerDelegate
  @abstract Messages from MTGNativeAdManager indicating success or failure loading ads.
@@ -242,78 +474,6 @@ typedef NS_ENUM(NSInteger, MTGAdTemplateType) {
 
 @end
 
-
-/*!
- @protocol MTGBidNativeAdManagerDelegate
- @abstract Messages from MTGBidNativeAdManager indicating success or failure loading ads.
- */
-
-@protocol MTGBidNativeAdManagerDelegate <NSObject>
-
-@optional
-
-
-/*!
- 
- When the MTGBidNativeAdManager has finished loading a batch of ads this message will be sent. A batch of ads may be loaded in response to calling loadAds.
- @param nativeAds A array contains native ads (MTGCampaign).
- 
- */
-- (void)nativeAdsLoaded:(nullable NSArray *)nativeAds bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
-
-
-/*!
- 
- When the MTGBidNativeAdManager has reached a failure while attempting to load a batch of ads this message will be sent to the application.
- @param error An NSError object with information about the failure.
- 
- */
-- (void)nativeAdsFailedToLoadWithError:(nonnull NSError *)error bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
-
-/*!
- 
- Sent after an ad has been clicked by a user.
- 
- @param nativeAd An MTGCampaign object sending the message.
- */
-- (void)nativeAdDidClick:(nonnull MTGCampaign *)nativeAd bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
-
-
-/*!
- 
- Sent after an ad url did start to resolve.
- 
- @param clickUrl The click url of the ad.
- */
-- (void)nativeAdClickUrlWillStartToJump:(nonnull NSURL *)clickUrl bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
-/*!
- 
- Sent after an ad url has jumped to a new url.
- 
- @param jumpUrl The url during jumping.
- 
- @discussion It will not be called if a ad's final jump url has been cached
- */
-- (void)nativeAdClickUrlDidJumpToUrl:(nonnull NSURL *)jumpUrl bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
-
-
-/*!
- 
- Sent after an ad url did reach the final jump url.
- 
- @param finalUrl the final jump url of the click url.
- @param error the error generated between jumping.
- */
-
-- (void)nativeAdClickUrlDidEndJump:(nullable NSURL *)finalUrl
-                             error:(nullable NSError *)error bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
-
-
-- (void)nativeAdImpressionWithType:(MTGAdSourceType)type bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager;
-
-
-
-@end
 
 @interface MTGNativeAdManager : NSObject
 

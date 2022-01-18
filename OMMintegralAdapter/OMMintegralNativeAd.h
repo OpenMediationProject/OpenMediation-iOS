@@ -31,8 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) MTGCampaign *adObject;
 
 @property (nonatomic, strong) MTGNativeAdManager *mtgManager;
+@property (nonatomic, strong) MTGBidNativeAdManager *mtgBidManager;
 
--(instancetype)initWithMtgNativeAd:(MTGCampaign *)mtgCampaign withManager:(MTGNativeAdManager *)mtgManager;
+-(instancetype)initWithMtgNativeAd:(MTGCampaign *)mtgCampaign withManager:(MTGNativeAdManager *)mtgManager withBidManager:(MTGBidNativeAdManager *)mtgBidManager;
 
 @end
 

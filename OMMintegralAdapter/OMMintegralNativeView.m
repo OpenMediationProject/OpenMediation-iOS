@@ -23,10 +23,22 @@
 -(void)setNativeAd:(OMMintegralNativeAd *)nativeAd {
     _nativeAd = nativeAd;
     MTGCampaign *campaign = nativeAd.adObject;
-    MTGNativeAdManager *manager = nativeAd.mtgManager;
-    [manager setVideoViewSize:_mediaView.frame.size];
-    _mediaView.delegate = (id<MTGMediaViewDelegate>)manager.delegate;
-    [_mediaView setMediaSourceWithCampaign:campaign unitId:manager.currentUnitId];
+    if (nativeAd.mtgManager) {
+        MTGNativeAdManager *manager = nativeAd.mtgManager;
+        [manager setVideoViewSize:_mediaView.frame.size];
+        _mediaView.delegate = (id<MTGMediaViewDelegate>)manager.delegate;
+        [_mediaView setMediaSourceWithCampaign:campaign unitId:manager.currentUnitId];
+        [self initMTGManager:manager withCampaign:campaign];
+    }else if (nativeAd.mtgBidManager){
+        MTGBidNativeAdManager *manager = nativeAd.mtgBidManager;
+        [manager setVideoViewSize:_mediaView.frame.size];
+        _mediaView.delegate = (id<MTGMediaViewDelegate>)manager.delegate;
+        [_mediaView setMediaSourceWithCampaign:campaign unitId:manager.currentUnitId];
+        [self initMTGManager:manager withCampaign:campaign];
+    }
+}
+
+- (void)initMTGManager:(id)manager withCampaign:(MTGCampaign*)campaign {
     if (campaign.imageUrl && [campaign.imageUrl length]>0) {
         UIImageView *bgView = [[UIImageView alloc]initWithFrame:_mediaView.bounds];
         NSURL *imageURL = [NSURL URLWithString:campaign.imageUrl];

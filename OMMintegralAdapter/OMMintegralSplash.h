@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, strong) MTGSplashAD *splashAD;
 @property (nonatomic, assign) CGSize adSize;
+@property (nonatomic, assign) BOOL isBidAd;
 
 - (instancetype)initWithParameter:(NSDictionary *)adParameter adSize:(CGSize)size;
 - (void)loadAd;

@@ -26,16 +26,36 @@
     }
 }
 
+- (void)loadAdWithBidPayload:(NSString *)bidPayload {
+    _isBidAd = YES;
+    Class MTGSplashClass = NSClassFromString(@"MTGSplashAD");
+    if (MTGSplashClass && [[MTGSplashClass alloc] respondsToSelector:@selector(initWithPlacementID:unitID:countdown:allowSkip:)]) {
+        _splashAD = [[MTGSplashClass alloc] initWithPlacementID:@"" unitID:_pid countdown:5 allowSkip:YES];
+        _splashAD.delegate = self;
+    }
+    if (_splashAD) {
+        [_splashAD preloadWithBidToken:bidPayload];
+    }
+}
+
 - (BOOL)isReady{
     if (_splashAD) {
-        return [_splashAD isADReadyToShow]  ;
+        if (_isBidAd) {
+            return [_splashAD isBiddingADReadyToShow];
+        }else{
+            return [_splashAD isADReadyToShow]  ;
+        }
     }
     return NO;
 }
 
 - (void)showWithWindow:(UIWindow *)window customView:(nonnull UIView *)customView {
     if ([self isReady] && window) {
-        [_splashAD showInKeyWindow:window customView:customView];
+        if (_isBidAd) {
+            [_splashAD showBiddingADInKeyWindow:window customView:customView];
+        }else{
+            [_splashAD showInKeyWindow:window customView:customView];
+        }
     }
 }
 

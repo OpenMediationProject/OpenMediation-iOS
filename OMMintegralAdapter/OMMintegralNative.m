@@ -30,12 +30,23 @@
     }
 }
 
+- (void)loadAdWithBidPayload:(NSString *)bidPayload {
+    Class mtgClass = NSClassFromString(@"MTGBidNativeAdManager");
+    if (mtgClass && [mtgClass instancesRespondToSelector:@selector(initWithPlacementId:unitID:autoCacheImage:presentingViewController:)]) {
+        _mtgBidManager = [[mtgClass alloc] initWithPlacementId:@"" unitID:_pid autoCacheImage:NO presentingViewController:_rootVC];
+        _mtgBidManager.delegate = self;
+    }
+    if (_mtgBidManager && [_mtgBidManager respondsToSelector:@selector(loadWithBidToken:)]) {
+        [_mtgBidManager loadWithBidToken:bidPayload];
+    }
+}
+
 #pragma mark AdManger delegate
 
 - (void)nativeAdsLoaded:(nullable NSArray *)nativeAds nativeManager:(nonnull MTGNativeAdManager *)nativeManager {
     if (nativeAds.count > 0) {
         MTGCampaign *campaign = nativeAds[0];
-        OMMintegralNativeAd *mtgNativeAd = [[OMMintegralNativeAd alloc] initWithMtgNativeAd:campaign withManager:_mtgManager];
+        OMMintegralNativeAd *mtgNativeAd = [[OMMintegralNativeAd alloc] initWithMtgNativeAd:campaign withManager:_mtgManager withBidManager:nil];
         if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
             [_delegate customEvent:self didLoadAd:mtgNativeAd];
         }
@@ -49,6 +60,32 @@
 }
 
 - (void)nativeAdDidClick:(nonnull MTGCampaign *)nativeAd nativeManager:(nonnull MTGNativeAdManager *)nativeManager {
+    if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
+        [_delegate nativeCustomEventDidClick:nativeAd];
+    }
+}
+
+
+#pragma mark BidAdManger delegate
+
+- (void)nativeAdsLoaded:(nullable NSArray *)nativeAds bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
+    if (nativeAds.count > 0) {
+        MTGCampaign *campaign = nativeAds[0];
+        OMMintegralNativeAd *mtgNativeAd = [[OMMintegralNativeAd alloc] initWithMtgNativeAd:campaign withManager:nil withBidManager:_mtgBidManager];
+        if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+            [_delegate customEvent:self didLoadAd:mtgNativeAd];
+        }
+    }
+}
+
+- (void)nativeAdsFailedToLoadWithError:(nonnull NSError *)error bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
+    if (error && _delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+        [_delegate customEvent:self didFailToLoadWithError:error];
+    }
+}
+
+
+- (void)nativeAdDidClick:(nonnull MTGCampaign *)nativeAd bidNativeManager:(nonnull MTGBidNativeAdManager *)bidNativeManager {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
         [_delegate nativeCustomEventDidClick:nativeAd];
     }
