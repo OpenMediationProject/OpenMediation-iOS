@@ -577,10 +577,8 @@
 		49FD9C4D25A707BB00787598 /* OMSigMobInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD9C4225A707BA00787598 /* OMSigMobInterstitial.h */; };
 		49FD9C4E25A707BB00787598 /* OMSigMobInterstitialClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD9C4325A707BA00787598 /* OMSigMobInterstitialClass.h */; };
 		49FD9C4F25A707BB00787598 /* OMSigMobRewardedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD9C4425A707BA00787598 /* OMSigMobRewardedVideo.m */; };
-		49FD9C5025A707BB00787598 /* OMSigMobRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD9C4525A707BA00787598 /* OMSigMobRouter.m */; };
 		49FD9C5125A707BB00787598 /* OMSigMobRewardedVideoClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD9C4625A707BA00787598 /* OMSigMobRewardedVideoClass.h */; };
 		49FD9C5225A707BB00787598 /* OMSigMobInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD9C4725A707BA00787598 /* OMSigMobInterstitial.m */; };
-		49FD9C5325A707BB00787598 /* OMSigMobRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD9C4825A707BA00787598 /* OMSigMobRouter.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1379,10 +1377,8 @@
 		49FD9C4225A707BA00787598 /* OMSigMobInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMSigMobInterstitial.h; path = OMSigmobAdapter/OMSigMobInterstitial.h; sourceTree = SOURCE_ROOT; };
 		49FD9C4325A707BA00787598 /* OMSigMobInterstitialClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMSigMobInterstitialClass.h; path = OMSigmobAdapter/OMSigMobInterstitialClass.h; sourceTree = SOURCE_ROOT; };
 		49FD9C4425A707BA00787598 /* OMSigMobRewardedVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OMSigMobRewardedVideo.m; path = OMSigmobAdapter/OMSigMobRewardedVideo.m; sourceTree = SOURCE_ROOT; };
-		49FD9C4525A707BA00787598 /* OMSigMobRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OMSigMobRouter.m; path = OMSigmobAdapter/OMSigMobRouter.m; sourceTree = SOURCE_ROOT; };
 		49FD9C4625A707BA00787598 /* OMSigMobRewardedVideoClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMSigMobRewardedVideoClass.h; path = OMSigmobAdapter/OMSigMobRewardedVideoClass.h; sourceTree = SOURCE_ROOT; };
 		49FD9C4725A707BA00787598 /* OMSigMobInterstitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OMSigMobInterstitial.m; path = OMSigmobAdapter/OMSigMobInterstitial.m; sourceTree = SOURCE_ROOT; };
-		49FD9C4825A707BA00787598 /* OMSigMobRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMSigMobRouter.h; path = OMSigmobAdapter/OMSigMobRouter.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1979,8 +1975,6 @@
 				49FD9C3F25A707B900787598 /* OMSigMobRewardedVideo.h */,
 				49FD9C4425A707BA00787598 /* OMSigMobRewardedVideo.m */,
 				49FD9C4625A707BA00787598 /* OMSigMobRewardedVideoClass.h */,
-				49FD9C4825A707BA00787598 /* OMSigMobRouter.h */,
-				49FD9C4525A707BA00787598 /* OMSigMobRouter.m */,
 				0CBA0F71259B61DE0002FAF0 /* Info.plist */,
 			);
 			path = OMSigMobAdapter;
@@ -2732,7 +2726,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49FD9C5325A707BB00787598 /* OMSigMobRouter.h in Headers */,
 				49FD9C4E25A707BB00787598 /* OMSigMobInterstitialClass.h in Headers */,
 				49FD9C4C25A707BB00787598 /* OMSigMobAdapter.h in Headers */,
 				49FD9C4D25A707BB00787598 /* OMSigMobInterstitial.h in Headers */,
@@ -3961,7 +3954,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49FD9C5025A707BB00787598 /* OMSigMobRouter.m in Sources */,
 				49FD9C4F25A707BB00787598 /* OMSigMobRewardedVideo.m in Sources */,
 				49FD9C5225A707BB00787598 /* OMSigMobInterstitial.m in Sources */,
 				49FD9C4B25A707BB00787598 /* OMSigMobAdapter.m in Sources */,
