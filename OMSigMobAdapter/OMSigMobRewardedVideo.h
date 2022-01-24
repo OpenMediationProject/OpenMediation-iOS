@@ -3,13 +3,15 @@
 
 #import <Foundation/Foundation.h>
 #import "OMRewardedVideoCustomEvent.h"
-#import "OMSigMobRouter.h"
+#import "OMSigMobRewardedVideoClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMSigMobRewardedVideo : NSObject<OMRewardedVideoCustomEvent>
+@interface OMSigMobRewardedVideo : NSObject<OMRewardedVideoCustomEvent,WindRewardVideoAdDelegate>
 
 @property (nonatomic, copy) NSString *pid;
+@property (nonatomic, strong) WindRewardVideoAd *rewardedVideoAd;
+@property (nonatomic, getter=isAdReady, readonly) BOOL ready;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;

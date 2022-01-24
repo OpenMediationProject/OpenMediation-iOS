@@ -491,13 +491,18 @@
             [OMLrRequest postWithType:OMLRTypeInstanceReady pid:self.pid adnID:adnID instanceID:instanceID action:_loadAction scene:@"" abt:instance.abGroup abtId:instance.abTestId  bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];//lr ready;
         }
         [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateSuccess];
-    } else if (instanceBidResponse && !OM_STR_EMPTY((NSString*)instanceBidResponse.payLoad) && adapter && [adapter respondsToSelector:@selector(loadAdWithBidPayload:)]) {
-        OMLogD(@"%@ load adnName %@ instance %@ with bid payload",self.pid,adnName,instanceID);
-           @synchronized (self) {
-               [_loadedInstanceBidResponses setObject:instanceBidResponse forKey:instanceID];
-           }
-        [self addEvent:INSTANCE_PAYLOAD_REQUEST instance:instanceID extraData:nil];
-        [adapter loadAdWithBidPayload:(NSString*)instanceBidResponse.payLoad];
+    } else if (instanceBidResponse && adapter && [adapter respondsToSelector:@selector(loadAdWithBidPayload:)]) {
+        NSString *payload = OM_SAFE_STRING((NSString*)instanceBidResponse.payLoad);
+        OMLogD(@"%@ load adnName %@ instance %@ with bid payload %@",self.pid,adnName,instanceID,payload);
+        @synchronized (self) {
+            [_loadedInstanceBidResponses setObject:instanceBidResponse forKey:instanceID];
+        }
+        NSDictionary *extraData = nil;
+        if (!payload.length) {
+            extraData = @{@"msg":@"payload empty"};
+        }
+        [self addEvent:INSTANCE_PAYLOAD_REQUEST instance:instanceID extraData:extraData];
+        [adapter loadAdWithBidPayload:payload];
     } else if (instance.hb && adapter && [adapter respondsToSelector:@selector(loadAd)]) {
         [self addEvent:INSTANCE_BID_REQUEST instance:instanceID extraData:nil];
         [adapter loadAd];
@@ -864,7 +869,9 @@
         
         if ([_adLoader isKindOfClass:[OMSmartLoad class] ]) {
             NSInteger c2sIndex = [_adLoader.priorityList indexOfObject:instanceID];
-            [self.wfInsList removeObjectAtIndex:c2sIndex];
+            if (c2sIndex != NSNotFound && c2sIndex>=0 && c2sIndex< self.wfInsList.count) {
+                [self.wfInsList removeObjectAtIndex:c2sIndex];
+            }
             
             NSInteger inserIndex = -1;
             for (int i=0; i<self.wfInsList.count; i++) {
@@ -1044,7 +1051,7 @@
 }
 
 
-- (void)addEvent:(NSInteger)eventID instance:(NSString*)instanceID extraData:data {
+- (void)addEvent:(NSInteger)eventID instance:(NSString*)instanceID extraData:(NSDictionary*) data {
     
     NSMutableDictionary *wrapperData = [NSMutableDictionary dictionary];
     if (data) {

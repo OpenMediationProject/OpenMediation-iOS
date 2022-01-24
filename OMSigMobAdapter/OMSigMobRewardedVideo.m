@@ -8,39 +8,49 @@
 - (instancetype)initWithParameter:(NSDictionary*)adParameter {
     if (self = [super init]) {
         _pid = [adParameter objectForKey:@"pid"];
-        [[OMSigMobRouter sharedInstance] registerPidDelegate:_pid delegate:self];
     }
     return self;
 }
 
 -(void)loadAd {
-    [[OMSigMobRouter sharedInstance] loadRewardedVideoWithPlacmentID:_pid];
+    Class WindRewardVideoAdClass = NSClassFromString(@"WindRewardVideoAd");
+    Class WindRequestClass = NSClassFromString(@"WindAdRequest");
+    if (WindRewardVideoAdClass && WindRequestClass && [WindRewardVideoAdClass instancesRespondToSelector:@selector(initWithPlacementId:request:)] && [WindRequestClass respondsToSelector:@selector(request)]) {
+        WindAdRequest *request  = [WindRequestClass request];
+        _rewardedVideoAd = [[WindRewardVideoAdClass alloc] initWithPlacementId:_pid request:request];
+        _rewardedVideoAd.delegate = self;
+    }
+    if (_rewardedVideoAd) {
+        [_rewardedVideoAd loadAdData];
+    }
 }
 
 -(BOOL)isReady {
-    return [[OMSigMobRouter sharedInstance] isRewardedVideoReady:_pid];;
+    if (_rewardedVideoAd) {
+        return _rewardedVideoAd.ready;
+    }
+    return NO;
 }
 
 - (void)show:(UIViewController *)vc {
     if ([self isReady]) {
-        [[OMSigMobRouter sharedInstance] showRewardedVideoAd:_pid withVC:vc];
+        [_rewardedVideoAd showAdFromRootViewController:vc options:nil];
     }
 }
 
-
-- (void)OMSigMobDidload {
+- (void)rewardVideoAdDidLoad:(WindRewardVideoAd *)rewardVideoAd {
     if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
 }
 
-- (void)OMSigMobDidFailToLoad:(nonnull NSError *)error {
-    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+- (void)rewardVideoAdDidLoad:(WindRewardVideoAd *)rewardVideoAd didFailWithError:(NSError *)error {
+    if(error && _delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 
-- (void)OMSigMobDidStart {
+- (void)rewardVideoAdDidVisible:(WindRewardVideoAd *)rewardVideoAd {
     if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
         [_delegate rewardedVideoCustomEventDidOpen:self];
     }
@@ -49,34 +59,46 @@
     }
 }
 
-- (void)OMSigMobDidClick{
+- (void)rewardVideoAdDidClick:(WindRewardVideoAd *)rewardVideoAd {
     if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
         [_delegate rewardedVideoCustomEventDidClick:self];
     }
 }
 
-- (void)OMSigMobVideoEnd {
-    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]) {
-        [_delegate rewardedVideoCustomEventVideoEnd:self];
-    }
+- (void)rewardVideoAdDidClickSkip:(WindRewardVideoAd *)rewardVideoAd {
+    
 }
 
-- (void)OMSigMobDidReceiveReward {
-    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
-        [_delegate rewardedVideoCustomEventDidReceiveReward:self];
+- (void)rewardVideoAdDidClose:(WindRewardVideoAd *)rewardVideoAd reward:(WindRewardInfo *)reward {
+    if (reward) {
+        if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
+            [_delegate rewardedVideoCustomEventDidReceiveReward:self];
+        }
     }
-}
-
-- (void)OMSigMobDidClose {
     if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]) {
         [_delegate rewardedVideoCustomEventDidClose:self];
     }
 }
 
-- (void)OMSigMobDidFailToShow:(NSError *)error{
-    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
-        [_delegate rewardedVideoCustomEventDidFailToShow:self withError:error];
+- (void)rewardVideoAdDidPlayFinish:(WindRewardVideoAd *)rewardVideoAd didFailWithError:(NSError *)error {
+    if (!error) {
+        if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]) {
+            [_delegate rewardedVideoCustomEventVideoEnd:self];
+        }
+    }else{
+        if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
+            [_delegate rewardedVideoCustomEventDidFailToShow:self withError:error];
+        }
     }
 }
+
+- (void)rewardVideoAdServerResponse:(WindRewardVideoAd *)rewardVideoAd isFillAd:(BOOL)isFillAd {
+    
+}
+
+- (void)rewardVideoAdWillVisible:(WindRewardVideoAd *)rewardVideoAd {
+    
+}
+
 
 @end

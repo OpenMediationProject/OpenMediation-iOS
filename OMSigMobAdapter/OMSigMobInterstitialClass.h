@@ -6,108 +6,83 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "OMSigMobClass.h"
 
-@class WindAdRequest;
+@class WindIntersititialAd;
 
-@protocol WindInterstitialAdDelegate <NSObject>
-
-@required
-
-/**
- 全屏视频广告物料加载成功（此时isReady=YES）
- 广告是否ready请以当前回调为准
- 
- @param placementId 广告位Id
- */
-- (void)onSMInterstitialAdLoadSuccess:(NSString *)placementId;
-
+@protocol WindIntersititialAdDelegate<NSObject>
 
 /**
- 全屏视频广告加载时发生错误
- 
- @param error 发生错误时会有相应的code和message
- @param placementId 广告位Id
+ This method is called when video ad material loaded successfully.
  */
-- (void)onSMInterstitialAdError:(NSError *)error placementId:(NSString *)placementId;
-
+- (void)intersititialAdDidLoad:(WindIntersititialAd *)intersititialAd;
 
 /**
- 全屏视频广告关闭
- 
- @param placementId 广告位Id
+ This method is called when video ad materia failed to load.
+ @param error : the reason of error
  */
-- (void)onSMInterstitialAdClosed:(NSString *)placementId;
-
-
-
-@optional
-
-
-
+- (void)intersititialAdDidLoad:(WindIntersititialAd *)intersititialAd didFailWithError:(NSError *)error;
 
 /**
- 全屏视频广告开始播放
-
- @param placementId 广告位Id
+ This method is called when video ad slot will be showing.
  */
-- (void)onSMInterstitialAdPlayStart:(NSString *)placementId;
-
-
+- (void)intersititialAdWillVisible:(WindIntersititialAd *)intersititialAd;
 
 /**
- 全屏视频广告发生点击
-
- @param placementId 广告位Id
+ This method is called when video ad slot has been shown.
  */
-- (void)onSMInterstitialAdClicked:(NSString *)placementId;
-
-
+- (void)intersititialAdDidVisible:(WindIntersititialAd *)intersititialAd;
 
 /**
- 全屏视频广告调用播放时发生错误
- 
- @param error 发生错误时会有相应的code和message
- @param placementId 广告位Id
+ This method is called when video ad is clicked.
  */
-- (void)onSMInterstitialAdPlayError:(NSError *)error placementId:(NSString *)placementId;
+- (void)intersititialAdDidClick:(WindIntersititialAd *)intersititialAd;
 
 /**
- 全屏视频广告视频播关闭
- 
- @param placementId 广告位Id
+ This method is called when video ad is clicked skip button.
  */
-- (void)onSMInterstitialAdPlayEnd:(NSString *)placementId;
-
+- (void)intersititialAdDidClickSkip:(WindIntersititialAd *)intersititialAd;
 
 /**
- 全屏视频广告AdServer返回广告(表示渠道有广告填充)
-
- @param placementId 广告位Id
+ This method is called when video ad is about to close.
  */
-- (void)onSMInterstitialAdServerDidSuccess:(NSString *)placementId;
-
+- (void)intersititialAdDidClose:(WindIntersititialAd *)intersititialAd;
 
 /**
- 全屏视频广告AdServer无广告返回(表示渠道无广告填充)
- 
- @param placementId 广告位Id
+ This method is called when video ad play completed or an error occurred.
+ @param error : the reason of error
  */
-- (void)onSMInterstitialAdServerDidFail:(NSString *)placementId;
+- (void)intersititialAdDidPlayFinish:(WindIntersititialAd *)intersititialAd didFailWithError:(NSError *)error;
+
+/**
+ This method is called when return ads from sigmob ad server.
+ */
+- (void)intersititialAdServerResponse:(WindIntersititialAd *)intersititialAd isFillAd:(BOOL)isFillAd;
+
+
 
 @end
 
+@interface WindIntersititialAd : NSObject
 
-@interface WindInterstitialAd : NSObject
+@property (nonatomic, weak) id<WindIntersititialAdDelegate> delegate;
 
-@property (nonatomic,weak) id<WindInterstitialAdDelegate> delegate;
+@property (nonatomic, strong, readonly) NSString *placementId;
 
-+ (instancetype)sharedInstance;
+@property (nonatomic, getter=isAdReady, readonly) BOOL ready;
 
-- (BOOL)isReady:(NSString *)placementId;
 
-- (void)loadRequest:(WindAdRequest *)request withPlacementId:(NSString *)placementId;
+- (instancetype)initWithPlacementId:(NSString *)placementId request:(WindAdRequest *)request;
 
-- (BOOL)playAd:(UIViewController *)controller withPlacementId:(NSString *)placementId options:(NSDictionary *)options error:( NSError **)error;
+- (void)loadAdData;
+
+/**
+ Display video ad.
+ @param rootViewController : root view controller for displaying ad.
+ @param extras : Extended parameters for displaying ad.
+ */
+- (void)showAdFromRootViewController:(UIViewController *)rootViewController
+                             options:(NSDictionary<NSString *, NSString *> *)extras;
 
 @end
 

@@ -67,6 +67,6 @@ typedef void(^hbRequestCompletionHandler)(NSArray *bidInstances);
 - (void)adClose:(id)instanceAdapter;
 - (void)adReceiveReward:(id)instanceAdapter;
 
-- (void)addEvent:(NSInteger)eventID instance:(NSString*)instanceID extraData:data;
+- (void)addEvent:(NSInteger)eventID instance:(NSString*)instanceID extraData:(NSDictionary*) data;
 @end
 #endif /* OMAdBasePrivate_h */

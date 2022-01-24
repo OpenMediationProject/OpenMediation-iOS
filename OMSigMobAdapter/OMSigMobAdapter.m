@@ -11,22 +11,22 @@
 
 + (void)setConsent:(BOOL)consent {
     Class sigmobClass = NSClassFromString(@"WindAds");
-    if (sigmobClass && [[sigmobClass sharedAds] respondsToSelector:@selector(setUserGDPRConsentStatus:)]) {
-        [[sigmobClass sharedAds] setUserGDPRConsentStatus:consent?WindConsentAccepted:WindConsentDenied];
+    if (sigmobClass && [sigmobClass respondsToSelector:@selector(setUserGDPRConsentStatus:)]) {
+        [sigmobClass setUserGDPRConsentStatus:consent?WindConsentAccepted:WindConsentDenied];
     }
 }
 
 + (void)setUserAge:(NSInteger)userAge {
     Class sigmobClass = NSClassFromString(@"WindAds");
-    if (sigmobClass && [[sigmobClass sharedAds] respondsToSelector:@selector(setUserAge:)]) {
-        [[sigmobClass sharedAds] setUserAge:userAge];
+    if (sigmobClass && [sigmobClass respondsToSelector:@selector(setUserAge:)]) {
+        [sigmobClass setUserAge:userAge];
     }
 }
 
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
-    
     NSString *key = [configuration objectForKey:@"appKey"];
+    NSArray *keys = [key componentsSeparatedByString:@"#"];
     Class windClass = NSClassFromString(@"WindAds");
     Class optionsClass = NSClassFromString(@"WindAdOptions");
     if (!windClass) {
@@ -37,10 +37,8 @@
         return;
     }
     
-    if(optionsClass && [optionsClass respondsToSelector:@selector(options)] && windClass && [windClass respondsToSelector:@selector(startWithOptions:)]) {
-        id options = [optionsClass options];
-        WindAdOptions *option = options;
-        option.appId = key;
+    if(optionsClass && [optionsClass instancesRespondToSelector:@selector(initWithAppId:appKey:usedMediation:)] && windClass && [windClass respondsToSelector:@selector(startWithOptions:)]) {
+        WindAdOptions *option = [[optionsClass alloc] initWithAppId:keys[0] appKey:keys[1] usedMediation:NO];
         [windClass startWithOptions:option];
         completionHandler(nil);
     }else{
@@ -53,10 +51,10 @@
 
 + (void)setLogEnable:(BOOL)logEnable {
     Class windClass = NSClassFromString(@"WindAds");
-    if (windClass && [windClass respondsToSelector:@selector(sharedAds)] && [windClass instancesRespondToSelector:@selector(setDebugEnable:)]) {
-        [[windClass sharedAds] setDebugEnable:logEnable];
+    if (windClass && [windClass respondsToSelector:@selector(setDebugEnable:)]) {
+        [windClass setDebugEnable:logEnable];
         if (logEnable) {
-            [[windClass sharedAds]setDebugCallBack:^(NSString *msg, int level) {
+            [windClass setDebugCallBack:^(NSString *msg, int level) {
                 NSLog(@"SigMob: %@",msg);
             }];
         }

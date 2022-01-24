@@ -8,39 +8,55 @@
 - (instancetype)initWithParameter:(NSDictionary*)adParameter {
     if (self = [super init]) {
         _pid = [adParameter objectForKey:@"pid"];
-        [[OMSigMobRouter sharedInstance]registerPidDelegate:_pid delegate:self];
+        
     }
     return self;
 }
 
 -(void)loadAd {
-    [[OMSigMobRouter sharedInstance] loadInterstitialWithPlacmentID:_pid];
+    Class WindIntersititialAdClass = NSClassFromString(@"WindIntersititialAd");
+    Class WindRequestClass = NSClassFromString(@"WindAdRequest");
+    if (WindIntersititialAdClass && WindRequestClass && [WindIntersititialAdClass instancesRespondToSelector:@selector(initWithPlacementId:request:)] && [WindRequestClass respondsToSelector:@selector(request)]) {
+        WindAdRequest *request  = [WindRequestClass request];
+        _interstitialAd = [[WindIntersititialAdClass alloc] initWithPlacementId:_pid request:request];
+        _interstitialAd.delegate = self;
+    }
+    if (_interstitialAd) {
+        [_interstitialAd loadAdData];
+    }
 }
 
 -(BOOL)isReady {
-    return [[OMSigMobRouter sharedInstance] isInterstitialReady:_pid];;
+    if (_interstitialAd) {
+        return _interstitialAd.ready;
+    }
+    return NO;
+    
 }
 
 - (void)show:(UIViewController *)vc {
     if ([self isReady]) {
-        [[OMSigMobRouter sharedInstance] showInterstitialAd:_pid withVC:vc];
+        [_interstitialAd showAdFromRootViewController:vc options:nil];
     }
 }
 
-
-- (void)OMSigMobDidload {
+- (void)intersititialAdDidLoad:(WindIntersititialAd *)intersititialAd {
     if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
 }
 
-- (void)OMSigMobDidFailToLoad:(nonnull NSError *)error {
-    if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+- (void)intersititialAdDidLoad:(WindIntersititialAd *)intersititialAd didFailWithError:(NSError *)error {
+    if(error && _delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 
-- (void)OMSigMobDidStart {
+- (void)intersititialAdWillVisible:(WindIntersititialAd *)intersititialAd {
+    
+}
+
+- (void)intersititialAdDidVisible:(WindIntersititialAd *)intersititialAd {
     if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
         [_delegate interstitialCustomEventDidOpen:self];
     }
@@ -49,26 +65,32 @@
     }
 }
 
-- (void)OMSigMobDidClick{
+- (void)intersititialAdDidClick:(WindIntersititialAd *)intersititialAd {
     if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClick:)]) {
         [_delegate interstitialCustomEventDidClick:self];
     }
 }
 
-- (void)OMSigMobDidClose{
+- (void)intersititialAdDidClickSkip:(WindIntersititialAd *)intersititialAd {
+    
+}
+
+- (void)intersititialAdDidClose:(WindIntersititialAd *)intersititialAd {
     if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClose:)]) {
         [_delegate interstitialCustomEventDidClose:self];
     }
 }
 
-- (void)OMSigMobVideoEnd {
-    
+- (void)intersititialAdDidPlayFinish:(WindIntersititialAd *)intersititialAd didFailWithError:(NSError *)error {
+    if (error) {
+        if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]) {
+            [_delegate interstitialCustomEventDidFailToShow:self error:error];
+        }
+    }
 }
 
-- (void)OMSigMobDidFailToShow:(NSError *)error{
-    if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]) {
-        [_delegate interstitialCustomEventDidFailToShow:self error:error];
-    }
+- (void)intersititialAdServerResponse:(WindIntersititialAd *)intersititialAd isFillAd:(BOOL)isFillAd {
+    
 }
 
 @end

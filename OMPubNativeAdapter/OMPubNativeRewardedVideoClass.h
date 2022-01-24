@@ -22,16 +22,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface HyBidRewardedAd: NSObject <HyBidSignalDataProcessorDelegate>
+@interface HyBidRewardedAd: NSObject
 
 @property (nonatomic, strong) HyBidAd *ad;
 @property (nonatomic, assign) BOOL isReady;
 @property (nonatomic, assign) BOOL isMediation;
+@property (nonatomic, assign) BOOL isAutoCacheOnLoad;
 
 - (instancetype)initWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidRewardedAdDelegate> *)delegate;
 - (instancetype)initWithDelegate:(NSObject<HyBidRewardedAdDelegate> *)delegate;
 - (void)load;
 - (void)prepareAdWithContent:(NSString *)adContent;
+
+- (void)prepare;
 
 /**
  Presents the rewarded ad modally from the current view controller.

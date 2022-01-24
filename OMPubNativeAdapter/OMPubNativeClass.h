@@ -11,10 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^HyBidCompletionBlock)(BOOL);
 
 typedef enum {
-    UNKNOWN,
-    TOP,
-    BOTTOM
-} BannerPosition;
+    BANNER_POSITION_UNKNOWN,
+    BANNER_POSITION_TOP,
+    BANNER_POSITION_BOTTOM
+} HyBidBannerPosition;
 
 typedef enum {
     HyBidLogLevelNone,
@@ -114,7 +114,7 @@ typedef enum {
 
 @end
 
-@interface HyBidAdView : UIView <HyBidAdRequestDelegate, HyBidAdPresenterDelegate, HyBidSignalDataProcessorDelegate>
+@interface HyBidAdView : UIView <HyBidAdRequestDelegate, HyBidAdPresenterDelegate>
 
 @property (nonatomic, strong) HyBidAdRequest *adRequest;
 @property (nonatomic, strong) HyBidAd *ad;
@@ -122,20 +122,23 @@ typedef enum {
 @property (nonatomic, assign) BOOL isMediation;
 @property (nonatomic, strong) HyBidAdSize *adSize;
 @property (nonatomic, assign) BOOL autoShowOnLoad;
-@property (nonatomic) BannerPosition bannerPosition;
+@property (nonatomic) HyBidBannerPosition bannerPosition;
+@property (nonatomic, assign) BOOL isAutoCacheOnLoad;
 
 - (instancetype)initWithSize:(HyBidAdSize *)adSize NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 - (void)loadWithZoneID:(NSString *)zoneID andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
-- (void)loadWithZoneID:(NSString *)zoneID withPosition:(BannerPosition)bannerPosition andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
+- (void)loadWithZoneID:(NSString *)zoneID withPosition:(HyBidBannerPosition)bannerPosition andWithDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
 - (void)setupAdView:(UIView *)adView;
 - (void)renderAd;
 - (void)renderAdWithContent:(NSString *)adContent withDelegate:(NSObject<HyBidAdViewDelegate> *)delegate;
 - (void)startTracking;
 - (void)stopTracking;
+- (void)prepare;
 - (void)show;
 - (HyBidAdPresenter *)createAdPresenter;
+
 
 @end
 

@@ -17,14 +17,17 @@ typedef NS_ENUM (NSInteger, WindAgeRestrictedStatus) {
 };
 
 @interface WindAdOptions : NSObject
-@property (copy, nonatomic) NSString* appId;
-@property (copy, nonatomic) NSString* apiKey;
-+ (instancetype)options;
+/// Sigmob平台申请的appId
+@property (copy, nonatomic, readonly) NSString* appId;
+/// Sigmob平台申请的appKey
+@property (copy, nonatomic, readonly) NSString* appKey;
+/// 声明是否使用的是聚合 default = NO
+@property (nonatomic, assign, readonly) BOOL usedMediation;
+- (instancetype)initWithAppId:(NSString *)appId appKey:(NSString *)appKey usedMediation:(BOOL)usedMediation;
 @end
+
 typedef void(^WindAdDebugCallBack)(NSString *msg, int level);
 @interface WindAds : NSObject
-@property (nonatomic,strong) WindAdOptions *adOptions;
-+ (instancetype)sharedAds;
 + (NSString *)sdkVersion;
 + (void)startWithOptions:(WindAdOptions *)options;
 + (WindConsentStatus)getUserGDPRConsentStatus;
@@ -33,12 +36,19 @@ typedef void(^WindAdDebugCallBack)(NSString *msg, int level);
 + (void)setIsAgeRestrictedUser:(WindAgeRestrictedStatus)status;
 + (NSUInteger)getUserAge;
 + (void)setUserAge:(NSUInteger)age;
-- (void)setDebugEnable:(BOOL)enable;
-- (void)setDebugCallBack:(WindAdDebugCallBack)callBack;
++ (void)setDebugEnable:(BOOL)enable;
++ (void)setDebugCallBack:(WindAdDebugCallBack)callBack;
 @end
 
+
+
 @interface WindAdRequest : NSObject
+@property (nonatomic,copy) NSString *userId;
+@property (nonatomic,copy) NSString *placementId;
+//做为扩展参数使用
+@property (nonatomic,strong) NSDictionary<NSString *, NSString *> *options;
 + (instancetype)request;
+
 @end
 
 
