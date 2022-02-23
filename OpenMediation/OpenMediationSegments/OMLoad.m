@@ -56,6 +56,7 @@
 }
 
 - (void)loadWithPriority:(NSArray *)insPriority {
+    self.wfLoading = YES;
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     OMLogD(@"%@ load start",self.pid);
 }
@@ -169,7 +170,8 @@
 }
 
 - (void)notifyLoadEnd {
-    if (_loading) {
+    if (_wfLoading) {
+        _wfLoading = NO;
         _loading = NO;
         OMLogD(@"%@ load end",self.pid);
         if (_delegate && [_delegate respondsToSelector:@selector(omLoadNoFill)]) {

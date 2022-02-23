@@ -40,12 +40,12 @@ static OMVungleRouter * _instance = nil;
 }
 
 - (VungleAdSize)convertWithSize:(CGSize)size {
-    if (size.width == 300 && size.height == 250) {
-        return VungleAdSizeBannerShort;
+    if (size.width == 320 && size.height == 50) {
+        return VungleAdSizeBanner;
     } else if (size.width == 728 && size.height == 90) {
         return VungleAdSizeBannerLeaderboard;
     } else  {
-        return VungleAdSizeBanner;
+        return VungleAdSizeBannerShort;
     }
 }
 
@@ -89,12 +89,12 @@ static OMVungleRouter * _instance = nil;
 
 #pragma mark -- VungleSDKDelegate
 - (void)vungleAdPlayabilityUpdate:(BOOL)isAdPlayable placementID:(nullable NSString *)placementID error:(nullable NSError *)error {
-    
-    NSLog(@"vungle bid %@ isadplayable %zd",placementID, (NSInteger)isAdPlayable);
-    
+    Class vungleClass = NSClassFromString(@"VungleSDK");
+    if ([vungleClass sharedSDK].isInitialized) {
+        _sdkInitialized = YES;
+    }
     id<OMVungleAdapterDelegate> delegate = [_placementDelegateMap objectForKey:placementID];
-    
-    if(![self isAdPlaying] && isAdPlayable && _vungleSDK && [_vungleSDK respondsToSelector:@selector(isAdCachedForPlacementID:)] && [_vungleSDK isAdCachedForPlacementID:placementID] ) {
+    if(_sdkInitialized && ![self isAdPlaying] && isAdPlayable && _vungleSDK && [_vungleSDK respondsToSelector:@selector(isAdCachedForPlacementID:)] && [_vungleSDK isAdCachedForPlacementID:placementID] ) {
         if (delegate && [delegate respondsToSelector:@selector(omVungleDidload)]) {
             [delegate omVungleDidload];
         }

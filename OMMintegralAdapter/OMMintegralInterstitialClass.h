@@ -7,234 +7,225 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger,MTGIVRewardMode) {
-    MTGIVRewardCloseMode,//The alert was shown when the user tried to close the ad.
-    MTGIVRewardPlayMode//The alert was shown when the ad played to a certain extent
+/**
+ We will call back the time when the user saw the alert message. The timing depends on the way you set MTGNIRewardMode
+*/
+typedef NS_ENUM(NSInteger,MTGNIRewardMode) {
+    MTGNIRewardCloseMode,//The alert was shown when the user tried to close the ad.
+    MTGNIRewardPlayMode//The alert was shown when the ad played to a certain extent
 };
 
-
-typedef NS_ENUM(NSInteger,MTGIVAlertWindowStatus) {
-    MTGIVAlertNotShown, //The alert window was not shown
-    MTGIVAlertChooseContinue,//The alert window has shown and the user chooses to continue which means he wants the reward.
-    MTGIVAlertChooseCancel //The alert window has shown and the user chooses to cancel which means he doesn’t want the reward.
+/**
+ We will call back whether the alert information has shown to the user and decision of the user.
+*/
+typedef NS_ENUM(NSInteger,MTGNIAlertWindowStatus) {
+    MTGNIAlertNotShown, //The alert window was not shown
+    MTGNIAlertChooseContinue,//The alert window has shown and the user chooses to continue which means he wants the reward.
+    MTGNIAlertChooseCancel //The alert window has shown and the user chooses to cancel which means he doesn’t want the reward.
 };
 
-@class MTGInterstitialVideoAdManager;
-@class MTGBidInterstitialVideoAdManager;
+@class MTGNewInterstitialAdManager;
+@class MTGNewInterstitialBidAdManager;
 
-@protocol MTGInterstitialVideoDelegate <NSObject>
-@optional
-
-
-- (void)onInterstitialAdLoadSuccess:(MTGInterstitialVideoAdManager *_Nonnull)adManager;
-
-
-- (void)onInterstitialVideoLoadSuccess:(MTGInterstitialVideoAdManager *_Nonnull)adManager;
-
-
-- (void)onInterstitialVideoLoadFail:(nonnull NSError *)error adManager:(MTGInterstitialVideoAdManager *_Nonnull)adManager;
-
-
-
-- (void)onInterstitialVideoShowSuccess:(MTGInterstitialVideoAdManager *_Nonnull)adManager;
-
-
-- (void)onInterstitialVideoShowFail:(nonnull NSError *)error adManager:(MTGInterstitialVideoAdManager *_Nonnull)adManager;
-
-
-- (void)onInterstitialVideoPlayCompleted:(MTGInterstitialVideoAdManager *_Nonnull)adManager;
-
-- (void)onInterstitialVideoEndCardShowSuccess:(MTGInterstitialVideoAdManager *_Nonnull)adManager;
-
-
-
-- (void)onInterstitialVideoAdClick:(MTGInterstitialVideoAdManager *_Nonnull)adManager;
-
-- (void)onInterstitialVideoAdDismissedWithConverted:(BOOL)converted adManager:(MTGInterstitialVideoAdManager *_Nonnull)adManager;
-
-- (void) onInterstitialVideoAdDidClosed:(MTGInterstitialVideoAdManager *_Nonnull)adManager;
-
-@end
-
-@class MTGInterstitialVideoDelegate;
-
-@interface MTGInterstitialVideoAdManager :  NSObject
-
-@property (nonatomic, weak) id  <MTGInterstitialVideoDelegate> _Nullable delegate;
-
-@property (nonatomic, readonly)   NSString * _Nonnull currentUnitId;
-
-@property (nonatomic, readonly)   NSString * _Nullable placementId;
-
-@property (nonatomic, assign) BOOL  playVideoMute;
-
-- (nonnull instancetype)initWithPlacementId:(nullable NSString *)placementId
-                                     unitId:(nonnull NSString *)unitId
-                                   delegate:(nullable id<MTGInterstitialVideoDelegate>)delegate;
-
-- (void)loadAd;
-
-
-- (void)showFromViewController:(UIViewController *_Nonnull)viewController;
-
-
-- (BOOL)isVideoReadyToPlayWithPlacementId:(nullable NSString *)placementId unitId:(nonnull NSString *)unitId;
-
-- (void)cleanAllVideoFileCache;
-
-
-- (void)setIVRewardMode:(MTGIVRewardMode)ivRewardMode playRate:(CGFloat)playRate;
-
-
-- (void)setIVRewardMode:(MTGIVRewardMode)ivRewardMode playTime:(NSInteger)playTime;
-
-- (void)setAlertWithTitle:(NSString *_Nullable)title
-                  content:(NSString *_Nullable)content
-              confirmText:(NSString *_Nullable)confirmText
-               cancelText:(NSString *_Nullable)cancelText;
-
-@end
-
-@protocol MTGBidInterstitialVideoDelegate <NSObject>
+/**
+ *  This protocol defines a listener for ad events.
+ */
+@protocol MTGNewInterstitialAdDelegate <NSObject>
 @optional
 
 /**
- *  Called when the ad is loaded , but not ready to be displayed,need to wait load video
- completely
+ *  Called when the ad is loaded , but not ready to be displayed,need to wait load resources completely
  */
-- (void)onInterstitialAdLoadSuccess:(MTGBidInterstitialVideoAdManager *_Nonnull)adManager;
+- (void)newInterstitialAdLoadSuccess:(MTGNewInterstitialAdManager *_Nonnull)adManager;
 
 /**
  *  Called when the ad is successfully load , and is ready to be displayed
  */
-- (void)onInterstitialVideoLoadSuccess:(MTGBidInterstitialVideoAdManager *_Nonnull)adManager;
+- (void)newInterstitialAdResourceLoadSuccess:(MTGNewInterstitialAdManager *_Nonnull)adManager;
 
 /**
  *  Called when there was an error loading the ad.
  *  @param error       - error object that describes the exact error encountered when loading the ad.
  */
-- (void)onInterstitialVideoLoadFail:(nonnull NSError *)error adManager:(MTGBidInterstitialVideoAdManager *_Nonnull)adManager;
+- (void)newInterstitialAdLoadFail:(nonnull NSError *)error adManager:(MTGNewInterstitialAdManager *_Nonnull)adManager;
 
 
 /**
- *  Called when the ad display success
+ *  Called when the ad displayed successfully
  */
-- (void)onInterstitialVideoShowSuccess:(MTGBidInterstitialVideoAdManager *_Nonnull)adManager;
+- (void)newInterstitialAdShowSuccess:(MTGNewInterstitialAdManager *_Nonnull)adManager;
 
 /**
- *  Called when the ad failed to display for some reason
+ *  Called when the ad failed to display
  *  @param error       - error object that describes the exact error encountered when showing the ad.
  */
-- (void)onInterstitialVideoShowFail:(nonnull NSError *)error adManager:(MTGBidInterstitialVideoAdManager *_Nonnull)adManager;
+- (void)newInterstitialAdShowFail:(nonnull NSError *)error adManager:(MTGNewInterstitialAdManager *_Nonnull)adManager;
 
 /**
  *  Called only when the ad has a video content, and called when the video play completed
  */
-- (void)onInterstitialVideoPlayCompleted:(MTGBidInterstitialVideoAdManager *_Nonnull)adManager;
+- (void)newInterstitialAdPlayCompleted:(MTGNewInterstitialAdManager *_Nonnull)adManager;
 
 /**
  *  Called only when the ad has a endcard content, and called when the endcard show
  */
-- (void)onInterstitialVideoEndCardShowSuccess:(MTGBidInterstitialVideoAdManager *_Nonnull)adManager;
+- (void)newInterstitialAdEndCardShowSuccess:(MTGNewInterstitialAdManager *_Nonnull)adManager;
 
 
 /**
  *  Called when the ad is clicked
  */
-- (void)onInterstitialVideoAdClick:(MTGBidInterstitialVideoAdManager *_Nonnull)adManager;
+- (void)newInterstitialAdClicked:(MTGNewInterstitialAdManager *_Nonnull)adManager;
 
 /**
  *  Called when the ad has been dismissed from being displayed, and control will return to your app
  *  @param converted   - BOOL describing whether the ad has converted
  */
-- (void)onInterstitialVideoAdDismissedWithConverted:(BOOL)converted adManager:(MTGBidInterstitialVideoAdManager *_Nonnull)adManager;
+- (void)newInterstitialAdDismissedWithConverted:(BOOL)converted adManager:(MTGNewInterstitialAdManager *_Nonnull)adManager;
 
 /**
  *  Called when the ad  did closed;
  */
-- (void)onInterstitialVideoAdDidClosed:(MTGBidInterstitialVideoAdManager *_Nonnull)adManager;
+- (void)newInterstitialAdDidClosed:(MTGNewInterstitialAdManager *_Nonnull)adManager;
 
  /**
-*  If Interstitial Video  reward is set, you will receive this callback
-*  @param achieved  Whether the video played to required rate
-* @param alertWindowStatus  {@link MTGIVAlertWindowStatus} fro list of supported types
-  NOTE:You can decide whether to give the reward based on that callback
+*  If NewInterstitial reward is set, you will receive this callback
+*  @param rewardedOrNot  Whether the video played to required rate
+*  @param alertWindowStatus  {@link MTGNIAlertWindowStatus} for list of            supported types
+  NOTE:You can decide whether or not to give the reward based on this callback
  */
-- (void)onInterstitialVideoAdPlayVideo:(BOOL)achieved alertWindowStatus:(MTGIVAlertWindowStatus)alertWindowStatus adManager:(MTGBidInterstitialVideoAdManager *_Nonnull)adManager;
+- (void)newInterstitialAdRewarded:(BOOL)rewardedOrNot alertWindowStatus:(MTGNIAlertWindowStatus)alertWindowStatus adManager:(MTGNewInterstitialAdManager *_Nonnull)adManager;
 
 @end
 
-
-@interface MTGBidInterstitialVideoAdManager : NSObject
-
-@property (nonatomic, weak) id  <MTGBidInterstitialVideoDelegate> _Nullable delegate;
-
-@property (nonatomic, readonly)   NSString * _Nonnull currentUnitId;
-
-@property (nonatomic, readonly)   NSString * _Nullable placementId;
+/**
+ *  This protocol defines a listener for ad events.
+ */
+@protocol MTGNewInterstitialBidAdDelegate <NSObject>
+@optional
 
 /**
- * Play the video is mute in the beginning ,defult is NO
- *
+ *  Called when the ad is loaded , but not ready to be displayed,need to wait load resources completely
  */
+- (void)newInterstitialBidAdLoadSuccess:(MTGNewInterstitialBidAdManager *_Nonnull)adManager;
+
+/**
+ *  Called when the ad is successfully load , and is ready to be displayed
+ */
+- (void)newInterstitialBidAdResourceLoadSuccess:(MTGNewInterstitialBidAdManager *_Nonnull)adManager;
+
+/**
+ *  Called when there was an error loading the ad.
+ *  @param error       - error object that describes the exact error encountered when loading the ad.
+ */
+- (void)newInterstitialBidAdLoadFail:(nonnull NSError *)error adManager:(MTGNewInterstitialBidAdManager *_Nonnull)adManager;
+
+
+/**
+ *  Called when the ad display success
+ */
+- (void)newInterstitialBidAdShowSuccess:(MTGNewInterstitialBidAdManager *_Nonnull)adManager;
+
+/**
+ *  Only called when displaying bidding ad.
+ */
+- (void)newInterstitialBidAdShowSuccessWithBidToken:(nonnull NSString * )bidToken adManager:(MTGNewInterstitialBidAdManager *_Nonnull)adManager;
+
+/**
+ *  Called when the ad failed to display
+ *  @param error       - error object that describes the exact error encountered when showing the ad.
+ */
+- (void)newInterstitialBidAdShowFail:(nonnull NSError *)error adManager:(MTGNewInterstitialBidAdManager *_Nonnull)adManager;
+
+/**
+ *  Called only when the ad has a video content, and called when the video play completed
+ */
+- (void)newInterstitialBidAdPlayCompleted:(MTGNewInterstitialBidAdManager *_Nonnull)adManager;
+
+/**
+ *  Called only when the ad has a endcard content, and called when the endcard show
+ */
+- (void)newInterstitialBidAdEndCardShowSuccess:(MTGNewInterstitialBidAdManager *_Nonnull)adManager;
+
+
+/**
+ *  Called when the ad is clicked
+ */
+- (void)newInterstitialBidAdClicked:(MTGNewInterstitialBidAdManager *_Nonnull)adManager;
+
+/**
+ *  Called when the ad has been dismissed from being displayed, and control will return to your app
+ *  @param converted   - BOOL describing whether the ad has converted
+ */
+- (void)newInterstitialBidAdDismissedWithConverted:(BOOL)converted adManager:(MTGNewInterstitialBidAdManager *_Nonnull)adManager;
+
+/**
+ *  Called when the ad  did closed;
+ */
+- (void)newInterstitialBidAdDidClosed:(MTGNewInterstitialBidAdManager *_Nonnull)adManager;
+
+ /**
+*  If New Interstitial  reward is set, you will receive this callback
+*  @param rewardedOrNot  Whether the video played to required rate
+* @param alertWindowStatus  {@link MTGNIAlertWindowStatus} for list of supported types
+  NOTE:You can decide whether or not to give the reward based on this callback
+ */
+- (void)newInterstitialBidAdRewarded:(BOOL)rewardedOrNot alertWindowStatus:(MTGNIAlertWindowStatus)alertWindowStatus adManager:(MTGNewInterstitialBidAdManager *_Nonnull)adManager;
+
+@end
+
+@interface MTGNewInterstitialAdManager : NSObject
+
+@property (nonatomic, readonly, weak) id  <MTGNewInterstitialAdDelegate> _Nullable delegate;
+
+@property (nonatomic, readonly, copy)   NSString * _Nonnull currentUnitId;
+
+@property (nonatomic, readonly, copy)   NSString * _Nullable placementId;
+
+/** Play the video is mute in the beginning ,defult is NO */
 @property (nonatomic, assign) BOOL  playVideoMute;
 
-- (nonnull instancetype)initWithPlacementId:(nullable NSString *)placementId
+- (nonnull instancetype)initWithPlacementId:(nonnull NSString *)placementId
                                      unitId:(nonnull NSString *)unitId
-                                   delegate:(nullable id<MTGBidInterstitialVideoDelegate>)delegate;
-/**
- * Begins loading bidding ad content for the interstitialVideo.
- *
- * You can implement the `onInterstitialVideoLoadSuccess:` and `onInterstitialVideoLoadFail: adManager:` methods of
- * `MTGInterstitialVideoDelegate` if you would like to be notified as loading succeeds or
- * fails.
- * @param bidToken - the token from bid request within MTGBidFramework.
- */
-- (void)loadAdWithBidToken:(nonnull NSString *)bidToken;
+                                   delegate:(nullable id<MTGNewInterstitialAdDelegate>)delegate;
 
-/** @name Presenting an interstitialVideo Ad */
+
+/** Begins loading ad content. */
+- (void)loadAd;
 
 /**
- * Presents the interstitialVideo ad modally from the specified view controller.
+*  Whether or not if there was an available ad to show.
+ @return YES means there was a available ad, otherwise NO.
+*/
+- (BOOL)isAdReady;
+
+/**
+ * Presents the NewInterstitial ad modally from the specified view controller.
  *
- * @param viewController The view controller that should be used to present the interstitialVideo ad.
+ * @param viewController The view controller that should be used to present the  ad.
  */
 - (void)showFromViewController:(UIViewController *_Nonnull)viewController;
 
 
-/**
-*  Whether the given unitId is loaded and ready to be shown.
- 
-* @param placementId   - the placementId string of the Ad that display.
-*  @param unitId - adPositionId value in Self Service.
-*
-*  @return - YES if the unitId is loaded and ready to be shown, otherwise NO.
-*/
-- (BOOL)isVideoReadyToPlayWithPlacementId:(nullable NSString *)placementId unitId:(nonnull NSString *)unitId;
 
 
 /**
- *  Clean all the video file cache from the disk.
- */
-- (void)cleanAllVideoFileCache;
-
-/**
-  * Set interstitial video reward if you need，call before loadAd.
-  * @param MTGIVRewardMode  {@link MTGIVRewardMode} fro list of supported types
+  * Set NewInterstitial  reward if you need，call before loadAd.
+  * @param rewardMode  {@link MTGNIRewardMode} for list of supported types
   * @param playRate Set the timing of the reward alertView,range of 0~1(eg:set 0.6,indicates 60%).
-  NOTE:In MTGIVRewardPlayMode, playRate value indicates that a reward alertView will appear when the playback reaches the set playRate.
-       In MTGIVRewardCloseMode, playRate value indicates that when the close button is clicked, if the video playback time is less than the set playRate, reward alertView will appear.
+  NOTE:In MTGNIRewardPlayMode, playRate value indicates that a reward alertView will appear when the playback reaches the set playRate.
+       In MTGNIRewardCloseMode, playRate value indicates that when the close button is clicked, if the video playback time is less than the set playRate, reward alertView will appear.
  */
-- (void)setIVRewardMode:(MTGIVRewardMode)ivRewardMode playRate:(CGFloat)playRate;
+- (void)setRewardMode:(MTGNIRewardMode)rewardMode playRate:(CGFloat)playRate;
 
 /**
- * Set interstitial video reward if you need，call before loadAd.
- * @param MTGIVRewardMode  {@link MTGIVRewardMode} fro list of supported types
+ * Set NewInterstitial reward if you need，call before loadAd.
+ * @param rewardMode  {@link MTGNIRewardMode} for list of supported types
  * @param playTime Set the timing of the reward alertView,range of 0~100s.
-  NOTE:In MTGIVRewardPlayMode, playTime value indicates that a reward alertView will appear when the playback reaches the set playTime.
-      In MTGIVRewardCloseMode, playTime value indicates that when the close button is clicked, if the video playback time is less than the set playTime, reward alertView will appear.
+ NOTE:In MTGNIRewardPlayMode, playTime value indicates that a reward alertView will appear when the playback reaches the set playTime.
+      In MTGNIRewardCloseMode, playTime value indicates that when the close button is clicked, if the video playback time is less than the set playTime, reward alertView will appear.
 */
-- (void)setIVRewardMode:(MTGIVRewardMode)ivRewardMode playTime:(NSInteger)playTime;
+- (void)setRewardMode:(MTGNIRewardMode)rewardMode playTime:(NSInteger)playTime;
 
 /**
 *  Call this method when you want custom the reward alert  display text.
@@ -250,6 +241,95 @@ typedef NS_ENUM(NSInteger,MTGIVAlertWindowStatus) {
                   content:(NSString *_Nullable)content
               confirmText:(NSString *_Nullable)confirmText
                cancelText:(NSString *_Nullable)cancelText;
+
+/**
+* get the id of this request ad,call  after onInterstitialAdLoadSuccess.
+*/
+- (NSString *_Nullable)getRequestIdWithUnitId:(nonnull NSString *)unitId;
+
+@end
+
+@interface MTGNewInterstitialBidAdManager : NSObject
+
+@property (nonatomic, readonly, weak) id  <MTGNewInterstitialBidAdDelegate> _Nullable delegate;
+
+@property (nonatomic, readonly, copy)   NSString * _Nonnull currentUnitId;
+
+@property (nonatomic, readonly, copy)   NSString * _Nullable placementId;
+
+/**
+ * Play the video is mute in the beginning ,defult is NO
+ *
+ */
+@property (nonatomic, assign) BOOL  playVideoMute;
+
+- (nonnull instancetype)initWithPlacementId:(nonnull NSString *)placementId
+                                     unitId:(nonnull NSString *)unitId
+                                   delegate:(nullable id<MTGNewInterstitialBidAdDelegate>)delegate;
+
+
+/**
+ Begins loading header bidding ad content.
+
+ @param bidToken token from bid request.
+*/
+- (void)loadAdWithBidToken:(nonnull NSString *)bidToken;
+
+/**
+ Whether or not if there was a available bidding ad to show.
+ 
+ @return YES means there was a available bidding ad, otherwise NO.
+*/
+- (BOOL)isAdReady;
+
+/**
+ * Presents the NewInterstitial ad modally from the specified view controller.
+ *
+ * @param viewController The view controller that should be used to present the  ad.
+ */
+- (void)showFromViewController:(UIViewController *_Nonnull)viewController;
+
+
+
+
+/**
+  * Set NewInterstitial  reward if you need，call before loadAd.
+  * @param rewardMode  {@link MTGNIRewardMode} for list of supported types
+  * @param playRate Set the timing of the reward alertView,range of 0~1(eg:set 0.6,indicates 60%).
+  NOTE:In MTGNIRewardPlayMode, playRate value indicates that a reward alertView will appear when the playback reaches the set playRate.
+       In MTGNIRewardCloseMode, playRate value indicates that when the close button is clicked, if the video playback time is less than the set playRate, reward alertView will appear.
+ */
+- (void)setRewardMode:(MTGNIRewardMode)rewardMode playRate:(CGFloat)playRate;
+
+/**
+ * Set NewInterstitial reward if you need，call before loadAd.
+ * @param rewardMode  {@link MTGNIRewardMode} for list of supported types
+ * @param playTime Set the timing of the reward alertView,range of 0~100s.
+ NOTE:In MTGNIRewardPlayMode, playTime value indicates that a reward alertView will appear when the playback reaches the set playTime.
+      In MTGNIRewardCloseMode, playTime value indicates that when the close button is clicked, if the video playback time is less than the set playTime, reward alertView will appear.
+*/
+- (void)setRewardMode:(MTGNIRewardMode)rewardMode playTime:(NSInteger)playTime;
+
+/**
+*  Call this method when you want custom the reward alert  display text.
+*
+* @param title  alert title
+* @param content    alertcontent
+* @param confirmText    confirm button text
+* @param cancelText     cancel button text
+ 
+ NOTE:Must be called before loadAd
+*/
+- (void)setAlertWithTitle:(NSString *_Nullable)title
+                  content:(NSString *_Nullable)content
+              confirmText:(NSString *_Nullable)confirmText
+               cancelText:(NSString *_Nullable)cancelText;
+
+/**
+* get the id of this request ad,call  after onInterstitialAdLoadSuccess.
+*/
+- (NSString *_Nullable)getRequestIdWithUnitId:(nonnull NSString *)unitId;
+
 @end
 
 NS_ASSUME_NONNULL_END

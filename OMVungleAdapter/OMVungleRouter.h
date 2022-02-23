@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isAdPlaying;
 @property (nonatomic, strong) NSMapTable *placementDelegateMap;
 @property (nonatomic, strong) id vungleSDK;
+@property (nonatomic, assign) BOOL sdkInitialized; // vungle sdk init status
 
 + (instancetype)sharedInstance;
 - (void)registerPidDelegate:(NSString*)pid delegate:(id)delegate;

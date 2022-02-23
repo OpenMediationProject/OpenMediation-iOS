@@ -494,9 +494,9 @@
     } else if (instanceBidResponse && adapter && [adapter respondsToSelector:@selector(loadAdWithBidPayload:)]) {
         NSString *payload = OM_SAFE_STRING((NSString*)instanceBidResponse.payLoad);
         OMLogD(@"%@ load adnName %@ instance %@ with bid payload %@",self.pid,adnName,instanceID,payload);
-        @synchronized (self) {
-            [_loadedInstanceBidResponses setObject:instanceBidResponse forKey:instanceID];
-        }
+           @synchronized (self) {
+               [_loadedInstanceBidResponses setObject:instanceBidResponse forKey:instanceID];
+           }
         NSDictionary *extraData = nil;
         if (!payload.length) {
             extraData = @{@"msg":@"payload empty"};
@@ -600,7 +600,7 @@
         instanceReady = [adapter isReady];
     }
     if (!instanceReady) {
-        if (_adLoader.loading) {
+        if (_adLoader.wfLoading) {
             [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateCallShow];//instance available state changed
         } else {
             [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];//instance available state changed
@@ -839,7 +839,7 @@
 
 - (void)customEventAdDidExpired:(id)adapter {
     NSString *instanceID = [self checkInstanceIDWithAdapter:adapter];
-    if (_adLoader.loading) {
+    if (_adLoader.wfLoading) {
         [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateCallShow];
     } else {
         [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
@@ -957,7 +957,7 @@
     NSString *adnName = [[OMConfig sharedInstance] adnName:adnID];
     OMLogD(@"%@ adnName %@ instance %@ show fail",self.pid,adnName,OM_SAFE_STRING(instanceID));
     [self addEvent:INSTANCE_SHOW_FAILED instance:instanceID extraData:nil];
-    if (!_adLoader.loading) {
+    if (!_adLoader.wfLoading) {
         [_adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
     }
     [self loadAd:_adFormat actionType:OMLoadActionCloseEvent];
@@ -1004,11 +1004,11 @@
     OMLogD(@"%@ adnName %@ instance %@ close",self.pid,adnName,OM_SAFE_STRING(instanceID));
     [self addEvent:INSTANCE_CLOSED instance:instanceID extraData:nil];
     [self.loadedInstanceBidResponses removeObjectForKey:instanceID];
-    if(!self.adLoader.loading) {
+    if (!self.adLoader.wfLoading) {
         [self.adLoader saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
-        if ([_adLoader isKindOfClass:NSClassFromString(@"OMSmartLoad")]) {
-            [self loadAd:_adFormat actionType:OMLoadActionCloseEvent];
-        }
+    }
+    if(!self.adLoader.loading && [_adLoader isKindOfClass:NSClassFromString(@"OMSmartLoad")]) {
+        [self loadAd:_adFormat actionType:OMLoadActionCloseEvent];
     }
 }
 
@@ -1051,7 +1051,7 @@
 }
 
 
-- (void)addEvent:(NSInteger)eventID instance:(NSString*)instanceID extraData:(NSDictionary*) data {
+- (void)addEvent:(NSInteger)eventID instance:(NSString*)instanceID extraData:(NSDictionary*)data {
     
     NSMutableDictionary *wrapperData = [NSMutableDictionary dictionary];
     if (data) {

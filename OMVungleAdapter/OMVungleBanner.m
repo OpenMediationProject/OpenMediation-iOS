@@ -25,8 +25,8 @@
         VungleSDK *vungle = [vungleClass sharedSDK];
         _renderView = [[UIView alloc]initWithFrame:self.bounds];
         [self addSubview:_renderView];
-        [vungle addAdViewToView:_renderView withOptions:@{} placementID:self.pid error:nil];
-        
+        NSError *error;
+        [vungle addAdViewToView:_renderView withOptions:nil placementID:self.pid error:&error];
     }
     
 }

@@ -54,6 +54,7 @@ typedef NS_ENUM(NSInteger, OMInstanceLoadState) {
 @property (nonatomic, copy) NSString *optimalFillInstance;
 @property (nonatomic, assign) BOOL notifyLoadResult;
 @property (nonatomic, assign) BOOL loading;
+@property (nonatomic, assign) BOOL wfLoading;
 @property (nonatomic, assign) BOOL adShow;
 
 @property (nonatomic, weak)   id<OMLoadDelegate> delegate;

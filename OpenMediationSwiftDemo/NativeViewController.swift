@@ -23,7 +23,6 @@ class NativeViewController: UIViewController, OMNativeDelegate {
         return bodyLabel
     }()
     
-    var nativeAd: OMNativeAd?
     private lazy var nativeView: OMNativeView = {
         let view = OMNativeView(frame: CGRect(x: 0, y: 300, width: self.view.frame.size.width, height: 300))
         view.mediaView = OMNativeMediaView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 300))
@@ -34,12 +33,7 @@ class NativeViewController: UIViewController, OMNativeDelegate {
         return view
     }()
     
-    private lazy var native: OMNative = {
-        let native = OMNative(placementID: "4937")
-        native.delegate = self
-        self.view.addSubview(nativeView)
-        return native
-    }()
+    
     
     var logLabel = UILabel()
     
@@ -60,46 +54,40 @@ class NativeViewController: UIViewController, OMNativeDelegate {
         loadBtn.addTarget(self, action: #selector(loadBtnDidClicked), for: .touchUpInside)
         self.view.addSubview(loadBtn)
         
-        let showBtn:UIButton = UIButton(frame: CGRect(x: 20, y: loadBtn.frame.maxY+20, width: 120, height: 30))
-        showBtn.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
-        showBtn.backgroundColor = UIColor.white
-        showBtn.setTitleColor(UIColor.blue, for: .normal)
-        showBtn.setTitleColor(UIColor.gray, for: .highlighted)
-        showBtn.setTitleColor(UIColor.gray, for: .selected)
-        showBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-        showBtn.setTitle("Show", for: .normal)
-        showBtn.addTarget(self, action: #selector(showBtnDidClicked), for: .touchUpInside)
-        self.view.addSubview(showBtn)
-        
-        logLabel = UILabel(frame: CGRect(x: 20, y: showBtn.frame.maxY+20, width: 200, height: 30))
+        logLabel = UILabel(frame: CGRect(x: 20, y: loadBtn.frame.maxY+20, width: 200, height: 30))
         logLabel.text = "Log"
         logLabel.font = UIFont.systemFont(ofSize: 15)
         self.view.addSubview(logLabel)
+        
+        self.view.addSubview(nativeView)
     }
+    
     
     @objc func loadBtnDidClicked(){
         logLabel.text = "NativeAd is Loading"
         print("NativeAd is Loading");
-        self.native.loadAd()
+        OMNativeManager.sharedInstance().add(self)
+        OMNativeManager.sharedInstance().load(withPlacementID: "4937")
     }
     
-    @objc func showBtnDidClicked(){
-        if self.nativeAd==nil {
-            return;
-        }
-        self.nativeView.isHidden = false
-        self.nativeView.nativeAd = self.nativeAd!
-        self.iconView.image = UIImage(data: try! Data(contentsOf: URL(string: self.nativeAd?.iconUrl ?? "")!))
-        self.titleLabel.text = self.nativeAd?.title
-        self.bodyLabel.text = self.nativeAd?.body
-    }
     
     /// Invoked when the ad is available.
     /// You can then show the ad.
     func omNative(_ native: OMNative, didLoad nativeAd: OMNativeAd) {
         logLabel.text = "NativeAd Did Load"
         print("NativeAd Did Load")
-        self.nativeAd = nativeAd
+        
+        self.nativeView.nativeAd = nativeAd
+        self.iconView.image = UIImage(data: try! Data(contentsOf: URL(string: nativeAd.iconUrl)!))
+        self.titleLabel.text = nativeAd.title
+        self.bodyLabel.text = nativeAd.body
+        self.nativeView.setClickableViews([self.iconView,self.titleLabel,self.nativeView.mediaView])
+    }
+    
+    func omNative(_ native: OMNative, didLoad nativeAdView: OMNativeAdView) {
+        self.nativeView.nativeAdView = nativeAdView
+        logLabel.text = "Native Ad View Did Load"
+        print("Native Ad View Did Load")
     }
     
     /// Invoked when the call to load an ad has failed.

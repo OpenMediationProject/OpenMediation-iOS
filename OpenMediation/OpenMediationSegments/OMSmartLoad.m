@@ -11,6 +11,7 @@
 
 - (instancetype)initWithPid:(NSString*)pid adFormat:(OpenMediationAdFormat)format {
     if (self = [super initWithPid:pid adFormat:format]) {
+        self.configCacheCount = -1;
         self.fillInstances = [NSMutableArray array];
         [self addCheckCacheTimer];
     }
@@ -106,7 +107,7 @@
         if ([[self.instanceLoadState objectForKey:instanceID] integerValue] == OMInstanceLoadStateSuccess) {
             NSInteger now = (NSInteger)([[NSDate date]timeIntervalSince1970]);
             if (instance.expiredTime >0 && instance.expiredTime <= now) {
-                if (self.loading) {
+                if (self.wfLoading) {
                     [self saveInstanceLoadState:instanceID state:OMInstanceLoadStateCallShow];
                 } else {
                     [self saveInstanceLoadState:instanceID state:OMInstanceLoadStateWait];
@@ -207,7 +208,7 @@
             OMLogD(@"%@ no cache instance, use preload instance %@",self.pid,self.optimalFillInstance);
         }
     }
-    if ( (self.cacheCount >= self.configCacheCount) || (loadFinishCount == self.priorityList.count && self.priorityList.count>0)) {
+    if ( (self.configCacheCount>=0 && self.cacheCount >= self.configCacheCount) || (loadFinishCount == self.priorityList.count)) {
         if (self.cacheCount >= self.configCacheCount) {
             OMLogD(@"%@ cache full,configCache %zd cache %zd instance %@",self.pid,self.configCacheCount,self.cacheCount,[cacheInstances componentsJoinedByString:@","]);
         } else if (![self.optimalFillInstance length]) {
@@ -232,7 +233,7 @@
 
 
 - (void)addLoadingInstance {
-    if (self.loading && (self.loadingCount + self.cacheCount < self.configCacheCount) && (self.loadingCount < self.maxParallelLoadCount)) {
+    if (self.wfLoading && (self.loadingCount + self.cacheCount < self.configCacheCount) && (self.loadingCount < self.maxParallelLoadCount)) {
         NSArray *groups = [self.loadGroups copy];
         for (int i=0; i<groups.count; i++) {
             NSArray *group = groups[i];

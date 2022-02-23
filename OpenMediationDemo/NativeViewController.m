@@ -6,6 +6,7 @@
 
 @interface NativeViewController ()
 @property (nonatomic, strong) OMNative *native;
+@property (nonatomic, strong) OMNativeAd *nativeAd;
 @property (nonatomic, strong) OMNativeView *nativeView;
 @property (nonatomic, strong) OMNativeAdView *nativeAdView;
 
@@ -13,6 +14,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *bodyLabel;
 @property (nonatomic, strong) UILabel *action;
+@property (nonatomic, strong) NSData *iconData;
 @end
 
 
@@ -69,6 +71,17 @@
     [super showItemAction];
     self.showItem.enabled = NO;
     self.nativeView.hidden = NO;
+    if (self.nativeAd) {
+        self.nativeView.nativeAd = self.nativeAd;
+        _iconView.image =[UIImage imageWithData:self.iconData];
+        _titleLabel.text = self.nativeAd.title;
+        _bodyLabel.text = self.nativeAd.body;
+        _action.text = self.nativeAd.callToAction;
+
+        [_nativeView setClickableViews:@[_iconView,_titleLabel,self.nativeView.mediaView]];
+    } else if (self.nativeAdView){
+        self.nativeView.nativeAdView = self.nativeAdView;
+    }
 }
 
 -(void)removeItemAction {
@@ -80,20 +93,17 @@
 #pragma mark -- OMNativeDelegate
 
 - (void)omNative:(OMNative*)native didLoad:(OMNativeAd*)nativeAd {
-    self.nativeView.nativeAd = nativeAd;
-    _iconView.image =[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:nativeAd.iconUrl]]];
-    _titleLabel.text = nativeAd.title;
-    _bodyLabel.text = nativeAd.body;
-    _action.text = nativeAd.callToAction;
-    [_nativeView setClickableViews:@[_iconView,_titleLabel,self.nativeView.mediaView]];
+    self.nativeAd = nativeAd;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        self.iconData = [NSData dataWithContentsOfURL:[NSURL URLWithString:nativeAd.iconUrl]];
+    });
     self.showItem.enabled = YES;
     self.removeItem.enabled = YES;
     [self showLog:@"Native ad did load"];
 }
 
 - (void)omNative:(OMNative *)native didLoadAdView:(OMNativeAdView *)nativeAdView {
-    self.nativeView.hidden = NO;
-    self.nativeView.nativeAdView = nativeAdView;
+    self.nativeAdView = nativeAdView;
     self.showItem.enabled = YES;
     self.removeItem.enabled = YES;
     [self showLog:@"Native ad view did load"];
