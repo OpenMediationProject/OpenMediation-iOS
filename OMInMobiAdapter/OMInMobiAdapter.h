@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const InMobiAdapterVersion = @"2.0.1";
+static NSString * const InMobiAdapterVersion = @"2.0.2";
 
 @interface OMInMobiAdapter : NSObject<OMMediationAdapter>
 
@@ -15,6 +15,8 @@ static NSString * const InMobiAdapterVersion = @"2.0.1";
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 
++ (void)setConsent:(BOOL)consent;
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit;
 
 @end
 

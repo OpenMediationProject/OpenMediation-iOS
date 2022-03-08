@@ -26,6 +26,12 @@ static BOOL logEnabled = NO;
     }
 }
 
++(void)setUserAgeRestricted:(BOOL)restricted {
+    Class privacySettings = NSClassFromString(@"ALPrivacySettings");
+    if (privacySettings && [privacySettings respondsToSelector:@selector(setIsAgeRestrictedUser:)]) {
+        [privacySettings setIsAgeRestrictedUser:restricted];
+    }
+}
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     NSString *key = [configuration objectForKey:@"appKey"];

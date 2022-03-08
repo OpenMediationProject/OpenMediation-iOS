@@ -9,8 +9,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OMUserData : NSObject
 
 @property (nonatomic, assign)  NSInteger consent;//gdpr -1,0,1
-@property (nonatomic, assign)  BOOL childrenApp;//coppa
 @property (nonatomic, assign)  BOOL USPrivacy;//CCPA
+@property (nonatomic, assign)  BOOL userAgeRestricted;// COPPA
 
 @property (nonatomic, assign) NSInteger userAge; // age
 @property (nonatomic, assign) NSInteger userGender; // 0:unknown,1:male,2:female

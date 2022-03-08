@@ -79,6 +79,8 @@ typedef NS_ENUM(NSInteger, BUAdSDKLogLevel) {
 + (void)setGDPR:(NSInteger)GDPR;
 + (void)setTerritory:(BUAdSDKTerritory)territory;
 + (void)setLoglevel:(BUAdSDKLogLevel)level;
++ (void)setCoppa:(NSInteger)coppa;
++ (void)setCCPA:(NSInteger)CCPA;
 @end;
 
 NS_ASSUME_NONNULL_END

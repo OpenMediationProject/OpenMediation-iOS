@@ -73,6 +73,7 @@ typedef NS_ENUM( NSUInteger, HeliumErrorCode ) {
 - (void)setSubjectToGDPR:(BOOL)isSubject;
 - (void)setUserHasGivenConsent:(BOOL)hasGivenConsent;
 - (void)setCCPAConsent:(BOOL)hasGivenConsent;
+
 @end
 
 

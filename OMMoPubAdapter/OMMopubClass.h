@@ -101,6 +101,8 @@ typedef NS_ENUM(NSUInteger, MPBLogLevel) {
  */
 - (void)revokeConsent;
 
+@property (nonatomic, readonly) BOOL canCollectPersonalInfo;
+
 @end
 
 NS_ASSUME_NONNULL_END

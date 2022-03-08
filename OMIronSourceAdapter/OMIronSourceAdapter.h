@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 + (void)setConsent:(BOOL)consent;
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit;
++(void)setUserAgeRestricted:(BOOL)restricted;
 + (void)setUserAge:(NSInteger)userAge;
 + (void)setUserGender:(NSInteger)userGender;
 @end

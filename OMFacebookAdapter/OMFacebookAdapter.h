@@ -4,11 +4,12 @@
 #import <Foundation/Foundation.h>
 #import "OMMediationAdapter.h"
 
-static NSString * const FacebookAdapterVersion = @"2.0.7";
+static NSString * const FacebookAdapterVersion = @"2.0.8";
 
 @interface OMFacebookAdapter : NSObject<OMMediationAdapter>
 
 + (NSString*)adapterVerison;
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit;
++(void)setUserAgeRestricted:(BOOL)restricted;
 @end

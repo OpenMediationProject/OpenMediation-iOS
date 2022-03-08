@@ -108,7 +108,7 @@
         regs[@"gdpr"] =  [NSNumber numberWithInt:1];
     }
     
-    if (userData.childrenApp) {
+    if (userData.userAgeRestricted) {
         regs[@"coppa"] =  [NSNumber numberWithInt:1];
     }
     

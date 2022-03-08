@@ -321,7 +321,7 @@ static NSTimer *SDKInitCheckTimer = nil;
     [[OMImpressionDataRouter sharedInstance]removeDelegate:delegate];
 }
 
-#pragma mark - GDPR/CCPA
+#pragma mark - GDPR/CCPA/COPPA
 + (void)setGDPRConsent:(BOOL)consent {
     [[OMUserData sharedInstance] setConsent:consent];
     [[NSUserDefaults standardUserDefaults] setBool:consent forKey:@"OMConsentStatus"];
@@ -341,6 +341,10 @@ static NSTimer *SDKInitCheckTimer = nil;
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit {
     [[OMUserData sharedInstance] setUSPrivacy:privacyLimit];
     
+}
+
++ (void)setUserAgeRestricted:(BOOL)restricted {
+    [[OMUserData sharedInstance] setUserAgeRestricted:restricted];
 }
 
 #pragma mark - Debug

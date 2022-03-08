@@ -10,6 +10,33 @@
     return FacebookAdapterVersion;
 }
 
+// doc :https://developers.facebook.com/docs/audience-network/support/faq/ccpa
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit {
+    Class facebookClass = NSClassFromString(@"FBAdSettings");
+    if (facebookClass && [facebookClass respondsToSelector:@selector(setDataProcessingOptions:country:state:)] && [facebookClass respondsToSelector:@selector(setDataProcessingOptions:)]) {
+        if (privacyLimit) {
+            [facebookClass setDataProcessingOptions:@[@"LDU"] country:1 state:1000];
+        }else{
+            [facebookClass setDataProcessingOptions:@[]];
+        }
+    }
+}
+
++(void)setUserAgeRestricted:(BOOL)restricted {
+    Class facebookClass = NSClassFromString(@"FBAdSettings");
+    if(facebookClass && [facebookClass respondsToSelector:@selector(setMixedAudience:)]) {
+        [facebookClass setMixedAudience:restricted];
+    }
+}
+
++ (void)setLogEnable:(BOOL)logEnable {
+    Class fbSetting = NSClassFromString(@"FBAdSettings");
+    if (fbSetting && [fbSetting respondsToSelector:@selector(setLogLevel:)]) {
+        [fbSetting setLogLevel:(logEnable?FBAdLogLevelVerbose:FBAdLogLevelNone)];
+    }
+}
+
+
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     
     Class initSetting = NSClassFromString(@"FBAdInitSettings");
@@ -39,25 +66,5 @@
         completionHandler(error);
     }    
 }
-
-// doc :https://developers.facebook.com/docs/audience-network/support/faq/ccpa
-+ (void)setUSPrivacyLimit:(BOOL)privacyLimit {
-    Class facebookClass = NSClassFromString(@"FBAdSettings");
-    if (facebookClass && [facebookClass respondsToSelector:@selector(setDataProcessingOptions:country:state:)] && [facebookClass respondsToSelector:@selector(setDataProcessingOptions:)]) {
-        if (privacyLimit) {
-            [facebookClass setDataProcessingOptions:@[@"LDU"] country:1 state:1000];
-        }else{
-            [facebookClass setDataProcessingOptions:@[]];
-        }
-    }
-}
-
-+ (void)setLogEnable:(BOOL)logEnable {
-    Class fbSetting = NSClassFromString(@"FBAdSettings");
-    if (fbSetting && [fbSetting respondsToSelector:@selector(setLogLevel:)]) {
-        [fbSetting setLogLevel:(logEnable?FBAdLogLevelVerbose:FBAdLogLevelNone)];
-    }
-}
-
 
 @end

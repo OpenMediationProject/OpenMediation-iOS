@@ -16,6 +16,13 @@
     }
 }
 
++ (void)setUserAgeRestricted:(BOOL)restricted {
+    Class sigmobClass = NSClassFromString(@"WindAds");
+    if (sigmobClass && [sigmobClass respondsToSelector:@selector(setIsAgeRestrictedUser:)]) {
+        [sigmobClass setIsAgeRestrictedUser:restricted?WindAgeRestrictedStatusYES:WindAgeRestrictedStatusNO];
+    }
+}
+
 + (void)setUserAge:(NSInteger)userAge {
     Class sigmobClass = NSClassFromString(@"WindAds");
     if (sigmobClass && [sigmobClass respondsToSelector:@selector(setUserAge:)]) {

@@ -29,6 +29,13 @@ static OMHeliumAdapter * _instance = nil;
     }
 }
 
++(void)setUserAgeRestricted:(BOOL)restricted {
+    Class heliumClass = NSClassFromString(@"HeliumSdk");
+    if (heliumClass && [heliumClass instancesRespondToSelector:@selector(setSubjectToCoppa:)]) {
+        [[heliumClass sharedHelium] setSubjectToCoppa:restricted];
+    }
+}
+
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     

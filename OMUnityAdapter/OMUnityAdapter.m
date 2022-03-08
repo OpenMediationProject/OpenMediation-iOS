@@ -15,18 +15,18 @@ static OMUnityAdapter * _instance = nil;
 + (void)setConsent:(BOOL)consent {
     
     Class metaDataClass = NSClassFromString(@"UADSMetaData");
-    if (metaDataClass && [metaDataClass instancesRespondToSelector:@selector(setValue:forKey:)] && [metaDataClass instancesRespondToSelector:@selector(commit)]) {
+    if (metaDataClass && [metaDataClass instancesRespondToSelector:@selector(setRaw:value:)] && [metaDataClass instancesRespondToSelector:@selector(commit)]) {
         UADSMetaData *gdprConsentMetaData = [[metaDataClass alloc] init];
-        [gdprConsentMetaData set:@"gdpr.consent" value:[NSNumber numberWithBool:consent]];
+        [gdprConsentMetaData setRaw:@"gdpr.consent" value:[NSNumber numberWithBool:consent]];
         [gdprConsentMetaData commit];
     }
 }
 
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit {
     Class metaDataClass = NSClassFromString(@"UADSMetaData");
-    if (metaDataClass && [metaDataClass instancesRespondToSelector:@selector(setValue:forKey:)] && [metaDataClass instancesRespondToSelector:@selector(commit)]) {
+    if (metaDataClass && [metaDataClass instancesRespondToSelector:@selector(setRaw:value:)] && [metaDataClass instancesRespondToSelector:@selector(commit)]) {
         UADSMetaData *privacyConsentMetaData = [[metaDataClass alloc] init];
-        [privacyConsentMetaData set:@"privacy.consent" value:[NSNumber numberWithBool:!privacyLimit]];
+        [privacyConsentMetaData setRaw:@"privacy.consent" value:[NSNumber numberWithBool:!privacyLimit]];
         [privacyConsentMetaData commit];
     }
 }

@@ -29,6 +29,13 @@
     }
 }
 
++ (void)setUserAgeRestricted:(BOOL)restricted {
+    Class admostClass = NSClassFromString(@"AMRSDK");
+    if (admostClass && [admostClass respondsToSelector:@selector(setUserChild:)]) {
+        [admostClass setUserChild:restricted];
+    }
+}
+
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler{
     NSString *key = [configuration objectForKey:@"appKey"];
     Class admostClass = NSClassFromString(@"AMRSDK");

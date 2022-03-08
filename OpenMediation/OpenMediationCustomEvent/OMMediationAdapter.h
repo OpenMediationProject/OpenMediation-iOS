@@ -22,6 +22,8 @@ typedef void (^OMMediationAdapterInitCompletionBlock)(NSError *_Nullable error);
 
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit;
 
++ (void)setUserAgeRestricted:(BOOL)restricted;
+
 + (void)setUserAge:(NSInteger)userAge;
 
 + (void)setUserGender:(NSInteger)userGender;

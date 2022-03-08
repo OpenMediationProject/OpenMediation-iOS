@@ -26,9 +26,22 @@ static BOOL _internalAPI = NO;
     }
 }
 
++(void)setUSPrivacyLimit:(BOOL)privacyLimit {
+    Class buadClass = NSClassFromString(@"BUAdSDKManager");
+    if (buadClass && [buadClass respondsToSelector:@selector(setCCPA:)]) {
+        [buadClass setCCPA:(privacyLimit?1:0)];
+    }
+}
+
++(void)setUserAgeRestricted:(BOOL)restricted {
+    Class buadClass = NSClassFromString(@"BUAdSDKManager");
+    if (buadClass && [buadClass respondsToSelector:@selector(setCoppa:)]) {
+        [buadClass setCoppa:(restricted?1:0)];
+    }
+}
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
-
+    
     NSString *key = [configuration objectForKey:@"appKey"];
     Class buadClass = NSClassFromString(@"BUAdSDKManager");
     if (!buadClass) {

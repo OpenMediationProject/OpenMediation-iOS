@@ -3,7 +3,7 @@
 
 #import "OMAdMobAdapter.h"
 
-static NSString * const AdmobAdapterVersion = @"2.0.8";
+static NSString * const AdmobAdapterVersion = @"2.0.9";
 static BOOL admobNpaAd = NO;
 
 @implementation OMAdMobAdapter
@@ -19,6 +19,17 @@ static BOOL admobNpaAd = NO;
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit {
     [NSUserDefaults.standardUserDefaults setBool:privacyLimit forKey:@"gad_rdp"];
     [[NSUserDefaults standardUserDefaults]synchronize];
+}
+
++ (void)setUserAgeRestricted:(BOOL)restricted {
+    Class admobClass = NSClassFromString(@"GADMobileAds");
+    if(admobClass && [admobClass respondsToSelector:@selector(sharedInstance)]) {
+        GADMobileAds *admob = [admobClass sharedInstance];
+        GADRequestConfiguration *config = [admob requestConfiguration];
+        if (config && [config respondsToSelector:@selector(tagForChildDirectedTreatment:)]){
+            [config tagForChildDirectedTreatment:restricted];
+        }
+    }
 }
 
 + (BOOL)npaAd {

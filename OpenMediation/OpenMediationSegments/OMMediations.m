@@ -393,6 +393,9 @@ static OMMediations *_instance = nil;
                 if (userData.USPrivacy && [adapterClass respondsToSelector:@selector(setUSPrivacyLimit:)]) {
                     [adapterClass setUSPrivacyLimit:userData.USPrivacy];
                 }
+                if (userData.userAgeRestricted && [adapterClass respondsToSelector:@selector(setUserAgeRestricted:)]) {
+                    [adapterClass setUserAgeRestricted:userData.userAgeRestricted];
+                }
                 
                 if (userData.userAge && [adapterClass respondsToSelector:@selector(setUserAge:)]) {
                     [adapterClass setUserAge:userData.userAge];
@@ -407,7 +410,9 @@ static OMMediations *_instance = nil;
                 if (userData.USPrivacy && [adapterClass respondsToSelector:@selector(setUSPrivacyLimit:)]) {
                     [adapterClass setUSPrivacyLimit:userData.USPrivacy];
                 }
-                
+                if (userData.userAgeRestricted && [adapterClass respondsToSelector:@selector(setUserAgeRestricted:)]) {
+                    [adapterClass setUserAgeRestricted:userData.userAgeRestricted];
+                }
                 if (userData.userAge && [adapterClass respondsToSelector:@selector(setUserAge:)]) {
                     [adapterClass setUserAge:userData.userAge];
                 }

@@ -9,6 +9,27 @@
     return PubNativeAdapterVersion;
 }
 
++ (void)setConsent:(BOOL)consent {
+    Class HyBidClass = NSClassFromString(@"HyBidUserDataManager");
+    if (consent && HyBidClass && [HyBidClass sharedInstance] && [[HyBidClass sharedInstance] respondsToSelector:@selector(setIABGDPRConsentString:)]) {
+        [[HyBidClass sharedInstance]setIABGDPRConsentString:@"<GDPR_CONSENT_STRING>"];
+    }
+}
+
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit {
+    Class HyBidClass = NSClassFromString(@"HyBidUserDataManager");
+    if (privacyLimit && HyBidClass && [HyBidClass sharedInstance] && [[HyBidClass sharedInstance] respondsToSelector:@selector(setIABUSPrivacyString:)]) {
+        [[HyBidClass sharedInstance]setIABUSPrivacyString:@"<US_PRIVACY_STRING>"];
+    }
+}
+
++ (void)setUserAgeRestricted:(BOOL)restricted {
+    Class hyBidClass = NSClassFromString(@"HyBid");
+    if (restricted && [hyBidClass respondsToSelector:@selector(setCoppa:)]) {
+        [hyBidClass setCoppa:restricted];
+    }
+}
+
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler{
     NSString *key = [configuration objectForKey:@"appKey"];
     Class hyBidClass = NSClassFromString(@"HyBid");

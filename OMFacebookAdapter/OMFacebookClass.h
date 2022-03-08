@@ -98,6 +98,12 @@ typedef NS_ENUM(NSInteger, FBAdLogLevel) {
 /// Limited Data Use.
 + (void)setDataProcessingOptions:(NSArray<NSString *> *)options;
 
+/**
+ Configures the ad control for treatment as mixed audience directed.
+ Information for Mixed Audience Apps and Services: https://developers.facebook.com/docs/audience-network/coppa
+ */
+@property (class, nonatomic, assign, getter=isMixedAudience) BOOL mixedAudience;
+
 + (void)setLogLevel:(FBAdLogLevel)level;
 
 @end

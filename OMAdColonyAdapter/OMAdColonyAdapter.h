@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const AdColonyAdapterVersion = @"2.0.5";
+static NSString * const AdColonyAdapterVersion = @"2.0.6";
 
 @interface OMAdColonyAdapter : NSObject<OMMediationAdapter>
 
@@ -15,6 +15,8 @@ static NSString * const AdColonyAdapterVersion = @"2.0.5";
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 + (void)setConsent:(BOOL)consent;
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit;
++ (void)setUserAgeRestricted:(BOOL)restricted;
 + (void)setUserAge:(NSInteger)userAge;
 + (void)setUserGender:(NSInteger)userGender;
 + (NSInteger)getUserAge;

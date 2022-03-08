@@ -87,8 +87,12 @@ extern NSString *kOpenMediatonInitSuccessNotification;
 /// Get the GDPR current consent status of this user.
 + (OMConsentStatus)currentConsentStatus;
 
-///According to the CCPA, set method of this property must be called before "initWithAppKey:", or by default will collect user's information.
+/// According to the CCPA, set method of this property must be called before "initWithAppKey:", or by default will collect user's information.
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit;
+
+/// If you call this method with YES, you are indicating that your app should be treated as child-directed for purposes of the Children’s Online Privacy Protection Act (COPPA).
+/// If you call this method with NO, you are indicating that your app should not be treated as child-directed for purposes of the Children’s Online Privacy Protection Act (COPPA).
++ (void)setUserAgeRestricted:(BOOL)restricted;
 
 /// current SDK version
 + (NSString *)SDKVersion;

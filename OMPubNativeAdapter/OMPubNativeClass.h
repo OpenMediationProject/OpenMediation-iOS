@@ -164,6 +164,35 @@ typedef enum {
 
 @end
 
+typedef void (^UserDataManagerCompletionBlock)(BOOL);
+
+@interface HyBidUserDataManager : NSObject
+
+@property (nonatomic, readonly) BOOL isConsentPageLoaded;
+
++ (instancetype _Nonnull )sharedInstance;
+- (void)createUserDataManagerWithCompletion:(UserDataManagerCompletionBlock _Nonnull)completion;
+- (void)loadConsentPageWithCompletion:(void (^ _Nullable)(NSError * _Nullable error))completion;
+- (void)showConsentPage:(void (^ _Nullable)(void))didShow didDismiss:(void (^ _Nullable)(void))didDismiss;
+- (NSString * _Nonnull)privacyPolicyLink;
+- (NSString * _Nonnull)vendorListLink;
+- (NSString *_Nonnull)consentPageLink;
+- (BOOL)canCollectData;
+- (BOOL)shouldAskConsent;
+- (void)grantConsent;
+- (void)denyConsent;
+
+- (void)setIABUSPrivacyString:(NSString *_Nullable)privacyString;
+- (NSString *_Nullable)getIABUSPrivacyString;
+- (void)removeIABUSPrivacyString;
+- (BOOL)isCCPAOptOut;
+- (BOOL)isConsentDenied;
+
+- (void)setIABGDPRConsentString:(NSString *_Nullable)consentString;
+- (NSString *_Nullable)getIABGDPRConsentString;
+- (void)removeIABGDPRConsentString;
+@end
+
 NS_ASSUME_NONNULL_END
 
 #endif /* OMPubNativeClass_h */

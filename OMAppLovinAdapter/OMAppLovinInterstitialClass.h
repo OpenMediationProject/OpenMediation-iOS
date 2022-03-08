@@ -14,54 +14,53 @@ NS_ASSUME_NONNULL_BEGIN
 @class ALAdService;
 @class ALAdSize;
 
-/**
- *  This class is used to display full-screen ads to the user.
- */
 @interface ALInterstitialAd : NSObject
 
 #pragma mark - Ad Delegates
 
 /**
- *  An object conforming to the ALAdLoadDelegate protocol, which, if set, will be notified of ad load events.
+ * An object that conforms to the @c ALAdLoadDelegate protocol. If you provide a value for @c adLoadDelegate in your instance, the SDK will notify
+ * this delegate of ad load events.
  */
-@property (strong, nonatomic) id <ALAdLoadDelegate> adLoadDelegate;
+@property (nonatomic, strong, nullable) id<ALAdLoadDelegate> adLoadDelegate;
 
 /**
- *  An object conforming to the ALAdDisplayDelegate protocol, which, if set, will be notified of ad show/hide events.
+ * An object that conforms to the @c ALAdDisplayDelegate protocol. If you provide a value for @c adDisplayDelegate in your instance, the SDK will
+ * notify this delegate of ad show/hide events.
  */
-@property (strong, nonatomic) id <ALAdDisplayDelegate> adDisplayDelegate;
+@property (nonatomic, strong, nullable) id<ALAdDisplayDelegate> adDisplayDelegate;
 
 /**
- *  An object conforming to the ALAdVideoPlaybackDelegate protocol, which, if set, will be notified of video start/finish events.
+ * An object that conforms to the @c ALAdVideoPlaybackDelegate protocol. If you provide a value for @c adVideoPlaybackDelegate in your instance,
+ * the SDK will notify this delegate of video start/finish events.
  */
-@property (strong, nonatomic) id <ALAdVideoPlaybackDelegate> adVideoPlaybackDelegate;
+@property (nonatomic, strong, nullable) id<ALAdVideoPlaybackDelegate> adVideoPlaybackDelegate;
 
 #pragma mark - Loading and Showing Ads, Class Methods
 
 /**
- * Show an interstitial over the application's key window.
- * This will load the next interstitial and display it.
+ * Shows an interstitial over the application’s key window. This loads the next interstitial and displays it.
  */
-+ (ALInterstitialAd *)show;
++ (instancetype)show;
 
 /**
- * Get a reference to the shared singleton instance.
+ * Gets a reference to the shared singleton instance.
  *
- * This method calls [ALSdk shared] which requires you to have an SDK key defined in <code>Info.plist</code>.
- * If you use <code>[ALSdk sharedWithKey: ...]</code> then you will need to use the instance methods instead.
+ * This method calls @code +[ALSdk shared] @endcode which requires that you have an SDK key defined in @code Info.plist @endcode.
+ *
+ * @warning If you use @code +[ALSdk sharedWithKey:] @endcode then you will need to use the instance methods instead.
  */
-+ (ALInterstitialAd *)shared;
++ (instancetype)shared;
 
 #pragma mark - Loading and Showing Ads, Instance Methods
 
 /**
- * Show an interstitial over the application's key window.
- * This will load the next interstitial and display it.
+ * Shows an interstitial over the application’s key window. This loads the next interstitial and displays it.
  */
 - (void)show;
 
 /**
- * Show current interstitial over a given window and render a specified ad loaded by ALAdService.
+ * Shows the current interstitial over a given window and renders a specified ad loaded by @c ALAdService.
  *
  * @param ad The ad to render into this interstitial.
  */
@@ -70,52 +69,69 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Initialization
 
 /**
- * Init this interstitial ad with a custom SDK instance.
+ * Initializes an instance of this class with an SDK instance.
  *
- * To simply display an interstitial, use [ALInterstitialAd showOver:window]
- *
- * @param sdk Instance of AppLovin SDK to use.
+ * @param sdk The AppLovin SDK instance to use.
  */
 - (instancetype)initWithSdk:(ALSdk *)sdk;
 
-/**
- * Init this interstitial ad with a custom SDK instance and frame.
- *
- * To simply display an interstitial, use [ALInterstitialAd showOver:window].
- * In general, setting a custom frame is not recommended, unless absolutely necessary.
- * Interstitial ads are intended to be full-screen and may not look right if sized otherwise.
- *
- * @param frame Frame to use with the new interstitial.
- * @param sdk   Instance of AppLovin SDK to use.
- */
-- (instancetype)initWithFrame:(CGRect)frame sdk:(ALSdk *)sdk;
-
-#pragma mark - Advanced Configuration
-
-/**
- *  Frame to be passed through to the descendent UIView containing this interstitial.
- *
- *  Note that this has no effect on video ads, as they are presented in their own view controller.
- */
-@property (assign, nonatomic) CGRect frame;
-
-/**
- *  Hidden setting to be passed through to the descendent UIView containing this interstitial.
- *
- *  Note that this has no effect on video ads, as they are presented in their own view controller.
- */
-@property (assign, nonatomic) BOOL hidden;
-
-
-- (instancetype) init __attribute__((unavailable("Use [ALInterstitialAd shared] or initInterstitialAdWithSdk: instead.")));
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 
 @end
 
+/**
+ * This class provides and displays ads.
+ */
 @interface ALAdService : NSObject
-- (void)loadNextAd:(ALAdSize *)adSize andNotify:(id<ALAdLoadDelegate>)delegate;
-- (void)loadNextAdForZoneIdentifier:(NSString *)zoneIdentifier andNotify:(id<ALAdLoadDelegate>)delegate;
-@end
 
+/**
+ * Fetches a new ad, of a given size, and notifies a supplied delegate on completion.
+ *
+ * @param adSize    Size of an ad to load.
+ * @param delegate  A callback that @c loadNextAd calls to notify of the fact that the ad is loaded.
+ */
+- (void)loadNextAd:(ALAdSize *)adSize andNotify:(id<ALAdLoadDelegate>)delegate;
+
+/**
+ * Fetches a new ad, for a given zone, and notifies a supplied delegate on completion.
+ *
+ * @param zoneIdentifier  The identifier of the zone to load an ad for.
+ * @param delegate        A callback that @c loadNextAdForZoneIdentifier calls to notify of the fact that the ad is loaded.
+ */
+- (void)loadNextAdForZoneIdentifier:(NSString *)zoneIdentifier andNotify:(id<ALAdLoadDelegate>)delegate;
+
+/**
+ * A token used for advanced header bidding.
+ */
+@property (nonatomic, copy, readonly) NSString *bidToken;
+
+/**
+ * Fetches a new ad for the given ad token. The provided ad token must be one that was received from AppLovin S2S API.
+ *
+ * @warning This method is designed to be called by SDK mediation providers. Use @code -[ALAdService loadNextAdForZoneIdentifiers:andNotify:] @endcode for
+ *          regular integrations.
+ *
+ * @param adToken   Ad token returned from AppLovin S2S API.
+ * @param delegate  A callback that @c loadNextAdForAdToken calls to notify that the ad has been loaded.
+ */
+- (void)loadNextAdForAdToken:(NSString *)adToken andNotify:(id<ALAdLoadDelegate>)delegate;
+
+/**
+ * Fetch a new ad for any of the provided zone identifiers.
+ *
+ * @warning This method is designed to be called by SDK mediation providers. Use @code -[ALAdService loadNextAdForZoneIdentifiers:andNotify:] @endcode for
+ *          regular integrations.
+ *
+ * @param zoneIdentifiers  An array of zone identifiers for which an ad should be loaded.
+ * @param delegate         A callback that @c loadNextAdForZoneIdentifiers calls to notify that the ad has been loaded.
+ */
+- (void)loadNextAdForZoneIdentifiers:(NSArray<NSString *> *)zoneIdentifiers andNotify:(id<ALAdLoadDelegate>)delegate;
+
+- (instancetype)init __attribute__((unavailable("Access ALAdService through ALSdk's adService property.")));
++ (instancetype)new NS_UNAVAILABLE;
+
+@end
 NS_ASSUME_NONNULL_END
 
 #endif /* OMAppLovinInterstitialClass_h */

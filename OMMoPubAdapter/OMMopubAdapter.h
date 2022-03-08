@@ -6,7 +6,7 @@
 #import "OMMediationAdapter.h"
 #import "OMMopubClass.h"
 
-static NSString * const MopubAdapterVersion = @"2.0.7";
+static NSString * const MopubAdapterVersion = @"2.0.8";
 
 @interface OMMopubAdapter : NSObject<OMMediationAdapter>
 
@@ -15,6 +15,7 @@ static NSString * const MopubAdapterVersion = @"2.0.7";
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 
 + (void)setConsent:(BOOL)consent;
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit;
 
 @end
 

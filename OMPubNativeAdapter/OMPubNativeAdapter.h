@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const PubNativeAdapterVersion = @"2.0.8";
+static NSString * const PubNativeAdapterVersion = @"2.0.9";
 
 @interface OMPubNativeAdapter : NSObject<OMMediationAdapter>
 
@@ -15,6 +15,9 @@ static NSString * const PubNativeAdapterVersion = @"2.0.8";
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 
++(void)setConsent:(BOOL)consent;
++(void)setUSPrivacyLimit:(BOOL)privacyLimit;
++(void)setUserAgeRestricted:(BOOL)restricted;
 
 @end
 

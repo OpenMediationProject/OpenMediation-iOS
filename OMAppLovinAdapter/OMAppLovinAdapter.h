@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const AppLovinAdapterVersion = @"2.0.3";
+static NSString * const AppLovinAdapterVersion = @"2.0.4";
 
 @interface OMAppLovinAdapter : NSObject<OMMediationAdapter>
 + (NSString*)adapterVerison;
@@ -16,6 +16,7 @@ static NSString * const AppLovinAdapterVersion = @"2.0.3";
 + (UIWindow *)currentWindow;
 + (void)setConsent:(BOOL)consent;
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit;
++ (void)setUserAgeRestricted:(BOOL)restricted;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const PangleAdapterVersion = @"2.0.6";
+static NSString * const PangleAdapterVersion = @"2.0.7";
 
 @interface OMPangleAdapter : NSObject<OMMediationAdapter>
 @property (class, nonatomic) BOOL internalAPI;
@@ -15,7 +15,8 @@ static NSString * const PangleAdapterVersion = @"2.0.6";
 + (NSString*)adapterVerison;
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 + (void)setConsent:(BOOL)consent;
-
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit;
++ (void)setUserAgeRestricted:(BOOL)restricted;
 @end
 
 NS_ASSUME_NONNULL_END

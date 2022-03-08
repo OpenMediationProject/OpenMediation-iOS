@@ -3,7 +3,7 @@
 
 #import "OMIronSourceAdapter.h"
 
-static NSString * const IronSourceAdapterVersion = @"2.0.4";
+static NSString * const IronSourceAdapterVersion = @"2.0.5";
 static BOOL _mediationAPI = NO;
 
 @implementation OMIronSourceAdapter
@@ -31,6 +31,13 @@ static BOOL _mediationAPI = NO;
     Class ironsourceClass = NSClassFromString(@"IronSource");
     if (ironsourceClass && [ironsourceClass respondsToSelector:@selector(setMetaDataWithKey:value:)]) {
         [ironsourceClass setMetaDataWithKey:@"do_not_sell" value:(privacyLimit?@"YES":@"NO")];
+    }
+}
+
++(void)setUserAgeRestricted:(BOOL)userAgeRestricte {
+    Class ironsourceClass = NSClassFromString(@"IronSource");
+    if (ironsourceClass && [ironsourceClass respondsToSelector:@selector(setMetaDataWithKey:value:)]) {
+        [ironsourceClass setMetaDataWithKey:@"is_child_directed" value:(userAgeRestricte?@"YES":@"NO")];
     }
 }
 

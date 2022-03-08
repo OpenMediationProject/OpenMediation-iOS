@@ -320,6 +320,44 @@ typedef NS_ENUM(NSInteger, AMRErrorCode) {
 
 typedef void(^AMRInitCompletionHandler)(AMRError *_Nullable error);
 
+@interface AMRRemoteConfigValue : NSObject
+- (instancetype)initWithObject:(id)object;
+
+- (nullable NSString *)stringValue;
+- (BOOL)boolValue;
+- (nullable NSNumber *)numberValue;
+@end
+
+/**
+ * @protocol AMRVirtualCurrencyDelegate
+ * @brief The AMRVirtualCurrencyDelegate protocol.
+ * This protocol is used as a delegate for virtual currency events.
+ */
+@protocol AMRVirtualCurrencyDelegate <NSObject>
+
+/**
+ * Successfully spent virtual currency.
+ * @param amount Amount of virtual currency.
+ * @param currency Currency of virtual currency.
+ * @param networkName Network name of cirtual currency ad network.
+ */
+- (void)didSpendVirtualCurrency:(NSString *)currency
+                         amount:(NSNumber *)amount
+                    networkName:(NSString *)networkName;
+
+@optional
+/**
+ * @deprecated This method is deprecated starting in version 1.3.64
+ * @note Please use @code didSpendVirtualCurrency:currency:amount:networkName @endcode instead.
+ */
+- (void)didSpendVirtualCurrency:(NSString *)currency
+                          amout:(NSNumber *)amount
+                        network:(AMRNetworkType)network __attribute__((deprecated));
+
+@end
+
+@protocol AMRVirtualCurrencyDelegate, AMRTrackPurchaseResponseDelegate;
+
 @interface AMRSDK : NSObject
 
 /**
@@ -446,6 +484,13 @@ typedef void(^AMRInitCompletionHandler)(AMRError *_Nullable error);
 + (AMRUserExperiment *)userExperiment;
 
 /**
+ * Set virtual currenct delegate for virtual currency events.
+ * Virtual currency delegate must be set before using offerwalls.
+ * @param delegate An object conforms to <AMRVirtualCurrencyDelegate> protocol.
+ */
++ (void)setVirtualCurrencyDelegate:(id<AMRVirtualCurrencyDelegate>)delegate;
+
+/**
  * Start spending virtual currencies.
  * Virtual currency delegate must be set before starting to spend virtual currencies.
  */
@@ -482,6 +527,11 @@ typedef void(^AMRInitCompletionHandler)(AMRError *_Nullable error);
           amount:(double)amount
             tags:(NSArray *)tags;
 
+/**
+ * Set track purchase response delegate for track purchase upload responses.
+ * @param delegate An object conforms to <AMRTrackPurchaseResponseDelegate> protocol.
+ */
++ (void)setTrackPurchaseResponseDelegate:(id<AMRTrackPurchaseResponseDelegate>)delegate;
 
 /**
  * @deprecated This method is deprecated please use startTesterInfoWithAppId method instead.
@@ -547,11 +597,49 @@ typedef void(^AMRInitCompletionHandler)(AMRError *_Nullable error);
  */
 + (void)subjectToCCPA:(BOOL)subject;
 
+/**
+ * You can optionally use fetchRemoteConfigWithCompletion method to fetch remote config from server.
+ */
++ (void)fetchRemoteConfigWithCompletion:(void(^)(AMRError *))completion;
+
+/**
+ * You can optionally use getConfigForKey method to get remote config value.
+ * * @param key for remote config value.
+ */
++ (nullable AMRRemoteConfigValue *)getConfigForKey:(nonnull NSString *)key;
 
 + (BOOL)isStatusBarHidden __attribute__((deprecated));
 + (BOOL)isInitNetworks __attribute__((deprecated));
 + (void)preloadBannersWithZoneIds:(NSArray *)zoneIds __attribute__((deprecated));
 + (void)setStatusBarHidden:(BOOL)isHidden __attribute__((deprecated));
+@end
+
+/**
+ * @protocol AMRVirtualCurrencyDelegate
+ * @brief The AMRVirtualCurrencyDelegate protocol.
+ * This protocol is used as a delegate for virtual currency events.
+ */
+@protocol AMRVirtualCurrencyDelegate <NSObject>
+
+/**
+ * Successfully spent virtual currency.
+ * @param amount Amount of virtual currency.
+ * @param currency Currency of virtual currency.
+ * @param networkName Network name of cirtual currency ad network.
+ */
+- (void)didSpendVirtualCurrency:(NSString *)currency
+                         amount:(NSNumber *)amount
+                    networkName:(NSString *)networkName;
+
+@optional
+/**
+ * @deprecated This method is deprecated starting in version 1.3.64
+ * @note Please use @code didSpendVirtualCurrency:currency:amount:networkName @endcode instead.
+ */
+- (void)didSpendVirtualCurrency:(NSString *)currency
+                          amout:(NSNumber *)amount
+                        network:(AMRNetworkType)network __attribute__((deprecated));
+
 @end
 
 /**

@@ -22,6 +22,13 @@ static BOOL logEnabled = NO;
     }
 }
 
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit {
+    Class MoPubClass = NSClassFromString(@"MoPub");
+    if (privacyLimit && MoPubClass && [MoPubClass instancesRespondToSelector:@selector(canCollectPersonalInfo)]) {
+        [[MoPubClass sharedInstance] canCollectPersonalInfo];
+    }
+}
+
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     
     NSArray *pids = [configuration objectForKey:@"pids"];

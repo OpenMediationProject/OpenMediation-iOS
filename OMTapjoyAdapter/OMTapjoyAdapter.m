@@ -36,6 +36,17 @@ static OMTapjoyAdapter * _instance = nil;
     }
 }
 
++(void)setUserAgeRestricted:(BOOL)restricted {
+    id tapjoySDK;
+    Class tapjoyClass = NSClassFromString(@"TJPrivacyPolicy");
+    if (tapjoyClass && [tapjoyClass respondsToSelector:@selector(sharedInstance)]) {
+        tapjoySDK = [tapjoyClass sharedInstance];
+    }
+    if (tapjoySDK && [tapjoySDK respondsToSelector:@selector(setBelowConsentAge:)]) {
+        [tapjoySDK setBelowConsentAge:restricted];
+    }
+}
+
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     
     [OMTapjoyAdapter sharedInstance].initBlock = completionHandler;

@@ -44,6 +44,7 @@ typedef void (^GADInitializationCompletionHandler)(GADInitializationStatus *_Non
 
 @interface GADRequestConfiguration : NSObject
 - (void)tagForUnderAgeOfConsent:(BOOL)underAgeOfConsent;
+- (void)tagForChildDirectedTreatment:(BOOL)childDirectedTreatment;
 @end
 
 @interface GADMobileAds : NSObject
@@ -53,6 +54,7 @@ typedef void (^GADInitializationCompletionHandler)(GADInitializationStatus *_Non
 + (void)configureWithApplicationID:(NSString *)applicationID;
 - (void)startWithCompletionHandler:(nullable GADInitializationCompletionHandler)completionHandler;
 @end
+
 NS_ASSUME_NONNULL_END
 
 #endif

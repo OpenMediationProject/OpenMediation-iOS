@@ -3,7 +3,8 @@
 
 #import "OMInMobiAdapter.h"
 
-static NSInteger GDPRConsent = -1;
+NSString *imGdprString = nil;
+NSString *imPrivacyString = nil;
 
 @implementation OMInMobiAdapter
 
@@ -12,7 +13,11 @@ static NSInteger GDPRConsent = -1;
 }
 
 + (void)setConsent:(BOOL)consent {
-    GDPRConsent = consent?1:0;
+    imGdprString = (consent?@"1":@"0");
+}
+
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit {
+    imPrivacyString = (privacyLimit?@"true":@"false");
 }
 
 + (void)setUserAge:(NSInteger)userAge {
@@ -30,45 +35,45 @@ static NSInteger GDPRConsent = -1;
 }
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
-        NSString *key = [configuration objectForKey:@"appKey"];
-        NSArray *keys = [key componentsSeparatedByString:@"#"];
-        if (keys.count>0) {
-            key = keys[0];
+    NSString *key = [configuration objectForKey:@"appKey"];
+    NSArray *keys = [key componentsSeparatedByString:@"#"];
+    if (keys.count>0) {
+        key = keys[0];
+    }
+    Class inmobiClass = NSClassFromString(@"IMSdk");
+    if (!inmobiClass) {
+        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.inmobiadapter"
+                                                    code:404
+                                                userInfo:@{NSLocalizedDescriptionKey:@"InMobi SDK not found"}];
+        completionHandler(error);
+        return;
+    }
+    
+    if (inmobiClass && [inmobiClass respondsToSelector:@selector(initWithAccountID:consentDictionary:andCompletionHandler:)]) {
+        NSMutableDictionary *consentDic = [NSMutableDictionary dictionary];
+        if (imGdprString.length>0) {
+            [consentDic setObject:imGdprString forKey:@"gdpr"];
         }
-        Class inmobiClass = NSClassFromString(@"IMSdk");
-        if (!inmobiClass) {
-            NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.inmobiadapter"
-                                                        code:404
-                                                    userInfo:@{NSLocalizedDescriptionKey:@"InMobi SDK not found"}];
-            completionHandler(error);
-            return;
+        if (imPrivacyString.length>0) {
+            [consentDic setObject:imPrivacyString forKey:@"IM_GDPR_CONSENT_AVAILABLE"];
         }
-        
-        if (inmobiClass && [inmobiClass respondsToSelector:@selector(initWithAccountID:consentDictionary:andCompletionHandler:)]) {
-            //TODO:GDPR
-            NSMutableDictionary *consentDic = [NSMutableDictionary dictionary];
-            if (GDPRConsent >=0) {
-                [consentDic setObject:(GDPRConsent == 1)?@"true":@"false" forKey:@"gdpr_consent_available"];
-                [consentDic setObject:@"1" forKey:@"gdpr"];
-                
+        [inmobiClass initWithAccountID:key consentDictionary:consentDic andCompletionHandler:^(NSError * _Nullable error) {
+            if (!error) {
+                completionHandler(nil);
+            } else {
+                NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.inmobiadapter"
+                                                            code:401
+                                                        userInfo:@{NSLocalizedDescriptionKey:@"Failed to get Zone Ids"}];
+                completionHandler(error);
             }
-            [inmobiClass initWithAccountID:key consentDictionary:consentDic andCompletionHandler:^(NSError * _Nullable error) {
-                if (!error) {
-                    completionHandler(nil);
-                } else {
-                    NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.inmobiadapter"
-                                                                code:401
-                                                            userInfo:@{NSLocalizedDescriptionKey:@"Failed to get Zone Ids"}];
-                    completionHandler(error);
-                }
-
-            }];
-        } else {
-            NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.inmobiadapter"
-                                                        code:400
-                                                    userInfo:@{NSLocalizedDescriptionKey:@"Failed,check init method and key"}];
-            completionHandler(error);
-        }
+            
+        }];
+    } else {
+        NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.inmobiadapter"
+                                                    code:400
+                                                userInfo:@{NSLocalizedDescriptionKey:@"Failed,check init method and key"}];
+        completionHandler(error);
+    }
 }
 
 + (void)setLogEnable:(BOOL)logEnable {

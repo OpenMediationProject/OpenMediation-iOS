@@ -121,6 +121,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)setDoNotSell:(BOOL)doNotSell;
 
++ (void)setIsAgeRestrictedUser:(BOOL)isAgeRestrictedUser;
+
 @end
 
 
