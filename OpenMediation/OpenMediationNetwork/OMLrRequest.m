@@ -63,7 +63,7 @@
                                    adn:(NSString*)adnName
 {
     NSMutableDictionary *lrParameters = [NSMutableDictionary dictionaryWithDictionary:[OMRequest commonDeviceInfo]];
-    if (type<OMLRTypeSDKInit || type>OMLRTypeVideoComplete) {
+    if (type<OMLRTypeSDKInit || type>OMLRTypeWaterfallFill) {
         NSLog(@"invalid lr type = %zd",type);
     }
     

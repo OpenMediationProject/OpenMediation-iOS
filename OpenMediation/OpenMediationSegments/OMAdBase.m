@@ -788,6 +788,12 @@
             }
         }
         
+        if (![[[NSUserDefaults standardUserDefaults] objectForKey:self.pid] isEqualToString:self.wfReqId]) {
+            [OMLrRequest postWithType:OMLRTypeWaterfallFill pid:self.pid adnID:0 instanceID:@"" action:_loadAction scene:@"" abt:self.abGroup abtId:self.abTestId bid:[[OMConfig sharedInstance]isHBInstance:instanceID] reqId:self.wfReqId ruleId:instance.ruleId revenue:instance.revenue rp:instance.revenuePrecision ii:instance.instancePriority adn:OM_SAFE_STRING([_didLoadAdnName objectForKey:instanceID])];
+            [[NSUserDefaults standardUserDefaults] setObject:self.wfReqId forKey:self.pid];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+
         if (adObject) {
             if (_adFormat == OpenMediationAdFormatNative) {
                 [_didLoadAdObjects setObject:adObject forKey:instanceID];

@@ -16,6 +16,7 @@ typedef NS_ENUM(NSInteger, OMLRType) {
     OMLRTypeInstanceClick = 7,
     OMLRTypeVideoStart = 8,
     OMLRTypeVideoComplete = 9,
+    OMLRTypeWaterfallFill = 14,
 };
 
 NS_ASSUME_NONNULL_BEGIN

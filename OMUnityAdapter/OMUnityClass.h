@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UADSMetaData : NSObject
 
-- (BOOL)setRaw:(NSString *)key value:(id)value;
+- (BOOL)set:(NSString *)key value:(id)value;
 - (void)commit;
 
 @end

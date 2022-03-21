@@ -15,18 +15,27 @@ static OMUnityAdapter * _instance = nil;
 + (void)setConsent:(BOOL)consent {
     
     Class metaDataClass = NSClassFromString(@"UADSMetaData");
-    if (metaDataClass && [metaDataClass instancesRespondToSelector:@selector(setRaw:value:)] && [metaDataClass instancesRespondToSelector:@selector(commit)]) {
+    if (metaDataClass && [metaDataClass instancesRespondToSelector:@selector(set:value:)] && [metaDataClass instancesRespondToSelector:@selector(commit)]) {
         UADSMetaData *gdprConsentMetaData = [[metaDataClass alloc] init];
-        [gdprConsentMetaData setRaw:@"gdpr.consent" value:[NSNumber numberWithBool:consent]];
+        [gdprConsentMetaData set:@"gdpr.consent" value:[NSNumber numberWithBool:consent]];
         [gdprConsentMetaData commit];
     }
 }
 
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit {
     Class metaDataClass = NSClassFromString(@"UADSMetaData");
-    if (metaDataClass && [metaDataClass instancesRespondToSelector:@selector(setRaw:value:)] && [metaDataClass instancesRespondToSelector:@selector(commit)]) {
+    if (metaDataClass && [metaDataClass instancesRespondToSelector:@selector(set:value:)] && [metaDataClass instancesRespondToSelector:@selector(commit)]) {
         UADSMetaData *privacyConsentMetaData = [[metaDataClass alloc] init];
-        [privacyConsentMetaData setRaw:@"privacy.consent" value:[NSNumber numberWithBool:!privacyLimit]];
+        [privacyConsentMetaData set:@"privacy.consent" value:[NSNumber numberWithBool:!privacyLimit]];
+        [privacyConsentMetaData commit];
+    }
+}
+
++ (void)setUserAgeRestricted:(BOOL)restricted {
+    Class metaDataClass = NSClassFromString(@"UADSMetaData");
+    if (metaDataClass && [metaDataClass instancesRespondToSelector:@selector(set:value:)] && [metaDataClass instancesRespondToSelector:@selector(commit)]) {
+        UADSMetaData *privacyConsentMetaData = [[metaDataClass alloc] init];
+        [privacyConsentMetaData set:@"user.nonbehavioral" value:[NSNumber numberWithBool:!restricted]];
         [privacyConsentMetaData commit];
     }
 }
