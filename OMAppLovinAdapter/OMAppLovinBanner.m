@@ -11,8 +11,8 @@
         ALSdk *sdk = [OMAppLovinAdapter alShareSdk];
         Class ALAdViewClass = NSClassFromString(@"ALAdView");
         Class adSize = NSClassFromString(@"ALAdSize");
-        if (adParameter && [adParameter isKindOfClass:[NSDictionary class]] && ALAdViewClass && [[ALAdViewClass alloc] respondsToSelector:@selector(initWithSdk:size:zoneIdentifier:)] && adSize && [adSize banner]) {
-            _bannerAdView = [[ALAdViewClass alloc] initWithSdk:sdk size:[self convertWithSize:frame.size] zoneIdentifier:[adParameter objectForKey:@"pid"]];
+        if (adParameter && [adParameter isKindOfClass:[NSDictionary class]] && ALAdViewClass && [[ALAdViewClass alloc] respondsToSelector:@selector(initWithFrame:size:sdk:)] && adSize && [adSize banner]) {
+            _bannerAdView = [[ALAdViewClass alloc] initWithFrame:frame size:[self convertWithSize:frame.size] sdk:sdk];
             _bannerAdView.adLoadDelegate = self;
             _bannerAdView.adDisplayDelegate = self;
             _bannerAdView.adEventDelegate = self;

@@ -62,9 +62,7 @@
 }
 
 - (void)adDidPresentFullScreenContent:(id)ad {
-    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]) {
-        [_delegate interstitialCustomEventDidShow:self];
-    }
+    
 }
 
 - (void)ad:(id)ad didFailToPresentFullScreenContentWithError:(NSError *)error {
@@ -77,6 +75,9 @@
 - (void)adDidRecordImpression:(id)ad {
     if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
         [_delegate interstitialCustomEventDidOpen:self];
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidShow:)]) {
+        [_delegate interstitialCustomEventDidShow:self];
     }
 }
 

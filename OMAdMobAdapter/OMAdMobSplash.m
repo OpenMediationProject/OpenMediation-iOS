@@ -82,11 +82,22 @@
     }
 }
 
-/// Tells the delegate that the ad presented full screen content.
-- (void)adDidPresentFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad {
+- (void)adDidRecordImpression:(nonnull id<GADFullScreenPresentingAd>)ad {
     if (_delegate && [_delegate respondsToSelector:@selector(splashCustomEventDidShow:)]) {
         [_delegate splashCustomEventDidShow:self];
     }
+}
+
+/// Tells the delegate that a click has been recorded for the ad.
+- (void)adDidRecordClick:(nonnull id<GADFullScreenPresentingAd>)ad {
+    if (_delegate && [_delegate respondsToSelector:@selector(splashCustomEventDidClick:)]) {
+        [_delegate splashCustomEventDidClick:self];
+    }
+}
+
+/// Tells the delegate that the ad will present full screen content.
+- (void)adWillPresentFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad {
+    
 }
 
 /// Tells the delegate that the ad dismissed full screen content.
