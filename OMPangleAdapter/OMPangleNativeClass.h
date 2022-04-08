@@ -205,7 +205,7 @@ typedef NS_ENUM(NSInteger, BUPlayerPlayState) {
 /**
  Ad slot material.
  */
-@property (nonatomic, strong, readonly, nullable) BUMaterialMeta *data;
+@property (atomic, strong, readonly, nullable) BUMaterialMeta *data;
 
 /**
  The delegate for receiving state change messages.
@@ -231,7 +231,7 @@ typedef NS_ENUM(NSInteger, BUPlayerPlayState) {
 
 /**
  Register clickable views in native ads view.
- Interaction types can be configured on Pangle Audience Network.
+ Interaction types can be configured on TikTok Audience Network.
  Interaction types include view video ad details page, make a call, send email, download the app, open the webpage using a browser,open the webpage within the app, etc.
  @param containerView : required.
                         container view of the native ad.
@@ -250,6 +250,11 @@ typedef NS_ENUM(NSInteger, BUPlayerPlayState) {
  Actively request nativeAd datas.
  */
 - (void)loadAdData;
+
+/**
+ Ad slot material id
+ */
+- (NSString *)getAdCreativeToken;
 
 @end
 
@@ -342,9 +347,15 @@ required. Root view controller for handling ad actions.
 @optional
 
 /**
- This method is called when native ad material loaded successfully.
+ This method is called when native ad material loaded successfully. This method will be deprecated. Use nativeAdDidLoad:view: instead
  */
 - (void)nativeAdDidLoad:(BUNativeAd *)nativeAd;
+
+
+/**
+ This method is called when native ad material loaded successfully.
+ */
+- (void)nativeAdDidLoad:(BUNativeAd *)nativeAd view:(UIView *_Nullable)view;
 
 /**
  This method is called when native ad materia failed to load.
@@ -374,6 +385,13 @@ required. Root view controller for handling ad actions.
  @param filterWords : reasons for dislike
  */
 - (void)nativeAd:(BUNativeAd *_Nullable)nativeAd dislikeWithReason:(NSArray<BUDislikeWords *> *_Nullable)filterWords;
+
+/**
+ This method is called when the Ad view container is forced to be removed.
+ @param nativeAd : Ad material
+ @param adContainerView : Ad view container
+ */
+- (void)nativeAd:(BUNativeAd *_Nullable)nativeAd adContainerViewDidRemoved:(UIView *)adContainerView;
 @end
 
 

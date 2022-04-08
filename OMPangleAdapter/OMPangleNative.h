@@ -10,6 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OMPangleNative : NSObject<OMNativeCustomEvent,BUNativeAdsManagerDelegate,BUNativeAdDelegate,BUVideoAdViewDelegate>
 
 @property (nonatomic, strong) BUNativeAdsManager *adLoader;
+@property (nonatomic, strong) BUNativeAd *nativeAd;
 @property (nonatomic, weak, readwrite) UIViewController *rootVC;
 @property (nonatomic, weak) id<nativeCustomEventDelegate> delegate;
 @property (nonatomic, assign) BOOL hasShown;

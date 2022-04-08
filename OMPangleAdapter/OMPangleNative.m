@@ -24,14 +24,16 @@
                     Class adLoaderClass = NSClassFromString(@"BUNativeExpressAdManager");
                     if (adLoaderClass && [adLoaderClass instancesRespondToSelector:@selector(initWithSlot:adSize:)]) {
                         _adLoader = [[adLoaderClass alloc] initWithSlot:slot adSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, 0)];
+                        _adLoader.delegate = self;
                     }
                 }else{
-                    Class adLoaderClass = NSClassFromString(@"BUNativeAdsManager");
+                    Class adLoaderClass = NSClassFromString(@"BUNativeAd");
                     if (adLoaderClass && [adLoaderClass instancesRespondToSelector:@selector(initWithSlot:)]) {
-                        _adLoader = [[adLoaderClass alloc] initWithSlot:slot];
+                        _nativeAd = [[adLoaderClass alloc] initWithSlot:slot];
+                        _nativeAd.rootViewController = rootViewController;
+                        _nativeAd.delegate = self;
                     }
                 }
-                _adLoader.delegate = self;
             }
             
         }
@@ -41,58 +43,57 @@
 }
 
 - (void)loadAd {
-    if (_adLoader && [_adLoader respondsToSelector:@selector(loadAdDataWithCount:)]) {
-        [_adLoader loadAdDataWithCount:1];
-    }
-}
-
-- (void)nativeAdsManagerSuccessToLoad:(BUNativeAdsManager *)adsManager nativeAds:(NSArray<BUNativeAd *> *_Nullable)nativeAdDataArray {
-    if (nativeAdDataArray.count >0) {
-        BUNativeAd *nativeAd = nativeAdDataArray[0];
-        nativeAd.delegate = self;
-        nativeAd.rootViewController = _rootVC;
-        OMPangleNativeAd *pangleNativeAd = [[OMPangleNativeAd alloc]initWithNativeAd:nativeAd];
-        if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
-            [_delegate customEvent:self didLoadAd:pangleNativeAd];
+    if ([OMPangleAdapter internalAPI]) {
+        if (_adLoader && [_adLoader respondsToSelector:@selector(loadAdDataWithCount:)]) {
+            [_adLoader loadAdDataWithCount:1];
+        }
+    }else{
+        if (_nativeAd && [_nativeAd respondsToSelector:@selector(loadAdData)]) {
+            [_nativeAd loadAdData];
         }
     }
 }
 
-- (void)nativeAdsManager:(BUNativeAdsManager *)adsManager didFailWithError:(NSError *_Nullable)error {
+// ************************ NativeAd
+
+/**
+ This method is called when native ad material loaded successfully.
+ */
+- (void)nativeAdDidLoad:(BUNativeAd *)nativeAd view:(UIView *_Nullable)view {
+    nativeAd.delegate = self;
+    nativeAd.rootViewController = _rootVC;
+    OMPangleNativeAd *pangleNativeAd = [[OMPangleNativeAd alloc]initWithNativeAd:nativeAd];
+    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+        [_delegate customEvent:self didLoadAd:pangleNativeAd];
+    }
+}
+
+/**
+ This method is called when native ad materia failed to load.
+ @param error : the reason of error
+ */
+- (void)nativeAd:(BUNativeAd *)nativeAd didFailWithError:(NSError *_Nullable)error {
     if (error && _delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
 }
 
+/**
+ This method is called when native ad slot has been shown.
+ */
 - (void)nativeAdDidBecomeVisible:(BUNativeAd *)nativeAd {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
         [_delegate nativeCustomEventWillShow:nativeAd];
     }
 }
 
-
-- (void)nativeAdDidCloseOtherController:(BUNativeAd *)nativeAd interactionType:(BUInteractionType)interactionType {
-    
-}
-
-
+/**
+ This method is called when native ad is clicked.
+ */
 - (void)nativeAdDidClick:(BUNativeAd *)nativeAd withView:(UIView *_Nullable)view {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
         [_delegate nativeCustomEventDidClick:nativeAd];
     }
-}
-
-- (void)nativeAd:(BUNativeAd *_Nullable)nativeAd dislikeWithReason:(NSArray<BUDislikeWords *> *_Nullable)filterWords {
-    
-}
-
-- (void)videoAdView:(BUVideoAdView *)videoAdView didLoadFailWithError:(NSError *_Nullable)error {
-    
-}
-
-
-- (void)videoAdView:(BUVideoAdView *)videoAdView stateDidChanged:(BUPlayerPlayState)playerState {
-    
 }
 
 - (void)playerDidPlayFinish:(BUVideoAdView *)videoAdView {
