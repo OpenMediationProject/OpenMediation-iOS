@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const AdmostAdapterVersion = @"2.0.7";
+static NSString * const AdmostAdapterVersion = @"2.0.8";
 
 @interface OMAdmostAdapter : NSObject<OMMediationAdapter>
 
