@@ -388,6 +388,8 @@ typedef NS_ENUM (NSInteger, VungleAdSize) {
  */
 - (void)disableBannerRefresh;
 
+- (void)updateCOPPAStatus:(BOOL)status;
+
 @end
 
 NS_ASSUME_NONNULL_END

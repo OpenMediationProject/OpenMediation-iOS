@@ -33,6 +33,12 @@
 - (void)didFailToReceiveBanner:(AMRBanner *)banner error:(AMRError *)error;
 
 /**
+ * Successfully shown received banner.
+ * @param banner Shown AMRBanner object.
+ */
+- (void)didShowBanner:(AMRBanner *)banner;
+
+/**
  * User clicked banner.
  * @param banner Clicked AMRBanner object
  */

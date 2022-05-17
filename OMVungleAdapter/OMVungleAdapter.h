@@ -4,7 +4,7 @@
 #import <UIKit/UIKit.h>
 #import "OMMediationAdapter.h"
 
-static NSString * const VungleAdapterVersion = @"2.0.5";
+static NSString * const VungleAdapterVersion = @"2.0.6";
 
 @interface OMVungleAdapter : NSObject<OMMediationAdapter>
 
@@ -14,4 +14,5 @@ static NSString * const VungleAdapterVersion = @"2.0.5";
 
 + (void)setConsent:(BOOL)consent;
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit;
++ (void)setUserAgeRestricted:(BOOL)restricted;
 @end

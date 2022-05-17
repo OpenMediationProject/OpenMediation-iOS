@@ -30,6 +30,16 @@
     }
 }
 
++ (void)setUserAgeRestricted:(BOOL)restricted {
+    Class vungleClass = NSClassFromString(@"VungleSDK");
+    if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)]) {
+        VungleSDK *vungle = [vungleClass sharedSDK];
+        if (vungle && [vungle respondsToSelector:@selector(updateCOPPAStatus:)]) {
+            [vungle updateCCPAStatus:(restricted?YES:NO)];
+        }
+    }
+}
+
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     NSString *key = [configuration objectForKey:@"appKey"];
     
