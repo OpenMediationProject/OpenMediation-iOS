@@ -8,109 +8,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, BUProposalSize) {
-    BUProposalSize_Banner600_90,
-    BUProposalSize_Banner600_100,
-    BUProposalSize_Banner600_150,
-    BUProposalSize_Banner600_260,
-    BUProposalSize_Banner600_286,
-    BUProposalSize_Banner600_300,
-    BUProposalSize_Banner600_388,
-    BUProposalSize_Banner600_400,
-    BUProposalSize_Banner600_500,
-    BUProposalSize_Feed228_150,
-    BUProposalSize_Feed690_388,
-    BUProposalSize_Interstitial600_400,
-    BUProposalSize_Interstitial600_600,
-    BUProposalSize_Interstitial600_900,
-    BUProposalSize_DrawFullScreen
-};
-
-
-typedef NS_ENUM(NSInteger, BUAdSlotAdType) {
-    BUAdSlotAdTypeUnknown       = 0,
-    BUAdSlotAdTypeBanner        = 1,       // banner ads
-    BUAdSlotAdTypeInterstitial  = 2,       // interstitial ads
-    BUAdSlotAdTypeSplash        = 3,       // splash ads
-    BUAdSlotAdTypeSplash_Cache  = 4,       // cache splash ads
-    BUAdSlotAdTypeFeed          = 5,       // feed ads
-    BUAdSlotAdTypePaster        = 6,       // paster ads
-    BUAdSlotAdTypeRewardVideo   = 7,       // rewarded video ads
-    BUAdSlotAdTypeFullscreenVideo = 8,     // full-screen video ads
-    BUAdSlotAdTypeDrawVideo     = 9,       // vertical (immersive) video ads
-};
-
-typedef NS_ENUM(NSInteger, BUAdSlotPosition) {
-    BUAdSlotPositionTop = 1,
-    BUAdSlotPositionBottom = 2,
-    BUAdSlotPositionFeed = 3,
-    BUAdSlotPositionMiddle = 4, // for interstitial ad only
-    BUAdSlotPositionFullscreen = 5,
-};
-
-typedef NS_ENUM(NSInteger, BUPlayerPlayState) {
-    BUPlayerStateFailed    = 0,
-    BUPlayerStateBuffering = 1,
-    BUPlayerStatePlaying   = 2,
-    BUPlayerStateStopped   = 3,
-    BUPlayerStatePause     = 4,
-    BUPlayerStateDefalt    = 5
-};
-
-@interface BUSize : NSObject
-
-// width unit pixel.
-@property (nonatomic, assign) NSInteger width;
-
-// height unit pixel.
-@property (nonatomic, assign) NSInteger height;
-
-- (NSDictionary *)dictionaryValue;
-
-@end
-
-@interface BUSize (BU_SizeFactory)
-+ (instancetype)sizeBy:(BUProposalSize)proposalSize;
-@end
-
-@interface BUAdSlot : NSObject
-
-/// required. The unique identifier of a native ad.
-@property (nonatomic, copy) NSString *ID;
-
-/// required. Ad type.
-@property (nonatomic, assign) BUAdSlotAdType AdType;
-
-/// required. Ad display location.
-@property (nonatomic, assign) BUAdSlotPosition position;
-
-/// Accept a set of image sizes, please pass in the BUSize object.
-@property (nonatomic, strong) NSMutableArray<BUSize *> *imgSizeArray;
-
-/// required. Image size.
-@property (nonatomic, strong) BUSize *imgSize;
-
-/// Icon size.
-@property (nonatomic, strong) BUSize *iconSize;
-
-/// Maximum length of the title.
-@property (nonatomic, assign) NSInteger titleLengthLimit;
-
-/// Maximum length of description.
-@property (nonatomic, assign) NSInteger descLengthLimit;
-
-/// Whether to support deeplink.
-@property (nonatomic, assign) BOOL isSupportDeepLink;
-
-/// Native banner ads and native interstitial ads are set to 1, other ad types are 0, the default is 0.
-@property (nonatomic, assign) BOOL isOriginAd;
-
-- (NSDictionary *)dictionaryValue;
-
-@end
-
-
-
 @interface BUImage : NSObject <NSCoding>
 
 // image address URL
@@ -434,27 +331,6 @@ required. Root view controller for handling ad actions.
 
 @protocol BUNativeAdsManagerDelegate;
 
-@interface BUNativeAdsManager : NSObject <BUMopubAdMarkUpDelegate>
-
-@property (nonatomic, weak, nullable) id<BUNativeAdsManagerDelegate> delegate;
-
-@property (nonatomic, assign, readwrite) CGSize adSize;
-
-- (instancetype)initWithSlot:(BUAdSlot * _Nullable) slot;
-
-- (void)loadAdDataWithCount:(NSInteger)count;
-
-@end
-
-@protocol BUNativeAdsManagerDelegate <NSObject>
-
-@optional
-
-- (void)nativeAdsManagerSuccessToLoad:(BUNativeAdsManager *)adsManager nativeAds:(NSArray<BUNativeAd *> *_Nullable)nativeAdDataArray;
-
-- (void)nativeAdsManager:(BUNativeAdsManager *)adsManager didFailWithError:(NSError *_Nullable)error;
-
-@end
 
 
 @interface BUNativeExpressAdView : UIView
@@ -550,9 +426,15 @@ Sent when a playerw playback status changed.
  */
 - (void)nativeExpressAdViewDidCloseOtherController:(BUNativeExpressAdView *)nativeExpressAdView interactionType:(BUInteractionType)interactionType;
 
+
+/**
+ This method is called when the Ad view container is forced to be removed.
+ @param nativeExpressAdView : Ad view container
+ */
+- (void)nativeExpressAdViewDidRemoved:(BUNativeExpressAdView *)nativeExpressAdView;
 @end
 
-@interface BUNativeExpressAdManager : NSObject <BUMopubAdMarkUpDelegate>
+@interface BUNativeExpressAdManager : BUInterfaceBaseObject <BUMopubAdMarkUpDelegate>
 
 @property (nonatomic, strong, nullable) BUAdSlot *adslot;
 
@@ -573,6 +455,7 @@ Sent when a playerw playback status changed.
  The number of ads requested,The maximum is 3
  */
 - (void)loadAdDataWithCount:(NSInteger)count;
+
 @end
 
 @interface BUNativeExpressAdManager (Deprecated)
