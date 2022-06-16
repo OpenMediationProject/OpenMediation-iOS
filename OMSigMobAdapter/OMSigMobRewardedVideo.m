@@ -15,9 +15,10 @@
 -(void)loadAd {
     Class WindRewardVideoAdClass = NSClassFromString(@"WindRewardVideoAd");
     Class WindRequestClass = NSClassFromString(@"WindAdRequest");
-    if (WindRewardVideoAdClass && WindRequestClass && [WindRewardVideoAdClass instancesRespondToSelector:@selector(initWithPlacementId:request:)] && [WindRequestClass respondsToSelector:@selector(request)]) {
+    if (WindRewardVideoAdClass && WindRequestClass && [WindRewardVideoAdClass instancesRespondToSelector:@selector(initWithRequest:)] && [WindRequestClass respondsToSelector:@selector(request)]) {
         WindAdRequest *request  = [WindRequestClass request];
-        _rewardedVideoAd = [[WindRewardVideoAdClass alloc] initWithPlacementId:_pid request:request];
+        request.placementId = _pid;
+        _rewardedVideoAd = [[WindRewardVideoAdClass alloc] initWithRequest:request];
         _rewardedVideoAd.delegate = self;
     }
     if (_rewardedVideoAd) {
@@ -69,14 +70,17 @@
     
 }
 
-- (void)rewardVideoAdDidClose:(WindRewardVideoAd *)rewardVideoAd reward:(WindRewardInfo *)reward {
+- (void)rewardVideoAdDidClose:(WindRewardVideoAd *)rewardVideoAd {
+    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]) {
+        [_delegate rewardedVideoCustomEventDidClose:self];
+    }
+}
+
+- (void)rewardVideoAd:(WindRewardVideoAd *)rewardVideoAd reward:(WindRewardInfo *)reward {
     if (reward) {
         if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
             [_delegate rewardedVideoCustomEventDidReceiveReward:self];
         }
-    }
-    if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]) {
-        [_delegate rewardedVideoCustomEventDidClose:self];
     }
 }
 

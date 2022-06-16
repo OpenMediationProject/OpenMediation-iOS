@@ -72,9 +72,21 @@
 @property (nonatomic, getter=isAdReady, readonly) BOOL ready;
 
 
-- (instancetype)initWithPlacementId:(NSString *)placementId request:(WindAdRequest *)request;
+- (instancetype)initWithRequest:(WindAdRequest *)request;
 
+/**
+*  Called when load the ad
+*
+*/
 - (void)loadAdData;
+
+
+/**
+*  Called when load the ad
+*
+*  @param bidToken    - the token from bid request within Sigmob Ad Server
+*/
+- (void)loadAdDataWithBidToken:(NSString *)bidToken;
 
 /**
  Display video ad.

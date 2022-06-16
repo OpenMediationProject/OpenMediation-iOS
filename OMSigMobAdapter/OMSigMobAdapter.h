@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const SigMobAdapterVersion = @"2.0.7";
+static NSString * const SigMobAdapterVersion = @"2.0.8";
 
 @interface OMSigMobAdapter : NSObject<OMMediationAdapter>
 
@@ -16,6 +16,7 @@ static NSString * const SigMobAdapterVersion = @"2.0.7";
 
 +(void)setConsent:(BOOL)consent;
 +(void)setUserAge:(NSInteger)userAge;
++(void)setUSPrivacyLimit:(BOOL)privacyLimit;
 +(void)setUserAgeRestricted:(BOOL)restricted;
 @end
 

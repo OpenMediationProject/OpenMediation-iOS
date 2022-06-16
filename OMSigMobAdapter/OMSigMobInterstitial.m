@@ -16,9 +16,10 @@
 -(void)loadAd {
     Class WindIntersititialAdClass = NSClassFromString(@"WindIntersititialAd");
     Class WindRequestClass = NSClassFromString(@"WindAdRequest");
-    if (WindIntersititialAdClass && WindRequestClass && [WindIntersititialAdClass instancesRespondToSelector:@selector(initWithPlacementId:request:)] && [WindRequestClass respondsToSelector:@selector(request)]) {
+    if (WindIntersititialAdClass && WindRequestClass && [WindIntersititialAdClass instancesRespondToSelector:@selector(initWithRequest:)] && [WindRequestClass respondsToSelector:@selector(request)]) {
         WindAdRequest *request  = [WindRequestClass request];
-        _interstitialAd = [[WindIntersititialAdClass alloc] initWithPlacementId:_pid request:request];
+        request.placementId = _pid;
+        _interstitialAd = [[WindIntersititialAdClass alloc] initWithRequest:request];
         _interstitialAd.delegate = self;
     }
     if (_interstitialAd) {

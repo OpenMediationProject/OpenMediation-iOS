@@ -16,6 +16,13 @@
     }
 }
 
++(void)setUSPrivacyLimit:(BOOL)privacyLimit {
+    Class sigmobClass = NSClassFromString(@"WindAds");
+    if (sigmobClass && [sigmobClass respondsToSelector:@selector(updateCCPAStatus:)]) {
+        [sigmobClass updateCCPAStatus:privacyLimit?WindCCPAAccepted:WindCCPADenied];
+    }
+}
+
 + (void)setUserAgeRestricted:(BOOL)restricted {
     Class sigmobClass = NSClassFromString(@"WindAds");
     if (sigmobClass && [sigmobClass respondsToSelector:@selector(setIsAgeRestrictedUser:)]) {
@@ -44,8 +51,8 @@
         return;
     }
     
-    if(optionsClass && [optionsClass instancesRespondToSelector:@selector(initWithAppId:appKey:usedMediation:)] && windClass && [windClass respondsToSelector:@selector(startWithOptions:)]) {
-        WindAdOptions *option = [[optionsClass alloc] initWithAppId:keys[0] appKey:keys[1] usedMediation:NO];
+    if(optionsClass && [optionsClass instancesRespondToSelector:@selector(initWithAppId:appKey:)] && windClass && [windClass respondsToSelector:@selector(startWithOptions:)]) {
+        WindAdOptions *option = [[optionsClass alloc] initWithAppId:keys[0] appKey:keys[1]];
         [windClass startWithOptions:option];
         completionHandler(nil);
     }else{
@@ -60,11 +67,6 @@
     Class windClass = NSClassFromString(@"WindAds");
     if (windClass && [windClass respondsToSelector:@selector(setDebugEnable:)]) {
         [windClass setDebugEnable:logEnable];
-        if (logEnable) {
-            [windClass setDebugCallBack:^(NSString *msg, int level) {
-                NSLog(@"SigMob: %@",msg);
-            }];
-        }
     }
 }
 

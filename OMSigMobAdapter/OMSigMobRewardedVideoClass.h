@@ -13,6 +13,14 @@
 
 @protocol WindRewardVideoAdDelegate<NSObject>
 
+@required
+/**
+ This method is called when video ad is can be motivated
+ */
+- (void)rewardVideoAd:(WindRewardVideoAd *)rewardVideoAd reward:(WindRewardInfo *)reward;
+
+@optional
+
 /**
  This method is called when video ad material loaded successfully.
  */
@@ -47,7 +55,7 @@
 /**
  This method is called when video ad is about to close.
  */
-- (void)rewardVideoAdDidClose:(WindRewardVideoAd *)rewardVideoAd reward:(WindRewardInfo *)reward;
+- (void)rewardVideoAdDidClose:(WindRewardVideoAd *)rewardVideoAd;
 
 /**
  This method is called when video ad play completed or an error occurred.
@@ -60,8 +68,6 @@
  */
 - (void)rewardVideoAdServerResponse:(WindRewardVideoAd *)rewardVideoAd isFillAd:(BOOL)isFillAd;
 
-
-
 @end
 
 
@@ -73,10 +79,21 @@
 
 @property (nonatomic, getter=isAdReady, readonly) BOOL ready;
 
+- (instancetype)initWithRequest:(WindAdRequest *)request;
 
-- (instancetype)initWithPlacementId:(NSString *)placementId request:(WindAdRequest *)request;
 
+/**
+*  Called when load the video
+*
+*/
 - (void)loadAdData;
+
+/**
+*  Called when load the video
+*
+*  @param bidToken    - the token from bid request within Sigmob Ad Server
+*/
+- (void)loadAdDataWithBidToken:(NSString *)bidToken;
 
 /**
  Display video ad.

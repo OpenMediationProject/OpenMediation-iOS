@@ -4,6 +4,12 @@
 #ifndef OMSigMobClass_h
 #define OMSigMobClass_h
 
+typedef NS_ENUM (NSInteger, WindCCPAStatus) {
+    WindCCPAUnknown = 0,
+    WindCCPAAccepted,
+    WindCCPADenied,
+};
+
 typedef NS_ENUM (NSInteger, WindConsentStatus) {
     WindConsentUnknown = 0,
     WindConsentAccepted,
@@ -21,9 +27,7 @@ typedef NS_ENUM (NSInteger, WindAgeRestrictedStatus) {
 @property (copy, nonatomic, readonly) NSString* appId;
 /// Sigmob平台申请的appKey
 @property (copy, nonatomic, readonly) NSString* appKey;
-/// 声明是否使用的是聚合 default = NO
-@property (nonatomic, assign, readonly) BOOL usedMediation;
-- (instancetype)initWithAppId:(NSString *)appId appKey:(NSString *)appKey usedMediation:(BOOL)usedMediation;
+- (instancetype)initWithAppId:(NSString *)appId appKey:(NSString *)appKey;
 @end
 
 typedef void(^WindAdDebugCallBack)(NSString *msg, int level);
@@ -37,7 +41,11 @@ typedef void(^WindAdDebugCallBack)(NSString *msg, int level);
 + (NSUInteger)getUserAge;
 + (void)setUserAge:(NSUInteger)age;
 + (void)setDebugEnable:(BOOL)enable;
-+ (void)setDebugCallBack:(WindAdDebugCallBack)callBack;
+
+#pragma mark - CCPA SUPPORT
++ (void)updateCCPAStatus:(WindCCPAStatus)status;
++ (WindCCPAStatus)getCCPAStatus;
+
 @end
 
 
