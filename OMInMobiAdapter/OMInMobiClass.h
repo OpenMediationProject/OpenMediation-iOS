@@ -207,6 +207,8 @@ typedef NS_ENUM(NSInteger, IMStatusCode) {
  */
 +(void)setPublisherProvidedUnifiedId:(NSDictionary*)ids;
 
++(void)setIsAgeRestricted:(BOOL)isRestricted;
+
 NS_ASSUME_NONNULL_END
 
 @end

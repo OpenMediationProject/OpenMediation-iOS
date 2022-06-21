@@ -20,6 +20,13 @@ NSString *imPrivacyString = nil;
     imPrivacyString = (privacyLimit?@"true":@"false");
 }
 
++ (void)setUserAgeRestricted:(BOOL)restricted {
+    Class inmobiClass = NSClassFromString(@"IMSdk");
+    if (inmobiClass && [inmobiClass respondsToSelector:@selector(setIsAgeRestricted:)]) {
+        [inmobiClass setIsAgeRestricted:restricted];
+    }
+}
+
 + (void)setUserAge:(NSInteger)userAge {
     Class inmobiClass = NSClassFromString(@"IMSdk");
     if (inmobiClass && [inmobiClass respondsToSelector:@selector(setAge:)]) {
