@@ -238,33 +238,6 @@ GAD_EXTERN GADAdSize const kGADAdSizeSmartBannerLandscape
 
 @end
 
-
-@class GADAdLoader;
-@class GAMBannerView;
-
-@protocol GADAdLoaderDelegate<NSObject>
-
-- (void)adLoader:(GADAdLoader *)adLoader didFailToReceiveAdWithError:(GADRequestError *)error;
-
-@optional
-
-- (void)adLoaderDidFinishLoading:(GADAdLoader *)adLoader;
-
-@end
-
-/// The delegate of a GADAdLoader object must conform to this protocol to receive GAMBannerViews.
-@protocol GAMBannerAdLoaderDelegate <GADAdLoaderDelegate>
-
-/// Asks the delegate which banner ad sizes should be requested.
-- (nonnull NSArray<NSValue *> *)validBannerSizesForAdLoader:(nonnull GADAdLoader *)adLoader;
-
-/// Tells the delegate that a Google Ad Manager banner ad was received.
-- (void)adLoader:(nonnull GADAdLoader *)adLoader
-    didReceiveGAMBannerView:(nonnull GAMBannerView *)bannerView;
-
-@end
-
-
 @class GADVideoController;
 @class GADAdLoaderOptions;
 
@@ -277,6 +250,7 @@ GAD_EXTERN GADAdSize const kGADAdSizeSmartBannerLandscape
 
 @end
 
+@class GADAdLoader;
 
 @interface GAMBannerView : GADBannerView
 
@@ -325,6 +299,33 @@ GAD_EXTERN GADAdSize const kGADAdSizeSmartBannerLandscape
 - (void)setAdOptions:(nonnull NSArray<GADAdLoaderOptions *> *)adOptions;
 
 @end
+
+@protocol GADAdLoaderDelegate<NSObject>
+
+- (void)adLoader:(GADAdLoader *)adLoader didFailToReceiveAdWithError:(GADRequestError *)error;
+
+@optional
+
+- (void)adLoaderDidFinishLoading:(GADAdLoader *)adLoader;
+
+@end
+
+/// The delegate of a GADAdLoader object must conform to this protocol to receive GAMBannerViews.
+@protocol GAMBannerAdLoaderDelegate <GADAdLoaderDelegate>
+
+/// Asks the delegate which banner ad sizes should be requested.
+- (nonnull NSArray<NSValue *> *)validBannerSizesForAdLoader:(nonnull GADAdLoader *)adLoader;
+
+/// Tells the delegate that a Google Ad Manager banner ad was received.
+- (void)adLoader:(nonnull GADAdLoader *)adLoader
+    didReceiveGAMBannerView:(nonnull GAMBannerView *)bannerView;
+
+@end
+
+
+
+
+
 
 #endif
 
