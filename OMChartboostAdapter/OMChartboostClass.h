@@ -8,59 +8,58 @@
 #import <UIKit/UIKit.h>
 
 @class CHBDataUseConsent;
+@class CHBStartError;
+@class CHBClickError;
+
+typedef NS_ENUM(NSInteger, CHBCacheErrorCode) {
+    CHBCacheErrorCodeInternal,
+    CHBCacheErrorCodeInternetUnavailable,
+    CHBCacheErrorCodeNetworkFailure,
+    CHBCacheErrorCodeNoAdFound,
+    CHBCacheErrorCodeSessionNotStarted,
+    CHBCacheErrorCodeAssetDownloadFailure,
+    CHBCacheErrorCodePublisherDisabled,
+    CHBCacheErrorCodeServerError
+};
+
+@interface CHBCacheError : NSError
+/*! @brief Error code that indicates the failure reason. */
+@property (nonatomic, readonly) CHBCacheErrorCode code;
+@end
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, CBLoggingLevel) {
-    /*! Logging Off. */
-    CBLoggingLevelOff,
-    /*! Verbose. */
-    CBLoggingLevelVerbose,
-    /*! Info. */
-    CBLoggingLevelInfo,
-    /*! Warning. */
-    CBLoggingLevelWarning,
-    /*! Error. */
-    CBLoggingLevelError,
-};
-
-typedef NS_ENUM(NSUInteger, CBFramework) {
-    /*! Unity. */
-    CBFrameworkUnity,
-    /*! Corona. */
-    CBFrameworkCorona,
-    /*! Adobe AIR. */
-    CBFrameworkAIR,
-    /*! GameSalad. */
-    CBFrameworkGameSalad,
-    /*! Cordova. */
-    CBFrameworkCordova,
-    /*! CocoonJS. */
-    CBFrameworkCocoonJS,
-    /*! Cocos2d-x. */
-    CBFrameworkCocos2dx,
-    /*! Prime31Unreal. */
-    CBFrameworkPrime31Unreal,
-    /*! Weeby. */
-    CBFrameworkWeeby,
-    /*! Unknown. Other */
-    CBFrameworkOther
+/*!
+ @typedef NS_ENUM (NSUInteger, CHBShowErrorCode)
+ @brief Error codes for failed show operations.
+ */
+typedef NS_ENUM(NSInteger, CHBShowErrorCode) {
+    CHBShowErrorCodeInternal,
+    CHBShowErrorCodeSessionNotStarted,
+    CHBShowErrorCodeInternetUnavailable,
+    CHBShowErrorCodePresentationFailure,
+    CHBShowErrorCodeNoCachedAd,
+    CHBShowErrorCodeNoViewController
 };
 
 /*!
- @typedef NS_ENUM (NSUInteger, CBPIDataUseConsent)
- 
- @abstract
- GDPR compliance settings:
+ @class CHBShowError
+ @brief An error object passed on show-related delegate methods.
  */
-typedef NS_ENUM(NSInteger, CBPIDataUseConsent) {
-    /*! Publisher hasn't implemented functionality or the user has the option to not answer. */
-    Unknown = -1,
-    /*! User does not consent to targeting (Contextual ads). */
-    NoBehavioral = 0,
-    /*! User consents (Behavioral and Contextual Ads). */
-    YesBehavioral = 1
+@interface CHBShowError : NSError
+/*! @brief Error code that indicates the failure reason. */
+@property (nonatomic, readonly) CHBShowErrorCode code;
+@end
+
+
+typedef NS_ENUM(NSUInteger, CBLoggingLevel) {
+    CBLoggingLevelOff,
+    CBLoggingLevelError,
+    CBLoggingLevelWarning,
+    CBLoggingLevelInfo,
+    CBLoggingLevelVerbose
 };
+
 
 typedef NSString * const CBLocation;
 
@@ -100,13 +99,6 @@ FOUNDATION_EXPORT CBLocation const CBLocationQuit;
 FOUNDATION_EXPORT CBLocation const CBLocationDefault;
 
 
-typedef NSString * CHBPrivacyStandard NS_TYPED_EXTENSIBLE_ENUM;
-/*! @brief GDPR privacy standard identifier */
-FOUNDATION_EXPORT CHBPrivacyStandard const CHBPrivacyStandardGDPR;
-/*! @brief CCPA privacy standard identifier */
-FOUNDATION_EXPORT CHBPrivacyStandard const CHBPrivacyStandardCCPA;
-
-
 /*!
 @typedef CHBPrivacyStandard
 @brief Constant that identifies a privacy standard to comply to.
@@ -116,6 +108,10 @@ typedef NSString * CHBPrivacyStandard NS_TYPED_EXTENSIBLE_ENUM;
 FOUNDATION_EXPORT CHBPrivacyStandard const CHBPrivacyStandardGDPR;
 /*! @brief CCPA privacy standard identifier */
 FOUNDATION_EXPORT CHBPrivacyStandard const CHBPrivacyStandardCCPA;
+/*! @brief COPPA privacy standard identifier */
+FOUNDATION_EXPORT CHBPrivacyStandard const CHBPrivacyStandardCOPPA;
+/*! @brief LGPD privacy standard identifier */
+FOUNDATION_EXPORT CHBPrivacyStandard const CHBPrivacyStandardLGPD;
 
 /*!
 @class CHBDataUseConsent
@@ -187,6 +183,40 @@ NS_SWIFT_NAME(CHBDataUseConsent.CCPA)
 + (CHBCCPADataUseConsent *)ccpaConsent:(CHBCCPAConsent)consent NS_SWIFT_NAME(init(_:));
 @end
 
+// MARK: - COPPA
+
+/*!
+@class CHBCOPPADataUseConsent
+@brief CHBDataUseConsent subclass for compliance with COPPA.
+*/
+NS_SWIFT_NAME(CHBDataUseConsent.COPPA)
+@interface CHBCOPPADataUseConsent: CHBDataUseConsent
+/*! @brief Indicates if the app is directed to children. */
+@property (nonatomic, readonly) BOOL isChildDirected;
+/*!
+ @brief Returns a COPPA consent object.
+ @param isChildDirected Pass `true` if your app is directed to children.
+ */
++ (CHBCOPPADataUseConsent *)isChildDirected:(BOOL)isChildDirected NS_SWIFT_NAME(init(isChildDirected:));
+@end
+
+// MARK: - LGPD
+
+/*!
+@class CHBLGPDDataUseConsent
+@brief CHBDataUseConsent subclass for compliance with LGPD.
+*/
+NS_SWIFT_NAME(CHBDataUseConsent.LGPD)
+@interface CHBLGPDDataUseConsent: CHBDataUseConsent
+/*! @brief Indicates if the user consents to behavioral targeting in compliance with LGPD. */
+@property (nonatomic, readonly) BOOL allowBehavioralTargeting;
+/*!
+ @brief Returns a LGPD consent object.
+ @param allowBehavioralTargeting Pass `true` if the user consents to behavioral targeting, `false` otherwise.
+ */
++ (CHBLGPDDataUseConsent *)allowBehavioralTargeting:(BOOL)allowBehavioralTargeting NS_SWIFT_NAME(init(allowBehavioralTargeting:));
+@end
+
 // MARK: - Custom
 
 /*!
@@ -208,31 +238,31 @@ NS_SWIFT_NAME(CHBDataUseConsent.Custom)
 
 @end
 
+
+/*!
+ @class Chartboost
+ @brief Provides global settings and shared functionality for the Chartboost SDK.
+ @discussion Make sure to start Chartboost before requesting any ad.
+ Setting data use consent information beforehand is also highly recommended, otherwise Chartboost's ability to provide ads might be hindered.
+ */
 @interface Chartboost : NSObject
 
 /*!
- @abstract
- Start Chartboost with required appId, appSignature and delegate.
- 
- @param appId The Chartboost application ID for this application.
- 
- @param appSignature The Chartboost application signature for this application.
- 
+ @brief Starts the SDK with the publisher app credentials.
+ @param appID The Chartboost application ID for this app.
+ @param appSignature The Chartboost application signature for this app.
  @param completion A completion block to be executed when the SDK finishes initializing.
- It takes a boolean parameter which indicates if the initialization succeeded or not.
- 
- @discussion This method must be executed before any other Chartboost SDK methods can be used.
- Once executed this call will also controll session tracking and background tasks
- used by Chartboost.
+ It takes an error parameter which indicates if the initialization succeeded or not.
+ @discussion This method must be called before creating an ad. Other methods, like data use consent or logging level methods, are fine to call before start.
  */
-+ (void)startWithAppId:(NSString*)appId appSignature:(NSString*)appSignature completion:(void (^)(BOOL))completion;
++ (void)startWithAppID:(NSString *)appID appSignature:(NSString *)appSignature completion:(void (^)(CHBStartError * _Nullable error))completion;
 
 /*!
  @brief Use to restrict Chartboost's ability to collect personal data from the user.
  @discussion This method can be called multiple times to set the consent for different privacy standards.
  If a consent has already been set for a privacy standard, adding a consent object for that standard will overwrite the previous value.
  
- This method should be called before starting the Chartboost SDK with startWithAppId:appSignature:completion: if possible.
+ This method should be called before starting the Chartboost SDK with startWithAppID:appSignature:completion: if possible.
  The added consents are persisted, so you may just call this when the consent status needs to be updated.
 */
 + (void)addDataUseConsent:(CHBDataUseConsent *)consent NS_SWIFT_NAME(addDataUseConsent(_:));
@@ -269,95 +299,27 @@ NS_SWIFT_NAME(CHBDataUseConsent.Custom)
  if gdpr?.consent == .nonBehavioral { ... }
  @endcode
  */
-+ (__kindof CHBDataUseConsent *)dataUseConsentForPrivacyStandard:(CHBPrivacyStandard)privacyStandard NS_SWIFT_NAME(dataUseConsent(for:));
++ (nullable __kindof CHBDataUseConsent *)dataUseConsentForPrivacyStandard:(CHBPrivacyStandard)privacyStandard NS_SWIFT_NAME(dataUseConsent(for:));
 
 /*!
- @abstract
- Returns the version of the Chartboost SDK.
+ @brief The version of the Chartboost SDK.
  */
-+ (NSString*)getSDKVersion;
++ (NSString *)getSDKVersion;
 
 /*!
- @abstract
- Set the logging level
- 
+ @brief Sets a logging level.
  @param loggingLevel The minimum level that's going to be logged
- 
  @discussion Logging by default is off.
  */
-
 + (void)setLoggingLevel:(CBLoggingLevel)loggingLevel;
 
 /*!
- @abstract
- Set a custom identifier to send in the POST body for all Chartboost API server requests.
- 
- @param customId The identifier to send with all Chartboost API server requests.
- 
- @discussion Use this method to set a custom identifier that can be used later in the Chartboost
- dashboard to group information by.
+ @brief Mute/unmute Chartboost ads.
+ @param muted `true` to mute ads, `false` to unmute them.
+ @discussion The default value is `false` (non-muted).
+ Due to limitations of Apple's WebKit framework and its WKWebView class, used by Chartboost to display ads, some ads may not be muted regardless of this setting.
  */
-+ (void)setCustomId:(NSString *)customId;
-
-/*!
- @abstract
- Get the current custom identifier being sent in the POST body for all Chartboost API server requests.
- 
- @return The identifier being sent with all Chartboost API server requests.
- 
- @discussion Use this method to get the custom identifier that can be used later in the Chartboost
- dashboard to group information by.
- */
-+ (NSString *)getCustomId;
-
-/*!
- @abstract
- Set a custom version to append to the POST body of every request. This is useful for analytics and provides chartboost with important information.
- example: [Chartboost setChartboostWrapperVersion:@"6.4.6"];
- 
- @param chartboostWrapperVersion The version sent as a string.
- 
- @discussion This is an internal method used via Chartboost's Unity and Corona SDKs
- to track their usage.
- */
-+ (void)setChartboostWrapperVersion:(NSString*)chartboostWrapperVersion;
-
-/*!
- @brief Informs Chartboost of which environment it is running on, for tracking purposes.
- @param framework The framework used, e.g: Unity, Corona, etc.
- @param version The framework version.
- @discussion It is preferred that this method is called before starting the Chartboost SDK.
- */
-+ (void)setFramework:(CBFramework)framework withVersion:(NSString *)version;
-
-/*!
- @abstract
- Decide if Chartboost SDKK will attempt to fetch videos from the Chartboost API servers.
- 
- @param shouldPrefetch YES if Chartboost should prefetch video content, NO otherwise.
- 
- @discussion Set to control if Chartboost SDK control if videos should be prefetched.
- 
- Default is YES.
- */
-+ (void)setShouldPrefetchVideoContent:(BOOL)shouldPrefetch;
-
-/*!
- @abstract
- returns YES if auto IAP tracking is enabled, NO if it isn't.
- 
- @discussion Call to check if automatic tracking of in-app purchases is enabled.
- The setting is controlled by the server.
- */
-+ (BOOL)getAutoIAPTracking;
-
-/*!
- @abstract
- Mute/unmute chartboost ads.
- @param mute YES all sounds, NO activates them. Default is NO
- @discussion default value is NO
- */
-+ (void)setMuted:(BOOL)mute;
++ (void)setMuted:(BOOL)muted;
 
 @end
 
@@ -452,75 +414,8 @@ NS_SWIFT_NAME(CHBDataUseConsent.Custom)
 @property (nonatomic, readonly) NSInteger reward;
 @end
 
-
-// MARK: - Errors
-
-/*!
- @typedef NS_ENUM (NSUInteger, CHBCacheErrorCode)
- @brief Error codes for failed cache operations.
- */
-typedef NS_ENUM(NSUInteger, CHBCacheErrorCode) {
-    CHBCacheErrorCodeInternal = 0,
-    CHBCacheErrorCodeInternetUnavailable = 1,
-    CHBCacheErrorCodeNetworkFailure = 5,
-    CHBCacheErrorCodeNoAdFound = 6,
-    CHBCacheErrorCodeSessionNotStarted = 7,
-    CHBCacheErrorCodeAssetDownloadFailure = 16,
-    CHBCacheErrorCodePublisherDisabled = 35
-};
-
-/*!
- @class CHBCacheError
- @brief An error object passed on cache-related delegate methods.
- */
-@interface CHBCacheError : NSObject
-/*! @brief Error code that indicates the failure reason. */
-@property (nonatomic, readonly) CHBCacheErrorCode code;
+@interface CHBImpressionEvent : CHBAdEvent
 @end
-
-
-/*!
- @typedef NS_ENUM (NSUInteger, CHBShowErrorCode)
- @brief Error codes for failed show operations.
- */
-typedef NS_ENUM(NSUInteger, CHBShowErrorCode) {
-    CHBShowErrorCodeInternal = 0,
-    CHBShowErrorCodeSessionNotStarted = 7,
-    CHBShowErrorCodeAdAlreadyVisible = 8,
-    CHBShowErrorCodeInternetUnavailable = 25,
-    CHBShowErrorCodePresentationFailure = 33,
-    CHBShowErrorCodeNoCachedAd = 34
-};
-
-/*!
- @class CHBShowError
- @brief An error object passed on show-related delegate methods.
- */
-@interface CHBShowError : NSObject
-/*! @brief Error code that indicates the failure reason. */
-@property (nonatomic, readonly) CHBShowErrorCode code;
-@end
-
-/*!
- @typedef NS_ENUM (NSUInteger, CHBClickErrorCode)
- @brief Error codes for failed click operations.
- */
-typedef NS_ENUM(NSUInteger, CHBClickErrorCode) {
-    CHBClickErrorCodeUriInvalid = 0,
-    CHBClickErrorCodeUriUnrecognized = 1,
-    CHBClickErrorCodeConfirmationGateFailure = 2,
-    CHBClickErrorCodeInternal = 3
-};
-
-/*!
- @class CHBClickError
- @brief An error object passed on click-related delegate methods.
- */
-@interface CHBClickError : NSObject
-/*! @brief Error code that indicates the failure reason. */
-@property (nonatomic, readonly) CHBClickErrorCode code;
-@end
-
 
 // MARK: - Delegate
 
@@ -565,12 +460,6 @@ typedef NS_ENUM(NSUInteger, CHBClickErrorCode) {
  @endcode
  */
 - (void)willShowAd:(CHBShowEvent *)event;
-
-/*!
- @brief This method is deprecated in favor of willShowAd:, the error parameter will always be nil.
- If implemented, both willShowAd:error: and willShowAd: will be called when the corresponding event occurs.
- */
-- (void)willShowAd:(CHBShowEvent *)event error:(nullable CHBShowError *)error DEPRECATED_MSG_ATTRIBUTE("Please use willShowAd: instead. This method is deprecated and will be removed in a future version.");
 
 /*!
  @brief Called after a showFromViewController: call, either if the ad has been presented and an ad impression logged, or if the operation failed.
@@ -643,20 +532,12 @@ typedef NS_ENUM(NSUInteger, CHBClickErrorCode) {
 - (void)didClickAd:(CHBClickEvent *)event error:(nullable CHBClickError *)error;
 
 /*!
- @brief Called when the link viewer presented as result of an ad click has been dismissed.
- @param event A click event with info related to the ad clicked.
- @param error An error specifying the failure reason, or nil if the operation was successful.
- @discussion Implement to be notified of when an ad click has been handled.
- This can mean an in-app web browser or App Store app sheet has been dismissed, or that the user came back to the app after the link was opened on an external application.
- 
- A typical implementation would look like this:
- @code
- - (void)didFinishHandlingClick:(CHBClickEvent *)event error:(nullable CHBClickError *)error {
-    // Resume processes previously paused on didClickAd:error: implementation.
- }
- @endcode
+ @brief Called after an ad has recorded an impression.
+ @param event An impression event with info related to the visible ad.
+ @discussion Implement to be notified of when an ad has recorded an impression.
+ This method will be called once a valid impression is recorded after showing the ad.
  */
-- (void)didFinishHandlingClick:(CHBClickEvent *)event error:(nullable CHBClickError *)error;
+- (void)didRecordImpression:(CHBImpressionEvent *)event;
 
 @end
 

@@ -34,6 +34,14 @@ static OMChartboostAdapter * _instance = nil;
     }
 }
 
++ (void)setUserAgeRestricted:(BOOL)restricted {
+    Class chartboostClass = NSClassFromString(@"Chartboost");
+    Class CHBCOPPADataUseConsentClass = NSClassFromString(@"CHBCOPPADataUseConsent");
+    if (chartboostClass && [chartboostClass respondsToSelector:@selector(addDataUseConsent:)] && CHBCOPPADataUseConsentClass && [CHBCOPPADataUseConsentClass respondsToSelector:@selector(isChildDirected:)]) {
+        [chartboostClass addDataUseConsent:(restricted?[CHBCOPPADataUseConsentClass isChildDirected:YES]:[CHBCOPPADataUseConsentClass isChildDirected:NO])];
+    }
+}
+
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     NSString *key = [configuration objectForKey:@"appKey"];
     Class chartboostClass = NSClassFromString(@"Chartboost");
@@ -47,11 +55,11 @@ static OMChartboostAdapter * _instance = nil;
         return;
     }
     
-    if(chartboostClass && [chartboostClass respondsToSelector:@selector(startWithAppId:appSignature:completion:)] && keys.count > 1) {
-        [chartboostClass startWithAppId:keys[0]
+    if(chartboostClass && [chartboostClass respondsToSelector:@selector(startWithAppID:appSignature:completion:)] && keys.count > 1) {
+        [chartboostClass startWithAppID:keys[0]
                            appSignature:keys[1]
-                             completion:^(BOOL success) {
-            if (success) {
+                             completion:^(CHBStartError * _Nullable error) {
+            if (!error) {
                 completionHandler(nil);
             } else {
                 NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.chartboostadapter"

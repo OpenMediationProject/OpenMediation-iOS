@@ -32,9 +32,12 @@
 + (NSString*)getSDKVersion;
 @end
 
+@interface BUInterfaceBaseObject : NSObject
+@end
+
 @interface BUAdSDKManager : NSObject
 @property (nonatomic, copy, readonly, class) NSString *SDKVersion;
-@end;
+@end
 
 @interface MoPub : NSObject
 - (NSString *)version;
@@ -128,6 +131,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkAdColony):@"AdColony",
             @(OMAdNetworkAppLovin):@"AppLovin",
             @(OMAdNetworkMopub):@"Mopub",
+            @(OMAdNetworkGoogleAd):@"GoogleAd",
             @(OMAdNetworkTapjoy):@"Tapjoy",
             @(OMAdNetworkChartboost):@"Chartboost",
             @(OMAdNetworkPangle):@"Pangle",
@@ -140,6 +144,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkPubNative):@"PubNative",
             @(OMAdNetworkAdmost):@"Admost",
             @(OMAdNetworkInMobi):@"InMobi",
+            @(OMAdNetworkReklamUp):@"GoogleAd",
         };
         
         _adnSdkClassMap = @{
@@ -152,6 +157,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkAdColony):@"AdColony",
             @(OMAdNetworkAppLovin):@"ALSdk",
             @(OMAdNetworkMopub):@"MoPub",
+            @(OMAdNetworkGoogleAd):@"GADMobileAds",
             @(OMAdNetworkTapjoy):@"Tapjoy",
             @(OMAdNetworkChartboost):@"Chartboost",
             @(OMAdNetworkPangle):@"BUAdSDKManager",
@@ -164,6 +170,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkPubNative):@"HyBid",
             @(OMAdNetworkAdmost):@"AMRSDK",
             @(OMAdNetworkInMobi):@"IMSdk",
+            @(OMAdNetworkReklamUp):@"GADMobileAds",
         };
         
         _adnSDKInitState = [NSMutableDictionary dictionary];
@@ -252,6 +259,17 @@ static OMMediations *_instance = nil;
 //                    sdkVersion = [mopub version];
 //                }
 //            }
+        }
+            break;
+        case OMAdNetworkGoogleAd:
+        case OMAdNetworkReklamUp:
+        {
+            if (sdkClass && [sdkClass respondsToSelector:@selector(sharedInstance)]) {
+                GADMobileAds *admob = [sdkClass sharedInstance];
+                if(admob && [admob respondsToSelector:@selector(sdkVersion)]) {
+                    sdkVersion = [admob sdkVersion];
+                }
+            }
         }
             break;
         case OMAdNetworkTapjoy:

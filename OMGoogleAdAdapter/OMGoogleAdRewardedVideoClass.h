@@ -1,10 +1,10 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#ifndef OMAdMobRewardedVideoClass_h
-#define OMAdMobRewardedVideoClass_h
+#ifndef OMGoogleAdRewardedVideoClass_h
+#define OMGoogleAdRewardedVideoClass_h
 #import <UIKit/UIKit.h>
-#import "OMAdMobClass.h"
+#import "OMGoogleAdClass.h"
 #if __has_include(<GoogleMobileAds/GoogleMobileAds.h>)
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #else
@@ -156,4 +156,4 @@ NS_ASSUME_NONNULL_END
 
 #endif
 
-#endif /* OMAdMobRewardedVideoClass_h */
+#endif /* OMGoogleAdRewardedVideoClass_h */

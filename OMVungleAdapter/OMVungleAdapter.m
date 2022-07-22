@@ -35,7 +35,7 @@
     if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)]) {
         VungleSDK *vungle = [vungleClass sharedSDK];
         if (vungle && [vungle respondsToSelector:@selector(updateCOPPAStatus:)]) {
-            [vungle updateCCPAStatus:(restricted?YES:NO)];
+            [vungle updateCOPPAStatus:(restricted?YES:NO)];
         }
     }
 }

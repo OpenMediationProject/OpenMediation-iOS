@@ -12,14 +12,14 @@
 + (void)setConsent:(BOOL)consent {
     Class HyBidClass = NSClassFromString(@"HyBidUserDataManager");
     if (consent && HyBidClass && [HyBidClass sharedInstance] && [[HyBidClass sharedInstance] respondsToSelector:@selector(setIABGDPRConsentString:)]) {
-        [[HyBidClass sharedInstance]setIABGDPRConsentString:@"<GDPR_CONSENT_STRING>"];
+        [[HyBidClass sharedInstance]setIABGDPRConsentString:(consent?@"1":@"0")];
     }
 }
 
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit {
     Class HyBidClass = NSClassFromString(@"HyBidUserDataManager");
     if (privacyLimit && HyBidClass && [HyBidClass sharedInstance] && [[HyBidClass sharedInstance] respondsToSelector:@selector(setIABUSPrivacyString:)]) {
-        [[HyBidClass sharedInstance]setIABUSPrivacyString:@"<US_PRIVACY_STRING>"];
+        [[HyBidClass sharedInstance]setIABUSPrivacyString:(privacyLimit?@"1YNY":@"1YYY")];
     }
 }
 

@@ -13,11 +13,7 @@ NSString *imPrivacyString = nil;
 }
 
 + (void)setConsent:(BOOL)consent {
-    imGdprString = (consent?@"1":@"0");
-}
-
-+ (void)setUSPrivacyLimit:(BOOL)privacyLimit {
-    imPrivacyString = (privacyLimit?@"true":@"false");
+    imGdprString = (consent?@"true":@"false");
 }
 
 + (void)setUserAgeRestricted:(BOOL)restricted {
@@ -59,11 +55,10 @@ NSString *imPrivacyString = nil;
     if (inmobiClass && [inmobiClass respondsToSelector:@selector(initWithAccountID:consentDictionary:andCompletionHandler:)]) {
         NSMutableDictionary *consentDic = [NSMutableDictionary dictionary];
         if (imGdprString.length>0) {
-            [consentDic setObject:imGdprString forKey:@"gdpr"];
+            [consentDic setObject:@"1" forKey:@"gdpr"];
+            [consentDic setObject:imGdprString forKey:@"IM_GDPR_CONSENT_AVAILABLE"];
         }
-        if (imPrivacyString.length>0) {
-            [consentDic setObject:imPrivacyString forKey:@"IM_GDPR_CONSENT_AVAILABLE"];
-        }
+        
         [inmobiClass initWithAccountID:key consentDictionary:consentDic andCompletionHandler:^(NSError * _Nullable error) {
             if (!error) {
                 completionHandler(nil);

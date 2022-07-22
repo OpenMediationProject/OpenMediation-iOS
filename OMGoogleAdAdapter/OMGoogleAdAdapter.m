@@ -1,15 +1,15 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#import "OMAdMobAdapter.h"
+#import "OMGoogleAdAdapter.h"
 
-static NSString * const AdmobAdapterVersion = @"2.1.1";
+static NSString * const AdManagerAdapterVersion = @"2.1.0";
 static BOOL admobNpaAd = NO;
 
-@implementation OMAdMobAdapter
+@implementation OMGoogleAdAdapter
 
 + (NSString*)adapterVerison {
-    return AdmobAdapterVersion;
+    return AdManagerAdapterVersion;
 }
 
 + (void)setConsent:(BOOL)consent {

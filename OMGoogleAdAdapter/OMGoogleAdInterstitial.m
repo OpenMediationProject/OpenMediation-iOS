@@ -1,7 +1,7 @@
-#import "OMAdMobAdapter.h"
-#import "OMAdMobInterstitial.h"
+#import "OMGoogleAdAdapter.h"
+#import "OMGoogleAdInterstitial.h"
 
-@implementation OMAdMobInterstitial
+@implementation OMGoogleAdInterstitial
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter {
     if (self = [super init]) {
@@ -13,19 +13,19 @@
     return self;
 }
 - (void)loadAd {
-    Class GADInterstitialClass = NSClassFromString(@"GADInterstitialAd");
-    Class GADRequestClass = NSClassFromString(@"GADRequest");
-    if (GADInterstitialClass && [GADInterstitialClass respondsToSelector:@selector(loadWithAdUnitID:request:completionHandler:)] && GADRequestClass && [GADRequestClass respondsToSelector:@selector(request)]) {
+    Class interstitialClass = NSClassFromString(@"GAMInterstitialAd");
+    Class requestClass = NSClassFromString(@"GAMRequest");
+    if (interstitialClass && [interstitialClass respondsToSelector:@selector(loadWithAdUnitID:request:completionHandler:)] && requestClass && [requestClass respondsToSelector:@selector(request)]) {
         __weak typeof(self) weakSelf = self;
-        GADRequest *request  = [GADRequestClass request];
-        if ([OMAdMobAdapter npaAd] && NSClassFromString(@"GADExtras")) {
+        GAMRequest *request  = [requestClass request];
+        if ([OMGoogleAdAdapter npaAd] && NSClassFromString(@"GADExtras")) {
             GADExtras *extras = [[NSClassFromString(@"GADExtras") alloc] init];
             extras.additionalParameters = @{@"npa": @"1"};
             [request registerAdNetworkExtras:extras];
         }
-        [GADInterstitialClass loadWithAdUnitID:_pid
+        [interstitialClass loadWithAdManagerAdUnitID:_pid
                                        request:request
-                             completionHandler:^(GADInterstitialAd *ad, NSError *error) {
+                             completionHandler:^(GAMInterstitialAd *ad, NSError *error) {
             if (!error) {
                 weakSelf.ready = YES;
                 weakSelf.admobInterstitial = ad;

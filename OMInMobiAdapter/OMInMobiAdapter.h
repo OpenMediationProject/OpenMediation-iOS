@@ -3,11 +3,11 @@
 
 #import <Foundation/Foundation.h>
 #import "OMMediationAdapter.h"
-#import "OMInMobiClass.h"
+#import "OMInMobiClass.h" 
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const InMobiAdapterVersion = @"2.0.3";
+static NSString * const InMobiAdapterVersion = @"2.0.4";
 
 @interface OMInMobiAdapter : NSObject<OMMediationAdapter>
 
@@ -16,7 +16,6 @@ static NSString * const InMobiAdapterVersion = @"2.0.3";
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
 
 + (void)setConsent:(BOOL)consent;
-+ (void)setUSPrivacyLimit:(BOOL)privacyLimit;
 + (void)setUserAgeRestricted:(BOOL)restricted;
 
 @end

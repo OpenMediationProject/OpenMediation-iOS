@@ -3,22 +3,18 @@
 
 #import <Foundation/Foundation.h>
 #import "OMMediationAdapter.h"
-#import "OMPubNativeClass.h"
+#import "OMGoogleAdClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const PubNativeAdapterVersion = @"2.1.0";
-
-@interface OMPubNativeAdapter : NSObject<OMMediationAdapter>
+@interface OMGoogleAdAdapter : NSObject<OMMediationAdapter>
 
 + (NSString*)adapterVerison;
-
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler;
-
-+(void)setConsent:(BOOL)consent;
-+(void)setUSPrivacyLimit:(BOOL)privacyLimit;
-+(void)setUserAgeRestricted:(BOOL)restricted;
-
++ (void)setConsent:(BOOL)consent;
++ (void)setUSPrivacyLimit:(BOOL)privacyLimit;
++ (void)setUserAgeRestricted:(BOOL)restricted;
++ (BOOL)npaAd;
 @end
 
 NS_ASSUME_NONNULL_END

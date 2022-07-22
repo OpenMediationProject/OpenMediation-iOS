@@ -21,8 +21,9 @@ static BOOL logEnabled = NO;
     adcGdprString = (consent?@"1":@"0");
 }
 
+// adc: 1 sale 0 not sale
 +(void)setUSPrivacyLimit:(BOOL)privacyLimit {
-    adcPrivacyString = (privacyLimit?@"1":@"0");
+    adcPrivacyString = (privacyLimit?@"0":@"1");
 }
 
 +(void)setUserAgeRestricted:(BOOL)restricted {

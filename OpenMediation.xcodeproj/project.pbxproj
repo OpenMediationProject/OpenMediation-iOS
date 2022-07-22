@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -198,6 +198,29 @@
 		0CD0AD962577822C001747CE /* OMAdMobSplash.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CD0AD942577822C001747CE /* OMAdMobSplash.h */; };
 		0CD0AD972577822C001747CE /* OMAdMobSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD0AD952577822C001747CE /* OMAdMobSplash.m */; };
 		0CD0ADAC25778250001747CE /* OMAdMobSplashClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CD0ADAB25778250001747CE /* OMAdMobSplashClass.h */; };
+		0CDE03A3288A7CB900796A58 /* OMGoogleAdAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CDE039F288A7B7800796A58 /* OMGoogleAdAdapter.framework */; platformFilter = ios; };
+		0CDE03A8288A81F400796A58 /* OMGoogleAdAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE0376288A7B5D00796A58 /* OMGoogleAdAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0CDE03A9288A81F500796A58 /* OMGoogleAdNativeClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE0377288A7B5D00796A58 /* OMGoogleAdNativeClass.h */; };
+		0CDE03AA288A81F500796A58 /* OMGoogleAdNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE0378288A7B5D00796A58 /* OMGoogleAdNativeAd.h */; };
+		0CDE03AB288A81F500796A58 /* OMGoogleAdRewardedVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE0379288A7B5D00796A58 /* OMGoogleAdRewardedVideo.h */; };
+		0CDE03AC288A81F500796A58 /* OMGoogleAdBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDE037A288A7B5D00796A58 /* OMGoogleAdBanner.m */; };
+		0CDE03AD288A81F500796A58 /* OMGoogleAdSplashClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE037B288A7B5D00796A58 /* OMGoogleAdSplashClass.h */; };
+		0CDE03AE288A81F500796A58 /* OMGoogleAdSplash.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE037C288A7B5D00796A58 /* OMGoogleAdSplash.h */; };
+		0CDE03AF288A81F500796A58 /* OMGoogleAdInterstitialClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE037D288A7B5D00796A58 /* OMGoogleAdInterstitialClass.h */; };
+		0CDE03B0288A81F500796A58 /* OMGoogleAdInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE037E288A7B5D00796A58 /* OMGoogleAdInterstitial.h */; };
+		0CDE03B1288A81F500796A58 /* OMGoogleAdNativeView.m in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE037F288A7B5D00796A58 /* OMGoogleAdNativeView.m */; };
+		0CDE03B2288A81F500796A58 /* OMGoogleAdNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDE0380288A7B5D00796A58 /* OMGoogleAdNative.m */; };
+		0CDE03B3288A81F500796A58 /* OMGoogleAdClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE0381288A7B5D00796A58 /* OMGoogleAdClass.h */; };
+		0CDE03B4288A81F500796A58 /* OMGoogleAdNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDE0382288A7B5D00796A58 /* OMGoogleAdNativeAd.m */; };
+		0CDE03B5288A81F500796A58 /* OMGoogleAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDE0383288A7B5D00796A58 /* OMGoogleAdAdapter.m */; };
+		0CDE03B6288A81F500796A58 /* OMGoogleAdBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE0384288A7B5D00796A58 /* OMGoogleAdBanner.h */; };
+		0CDE03B7288A81F500796A58 /* OMGoogleAdRewardedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDE0385288A7B5D00796A58 /* OMGoogleAdRewardedVideo.m */; };
+		0CDE03B8288A81F500796A58 /* OMGoogleAdRewardedVideoClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE0386288A7B5D00796A58 /* OMGoogleAdRewardedVideoClass.h */; };
+		0CDE03B9288A81F500796A58 /* OMGoogleAdSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDE0387288A7B5D00796A58 /* OMGoogleAdSplash.m */; };
+		0CDE03BA288A81F500796A58 /* OMGoogleAdBannerClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE0388288A7B5D00796A58 /* OMGoogleAdBannerClass.h */; };
+		0CDE03BB288A81F500796A58 /* OMGoogleAdNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE0389288A7B5D00796A58 /* OMGoogleAdNative.h */; };
+		0CDE03BC288A81F500796A58 /* OMGoogleAdNativeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CDE038A288A7B5D00796A58 /* OMGoogleAdNativeView.h */; };
+		0CDE03BD288A81F500796A58 /* OMGoogleAdInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDE038C288A7B5D00796A58 /* OMGoogleAdInterstitial.m */; };
 		0CE7B3CC25C14239006E7FA6 /* OMKuaiShouAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CE9695025BFFA74005BD497 /* OMKuaiShouAdapter.h */; };
 		0CE7B3E825C14245006E7FA6 /* OMKuaiShouAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE9695125BFFA74005BD497 /* OMKuaiShouAdapter.m */; };
 		0CE7B57F25C16C5D006E7FA6 /* OMKuaiShouAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE7B37A25C141C6006E7FA6 /* OMKuaiShouAdapter.framework */; };
@@ -579,6 +602,8 @@
 		49FD9C4F25A707BB00787598 /* OMSigMobRewardedVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD9C4425A707BA00787598 /* OMSigMobRewardedVideo.m */; };
 		49FD9C5125A707BB00787598 /* OMSigMobRewardedVideoClass.h in Headers */ = {isa = PBXBuildFile; fileRef = 49FD9C4625A707BA00787598 /* OMSigMobRewardedVideoClass.h */; };
 		49FD9C5225A707BB00787598 /* OMSigMobInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD9C4725A707BA00787598 /* OMSigMobInterstitial.m */; };
+		B688661C6E974E664EAAE512 /* Pods_OpenMediationDemo_OpenMediationSwiftDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B65EAF57F363D2B58CCC27BF /* Pods_OpenMediationDemo_OpenMediationSwiftDemo.framework */; };
+		E4346E9DD605E52482222F63 /* Pods_OpenMediationDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C32DB328BE64EFEB3A6874AF /* Pods_OpenMediationDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -609,6 +634,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0CA619FB25DE70300008AC1F;
 			remoteInfo = OMHyBidAdapter;
+		};
+		0CDE03A1288A7BDD00796A58 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0C70AA1923D162E70021D67A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0CDE038D288A7B7800796A58;
+			remoteInfo = OMGoogleAdAdapter;
 		};
 		0CE7B53C25C16C1F006E7FA6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -746,6 +778,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0CDE03A7288A7CBA00796A58 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		492403A323F69CCC00687456 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -968,6 +1010,30 @@
 		0CD0AD942577822C001747CE /* OMAdMobSplash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMAdMobSplash.h; sourceTree = "<group>"; };
 		0CD0AD952577822C001747CE /* OMAdMobSplash.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMAdMobSplash.m; sourceTree = "<group>"; };
 		0CD0ADAB25778250001747CE /* OMAdMobSplashClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMAdMobSplashClass.h; sourceTree = "<group>"; };
+		0CDE0376288A7B5D00796A58 /* OMGoogleAdAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdAdapter.h; sourceTree = "<group>"; };
+		0CDE0377288A7B5D00796A58 /* OMGoogleAdNativeClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdNativeClass.h; sourceTree = "<group>"; };
+		0CDE0378288A7B5D00796A58 /* OMGoogleAdNativeAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdNativeAd.h; sourceTree = "<group>"; };
+		0CDE0379288A7B5D00796A58 /* OMGoogleAdRewardedVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdRewardedVideo.h; sourceTree = "<group>"; };
+		0CDE037A288A7B5D00796A58 /* OMGoogleAdBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMGoogleAdBanner.m; sourceTree = "<group>"; };
+		0CDE037B288A7B5D00796A58 /* OMGoogleAdSplashClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdSplashClass.h; sourceTree = "<group>"; };
+		0CDE037C288A7B5D00796A58 /* OMGoogleAdSplash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdSplash.h; sourceTree = "<group>"; };
+		0CDE037D288A7B5D00796A58 /* OMGoogleAdInterstitialClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdInterstitialClass.h; sourceTree = "<group>"; };
+		0CDE037E288A7B5D00796A58 /* OMGoogleAdInterstitial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdInterstitial.h; sourceTree = "<group>"; };
+		0CDE037F288A7B5D00796A58 /* OMGoogleAdNativeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMGoogleAdNativeView.m; sourceTree = "<group>"; };
+		0CDE0380288A7B5D00796A58 /* OMGoogleAdNative.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMGoogleAdNative.m; sourceTree = "<group>"; };
+		0CDE0381288A7B5D00796A58 /* OMGoogleAdClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdClass.h; sourceTree = "<group>"; };
+		0CDE0382288A7B5D00796A58 /* OMGoogleAdNativeAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMGoogleAdNativeAd.m; sourceTree = "<group>"; };
+		0CDE0383288A7B5D00796A58 /* OMGoogleAdAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMGoogleAdAdapter.m; sourceTree = "<group>"; };
+		0CDE0384288A7B5D00796A58 /* OMGoogleAdBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdBanner.h; sourceTree = "<group>"; };
+		0CDE0385288A7B5D00796A58 /* OMGoogleAdRewardedVideo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMGoogleAdRewardedVideo.m; sourceTree = "<group>"; };
+		0CDE0386288A7B5D00796A58 /* OMGoogleAdRewardedVideoClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdRewardedVideoClass.h; sourceTree = "<group>"; };
+		0CDE0387288A7B5D00796A58 /* OMGoogleAdSplash.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMGoogleAdSplash.m; sourceTree = "<group>"; };
+		0CDE0388288A7B5D00796A58 /* OMGoogleAdBannerClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdBannerClass.h; sourceTree = "<group>"; };
+		0CDE0389288A7B5D00796A58 /* OMGoogleAdNative.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdNative.h; sourceTree = "<group>"; };
+		0CDE038A288A7B5D00796A58 /* OMGoogleAdNativeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMGoogleAdNativeView.h; sourceTree = "<group>"; };
+		0CDE038B288A7B5D00796A58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0CDE038C288A7B5D00796A58 /* OMGoogleAdInterstitial.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OMGoogleAdInterstitial.m; sourceTree = "<group>"; };
+		0CDE039F288A7B7800796A58 /* OMGoogleAdAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMGoogleAdAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CE7B37A25C141C6006E7FA6 /* OMKuaiShouAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OMKuaiShouAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CE7B4EA25C16B9C006E7FA6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CE9695025BFFA74005BD497 /* OMKuaiShouAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OMKuaiShouAdapter.h; sourceTree = "<group>"; };
@@ -1379,6 +1445,12 @@
 		49FD9C4425A707BA00787598 /* OMSigMobRewardedVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OMSigMobRewardedVideo.m; path = OMSigmobAdapter/OMSigMobRewardedVideo.m; sourceTree = SOURCE_ROOT; };
 		49FD9C4625A707BA00787598 /* OMSigMobRewardedVideoClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OMSigMobRewardedVideoClass.h; path = OMSigmobAdapter/OMSigMobRewardedVideoClass.h; sourceTree = SOURCE_ROOT; };
 		49FD9C4725A707BA00787598 /* OMSigMobInterstitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OMSigMobInterstitial.m; path = OMSigmobAdapter/OMSigMobInterstitial.m; sourceTree = SOURCE_ROOT; };
+		7B4ABC2E1B89EB96EC243937 /* Pods-OpenMediationDemo-OpenMediationSwiftDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMediationDemo-OpenMediationSwiftDemo.debug.xcconfig"; path = "Target Support Files/Pods-OpenMediationDemo-OpenMediationSwiftDemo/Pods-OpenMediationDemo-OpenMediationSwiftDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		A5983B336FC1510C7295063A /* Pods-OpenMediationDemo-OpenMediationSwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMediationDemo-OpenMediationSwiftDemo.release.xcconfig"; path = "Target Support Files/Pods-OpenMediationDemo-OpenMediationSwiftDemo/Pods-OpenMediationDemo-OpenMediationSwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
+		B65EAF57F363D2B58CCC27BF /* Pods_OpenMediationDemo_OpenMediationSwiftDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMediationDemo_OpenMediationSwiftDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C32DB328BE64EFEB3A6874AF /* Pods_OpenMediationDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenMediationDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E55A62A049B1DF4FEC3202EC /* Pods-OpenMediationDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMediationDemo.release.xcconfig"; path = "Target Support Files/Pods-OpenMediationDemo/Pods-OpenMediationDemo.release.xcconfig"; sourceTree = "<group>"; };
+		F9079CAC1D6C0FB6D2845C8C /* Pods-OpenMediationDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenMediationDemo.debug.xcconfig"; path = "Target Support Files/Pods-OpenMediationDemo/Pods-OpenMediationDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1387,6 +1459,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C3106E426259466000898E2 /* OpenMediation.framework in Frameworks */,
+				B688661C6E974E664EAAE512 /* Pods_OpenMediationDemo_OpenMediationSwiftDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1426,6 +1499,7 @@
 				49C466E82451EF1A00837816 /* OMFyberAdapter.framework in Frameworks */,
 				4959CEE023EBEE9400A433A8 /* OMMintegralAdapter.framework in Frameworks */,
 				0C0E57F723E7D2F60015C456 /* SystemConfiguration.framework in Frameworks */,
+				0CDE03A3288A7CB900796A58 /* OMGoogleAdAdapter.framework in Frameworks */,
 				4959CEAD23EBEE5E00A433A8 /* OMTapjoyAdapter.framework in Frameworks */,
 				49C466972451ED5300837816 /* OMTencentAdAdapter.framework in Frameworks */,
 				0CB011B425EE1A9D00C44AFB /* OMPubNativeAdapter.framework in Frameworks */,
@@ -1435,6 +1509,7 @@
 				0C0E57F523E7D2E70015C456 /* AdSupport.framework in Frameworks */,
 				4959CE8B23EBEE4200A433A8 /* OMAdColonyAdapter.framework in Frameworks */,
 				49C466C12451EE3F00837816 /* OMIronSourceAdapter.framework in Frameworks */,
+				E4346E9DD605E52482222F63 /* Pods_OpenMediationDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1446,6 +1521,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		0CCF87A125821D78005463AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CDE039A288A7B7800796A58 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1641,6 +1723,7 @@
 				0CA6194825DE632A0008AC1F /* OMPubNativeAdapter */,
 				4923701326831F5D0006B8D3 /* OMAdmostAdapter */,
 				49AD1E482696F35000E3F97F /* OMInMobiAdapter */,
+				0CDE0375288A7B5D00796A58 /* OMGoogleAdAdapter */,
 				0C981BC023D69A1D0074B43A /* OpenMediationDemo */,
 				0C31059E26258FD4000898E2 /* OpenMediationSwiftDemo */,
 				4924037623F690DE00687456 /* Script */,
@@ -1678,6 +1761,7 @@
 				0C31059D26258FD4000898E2 /* OpenMediationSwiftDemo.app */,
 				4923701226831F5D0006B8D3 /* OMAdmostAdapter.framework */,
 				49AD1E472696F35000E3F97F /* OMInMobiAdapter.framework */,
+				0CDE039F288A7B7800796A58 /* OMGoogleAdAdapter.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1896,6 +1980,8 @@
 				0C981BA123D5D17B0074B43A /* AudioToolbox.framework */,
 				0C981B9F23D5D1710074B43A /* AVFoundation.framework */,
 				0C981B9D23D5D1690074B43A /* AdSupport.framework */,
+				C32DB328BE64EFEB3A6874AF /* Pods_OpenMediationDemo.framework */,
+				B65EAF57F363D2B58CCC27BF /* Pods_OpenMediationDemo_OpenMediationSwiftDemo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1978,6 +2064,36 @@
 				0CBA0F71259B61DE0002FAF0 /* Info.plist */,
 			);
 			path = OMSigMobAdapter;
+			sourceTree = "<group>";
+		};
+		0CDE0375288A7B5D00796A58 /* OMGoogleAdAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				0CDE0376288A7B5D00796A58 /* OMGoogleAdAdapter.h */,
+				0CDE0377288A7B5D00796A58 /* OMGoogleAdNativeClass.h */,
+				0CDE0378288A7B5D00796A58 /* OMGoogleAdNativeAd.h */,
+				0CDE0379288A7B5D00796A58 /* OMGoogleAdRewardedVideo.h */,
+				0CDE037A288A7B5D00796A58 /* OMGoogleAdBanner.m */,
+				0CDE037B288A7B5D00796A58 /* OMGoogleAdSplashClass.h */,
+				0CDE037C288A7B5D00796A58 /* OMGoogleAdSplash.h */,
+				0CDE037D288A7B5D00796A58 /* OMGoogleAdInterstitialClass.h */,
+				0CDE037E288A7B5D00796A58 /* OMGoogleAdInterstitial.h */,
+				0CDE037F288A7B5D00796A58 /* OMGoogleAdNativeView.m */,
+				0CDE0380288A7B5D00796A58 /* OMGoogleAdNative.m */,
+				0CDE0381288A7B5D00796A58 /* OMGoogleAdClass.h */,
+				0CDE0382288A7B5D00796A58 /* OMGoogleAdNativeAd.m */,
+				0CDE0383288A7B5D00796A58 /* OMGoogleAdAdapter.m */,
+				0CDE0384288A7B5D00796A58 /* OMGoogleAdBanner.h */,
+				0CDE0385288A7B5D00796A58 /* OMGoogleAdRewardedVideo.m */,
+				0CDE0386288A7B5D00796A58 /* OMGoogleAdRewardedVideoClass.h */,
+				0CDE0387288A7B5D00796A58 /* OMGoogleAdSplash.m */,
+				0CDE0388288A7B5D00796A58 /* OMGoogleAdBannerClass.h */,
+				0CDE0389288A7B5D00796A58 /* OMGoogleAdNative.h */,
+				0CDE038A288A7B5D00796A58 /* OMGoogleAdNativeView.h */,
+				0CDE038B288A7B5D00796A58 /* Info.plist */,
+				0CDE038C288A7B5D00796A58 /* OMGoogleAdInterstitial.m */,
+			);
+			path = OMGoogleAdAdapter;
 			sourceTree = "<group>";
 		};
 		0CE9694E25BFFA45005BD497 /* OMKuaiShouAdapter */ = {
@@ -2555,6 +2671,10 @@
 		5704BA2D8A4413A807B86EC8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				F9079CAC1D6C0FB6D2845C8C /* Pods-OpenMediationDemo.debug.xcconfig */,
+				E55A62A049B1DF4FEC3202EC /* Pods-OpenMediationDemo.release.xcconfig */,
+				7B4ABC2E1B89EB96EC243937 /* Pods-OpenMediationDemo-OpenMediationSwiftDemo.debug.xcconfig */,
+				A5983B336FC1510C7295063A /* Pods-OpenMediationDemo-OpenMediationSwiftDemo.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -2732,6 +2852,28 @@
 				49FD9C4925A707BB00787598 /* OMSigMobClass.h in Headers */,
 				49FD9C5125A707BB00787598 /* OMSigMobRewardedVideoClass.h in Headers */,
 				49FD9C4A25A707BB00787598 /* OMSigMobRewardedVideo.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CDE038E288A7B7800796A58 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CDE03A8288A81F400796A58 /* OMGoogleAdAdapter.h in Headers */,
+				0CDE03A9288A81F500796A58 /* OMGoogleAdNativeClass.h in Headers */,
+				0CDE03AA288A81F500796A58 /* OMGoogleAdNativeAd.h in Headers */,
+				0CDE03AB288A81F500796A58 /* OMGoogleAdRewardedVideo.h in Headers */,
+				0CDE03AD288A81F500796A58 /* OMGoogleAdSplashClass.h in Headers */,
+				0CDE03AE288A81F500796A58 /* OMGoogleAdSplash.h in Headers */,
+				0CDE03AF288A81F500796A58 /* OMGoogleAdInterstitialClass.h in Headers */,
+				0CDE03B0288A81F500796A58 /* OMGoogleAdInterstitial.h in Headers */,
+				0CDE03B1288A81F500796A58 /* OMGoogleAdNativeView.m in Headers */,
+				0CDE03B3288A81F500796A58 /* OMGoogleAdClass.h in Headers */,
+				0CDE03B6288A81F500796A58 /* OMGoogleAdBanner.h in Headers */,
+				0CDE03B8288A81F500796A58 /* OMGoogleAdRewardedVideoClass.h in Headers */,
+				0CDE03BA288A81F500796A58 /* OMGoogleAdBannerClass.h in Headers */,
+				0CDE03BB288A81F500796A58 /* OMGoogleAdNative.h in Headers */,
+				0CDE03BC288A81F500796A58 /* OMGoogleAdNativeView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3019,9 +3161,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0C3105AE26258FD7000898E2 /* Build configuration list for PBXNativeTarget "OpenMediationSwiftDemo" */;
 			buildPhases = (
+				66A3B99D354D51EBA65BFAF7 /* [CP] Check Pods Manifest.lock */,
 				0C31059926258FD4000898E2 /* Sources */,
 				0C31059A26258FD4000898E2 /* Frameworks */,
 				0C31059B26258FD4000898E2 /* Resources */,
+				6AC203DFA0FCAA5AA2D81909 /* [CP] Embed Pods Frameworks */,
+				87360A655665E454A26D8857 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3072,14 +3217,19 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0C981BD523D69A1F0074B43A /* Build configuration list for PBXNativeTarget "OpenMediationDemo" */;
 			buildPhases = (
+				D0D06AA11C33EA11D5DB8C5A /* [CP] Check Pods Manifest.lock */,
 				0C981BBB23D69A1D0074B43A /* Sources */,
 				0C981BBC23D69A1D0074B43A /* Frameworks */,
 				0C981BBD23D69A1D0074B43A /* Resources */,
 				492403A323F69CCC00687456 /* Embed App Extensions */,
+				0CDE03A7288A7CBA00796A58 /* Embed Frameworks */,
+				82AEE09FE35AC06183A90A60 /* [CP] Embed Pods Frameworks */,
+				BC0E488B24B096D73D977914 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0CDE03A2288A7BDD00796A58 /* PBXTargetDependency */,
 				0CE7B53D25C16C1F006E7FA6 /* PBXTargetDependency */,
 				0C17969E25838D1F0081ED29 /* PBXTargetDependency */,
 				4959CEF923EBF4F800A433A8 /* PBXTargetDependency */,
@@ -3143,6 +3293,24 @@
 			name = OMSigMobAdapter;
 			productName = OMSigMobAdapter;
 			productReference = 0CCF87A625821D78005463AD /* OMSigMobAdapter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		0CDE038D288A7B7800796A58 /* OMGoogleAdAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0CDE039C288A7B7800796A58 /* Build configuration list for PBXNativeTarget "OMGoogleAdAdapter" */;
+			buildPhases = (
+				0CDE038E288A7B7800796A58 /* Headers */,
+				0CDE0394288A7B7800796A58 /* Sources */,
+				0CDE039A288A7B7800796A58 /* Frameworks */,
+				0CDE039B288A7B7800796A58 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OMGoogleAdAdapter;
+			productName = OMInMobiAdapter;
+			productReference = 0CDE039F288A7B7800796A58 /* OMGoogleAdAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		0CE7B36725C141C6006E7FA6 /* OMKuaiShouAdapter */ = {
@@ -3585,6 +3753,7 @@
 				4923701126831F5D0006B8D3 /* OMAdmostAdapter */,
 				49AD1E462696F35000E3F97F /* OMInMobiAdapter */,
 				0C31059C26258FD4000898E2 /* OpenMediationSwiftDemo */,
+				0CDE038D288A7B7800796A58 /* OMGoogleAdAdapter */,
 			);
 		};
 /* End PBXProject section */
@@ -3636,6 +3805,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		0CCF87A225821D78005463AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CDE039B288A7B7800796A58 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3787,6 +3963,118 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Script/publish.sh\" OpenMediationDemo\n";
+		};
+		66A3B99D354D51EBA65BFAF7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OpenMediationDemo-OpenMediationSwiftDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6AC203DFA0FCAA5AA2D81909 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenMediationDemo-OpenMediationSwiftDemo/Pods-OpenMediationDemo-OpenMediationSwiftDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenMediationDemo-OpenMediationSwiftDemo/Pods-OpenMediationDemo-OpenMediationSwiftDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenMediationDemo-OpenMediationSwiftDemo/Pods-OpenMediationDemo-OpenMediationSwiftDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		82AEE09FE35AC06183A90A60 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenMediationDemo/Pods-OpenMediationDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenMediationDemo/Pods-OpenMediationDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenMediationDemo/Pods-OpenMediationDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		87360A655665E454A26D8857 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenMediationDemo-OpenMediationSwiftDemo/Pods-OpenMediationDemo-OpenMediationSwiftDemo-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenMediationDemo-OpenMediationSwiftDemo/Pods-OpenMediationDemo-OpenMediationSwiftDemo-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenMediationDemo-OpenMediationSwiftDemo/Pods-OpenMediationDemo-OpenMediationSwiftDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BC0E488B24B096D73D977914 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenMediationDemo/Pods-OpenMediationDemo-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OpenMediationDemo/Pods-OpenMediationDemo-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OpenMediationDemo/Pods-OpenMediationDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D0D06AA11C33EA11D5DB8C5A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OpenMediationDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3957,6 +4245,20 @@
 				49FD9C4F25A707BB00787598 /* OMSigMobRewardedVideo.m in Sources */,
 				49FD9C5225A707BB00787598 /* OMSigMobInterstitial.m in Sources */,
 				49FD9C4B25A707BB00787598 /* OMSigMobAdapter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CDE0394288A7B7800796A58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CDE03AC288A81F500796A58 /* OMGoogleAdBanner.m in Sources */,
+				0CDE03B2288A81F500796A58 /* OMGoogleAdNative.m in Sources */,
+				0CDE03B4288A81F500796A58 /* OMGoogleAdNativeAd.m in Sources */,
+				0CDE03B5288A81F500796A58 /* OMGoogleAdAdapter.m in Sources */,
+				0CDE03B7288A81F500796A58 /* OMGoogleAdRewardedVideo.m in Sources */,
+				0CDE03B9288A81F500796A58 /* OMGoogleAdSplash.m in Sources */,
+				0CDE03BD288A81F500796A58 /* OMGoogleAdInterstitial.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4206,6 +4508,11 @@
 			target = 0CA619FB25DE70300008AC1F /* OMPubNativeAdapter */;
 			targetProxy = 0CB011B625EE1A9D00C44AFB /* PBXContainerItemProxy */;
 		};
+		0CDE03A2288A7BDD00796A58 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0CDE038D288A7B7800796A58 /* OMGoogleAdAdapter */;
+			targetProxy = 0CDE03A1288A7BDD00796A58 /* PBXContainerItemProxy */;
+		};
 		0CE7B53D25C16C1F006E7FA6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0CE7B36725C141C6006E7FA6 /* OMKuaiShouAdapter */;
@@ -4341,6 +4648,7 @@
 /* Begin XCBuildConfiguration section */
 		0C3105AF26258FD7000898E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B4ABC2E1B89EB96EC243937 /* Pods-OpenMediationDemo-OpenMediationSwiftDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -4353,7 +4661,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.7;
+				MARKETING_VERSION = 2.4.8;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
@@ -4369,6 +4677,7 @@
 		};
 		0C3105B026258FD7000898E2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A5983B336FC1510C7295063A /* Pods-OpenMediationDemo-OpenMediationSwiftDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -4381,7 +4690,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.7;
+				MARKETING_VERSION = 2.4.8;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
@@ -4630,6 +4939,7 @@
 		};
 		0C981BD623D69A1F0074B43A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F9079CAC1D6C0FB6D2845C8C /* Pods-OpenMediationDemo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -4649,7 +4959,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.7;
+				MARKETING_VERSION = 2.4.8;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
@@ -4662,6 +4972,7 @@
 		};
 		0C981BD723D69A1F0074B43A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E55A62A049B1DF4FEC3202EC /* Pods-OpenMediationDemo.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -4681,7 +4992,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.7;
+				MARKETING_VERSION = 2.4.8;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
@@ -4789,6 +5100,58 @@
 				);
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.sigmobadapter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		0CDE039D288A7B7800796A58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = R9GTCMNR3E;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = OMGoogleAdAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.googleadadapter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0CDE039E288A7B7800796A58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = R9GTCMNR3E;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = OMGoogleAdAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.openmediation.googleadadapter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
@@ -5824,6 +6187,15 @@
 			buildConfigurations = (
 				0CCF87A425821D78005463AD /* Debug */,
 				0CCF87A525821D78005463AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0CDE039C288A7B7800796A58 /* Build configuration list for PBXNativeTarget "OMGoogleAdAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CDE039D288A7B7800796A58 /* Debug */,
+				0CDE039E288A7B7800796A58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,10 +1,10 @@
 // Copyright 2020 ADTIMING TECHNOLOGY COMPANY LIMITED
 // Licensed under the GNU Lesser General Public License Version 3
 
-#import "OMAdMobAdapter.h"
-#import "OMAdMobRewardedVideo.h"
+#import "OMGoogleAdAdapter.h"
+#import "OMGoogleAdRewardedVideo.h"
 
-@implementation OMAdMobRewardedVideo
+@implementation OMGoogleAdRewardedVideo
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter {
     if (self = [super init]) {
@@ -16,11 +16,11 @@
 
 - (void)loadAd {
     Class adMobClass = NSClassFromString(@"GADRewardedAd");
-    Class requestClass = NSClassFromString(@"GADRequest");
+    Class requestClass = NSClassFromString(@"GAMRequest");
     if (adMobClass && [adMobClass respondsToSelector:@selector(loadWithAdUnitID:request:completionHandler:)] && requestClass && [requestClass respondsToSelector:@selector(request)]) {
         __weak typeof(self) weakSelf = self;
-        GADRequest *request  = [requestClass request];
-        if ([OMAdMobAdapter npaAd] && NSClassFromString(@"GADExtras")) {
+        GAMRequest *request  = [requestClass request];
+        if ([OMGoogleAdAdapter npaAd] && NSClassFromString(@"GADExtras")) {
             GADExtras *extras = [[NSClassFromString(@"GADExtras") alloc] init];
             extras.additionalParameters = @{@"npa": @"1"};
             [request registerAdNetworkExtras:extras];
@@ -106,5 +106,6 @@ didFailToPresentFullScreenContentWithError:(nonnull NSError *)error {
         [_delegate rewardedVideoCustomEventDidClose:self];
     }
 }
+
 
 @end
