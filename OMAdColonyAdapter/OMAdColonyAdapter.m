@@ -74,8 +74,7 @@ static BOOL logEnabled = NO;
                 [options setPrivacyConsentString:adcPrivacyString forType:ADC_CCPA];
             }
             if (adcAgeRestrictedString.length>0) {
-                [options setPrivacyFrameworkOfType:ADC_COPPA isRequired:YES];
-                [options setPrivacyConsentString:adcAgeRestrictedString forType:ADC_COPPA];
+                [options setPrivacyFrameworkOfType:ADC_COPPA isRequired:adcAgeRestrictedString];
             }
         }
         
