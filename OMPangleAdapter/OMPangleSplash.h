@@ -7,13 +7,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMPangleSplash : NSObject<OMSplashCustomEvent,BUSplashAdDelegate>
+@interface OMPangleSplash : NSObject<OMSplashCustomEvent,BUSplashAdDelegate,PAGLAppOpenAdDelegate>
 
 @property (nonatomic, weak) id <splashCustomEventDelegate>delegate;
 @property (nonatomic, copy) NSString *pid;
-@property (nonatomic, strong) BUSplashAdView *splashView;
 
+@property (nonatomic, strong) BUSplashAdView *splashView;
 @property (nonatomic, assign) CGRect AdFrame;
+
+// 海外
+@property (nonatomic, strong) PAGLAppOpenAd *splashAd;
+@property (nonatomic, assign) BOOL isSplashReady;
 
 - (instancetype)initWithParameter:(NSDictionary *)adParameter adSize:(CGSize)size;
 - (void)loadAd;

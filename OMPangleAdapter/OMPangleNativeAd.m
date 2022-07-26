@@ -5,14 +5,12 @@
 
 @implementation OMPangleNativeAd
 
-- (instancetype)initWithNativeAd:(BUNativeAd*)nativeAd {
+- (instancetype)initWithNativeAd:(PAGLNativeAd*)nativeAd {
     if (self = [super init]) {
         _adObject = nativeAd;
         _title = nativeAd.data.AdTitle;
         _body = nativeAd.data.AdDescription;
         _iconUrl = nativeAd.data.icon.imageURL;
-        _rating = nativeAd.data.score;
-        _callToAction = nativeAd.data.buttonText;
         _nativeViewClass = @"OMPangleNativeView";
     }
     return self;

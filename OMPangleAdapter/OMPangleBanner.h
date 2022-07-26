@@ -8,10 +8,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMPangleBanner : UIView<OMBannerCustomEvent,BUNativeExpressBannerViewDelegate>
+@interface OMPangleBanner : UIView<OMBannerCustomEvent,BUNativeExpressBannerViewDelegate,PAGBannerAdDelegate>
 
 @property(nonatomic, weak, nullable) id<bannerCustomEventDelegate> delegate;
 @property (nonatomic, strong) BUNativeExpressBannerView *bannerAdView;
+// 海外
+@property (nonatomic, copy) NSString *pid;
+@property (nonatomic, strong) UIViewController *rootVC;
+@property (nonatomic, strong) UIView *pagBannerView;
+@property (nonatomic, strong) PAGBannerAd *pagBannerAd;
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController;
 - (void)loadAd;
 

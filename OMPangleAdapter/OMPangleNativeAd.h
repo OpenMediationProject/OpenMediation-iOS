@@ -27,9 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *nativeViewClass;
 
 
-@property (nonatomic, strong) BUNativeAd *adObject;
+@property (nonatomic, strong) PAGLNativeAd *adObject;
 
-- (instancetype)initWithNativeAd:(BUNativeAd*)nativeAd;
+- (instancetype)initWithNativeAd:(PAGLNativeAd*)nativeAd;
 
 @end
 

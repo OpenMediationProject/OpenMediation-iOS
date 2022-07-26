@@ -9,7 +9,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class BUNativeExpressBannerView;
 @class BUDislikeWords;
-@class BUSize;
 
 @protocol BUNativeExpressBannerViewDelegate <NSObject>
 
@@ -59,11 +58,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)nativeExpressBannerAdViewDidCloseOtherController:(BUNativeExpressBannerView *)bannerAdView interactionType:(BUInteractionType)interactionType;
 
+/**
+ This method is called when the Ad view container is forced to be removed.
+ @param bannerAdView : Express Banner Ad view container
+ */
+- (void)nativeExpressBannerAdViewDidRemoved:(BUNativeExpressBannerView *)bannerAdView;
 @end
 
-@class BUAdSlot;
-
-@interface BUNativeExpressBannerView : UIView<BUMopubAdMarkUpDelegate>
+ __attribute__((objc_subclassing_restricted))
+@interface BUNativeExpressBannerView : BUInterfaceBaseView <BUMopubAdMarkUpDelegate, BUAdClientBiddingProtocol>
 
 @property (nonatomic, weak, nullable) id<BUNativeExpressBannerViewDelegate> delegate;
 
@@ -125,6 +128,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)loadAdData;
 
+/**
+ Ad slot material id
+ */
+- (NSString *)getAdCreativeToken;
+
 @end
 
 @interface BUNativeExpressBannerView (Deprecated)
@@ -137,6 +145,61 @@ NS_ASSUME_NONNULL_BEGIN
                         adSize:(CGSize)adsize
              IsSupportDeepLink:(BOOL)isSupportDeepLink
                       interval:(NSInteger)interval DEPRECATED_MSG_ATTRIBUTE("Use initWithSlotID:rootViewController:adSize:interval: instead.");
+@end
+
+
+struct PAGAdSize {
+    CGSize size;
+};
+
+typedef struct PAGAdSize PAGBannerAdSize;
+
+CG_EXTERN PAGBannerAdSize const kPAGBannerSize320x50;
+CG_EXTERN PAGBannerAdSize const kPAGBannerSize300x250;
+/// Only for iPad banner ad
+CG_EXTERN PAGBannerAdSize const kPAGBannerSize728x90;
+
+// 海外
+@class PAGBannerAd;
+
+@protocol PAGBannerAdDelegate <PAGAdDelegate>
+
+@end
+
+@interface PAGBannerRequest : PAGRequest
+
++(instancetype)request UNAVAILABLE_ATTRIBUTE;
++ (instancetype)requestWithBannerSize:(PAGBannerAdSize)bannerSize;
+
+@end
+
+/// Callback for loading ad results.
+/// @param bannerAd Ad instance after successfully loaded which will be non-nil on success.
+/// @param error Loading error which will be non-nil on fail.
+typedef void (^PAGBannerADLoadCompletionHandler)(PAGBannerAd * _Nullable bannerAd,
+                                                  NSError * _Nullable error);
+
+@interface PAGBannerAd : NSObject<PAGAdProtocol,PAGAdClientBiddingProtocol>
+
+/// Ad event delegate.
+@property (nonatomic, weak, nullable) id<PAGBannerAdDelegate> delegate;
+/// View of the banner ad.
+@property (nonatomic, strong, readonly) UIView *bannerView;
+/// View controller the banner ad will be presented on.
+@property (nonatomic, weak, readwrite) UIViewController *rootViewController;
+
++ (instancetype)new UNAVAILABLE_ATTRIBUTE;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+
+
+/// Load banner ad
+/// @param slotID Required. The unique identifier of banner ad.
+/// @param request Required. An instance of a banner ad request.
+/// @param completionHandler Handler which will be called when the request completes.
++ (void)loadAdWithSlotID:(NSString *)slotID
+                 request:(PAGBannerRequest *)request
+       completionHandler:(PAGBannerADLoadCompletionHandler)completionHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END

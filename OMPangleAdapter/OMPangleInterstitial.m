@@ -17,47 +17,61 @@
 }
 
 -(void)loadAd {
-    Class BUFullscreenVideoAdClass = NSClassFromString([OMPangleAdapter internalAPI]?@"BUNativeExpressFullscreenVideoAd":@"BUFullscreenVideoAd");
-    if (BUFullscreenVideoAdClass && [[BUFullscreenVideoAdClass alloc] respondsToSelector:@selector(initWithSlotID:)]) {
-        
-        _fullscreenVideoAd = [[BUFullscreenVideoAdClass alloc] initWithSlotID:_pid];
-        _fullscreenVideoAd.delegate = self;
-    }
-    if (_fullscreenVideoAd) {
-        [_fullscreenVideoAd loadAdData];
+    if ([OMPangleAdapter internalAPI]) {
+        Class BUFullscreenVideoAdClass = NSClassFromString(@"BUNativeExpressFullscreenVideoAd");
+        if (BUFullscreenVideoAdClass && [[BUFullscreenVideoAdClass alloc] respondsToSelector:@selector(initWithSlotID:)]) {
+            _fullscreenVideoAd = [[BUFullscreenVideoAdClass alloc] initWithSlotID:_pid];
+            _fullscreenVideoAd.delegate = self;
+        }
+        if (_fullscreenVideoAd) {
+            [_fullscreenVideoAd loadAdData];
+        }
+    }else{
+        // 海外
+        Class PAGIvClass = NSClassFromString(@"PAGLInterstitialAd");
+        Class requestClass = NSClassFromString(@"PAGInterstitialRequest");
+        if (PAGIvClass && [PAGIvClass respondsToSelector:@selector(loadAdWithSlotID:request:completionHandler:)] && requestClass && [requestClass respondsToSelector:@selector(request)]) {
+            __weak typeof(self) weakSelf = self;
+            PAGInterstitialRequest *request  = [requestClass request];
+            [PAGIvClass loadAdWithSlotID:_pid
+                                 request:request
+                       completionHandler:^(PAGLInterstitialAd *ad, NSError *error) {
+                if (!error) {
+                    weakSelf.adReadyFlag = YES;
+                    weakSelf.pagInterstitialAd = ad;
+                    weakSelf.pagInterstitialAd.delegate = self;
+                    if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+                        [weakSelf.delegate customEvent:weakSelf didLoadAd:nil];
+                    }
+                } else {
+                    if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+                        [weakSelf.delegate customEvent:weakSelf didFailToLoadWithError:error];
+                    }
+                }
+            }];
+        }
     }
 }
 
 -(BOOL)isReady {
-    if (_fullscreenVideoAd) {
+    if (_fullscreenVideoAd || _pagInterstitialAd) {
         return self.adReadyFlag;
     }
     return NO;
 }
 
-- (void)show:(UIViewController *)vc
-{
+- (void)show:(UIViewController *)vc {
     if ([self isReady]) {
         self.adReadyFlag = NO;
-        [_fullscreenVideoAd showAdFromRootViewController:vc];
+        if ([OMPangleAdapter internalAPI]) {
+            [_fullscreenVideoAd showAdFromRootViewController:vc];
+        }else{
+            [_pagInterstitialAd presentFromRootViewController:vc];
+        }
     }
 }
 
-
-/**
- 视频广告视频素材缓存成功
- */
-- (void)fullscreenVideoAdVideoDataDidLoad:(BUFullscreenVideoAd *)fullscreenVideoAd {
-    self.adReadyFlag = YES;
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
-        [_delegate customEvent:self didLoadAd:nil];
-    }
-}
-
-/**
- 广告位已经展示
- */
-- (void)fullscreenVideoAdDidVisible:(BUFullscreenVideoAd *)fullscreenVideoAd {
+- (void)adDidShow:(PAGLInterstitialAd *)ad {
     if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidOpen:)]) {
         [_delegate interstitialCustomEventDidOpen:self];
     }
@@ -66,39 +80,19 @@
     }
 }
 
-
-
-/**
- 视频广告点击
- */
-- (void)fullscreenVideoAdDidClick:(BUFullscreenVideoAd *)fullscreenVideoAd {
+- (void)adDidClick:(PAGLInterstitialAd *)ad {
     if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClick:)]) {
         [_delegate interstitialCustomEventDidClick:self];
     }
 }
 
-/**
- 视频广告关闭
- */
-- (void)fullscreenVideoAdDidClose:(BUFullscreenVideoAd *)fullscreenVideoAd {
+- (void)adDidDismiss:(PAGLInterstitialAd *)ad {
     if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidClose:)]) {
         [_delegate interstitialCustomEventDidClose:self];
     }
 }
 
-
-/**
- 视频广告素材加载失败
- 
- @param fullscreenVideoAd 当前视频对象
- @param error 错误对象
- */
-- (void)fullscreenVideoAd:(BUFullscreenVideoAd *)fullscreenVideoAd didFailWithError:(NSError *)error {
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
-        [_delegate customEvent:self didFailToLoadWithError:error];
-    }
-}
-
+// 国内
 
 #pragma mark BUNativeExpressFullscreenVideoAdDelegate
 - (void)nativeExpressFullscreenVideoAdDidLoad:(BUNativeExpressFullscreenVideoAd *)fullscreenVideoAd {

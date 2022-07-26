@@ -159,51 +159,6 @@ typedef void (^BUCompletionHandler)(BOOL success,NSError *error);
 
 @end
 
-@interface BUAdSDKConfiguration : NSObject
-
-+ (instancetype)configuration;
-
-/// This property should be set when integrating non-China and china areas at the same time,
-/// otherwise it need'nt to be set.you‘d better set Territory first,  if you need to set them
-@property (nonatomic, assign) BUAdSDKTerritory territory;
-
-///Register the App key that’s already been applied before requesting an ad from TikTok Audience Network.
-/// the unique identifier of the App
-@property (nonatomic, copy) NSString *appID;
-
-/// the unique identifier of the App, more safely
-@property (nonatomic, copy) NSString *secretKey;
-
-/// Configure development mode. default BUAdSDKLogLevelNone
-@property (nonatomic, assign) BUAdSDKLogLevel logLevel;
-
-/// the age group of the user
-/// only works in CN environment
-//@property (nonatomic, assign) BUAdSDKAgeGroup ageGroup;
-
-/// the COPPA of the user, COPPA is the short of Children's Online Privacy Protection Rule,
-/// the interface only works in the United States.
-/// Coppa 0 adult, 1 child
-/// You can change its value at any time
-@property (nonatomic, strong) NSNumber *coppa;
-
-/// additional user information.
-@property (nonatomic, copy) NSString *userExtData;
-
-/// Solve the problem when your WKWebview post message empty,
-/// default is BUOfflineTypeWebview
-//@property (nonatomic, assign) BUOfflineType webViewOfflineType;
-
-/// Custom set the GDPR of the user,GDPR is the short of General Data Protection Regulation,the interface only works in The European.
-/// GDPR 0 close privacy protection, 1 open privacy protection
-/// You can change its value at any time
-@property (nonatomic, strong) NSNumber *GDPR;
-
-/// Custom set the CCPA of the user,CCPA is the short of General Data Protection Regulation,the interface only works in USA.
-/// CCPA  0: "sale" of personal information is permitted, 1: user has opted out of "sale" of personal information -1: default
-@property (nonatomic, strong) NSNumber *CCPA;
-@end
-
 @interface BUAdSDKManager (InterfaceReadyReplacement)
 + (void)setAppID:(NSString *)appID;
 + (void)setGDPR:(NSInteger)GDPR;
@@ -228,6 +183,7 @@ typedef void (^BUCompletionHandler)(BOOL success,NSError *error);
 @interface BUSize (BU_SizeFactory)
 + (instancetype)sizeBy:(BUProposalSize)proposalSize;
 @end
+
 
 @interface BUAdSlot : NSObject
 
@@ -262,6 +218,146 @@ typedef void (^BUCompletionHandler)(BOOL success,NSError *error);
 @property (nonatomic, assign) BOOL isOriginAd;
 
 - (NSDictionary *)dictionaryValue;
+
+@end
+
+// 国内
+
+@interface BUInterfaceBaseView : UIView
+
+@end
+
+@protocol BUAdClientBiddingProtocol <NSObject>
+
+@optional
+
+/// invoke this method to set this actual auction price 调用此方法设置当前实际结算价
+/// @param auctionPrice auction price 实际结算价格
+- (void)setPrice:(nullable NSNumber *)auctionPrice;
+
+/// invoke this method when the bidding  succeeds (strongly recommended)  当竞价成功调用此方法(强烈推荐)
+/// @param auctionBidToWin the seccond place bidder's price 竞价方第二名的价格
+- (void)win:(nullable NSNumber*)auctionBidToWin;
+
+/// invoke this method when the bidding  fails (strongly recommended)  当竞价失败调用此方法(强烈推荐)
+/// @param auctionPrice auction price  竞价
+/// @param lossReason Reasons for failed bidding 失败的原因
+/// @param winBidder Who won the bid 谁赢了竞价
+- (void)loss:(nullable NSNumber*)auctionPrice lossReason:(nullable NSString*)lossReason winBidder:(nullable NSString*)winBidder;
+
+@end
+
+
+// 海外基础协议方法
+
+@interface PAGRequest : NSObject
++ (instancetype)request;
+@end
+
+@protocol PAGAdClientBiddingProtocol;
+
+@protocol PAGAdProtocol <NSObject>
+/// return extra info
+- (nullable NSDictionary *)getMediaExtraInfo;
+@end
+
+@protocol PAGAdDelegate <NSObject>
+@optional
+- (void)adDidShow:(id<PAGAdProtocol>)ad;
+- (void)adDidClick:(id<PAGAdProtocol>)ad;
+- (void)adDidDismiss:(id<PAGAdProtocol>)ad;
+@end
+
+typedef NS_ENUM(NSInteger, PAGAdSDKThemeStatus) {
+    PAGAdSDKThemeStatus_Normal = 0, //Light mode
+    PAGAdSDKThemeStatus_Night  = 1, //Dark mode
+};
+
+typedef NS_ENUM(NSInteger, PAGChildDirectedType) {
+    PAGChildDirectedTypeDefault = -1,//default
+    PAGChildDirectedTypeNonChild = 0,// user is not a child
+    PAGChildDirectedTypeChild = 1,// user is a child
+};
+
+typedef NS_ENUM(NSInteger, PAGDoNotSellType) {
+    PAGDoNotSellTypeDefault = -1,//default
+    PAGDoNotSellTypeSell = 0,//“sale” of personal information is permitted
+    PAGDoNotSellTypeNotSell = 1,//user has opted out of “sale” of personal information
+};
+
+typedef NS_ENUM(NSInteger, PAGGDPRConsentType) {
+    PAGGDPRConsentTypeDefault = -1,//default
+    PAGGDPRConsentTypeNoConsent = 0,//user did not consent
+    PAGGDPRConsentTypeConsent = 1,//user provided consent
+};
+
+///Pangle SDK configuration class
+@interface PAGConfig : NSObject
+
+///appId the unique identifier of the App
+///@warning required
+@property (nonatomic, copy) NSString *appID;
+
++ (instancetype)new UNAVAILABLE_ATTRIBUTE;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+/// Initialization method of PAGConfig
++ (instancetype)shareConfig;
+
+@end
+
+@interface PAGConfig (Settings)
+
+///Set the COPPA of the user, COPPA is the short of Children's Online Privacy Protection Rule, the interface only works in the United States.
+@property (nonatomic, assign) PAGChildDirectedType childDirected;
+
+///Custom set the GDPR of the user,GDPR is the short of General Data Protection Regulation,the interface only works in The European.
+@property (nonatomic, assign) PAGGDPRConsentType GDPRConsent;
+
+/// Custom set the CCPA of the user,CCPA is the short of General Data Protection Regulation,the interface only works in USA.
+@property (nonatomic, assign) PAGDoNotSellType doNotSell;
+
+@property (nonatomic, assign) PAGAdSDKThemeStatus  themeStatus;
+
+/// Custom set the debugLog to print debug Log.
+/// debugLog NO: close debug log, YES: open debug log.
+@property (nonatomic, assign) BOOL debugLog;
+
+/// App logo image. If set, it will be displayed in the App open ad.
+@property (nonatomic, strong, nullable) UIImage *appLogoImage;
+
+/// additional user information.
+@property (nonatomic, copy) NSString *userDataString;
+
+///Whether to allow SDK to modify the category and options of AVAudioSession when playing audio, default is NO.
+///The category set by the SDK is AVAudioSessionCategoryAmbient, and the options are AVAudioSessionCategoryOptionDuckOthers
+@property (nonatomic, assign) BOOL allowModifyAudioSessionSetting;
+
+@end
+
+typedef NS_ENUM(NSInteger, PAGSDKInitializationState) {
+    PAGSDKInitializationStateNotReady = 0,
+    PAGSDKInitializationStateReady = 1
+};
+
+typedef void (^PAGAdsCompletionHandler)(BOOL success,NSError *error);
+
+@interface PAGSdk : NSObject
+
+/// Pangle SDK version
+@property (nonatomic, copy, readonly, class) NSString *SDKVersion;
+
+/// The SDK initialization state
+@property (nonatomic, assign, readonly, class) PAGSDKInitializationState initializationState;
+
+/// Starts the Pangle SDK
+/// @warning Call this method as early as possible to reduce  ad request fail.
+/// @param config SDK configuration
+/// @param completionHandler Callback for starting the Pangle SDK
++ (void)startWithConfig:(PAGConfig *)config completionHandler:(nullable PAGAdsCompletionHandler)completionHandler;
+
+/// Get bidding token
+/// @param slotID the unique identifier of  ad.
++ (NSString *)getBiddingToken:(nullable NSString *)slotID;
 
 @end
 

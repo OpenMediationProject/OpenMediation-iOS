@@ -4,128 +4,13 @@
 #ifndef OMPangleRewardedVideoClass_h
 #define OMPangleRewardedVideoClass_h
 #import <UIKit/UIKit.h>
+#import "OMPangleClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, BURewardedVideoAdType) {
-    BURewardedVideoAdTypeEndcard        = 0,    // video + endcard
-    BURewardedVideoAdTypeVideoPlayable  = 1,    // video + playable
-    BURewardedVideoAdTypePurePlayable   = 2     // pure playable
-};
 
-
-@protocol BURewardedVideoAdDelegate;
+@class BUNativeExpressRewardedVideoAd;
 @class BURewardedVideoModel;
-
-@interface BURewardedVideoAd : NSObject
-@property (nonatomic, strong) BURewardedVideoModel *rewardedVideoModel;
-@property (nonatomic, weak, nullable) id<BURewardedVideoAdDelegate> delegate;
-
-/**
- 物料有效 数据不为空且没有展示过为 YES, 重复展示不计费.
- */
-//@property (nonatomic, getter=isAdValid, readonly) BOOL adValid;
-@property (nonatomic, getter=isAdValid, readonly) BOOL adValid __attribute__((deprecated("Use rewardedVideoAdDidLoad: instead.")));
-
-- (instancetype)initWithSlotID:(NSString *)slotID rewardedVideoModel:(BURewardedVideoModel *)model;
-- (void)loadAdData;
-- (BOOL)showAdFromRootViewController:(UIViewController *)rootViewController;
-
-@end
-
-@protocol BURewardedVideoAdDelegate <NSObject>
-
-@optional
-
-/**
- rewardedVideoAd 激励视频广告-物料-加载成功
- @param rewardedVideoAd 当前激励视频素材
- */
-- (void)rewardedVideoAdDidLoad:(BURewardedVideoAd *)rewardedVideoAd;
-
-/**
- rewardedVideoAd 激励视频广告-视频-加载成功
- @param rewardedVideoAd 当前激励视频素材
- */
-- (void)rewardedVideoAdVideoDidLoad:(BURewardedVideoAd *)rewardedVideoAd;
-
-/**
- rewardedVideoAd 广告位即将展示
- 
- @param rewardedVideoAd 当前激励视频对象
- */
-- (void)rewardedVideoAdWillVisible:(BURewardedVideoAd *)rewardedVideoAd;
-
-/**
- rewardedVideoAd 广告位已经展示
- 
- @param rewardedVideoAd 当前激励视频对象
- */
-- (void)rewardedVideoAdDidVisible:(BURewardedVideoAd *)rewardedVideoAd;
-
-/**
- rewardedVideoAd 激励视频广告即将关闭
- 
- @param rewardedVideoAd 当前激励视频对象
- */
-- (void)rewardedVideoAdWillClose:(BURewardedVideoAd *)rewardedVideoAd;
-
-/**
- rewardedVideoAd 激励视频广告关闭
- 
- @param rewardedVideoAd 当前激励视频对象
- */
-- (void)rewardedVideoAdDidClose:(BURewardedVideoAd *)rewardedVideoAd;
-
-/**
- rewardedVideoAd 激励视频广告点击
- 
- @param rewardedVideoAd 当前激励视频对象
- */
-- (void)rewardedVideoAdDidClick:(BURewardedVideoAd *)rewardedVideoAd;
-
-/**
- rewardedVideoAd 激励视频广告素材加载失败
- 
- @param rewardedVideoAd 当前激励视频对象
- @param error 错误对象
- */
-- (void)rewardedVideoAd:(BURewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error;
-
-/**
- rewardedVideoAd 激励视频广告播放完成或发生错误
- 
- @param rewardedVideoAd 当前激励视频对象
- @param error 错误对象
- */
-- (void)rewardedVideoAdDidPlayFinish:(BURewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error;
-
-/**
- 服务器校验后的结果,异步 rewardedVideoAd publisher 终端返回 20000
- 
- @param rewardedVideoAd 当前激励视频对象
- @param verify 有效性验证结果
- */
-- (void)rewardedVideoAdServerRewardDidSucceed:(BURewardedVideoAd *)rewardedVideoAd verify:(BOOL)verify;
-
-/**
- rewardedVideoAd publisher 终端返回非 20000
- 
- @param rewardedVideoAd 当前激励视频对象
- */
-- (void)rewardedVideoAdServerRewardDidFail:(BURewardedVideoAd *)rewardedVideoAd __attribute__((deprecated("Use rewardedVideoAdServerRewardDidFail: error: instead.")));
-
-
-- (void)rewardedVideoAdServerRewardDidFail:(BURewardedVideoAd *)rewardedVideoAd error:(NSError *)error;
-
-/**
- this method is used to get type of rewarded video Ad
- */
-- (void)rewardedVideoAdCallback:(BURewardedVideoAd *)rewardedVideoAd withType:(BURewardedVideoAdType)rewardedVideoAdType;
-
-@end
-
-@protocol BUNativeExpressRewardedVideoAdDelegate;
 
 typedef NS_ENUM(NSInteger, BURitSceneType) {
     BURitSceneType_custom                  = 0,//custom
@@ -142,42 +27,12 @@ typedef NS_ENUM(NSInteger, BURitSceneType) {
     BURitSceneType_game_gift_bonus         = 11//The game dropped treasure box, treasures and so on
 };
 
+/// define the type of  native express rewarded video Ad
 typedef NS_ENUM(NSUInteger, BUNativeExpressRewardedVideoAdType) {
     BUNativeExpressRewardedVideoAdTypeEndcard         = 0,  // video + endcard
     BUNativeExpressRewardedVideoAdTypeVideoPlayable   = 1,  // video + playable
     BUNativeExpressRewardedVideoAdTypePurePlayable    = 2,  // pure playable
 };
-
-@interface BUNativeExpressRewardedVideoAd : NSObject
-@property (nonatomic, strong) BURewardedVideoModel *rewardedVideoModel;
-@property (nonatomic, weak, nullable) id<BUNativeExpressRewardedVideoAdDelegate> delegate;
-/// media configuration parameters.
-@property (nonatomic, copy, readonly) NSDictionary *mediaExt;
-
-/**
- Whether material is effective.
- Setted to YES when data is not empty and has not been displayed.
- Repeated display is not billed.
- */
-@property (nonatomic, getter=isAdValid, readonly) BOOL adValid __attribute__((deprecated("Use nativeExpressRewardedVideoAdDidLoad: instead.")));
-
-- (instancetype)initWithSlotID:(NSString *)slotID rewardedVideoModel:(BURewardedVideoModel *)model;
-- (void)loadAdData;
-
-/**
- Display video ad.
- @param rootViewController : root view controller for displaying ad.
- @return : whether it is successfully displayed.
- */
-- (BOOL)showAdFromRootViewController:(UIViewController *)rootViewController;
-
-/**
- If ritSceneType is custom, you need to pass in the values for sceneDescirbe.
- @param ritSceneType  : optional. Identifies a custom description of the presentation scenario.
- @param sceneDescirbe : optional. Identify the scene of presentation.
- */
-- (BOOL)showAdFromRootViewController:(UIViewController *)rootViewController ritScene:(BURitSceneType)ritSceneType ritSceneDescribe:(NSString *_Nullable)sceneDescirbe;
-@end
 
 @protocol BUNativeExpressRewardedVideoAdDelegate <NSObject>
 
@@ -277,6 +132,137 @@ typedef NS_ENUM(NSUInteger, BUNativeExpressRewardedVideoAdType) {
  @param interactionType : open appstore in app or open the webpage or view video ad details page.
  */
 - (void)nativeExpressRewardedVideoAdDidCloseOtherController:(BUNativeExpressRewardedVideoAd *)rewardedVideoAd interactionType:(BUInteractionType)interactionType;
+
+@end
+
+/// Please note: This Class does not take effect on Pangle global, only use it when you have traffic from mainland China.
+ __attribute__((objc_subclassing_restricted))
+@interface BUNativeExpressRewardedVideoAd : BUInterfaceBaseObject <BUMopubAdMarkUpDelegate, BUAdClientBiddingProtocol>
+@property (nonatomic, strong) BURewardedVideoModel *rewardedVideoModel;
+@property (nonatomic, weak, nullable) id<BUNativeExpressRewardedVideoAdDelegate> delegate;
+@property (nonatomic, weak, nullable) id<BUNativeExpressRewardedVideoAdDelegate> rewardPlayAgainInteractionDelegate;
+
+/// media configuration parameters.
+@property (nonatomic, copy, readonly) NSDictionary *mediaExt;
+
+/**
+ Is  materialMeta from the preload, default is NO
+ @warning:Pure playable, the value of this field is accurate after the material is downloaded successfully. For others, the value of this field needs to be accurate after the video is downloaded successfully.
+ @Note :  This field is only useful in China area.
+*/
+@property (nonatomic, assign, readonly) BOOL materialMetaIsFromPreload;
+
+/**
+ The expiration timestamp of materialMeta
+ @warning:Pure playable, the value of this field is accurate after the material is downloaded successfully. For others, the value of this field needs to be accurate after the video is downloaded successfully.
+ @Note :  This field is only useful in China area.
+ */
+@property (nonatomic, assign, readonly) NSTimeInterval expireTimestamp;
+
+/**
+ Whether material is effective.
+ Setted to YES when data is not empty and has not been displayed.
+ Repeated display is not billed.
+ */
+@property (nonatomic, getter=isAdValid, readonly) BOOL adValid __attribute__((deprecated("Use nativeExpressRewardedVideoAdDidLoad: instead.")));
+
+- (instancetype)initWithSlotID:(NSString *)slotID rewardedVideoModel:(BURewardedVideoModel *)model;
+
+/**
+ Initializes Rewarded video ad with ad slot and frame.
+ @param slot A object, through which you can pass in the reward unique identifier, ad type, and so on.
+ @param model Rewarded video model.
+ @return BUNativeExpressRewardedVideoAd
+*/
+- (instancetype)initWithSlot:(BUAdSlot *)slot rewardedVideoModel:(BURewardedVideoModel *)model;
+
+/**
+ Ad slot material id
+ */
+- (NSString *)getAdCreativeToken;
+
+- (void)loadAdData;
+
+/**
+ Display video ad.
+ @param rootViewController : root view controller for displaying ad.
+ @return : whether it is successfully displayed.
+ */
+- (BOOL)showAdFromRootViewController:(UIViewController *)rootViewController;
+
+/**
+ If ritSceneType is custom, you need to pass in the values for sceneDescirbe.
+ @param ritSceneType  : optional. Identifies a custom description of the presentation scenario.
+ @param sceneDescirbe : optional. Identify the scene of presentation.
+ */
+- (BOOL)showAdFromRootViewController:(UIViewController *)rootViewController ritScene:(BURitSceneType)ritSceneType ritSceneDescribe:(NSString *_Nullable)sceneDescirbe;
+
+/**
+ Get the expiration timestamp of materialMeta
+ @warning: The value of this field is only accurate after the video is downloaded successfully or after the access is successfully obtained
+ @Note :  This API is only useful in China area.
+ */
+- (NSTimeInterval)getExpireTimestamp;
+
+@end
+
+
+// 海外
+
+@class PAGRewardedAd;
+@class PAGRewardModel;
+
+
+@interface PAGRewardedRequest : PAGRequest
+
+@end
+
+@protocol PAGRewardedAdDelegate <PAGAdDelegate>
+
+@optional
+
+/// Tells the delegate that the user has earned the reward.
+/// @param rewardedAd rewarded ad instance
+/// @param rewardModel user's reward info
+- (void)rewardedAd:(PAGRewardedAd *)rewardedAd userDidEarnReward:(PAGRewardModel *)rewardModel;
+
+
+/// Tells the delegate that the user failed to earn the reward.
+/// @param rewardedAd rewarded ad instance
+/// @param error failed reson
+- (void)rewardedAd:(PAGRewardedAd *)rewardedAd userEarnRewardFailWithError:(NSError *)error;
+
+@end
+
+@class PAGRewardedAd;
+/// Callback for loading ad results.
+/// @param rewardedAd Ad instance after successfully loaded which will be non-nil on success.
+/// @param error Loading error which will be non-nil on fail.
+typedef void (^PAGRewardedAdLoadCompletionHandler)(PAGRewardedAd * _Nullable rewardedAd,
+                                                  NSError * _Nullable error);
+
+@interface PAGRewardedAd : NSObject<PAGAdProtocol,PAGAdClientBiddingProtocol>
+
+/// Ad event delegate.
+@property (nonatomic, weak, nullable) id<PAGRewardedAdDelegate> delegate;
+
++ (instancetype)new UNAVAILABLE_ATTRIBUTE;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+
+
+/// Load rewarded ad
+/// @param slotID Required. The unique identifier of rewarded ad.
+/// @param request Required. An instance of a rewarded ad request.
+/// @param completionHandler Handler which will be called when the request completes.
++ (void)loadAdWithSlotID:(NSString *)slotID
+                 request:(PAGRewardedRequest *)request
+       completionHandler:(PAGRewardedAdLoadCompletionHandler)completionHandler;
+
+
+/// Present the rewarded ad
+/// @param rootViewController View controller the rewarded ad will be presented on.
+/// @warning This method must be called on the main thread.
+- (void)presentFromRootViewController:(UIViewController *)rootViewController;
 
 @end
 

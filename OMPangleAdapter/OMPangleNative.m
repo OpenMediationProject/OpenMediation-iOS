@@ -10,12 +10,12 @@
 - (instancetype)initWithParameter:(NSDictionary*)adParameter rootVC:(UIViewController*)rootViewController {
     if (self = [super init]) {
         if (adParameter && [adParameter isKindOfClass:[NSDictionary class]]) {
-            NSString *pid = [adParameter objectForKey:@"pid"];
+            _pid = [adParameter objectForKey:@"pid"];
             Class slotClass = NSClassFromString(@"BUAdSlot");
             Class buSize = NSClassFromString(@"BUSize");
             if (slotClass) {
                 BUAdSlot *slot = [[slotClass alloc] init];
-                slot.ID = pid;
+                slot.ID = _pid;
                 slot.AdType = BUAdSlotAdTypeFeed;
                 slot.position = BUAdSlotPositionFeed;
                 slot.imgSize = [buSize sizeBy:BUProposalSize_Feed228_150];
@@ -26,16 +26,8 @@
                         _adLoader = [[adLoaderClass alloc] initWithSlot:slot adSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, 0)];
                         _adLoader.delegate = self;
                     }
-                }else{
-                    Class adLoaderClass = NSClassFromString(@"BUNativeAd");
-                    if (adLoaderClass && [adLoaderClass instancesRespondToSelector:@selector(initWithSlot:)]) {
-                        _nativeAd = [[adLoaderClass alloc] initWithSlot:slot];
-                        _nativeAd.rootViewController = rootViewController;
-                        _nativeAd.delegate = self;
-                    }
                 }
             }
-            
         }
         _rootVC = rootViewController;
     }
@@ -44,77 +36,57 @@
 
 - (void)loadAd {
     if ([OMPangleAdapter internalAPI]) {
-        if (_adLoader && [_adLoader respondsToSelector:@selector(loadAdDataWithCount:)]) {
+        if (_adLoader) {
             [_adLoader loadAdDataWithCount:1];
         }
     }else{
-        if (_nativeAd && [_nativeAd respondsToSelector:@selector(loadAdData)]) {
-            [_nativeAd loadAdData];
+        // 海外
+        Class PAGNativeClass = NSClassFromString(@"PAGLNativeAd");
+        Class requestClass = NSClassFromString(@"PAGNativeRequest");
+        if (PAGNativeClass && [PAGNativeClass respondsToSelector:@selector(loadAdWithSlotID:request:completionHandler:)] && requestClass && [requestClass respondsToSelector:@selector(request)]) {
+            __weak typeof(self) weakSelf = self;
+            PAGNativeRequest *request  = [requestClass request];
+            [PAGNativeClass loadAdWithSlotID:_pid
+                                 request:request
+                       completionHandler:^(PAGLNativeAd *ad, NSError *error) {
+                if (!error) {
+                    weakSelf.pagNativeAd = ad;
+                    weakSelf.pagNativeAd.delegate = self;
+                    OMPangleNativeAd *pangleNativeAd = [[OMPangleNativeAd alloc]initWithNativeAd:weakSelf.pagNativeAd];
+                    
+                    if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+                        [weakSelf.delegate customEvent:weakSelf didLoadAd:pangleNativeAd];
+                    }
+                } else {
+                    if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+                        [weakSelf.delegate customEvent:weakSelf didFailToLoadWithError:error];
+                    }
+                }
+            }];
         }
     }
 }
 
-// ************************ NativeAd
+// 海外
 
-/**
- This method is called when native ad material loaded successfully.
- */
-- (void)nativeAdDidLoad:(BUNativeAd *)nativeAd view:(UIView *_Nullable)view {
-    nativeAd.delegate = self;
-    nativeAd.rootViewController = _rootVC;
-    OMPangleNativeAd *pangleNativeAd = [[OMPangleNativeAd alloc]initWithNativeAd:nativeAd];
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
-        [_delegate customEvent:self didLoadAd:pangleNativeAd];
-    }
-}
-
-/**
- This method is called when native ad materia failed to load.
- @param error : the reason of error
- */
-- (void)nativeAd:(BUNativeAd *)nativeAd didFailWithError:(NSError *_Nullable)error {
-    if (error && _delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
-        [_delegate customEvent:self didFailToLoadWithError:error];
-    }
-}
-
-/**
- This method is called when native ad slot has been shown.
- */
-- (void)nativeAdDidBecomeVisible:(BUNativeAd *)nativeAd {
+- (void)adDidShow:(PAGLNativeAd *)ad {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventWillShow:)]) {
-        [_delegate nativeCustomEventWillShow:nativeAd];
+        [_delegate nativeCustomEventWillShow:ad];
     }
 }
 
-/**
- This method is called when native ad is clicked.
- */
-- (void)nativeAdDidClick:(BUNativeAd *)nativeAd withView:(UIView *_Nullable)view {
+- (void)adDidClick:(PAGLNativeAd *)ad {
     if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
-        [_delegate nativeCustomEventDidClick:nativeAd];
+        [_delegate nativeCustomEventDidClick:ad];
     }
 }
 
-- (void)playerDidPlayFinish:(BUVideoAdView *)videoAdView {
+- (void)adDidDismiss:(PAGLNativeAd *)ad {
     
 }
 
-- (void)videoAdViewDidClick:(BUVideoAdView *)videoAdView {
-    if (_delegate && [_delegate respondsToSelector:@selector(nativeCustomEventDidClick:)]) {
-        [_delegate nativeCustomEventDidClick:self];
-    }
-}
 
-
-- (void)videoAdViewFinishViewDidClick:(BUVideoAdView *)videoAdView {
-    
-}
-
-- (void)videoAdViewDidCloseOtherController:(BUVideoAdView *)videoAdView interactionType:(BUInteractionType)interactionType {
-    
-}
-
+// 国内
 // ************************ ExpressNative
 
 /**

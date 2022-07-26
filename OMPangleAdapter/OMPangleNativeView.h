@@ -11,10 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OMPangleNativeView : UIView <OMNativeViewCustomEvent>
 
 @property (nonatomic, strong) OMPangleNativeAd *nativeAd;
-@property (nonatomic, strong) BUNativeAdRelatedView *relatedView;
-@property (nonatomic, strong) UIView *mediaView;
-@property (nonatomic, strong) UIView *videoView;
-@property (nonatomic, strong) UIImageView *mainImageView;
+@property (nonatomic, strong) PAGLNativeAdRelatedView *nativeView;
+@property (nonatomic, strong) PAGMediaView *mediaView;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 

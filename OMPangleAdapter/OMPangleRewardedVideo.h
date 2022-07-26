@@ -8,11 +8,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMPangleRewardedVideo : NSObject<BURewardedVideoAdDelegate,BUNativeExpressRewardedVideoAdDelegate,OMRewardedVideoCustomEvent>
+@interface OMPangleRewardedVideo : NSObject<BUNativeExpressRewardedVideoAdDelegate,OMRewardedVideoCustomEvent,PAGRewardedAdDelegate>
 @property (nonatomic, copy) NSString *pid;
-@property (nonatomic, strong) BURewardedVideoAd *rewardedVideoAd;
+@property (nonatomic, strong) BUNativeExpressRewardedVideoAd *rewardedVideoAd;
 @property (nonatomic, assign) BOOL adReadyFlag;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;
+
+// 海外
+@property (nonatomic, strong) PAGRewardedAd *pagRewardedVideoAd;
 
 - (instancetype)initWithParameter:(NSDictionary*)adParameter;
 - (void)loadAd;

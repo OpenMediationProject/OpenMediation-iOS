@@ -8,109 +8,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, BUFullScreenVideoAdType) {
-    BUFullScreenAdTypeEndcard        = 0,    // video + endcard
-    BUFullScreenAdTypeVideoPlayable  = 1,    // video + playable
-    BUFullScreenAdTypePurePlayable   = 2     // pure playable
-};
-
-@class BUFullscreenVideoAd;
-
-@protocol BUFullscreenVideoAdDelegate <NSObject>
-
-@optional
-
-/**
- 视频广告物料加载成功
- */
-- (void)fullscreenVideoMaterialMetaAdDidLoad:(BUFullscreenVideoAd *)fullscreenVideoAd;
-
-/**
- 视频广告视频素材缓存成功
- */
-- (void)fullscreenVideoAdVideoDataDidLoad:(BUFullscreenVideoAd *)fullscreenVideoAd;
-
-/**
- 广告位即将展示
- */
-- (void)fullscreenVideoAdWillVisible:(BUFullscreenVideoAd *)fullscreenVideoAd;
-
-/**
- 广告位已经展示
- */
-- (void)fullscreenVideoAdDidVisible:(BUFullscreenVideoAd *)fullscreenVideoAd;
-
-/**
- 视频广告即将关闭
- */
-- (void)fullscreenVideoAdWillClose:(BUFullscreenVideoAd *)fullscreenVideoAd;
-
-/**
- 视频广告关闭
- */
-- (void)fullscreenVideoAdDidClose:(BUFullscreenVideoAd *)fullscreenVideoAd;
-
-/**
- 视频广告点击
- */
-- (void)fullscreenVideoAdDidClick:(BUFullscreenVideoAd *)fullscreenVideoAd;
-
-/**
- 视频广告素材加载失败
- 
- @param fullscreenVideoAd 当前视频对象
- @param error 错误对象
- */
-- (void)fullscreenVideoAd:(BUFullscreenVideoAd *)fullscreenVideoAd didFailWithError:(NSError *)error;
-
-/**
- 视频广告播放完成或发生错误
- 
- @param fullscreenVideoAd 当前视频对象
- @param error 错误对象
- */
-- (void)fullscreenVideoAdDidPlayFinish:(BUFullscreenVideoAd *)fullscreenVideoAd didFailWithError:(NSError *)error;
-
-/**
- 视频广告播放点击跳过
- 
- @param fullscreenVideoAd 当前视频对象
- */
-- (void)fullscreenVideoAdDidClickSkip:(BUFullscreenVideoAd *)fullscreenVideoAd;
-
-- (void)fullscreenVideoAdCallback:(BUFullscreenVideoAd *)fullscreenVideoAd withType:(BUFullScreenVideoAdType)fullscreenVideoAdType;
-
-@end
-
-@interface BUFullscreenVideoAd : NSObject
-
-@property (nonatomic, weak, nullable) id<BUFullscreenVideoAdDelegate> delegate;
-@property (nonatomic, getter=isAdValid, readonly) BOOL adValid __attribute__((deprecated("Use fullscreenVideoMaterialMetaAdDidLoad: instead.")));
-
-/**
- 初始化 BUFullscreenVideoAd
- 
- @param slotID 代码位ID
- @return BUFullscreenVideoAd
- */
-- (instancetype)initWithSlotID:(NSString *)slotID;
-
-/**
- 加载数据
- */
-- (void)loadAdData;
-
-/**
- 展示视频广告
- 
- @param rootViewController 展示视频的根视图
- @return 是否成功展示
- */
-- (BOOL)showAdFromRootViewController:(UIViewController *)rootViewController;
-
-@end
-
-
 @class BUNativeExpressFullscreenVideoAd;
 
 //define the type of native express video ad
@@ -119,7 +16,6 @@ typedef NS_ENUM(NSUInteger, BUNativeExpressFullScreenAdType) {
     BUNativeExpressFullScreenAdTypeVideoPlayable        = 1,        // video + playable
     BUNativeExpressFullScreenAdTypePurePlayable         = 2         // pure playable
 };
-
 
 @protocol BUNativeExpressFullscreenVideoAdDelegate <NSObject>
 
@@ -203,15 +99,29 @@ This method is used to get the type of nativeExpressFullScreenVideo ad
 
 @end
 
-@class BUAdSlot;
-
-@interface BUNativeExpressFullscreenVideoAd : NSObject<BUMopubAdMarkUpDelegate>
+/// Please note: This Class does not take effect on Pangle global, only use it when you have traffic from mainland China.
+ __attribute__((objc_subclassing_restricted))
+@interface BUNativeExpressFullscreenVideoAd : BUInterfaceBaseObject <BUMopubAdMarkUpDelegate, BUAdClientBiddingProtocol>
 
 @property (nonatomic, weak, nullable) id<BUNativeExpressFullscreenVideoAdDelegate> delegate;
 @property (nonatomic, getter=isAdValid, readonly) BOOL adValid __attribute__((deprecated("Use nativeExpressFullscreenVideoAdDidLoad: instead.")));
 
 /// media configuration parameters.
 @property (nonatomic, copy, readonly) NSDictionary *mediaExt;
+
+/**
+ Is  materialMeta from the preload, default is NO
+ @warning:Pure playable, the value of this field is accurate after the material is downloaded successfully. For others, the value of this field needs to be accurate after the video is downloaded successfully.
+ @Note :  This field is only useful in China area.
+ */
+@property (nonatomic, assign, readonly) BOOL materialMetaIsFromPreload;
+
+/**
+ The expiration timestamp of materialMeta
+ @warning: Pure playable, the value of this field is accurate after the material is downloaded successfully. For others, the value of this field needs to be accurate after the video is downloaded successfully.
+ @Note :  This field is only useful in China area.
+ */
+@property (nonatomic, assign, readonly) NSTimeInterval expireTimestamp;
 
 /**
  Initializes video ad with slot id.
@@ -233,6 +143,11 @@ This method is used to get the type of nativeExpressFullScreenVideo ad
 - (void)loadAdData;
 
 /**
+ Ad slot material id
+ */
+- (NSString *)getAdCreativeToken;
+
+/**
  Display video ad.
  @param rootViewController : root view controller for displaying ad.
  @return : whether it is successfully displayed.
@@ -246,6 +161,56 @@ This method is used to get the type of nativeExpressFullScreenVideo ad
  @return : whether it is successfully displayed.
  */
 - (BOOL)showAdFromRootViewController:(UIViewController *)rootViewController ritSceneDescribe:(NSString *_Nullable)sceneDescirbe;
+
+/**
+ Get the expiration timestamp of materialMeta
+ @warning: The value of this field is only accurate after the video is downloaded successfully or after the access is successfully obtained
+ @Note :  This API is only useful in China area.
+ */
+- (NSTimeInterval)getExpireTimestamp;
+
+@end
+
+// 海外
+
+@class PAGLInterstitialAd;
+
+@interface PAGInterstitialRequest : PAGRequest
+
+@end
+
+@protocol PAGLInterstitialAdDelegate <PAGAdDelegate>
+
+@end
+
+/// Callback for loading interstitial results.
+/// @param interstitialAd Ad instance after successfully loaded which will be non-nil on success.
+/// @param error Loading error which will be non-nil on fail.
+typedef void (^PAGInterstitialAdLoadCompletionHandler)(PAGLInterstitialAd * _Nullable interstitialAd,
+                                                  NSError * _Nullable error);
+
+@interface PAGLInterstitialAd : NSObject<PAGAdProtocol,PAGAdClientBiddingProtocol>
+
+/// Ad event delegate.
+@property(nonatomic, weak, nullable) id<PAGLInterstitialAdDelegate> delegate;
+
++ (instancetype)new UNAVAILABLE_ATTRIBUTE;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+
+
+/// Load interstitial ad
+/// @param slotID Required. The unique identifier of interstitial ad.
+/// @param request Required. An instance of an interstitial ad request.
+/// @param completionHandler Handler which will be called when the request completes.
++ (void)loadAdWithSlotID:(NSString *)slotID
+                 request:(PAGInterstitialRequest *)request
+       completionHandler:(PAGInterstitialAdLoadCompletionHandler)completionHandler;
+
+
+/// Present the interstitial ad
+/// @param rootViewController View controller the interstitial ad will be presented on.
+/// @warning This method must be called on the main thread.
+- (void)presentFromRootViewController:(UIViewController *)rootViewController;
 
 @end
 

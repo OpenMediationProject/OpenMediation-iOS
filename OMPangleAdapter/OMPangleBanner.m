@@ -2,15 +2,17 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMPangleBanner.h"
+#import "OMPangleAdapter.h"
 
 @implementation OMPangleBanner
 
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController{
     if (self = [super initWithFrame:frame]) {
-        NSString *pid = [adParameter objectForKey:@"pid"];
+        _pid = [adParameter objectForKey:@"pid"];
+        _rootVC = rootViewController;
         Class BUDBannerAdViewClass = NSClassFromString(@"BUNativeExpressBannerView");
         if (BUDBannerAdViewClass) {
-            _bannerAdView = [[BUDBannerAdViewClass alloc] initWithSlotID:pid rootViewController:rootViewController adSize:CGSizeMake(frame.size.width, frame.size.height)];
+            _bannerAdView = [[BUDBannerAdViewClass alloc] initWithSlotID:_pid rootViewController:rootViewController adSize:CGSizeMake(frame.size.width, frame.size.height)];
             _bannerAdView.delegate = self;
             _bannerAdView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
             [self addSubview:_bannerAdView];
@@ -20,10 +22,56 @@
 }
 
 - (void)loadAd{
-    [_bannerAdView loadAdData];
+    if ([OMPangleAdapter internalAPI]) {
+        [_bannerAdView loadAdData];
+    }else{
+        // 海外
+        Class PAGBannerClass = NSClassFromString(@"PAGBannerAd");
+        Class requestClass = NSClassFromString(@"PAGBannerRequest");
+        if (PAGBannerClass && [PAGBannerClass respondsToSelector:@selector(loadAdWithSlotID:request:completionHandler:)] && requestClass && [requestClass respondsToSelector:@selector(requestWithBannerSize:)]) {
+            __weak typeof(self) weakSelf = self;
+            PAGBannerAdSize adSize = {self.frame.size};
+            PAGBannerRequest *request  = [requestClass requestWithBannerSize:adSize];
+            [PAGBannerClass loadAdWithSlotID:_pid
+                                     request:request
+                           completionHandler:^(PAGBannerAd *ad, NSError *error) {
+                if (!error) {
+                    weakSelf.pagBannerAd = ad;
+                    weakSelf.pagBannerAd.delegate = self;
+                    weakSelf.pagBannerAd.rootViewController = weakSelf.rootVC;
+                    weakSelf.pagBannerView = self.pagBannerAd.bannerView;
+                    weakSelf.pagBannerView.frame = self.frame;
+                    [self addSubview:weakSelf.pagBannerView];
+                    
+                    if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+                        [weakSelf.delegate customEvent:weakSelf didLoadAd:nil];
+                    }
+                } else {
+                    if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+                        [weakSelf.delegate customEvent:weakSelf didFailToLoadWithError:error];
+                    }
+                }
+            }];
+        }
+    }
 }
 
+// 海外
+- (void)adDidShow:(PAGBannerAd *)ad {
 
+}
+
+- (void)adDidClick:(PAGBannerAd *)ad {
+    if(_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]) {
+        [_delegate bannerCustomEventDidClick:self];
+    }
+}
+
+- (void)adDidDismiss:(PAGBannerAd *)ad {
+    
+}
+
+// 国内
 #pragma mark BUNativeExpressBannerViewDelegate
 - (void)nativeExpressBannerAdViewDidLoad:(BUNativeExpressBannerView *)bannerAdView{
     if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {

@@ -2,6 +2,7 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMPangleSplash.h"
+#import "OMPangleAdapter.h"
 
 @implementation OMPangleSplash
 
@@ -16,32 +17,68 @@
 }
 
 - (void)loadAd {
-    Class PangleSplashClass = NSClassFromString(@"BUSplashAdView");
-    if (PangleSplashClass && [[PangleSplashClass alloc] respondsToSelector:@selector(initWithSlotID:frame:)]) {
-        _splashView = [[PangleSplashClass alloc] initWithSlotID:_pid frame:_AdFrame];
-        _splashView.delegate = self;
-    }
-    if (_splashView) {
-        [_splashView loadAdData];
+    if ([OMPangleAdapter internalAPI]) {
+        Class PangleSplashClass = NSClassFromString(@"BUSplashAdView");
+        if (PangleSplashClass && [[PangleSplashClass alloc] respondsToSelector:@selector(initWithSlotID:frame:)]) {
+            _splashView = [[PangleSplashClass alloc] initWithSlotID:_pid frame:_AdFrame];
+            _splashView.delegate = self;
+        }
+        if (_splashView) {
+            [_splashView loadAdData];
+        }
+    }else{
+        // 海外
+        __weak __typeof(self) weakSelf = self;
+        Class splashClass = NSClassFromString(@"PAGLAppOpenAd");
+        Class requestClass = NSClassFromString(@"PAGAppOpenRequest");
+        if (splashClass && requestClass && [splashClass respondsToSelector:@selector(loadAdWithSlotID:request:completionHandler:)] && [requestClass respondsToSelector:@selector(request)]) {
+            PAGAppOpenRequest *request = [requestClass request];
+            [splashClass loadAdWithSlotID:_pid request:request completionHandler:^(PAGLAppOpenAd * _Nullable appOpenAd, NSError * _Nullable error) {
+                if (error) {
+                    if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
+                        [weakSelf.delegate customEvent:self didFailToLoadWithError:error];
+                    }
+                }else{
+                    weakSelf.isSplashReady = YES;
+                    weakSelf.splashAd = appOpenAd;
+                    weakSelf.splashAd.delegate = self;
+                    if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+                        [weakSelf.delegate customEvent:self didLoadAd:nil];
+                    }
+                }
+                
+            }];
+        }
     }
 }
 
 - (BOOL)isReady{
-    if (_splashView) {
-        return [_splashView isAdValid];
+    if ([OMPangleAdapter internalAPI]) {
+        if (_splashView) {
+            return [_splashView isAdValid];
+        }
+    }else{
+        return _isSplashReady;
     }
-    return NO;
+    return _isSplashReady;
 }
 
 - (void)showWithWindow:(UIWindow *)window customView:(nonnull UIView *)customView {
-    if (window) {
-        _splashView.rootViewController = window.rootViewController;
-        customView.frame = CGRectMake(0, _splashView.frame.size.height, customView.frame.size.width, customView.frame.size.height);
-        [_splashView addSubview:customView];
-        [window.rootViewController.view addSubview:_splashView];
+    if ([OMPangleAdapter internalAPI]) {
+        if (window) {
+            _splashView.rootViewController = window.rootViewController;
+            customView.frame = CGRectMake(0, _splashView.frame.size.height, customView.frame.size.width, customView.frame.size.height);
+            [_splashView addSubview:customView];
+            [window.rootViewController.view addSubview:_splashView];
+        }
+    }else{
+        if (_isSplashReady && window) {
+            [_splashAd presentFromRootViewController:window.rootViewController];
+        }
     }
 }
 
+// 国内
 /**
  This method is called when splash ad material loaded successfully.
  */
@@ -116,6 +153,27 @@
  */
 - (void)splashAdCountdownToZero:(BUSplashAdView *)splashAd {
     
+}
+
+// 海外
+#pragma mark - PAGLAppOpenAdDelegate
+
+- (void)adDidShow:(PAGLAppOpenAd *)ad {
+    if (_delegate && [_delegate respondsToSelector:@selector(splashCustomEventDidShow:)]) {
+        [_delegate splashCustomEventDidShow:self];
+    }
+}
+
+- (void)adDidClick:(PAGLAppOpenAd *)ad {
+    if (_delegate && [_delegate respondsToSelector:@selector(splashCustomEventDidClick:)]) {
+        [_delegate splashCustomEventDidClick:self];
+    }
+}
+
+- (void)adDidDismiss:(PAGLAppOpenAd *)ad {
+    if (_delegate && [_delegate respondsToSelector:@selector(splashCustomEventDidClose:)]) {
+        [_delegate splashCustomEventDidClose:self];
+    }
 }
 
 @end

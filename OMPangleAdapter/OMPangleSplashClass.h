@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol BUSplashAdDelegate;
 
-@interface BUSplashAdView : UIView
+@interface BUSplashAdView : BUInterfaceBaseView <BUMopubAdMarkUpDelegate, BUAdClientBiddingProtocol>
 /**
 The unique identifier of splash ad.
  */
@@ -50,8 +50,18 @@ The unique identifier of splash ad.
 /// media configuration parameters.
 @property (nonatomic, copy, readonly) NSDictionary *mediaExt;
 
+/// When it is a zoom out advertisement, it has value.
+//@property (nonatomic, strong, readonly, nullable) BUSplashZoomOutView *zoomOutView;
+
+/// Please note: This Class does not take effect on Pangle global, only use it when you have traffic from mainland China.
+/// When it is support splash card advertisement, it has value.
+//@property (nonatomic, strong, readonly, nullable) BUSplashCardView *cardView;
+/// The display priority of cardview is higher than that of zoomview
+@property (nonatomic, assign) BOOL supportCardView; // default is NO
+
 /**
  Initializes splash ad with slot id and frame.
+ Note: use in the main thread.
  @param slotID : the unique identifier of splash ad
  @param frame : the frame of splashAd view. It is recommended for the mobile phone screen.
  @return BUSplashAdView
@@ -59,10 +69,24 @@ The unique identifier of splash ad.
 - (instancetype)initWithSlotID:(NSString *)slotID frame:(CGRect)frame;
 
 /**
+ Initializes splash ad with ad slot and frame.
+ Note: use in the main thread.
+ @param slot A object, through which you can pass in the splash unique identifier、ad type, and so on
+ @param frame the frame of splashAd view. It is recommended for the mobile phone screen.
+ @return BUSplashAdView
+ */
+- (instancetype)initWithSlot:(BUAdSlot *)slot frame:(CGRect)frame;
+
+/**
  Load splash ad datas.
  Start the countdown(@tolerateTimeout) as soon as you request datas.
  */
 - (void)loadAdData;
+
+/**
+ Ad slot material id
+ */
+- (NSString *)getAdCreativeToken;
 
 @end
 
@@ -116,6 +140,47 @@ The unique identifier of splash ad.
  This method is called when spalashAd countdown equals to zero
  */
 - (void)splashAdCountdownToZero:(BUSplashAdView *)splashAd;
+
+@end
+
+
+// 海外 Splash
+@class PAGLAppOpenAd;
+@class PAGAppOpenRequest;
+
+
+@protocol PAGLAppOpenAdDelegate <PAGAdDelegate>
+
+@end
+
+/// Callback for loading ad results.
+/// @param appOpenAd Ad instance after successfully loaded.
+/// @param error Loading error.
+typedef void (^PAGAppOpenADLoadCompletionHandler)(PAGLAppOpenAd * _Nullable appOpenAd,
+                                                 NSError * _Nullable error);
+
+@interface PAGLAppOpenAd : NSObject<PAGAdProtocol>
+
+/// Ad event delegate.
+@property (nonatomic, weak, nullable) id<PAGLAppOpenAdDelegate> delegate;
+
++ (instancetype)new UNAVAILABLE_ATTRIBUTE;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+
+
+/// Load open ad
+/// @param slotID Required. The unique identifier of open ad.
+/// @param request Required. An instance of an open ad request.
+/// @param completionHandler Handler which will be called when the request completes.
++ (void)loadAdWithSlotID:(NSString *)slotID
+                 request:(PAGAppOpenRequest *)request
+       completionHandler:(PAGAppOpenADLoadCompletionHandler)completionHandler;
+
+
+/// Present the open ad
+/// @param rootViewController View controller the open ad will be presented on.
+/// @warning This method must be called on the main thread.
+- (void)presentFromRootViewController:(UIViewController *)rootViewController;
 
 @end
 
