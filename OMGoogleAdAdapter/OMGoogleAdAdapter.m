@@ -3,7 +3,7 @@
 
 #import "OMGoogleAdAdapter.h"
 
-static NSString * const AdManagerAdapterVersion = @"2.1.0";
+static NSString * const AdManagerAdapterVersion = @"2.1.1";
 static BOOL admobNpaAd = NO;
 
 @implementation OMGoogleAdAdapter

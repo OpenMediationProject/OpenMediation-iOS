@@ -3,7 +3,7 @@
 
 #import "OMAdMobAdapter.h"
 
-static NSString * const AdmobAdapterVersion = @"2.1.1";
+static NSString * const AdmobAdapterVersion = @"2.1.2";
 static BOOL admobNpaAd = NO;
 
 @implementation OMAdMobAdapter
