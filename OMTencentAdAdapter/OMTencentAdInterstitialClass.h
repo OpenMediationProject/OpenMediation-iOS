@@ -35,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class GDTUnifiedInterstitialAd;
 @class GDTServerSideVerificationOptions;
 
-@protocol GDTUnifiedInterstitialAdDelegate <NSObject>
+
+@protocol GDTUnifiedInterstitialAdDelegate <GDTAdDelegate>
 @optional
 
 /**
@@ -160,7 +161,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface GDTUnifiedInterstitialAd : NSObject
+@interface GDTUnifiedInterstitialAd : NSObject <GDTAdProtocol>
 
 /**
  *  广告是否有效，以下情况会返回NO，建议在展示广告之前判断，否则会影响计费或展示失败
@@ -224,20 +225,6 @@ NS_ASSUME_NONNULL_BEGIN
 *  详解：[必选]发起展示广告请求, 必须传入用于显示插播广告的UIViewController
 */
 - (void)presentFullScreenAdFromRootViewController:(UIViewController *)rootViewController;
-
-/**
- *  竞胜之后调用, 需要在调用广告 show 之前调用
- *  @param price - 竞胜价格 (单位: 分)
- */
-- (void)sendWinNotificationWithPrice:(NSInteger)price;
-
-/**
- *  竞败之后调用
- *  @param price - 竞胜价格 (单位: 分)
- *  @param reason - 优量汇广告竞败原因
- *  @param adnID - adnID
- */
-- (void)sendLossNotificationWithWinnerPrice:(NSInteger)price lossReason:(GDTAdBiddingLossReason)reason winnerAdnID:(NSString *)adnID;
 
 /**
  返回广告的eCPM，单位：分
@@ -304,6 +291,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)adNetworkName;
 
 @end
+
 
 NS_ASSUME_NONNULL_END
 

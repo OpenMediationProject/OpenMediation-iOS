@@ -59,7 +59,7 @@ typedef NS_ENUM(NSUInteger, GDTVideoRenderType) {
 NS_ASSUME_NONNULL_BEGIN
 
 
-@interface GDTUnifiedNativeAdDataObject : NSObject
+@interface GDTUnifiedNativeAdDataObject : NSObject <GDTAdProtocol>
 
 /**
  广告标题
@@ -70,11 +70,6 @@ NS_ASSUME_NONNULL_BEGIN
  广告描述
  */
 @property (nonatomic, copy, readonly) NSString *desc;
-
-/**
- 广告大图Url
- */
-@property (nonatomic, copy, readonly) NSString *imageUrl;
 
 /**
  素材宽度，单图广告代表大图 imageUrl 宽度、多图广告代表小图 mediaUrlList 宽度
@@ -92,7 +87,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *iconUrl;
 
 /**
- 三小图广告的图片Url集合
+ 广告大图Url, 建议使用 bindImageViews:placeholder: 方法替代
+ */
+@property (nonatomic, copy, readonly) NSString *imageUrl;
+
+/**
+ 三小图广告的图片Url集合, 建议使用 bindImageViews:placeholder: 方法替代
  */
 @property (nonatomic, copy, readonly) NSArray *mediaUrlList;
 
@@ -122,6 +122,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL isThreeImgsAd;
 
 /**
+ 是否为微信原生页广告 (可针对此广告类型来控制按钮展示文案为"去微信看看")
+ */
+@property (nonatomic, readonly) BOOL isWechatCanvasAd;
+
+/**
  返回广告的eCPM，单位：分
  
  @return 成功返回一个大于等于0的值，-1表示无权限或后台出现异常
@@ -134,6 +139,12 @@ NS_ASSUME_NONNULL_BEGIN
  @return 成功返回一个包含数字的string，@""或nil表示无权限或后台异常
  */
 @property (nonatomic, readonly) NSString *eCPMLevel;
+
+/**
+ 广告对应的按钮展示文案
+ 此字段可能为空
+ */
+@property (nonatomic, readonly) NSString *buttonText;
 
 /**
  广告对应的CTA文案，自定义CTA视图时建议使用此字段
@@ -176,6 +187,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) BOOL isVastAd;
 
 /**
+ *  广告是否有效，以下情况会返回NO，建议在展示广告之前判断，否则会影响计费或展示失败
+ *  a.广告过期
+ */
+@property (nonatomic, readonly) BOOL isAdValid;
+
+/**
  判断两个自渲染2.0广告数据是否相等
 
  @param dataObject 需要对比的自渲染2.0广告数据对象
@@ -183,12 +200,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)equalsAdData:(GDTUnifiedNativeAdDataObject *)dataObject;
 
+/**
+ * 绑定展示的图片视图
+ *
+ * @param imageViews     进行渲染的 imageView
+ * @param placeholder     图片加载过程中的占位图
+ */
+- (void)bindImageViews:(NSArray<UIImageView *> *)imageViews placeholder:(UIImage *)placeholder;
+
 @end
+
+@class GDTUnifiedNativeAdView;
 
 //视频广告时长Key
 extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
 
-@protocol GDTUnifiedNativeAdViewDelegate <NSObject>
+@protocol GDTUnifiedNativeAdViewDelegate <GDTAdDelegate>
 
 @optional
 /**
@@ -234,11 +261,12 @@ extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
 /**
  视频广告播放状态更改回调
 
- @param unifiedNativeAdView GDTUnifiedNativeAdView 实例
+ @param nativeExpressAdView GDTUnifiedNativeAdView 实例
  @param status 视频广告播放状态
  @param userInfo 视频广告信息
  */
 - (void)gdt_unifiedNativeAdView:(GDTUnifiedNativeAdView *)unifiedNativeAdView playerStatusChanged:(GDTMediaPlayerStatus)status userInfo:(NSDictionary *)userInfo;
+
 @end
 
 @interface GDTUnifiedNativeAdView:UIView
@@ -272,12 +300,26 @@ extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
 /**
  自渲染2.0视图注册方法
  
+ 调用方法之前请先判断[dataObject isAdValid]是否为YES，当为NO时调用不生效
+ 
  @param dataObject 数据对象，必传字段
  @param clickableViews 可点击的视图数组，此数组内的广告元素才可以响应广告对应的点击事件
  */
 - (void)registerDataObject:(GDTUnifiedNativeAdDataObject *)dataObject
             clickableViews:(NSArray<UIView *> *)clickableViews;
 
+
+/**
+ 自渲染2.0视图注册方法
+ 
+ 调用方法之前请先判断[dataObject isAdValid]是否为YES，当为NO时调用不生效
+ 
+ @param dataObject 数据对象，必传字段
+ @param clickableViews 可点击的视图数组，此数组内的广告元素才可以响应广告对应的点击事件
+ @param customClickableViews 可点击的视图数组，与clickableViews的区别是：在视频广告中当dataObject中的videoConfig的detailPageEnable为YES时，点击后直接进落地页而非视频详情页，除此条件外点击行为与clickableViews保持一致
+ */
+- (void)registerDataObject:(GDTUnifiedNativeAdDataObject *)dataObject
+            clickableViews:(NSArray<UIView *> *)clickableViews customClickableViews:(NSArray <UIView *> *)customClickableViews;
 
 /**
  注册可点击的callToAction视图的方法
@@ -343,13 +385,13 @@ extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
 @property (nonatomic, weak) id<GDTUnifiedNativeAdDelegate> delegate;
 
 /**
- 请求视频的时长下限，视频时长有效值范围为[5,60]。
- 以下两种情况会使用系统默认的最小值设置，1:不设置  2:minVideoDuration大于maxVideoDuration
+ 请求视频的时长下限。
+ 以下两种情况会使用 0，1:不设置  2:minVideoDuration大于maxVideoDuration
 */
 @property (nonatomic) NSInteger minVideoDuration;
 
 /**
- 请求视频的最大时长，视频时长有效值范围为[5,60]。
+ 请求视频的时长上限，视频时长有效值范围为[5,180]。
  */
 @property (nonatomic) NSInteger maxVideoDuration;
 
@@ -364,7 +406,7 @@ extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
  
  需要在 loadAd 前设置此属性。
  */
-@property (nonatomic, assign) GDTVideoPlayPolicy videoPlayPolicy;
+@property (nonatomic, assign) GDTVideoPlayPolicy videoPlayPolicy GDT_DEPRECATED_MSG_ATTRIBUTE("接口即将废弃");
 
 /**
  可选属性，设置本次拉取的视频广告封面是由SDK渲染还是开发者自行渲染。
@@ -373,7 +415,7 @@ extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
  
  开发者自行渲染，指开发者获取到广告对象后，先用封面图字段在 feed 流中先渲染出一个封面图入口，用户点击封面图，再进入一个有 conainterView 的详细页，播放视频。Demo 工程中的 "竖版 Feed 视频" 就是开发者渲染的场景。
  */
-@property (nonatomic, assign) GDTVideoRenderType videoRenderType;
+@property (nonatomic, assign) GDTVideoRenderType videoRenderType GDT_DEPRECATED_MSG_ATTRIBUTE("接口即将废弃");
 
 /**
  构造方法
@@ -384,13 +426,18 @@ extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
 - (instancetype)initWithPlacementId:(NSString *)placementId;
 
 /**
- 构造方法
-
- @param appId 媒体ID
- @param placementId 广告位ID
- @return GDTUnifiedNativeAd 实例
+ *  构造方法, S2S bidding 后获取到 token 再调用此方法
+ *  @param placementId  广告位 ID
+ *  @param token  通过 Server Bidding 请求回来的 token
  */
-- (instancetype)initWithAppId:(NSString *)appId placementId:(NSString *)placementId GDT_DEPRECATED_MSG_ATTRIBUTE("接口即将废弃，请使用 initWithPlacementId:");
+- (instancetype)initWithPlacementId:(NSString *)placementId token:(NSString *)token;
+
+/**
+ *  S2S bidding 竞胜之后调用, 需要在调用广告 show 之前调用
+ *  @param eCPM - 曝光扣费, 单位分，若优量汇竞胜，在广告曝光时回传，必传
+ *  针对本次曝光的媒体期望扣费，常用扣费逻辑包括一价扣费与二价扣费，当采用一价扣费时，胜者出价即为本次扣费价格；当采用二价扣费时，第二名出价为本次扣费价格.
+ */
+- (void)setBidECPM:(NSInteger)eCPM;
 
 /**
  加载广告
@@ -403,6 +450,27 @@ extern NSString* const kGDTUnifiedNativeAdKeyVideoDuration;
  @param adCount 加载条数
  */
 - (void)loadAdWithAdCount:(NSInteger)adCount;
+
+/**
+ *  竞胜之后调用, 需要在调用广告 show 之前调用
+ *
+ *  @param winInfo 字典类型，支持的key有
+ *  GDT_M_W_E_COST_PRICE：竞胜价格 (单位: 分)，值类型为NSNumber *
+ *  GDT_M_W_H_LOSS_PRICE：最高失败出价，值类型为NSNumber  *
+ *
+ */
+- (void)sendWinNotificationWithInfo:(NSDictionary *)winInfo;
+
+/**
+ *  竞败之后调用
+ *
+ *  @pararm lossInfo 竞败信息，字典类型，支持的key有
+ *  GDT_M_L_WIN_PRICE ：竞胜价格 (单位: 分)，值类型为NSNumber *
+ *  GDT_M_L_LOSS_REASON ：优量汇广告竞败原因，竞败原因参考枚举GDTAdBiddingLossReason中的定义，值类型为NSNumber *
+ *  GDT_M_ADNID  ：竞胜方渠道ID，值类型为NSString *
+ */
+- (void)sendLossNotificationWithInfo:(NSDictionary *)lossInfo;
+
 
 /**
  返回广告平台名称

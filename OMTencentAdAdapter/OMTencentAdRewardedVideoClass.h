@@ -31,35 +31,97 @@ typedef NS_ENUM (NSUInteger, GDTRewardAdType) {
     GDTRewardAdTypePage = 1 //激励浏览
 };
 
-typedef enum GDTSDKLoginType {
-    GDTSDKLoginTypeUnknow = 0,
-    GDTSDKLoginTypeWeiXin = 1,    //微信账号
-    GDTSDKLoginTypeQQ = 2,        //QQ账号
-} GDTSDKLoginType;
-
 @class GDTServerSideVerificationOptions;
 @class GDTRewardVideoAd;
+@class GDTLoadAdParams;
 
-@interface GDTLoadAdParams : NSObject
+@protocol GDTRewardedVideoAdDelegate;
 
-//登陆账号类型:QQ or weixin
-@property (nonatomic, assign) GDTSDKLoginType loginType;
+@interface GDTRewardVideoAd : NSObject <GDTAdProtocol>
+/**
+ *  广告是否有效，以下情况会返回NO，建议在展示广告之前判断，否则会影响计费或展示失败
+ *  a.广告未拉取成功
+ *  b.广告已经曝光过
+ *  c.广告过期
+ */
+@property (nonatomic, getter=isAdValid, readonly) BOOL adValid;
+@property (nonatomic) BOOL videoMuted;
+@property (nonatomic, assign, readonly) NSInteger expiredTimestamp;
+@property (nonatomic, weak) id <GDTRewardedVideoAdDelegate> delegate;
+@property (nonatomic, readonly) NSString *placementId;
+@property (nonatomic, strong) GDTLoadAdParams *loadAdParams;
+@property (nonatomic, strong) GDTServerSideVerificationOptions *serverSideVerificationOptions;
 
-//登陆账号体系分配的appID，如QQ分配的appID或是微信分配的appID
-@property (nonatomic, copy) NSString *loginAppId;
+/**
+ 构造方法
+ 
+ @param placementId - 广告位 ID
+ @return GDTRewardVideoAd 实例
+ */
+- (instancetype)initWithPlacementId:(NSString *)placementId;
 
-//登陆账号体系分配的openID，如QQ分配的openId或是微信分配的openId
-@property (nonatomic, copy) NSString *loginOpenId;
+/**
+ *  构造方法, S2S bidding 后获取到 token 再调用此方法
+ *  @param placementId  广告位 ID
+ *  @param token  通过 Server Bidding 请求回来的 token
+ */
+- (instancetype)initWithPlacementId:(NSString *)placementId token:(NSString *)token;
 
-//透传字段，key跟value都由调用方自行指定
-@property (nonatomic, strong) NSDictionary *dictionary;
+/**
+ *  S2S bidding 竞胜之后调用, 需要在调用广告 show 之前调用
+ *  @param eCPM - 曝光扣费, 单位分，若优量汇竞胜，在广告曝光时回传，必传
+ *  针对本次曝光的媒体期望扣费，常用扣费逻辑包括一价扣费与二价扣费，当采用一价扣费时，胜者出价即为本次扣费价格；当采用二价扣费时，第二名出价为本次扣费价格.
+ */
+- (void)setBidECPM:(NSInteger)eCPM;
 
-//透传字段，非qq小游戏
-@property (nonatomic, copy) NSDictionary *devExtra;
+/**
+ 加载广告方法 支持 iOS8.1 及以上系统
+ */
+- (void)loadAd;
+/**
+ 展示广告方法
+
+ @param rootViewController 用于 present 激励视频 VC
+ @return 是否展示成功
+ */
+- (BOOL)showAdFromRootViewController:(UIViewController *)rootViewController;
+
+/**
+ 返回广告的eCPM，单位：分
+ 
+ @return 成功返回一个大于等于0的值，-1表示无权限或后台出现异常
+ */
+- (NSInteger)eCPM;
+
+/**
+ 返回广告的eCPM等级
+ 
+ @return 成功返回一个包含数字的string，@""或nil表示无权限或后台异常
+ */
+- (NSString *)eCPMLevel;
+
+
+/**
+ 返回广告平台名称
+
+ @return 当使用激励视频聚合功能时，用于区分广告平台
+ */
+- (NSString *)adNetworkName;
+
+/**
+ *  当广告类型为 GDTRewardAdTypeVideo时，返回视频时长，单位 ms，当广告类型为GDTRewardAdTypePage时，返回0
+ */
+- (CGFloat)videoDuration;
+
+/**
+ *  激励广告的类型，需在gdt_rewardVideoAdDidLoad回调后调用
+ */
+- (GDTRewardAdType)rewardAdType;
 
 @end
 
-@protocol GDTRewardedVideoAdDelegate <NSObject>
+
+@protocol GDTRewardedVideoAdDelegate <GDTAdDelegate>
 
 @optional
 
@@ -136,106 +198,6 @@ typedef enum GDTSDKLoginType {
  @param rewardedVideoAd GDTRewardVideoAd 实例
  */
 - (void)gdt_rewardVideoAdDidPlayFinish:(GDTRewardVideoAd *)rewardedVideoAd;
-
-@end
-
-
-@protocol GDTRewardedVideoAdDelegate;
-
-@interface GDTRewardVideoAd : NSObject
-/**
- *  广告是否有效，以下情况会返回NO，建议在展示广告之前判断，否则会影响计费或展示失败
- *  a.广告未拉取成功
- *  b.广告已经曝光过
- *  c.广告过期
- */
-@property (nonatomic, getter=isAdValid, readonly) BOOL adValid;
-@property (nonatomic) BOOL videoMuted;
-@property (nonatomic, assign, readonly) NSInteger expiredTimestamp;
-@property (nonatomic, weak) id <GDTRewardedVideoAdDelegate> delegate;
-@property (nonatomic, readonly) NSString *placementId;
-@property (nonatomic, strong) GDTLoadAdParams *loadAdParams;
-@property (nonatomic, strong) GDTServerSideVerificationOptions *serverSideVerificationOptions;
-
-/**
- 构造方法
- 
- @param placementId - 广告位 ID
- @return GDTRewardVideoAd 实例
- */
-- (instancetype)initWithPlacementId:(NSString *)placementId;
-
-/**
- *  构造方法, S2S bidding 后获取到 token 再调用此方法
- *  @param placementId  广告位 ID
- *  @param token  通过 Server Bidding 请求回来的 token
- */
-- (instancetype)initWithPlacementId:(NSString *)placementId token:(NSString *)token;
-
-/**
- *  S2S bidding 竞胜之后调用, 需要在调用广告 show 之前调用
- *  @param eCPM - 曝光扣费, 单位分，若优量汇竞胜，在广告曝光时回传，必传
- *  针对本次曝光的媒体期望扣费，常用扣费逻辑包括一价扣费与二价扣费，当采用一价扣费时，胜者出价即为本次扣费价格；当采用二价扣费时，第二名出价为本次扣费价格.
- */
-- (void)setBidECPM:(NSInteger)eCPM;
-
-/**
- 加载广告方法 支持 iOS8.1 及以上系统
- */
-- (void)loadAd;
-/**
- 展示广告方法
-
- @param rootViewController 用于 present 激励视频 VC
- @return 是否展示成功
- */
-- (BOOL)showAdFromRootViewController:(UIViewController *)rootViewController;
-
-/**
- *  竞胜之后调用, 需要在调用广告 show 之前调用
- *  @param price - 竞胜价格 (单位: 分)
- */
-- (void)sendWinNotificationWithPrice:(NSInteger)price;
-
-/**
- *  竞败之后调用
- *  @param price - 竞胜价格 (单位: 分)
- *  @param reason - 优量汇广告竞败原因
- *  @param adnID - adnID
- */
-- (void)sendLossNotificationWithWinnerPrice:(NSInteger)price lossReason:(GDTAdBiddingLossReason)reason winnerAdnID:(NSString *)adnID;
-
-/**
- 返回广告的eCPM，单位：分
- 
- @return 成功返回一个大于等于0的值，-1表示无权限或后台出现异常
- */
-- (NSInteger)eCPM;
-
-/**
- 返回广告的eCPM等级
- 
- @return 成功返回一个包含数字的string，@""或nil表示无权限或后台异常
- */
-- (NSString *)eCPMLevel;
-
-
-/**
- 返回广告平台名称
-
- @return 当使用激励视频聚合功能时，用于区分广告平台
- */
-- (NSString *)adNetworkName;
-
-/**
- *  当广告类型为 GDTRewardAdTypeVideo时，返回视频时长，单位 ms，当广告类型为GDTRewardAdTypePage时，返回0
- */
-- (CGFloat)videoDuration;
-
-/**
- *  激励广告的类型，需在gdt_rewardVideoAdDidLoad回调后调用
- */
-- (GDTRewardAdType)rewardAdType;
 
 @end
 
