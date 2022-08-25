@@ -31,7 +31,7 @@ static OMHeliumRouter * _instance = nil;
     
     id <HeliumInterstitialAd> heliumInterstitial = [_placementAdMap objectForKey:pid];
     if (!heliumInterstitial) {
-        Class heliumClass = NSClassFromString(@"HeliumSdk");
+        Class heliumClass = NSClassFromString(@"Helium");
         if (heliumClass && [heliumClass instancesRespondToSelector:@selector(interstitialAdProviderWithDelegate:andPlacementName:)]) {
             heliumInterstitial = [[heliumClass sharedHelium] interstitialAdProviderWithDelegate:self andPlacementName:pid];
             [_placementAdMap setObject:heliumInterstitial forKey:pid];
@@ -46,7 +46,7 @@ static OMHeliumRouter * _instance = nil;
     id <HeliumRewardedAd> heliumRewarded = [_placementAdMap objectForKey:pid];
 
     if (!heliumRewarded) {
-        Class heliumClass = NSClassFromString(@"HeliumSdk");
+        Class heliumClass = NSClassFromString(@"Helium");
         if (heliumClass && [heliumClass instancesRespondToSelector:@selector(interstitialAdProviderWithDelegate:andPlacementName:)]) {
             heliumRewarded = [[heliumClass sharedHelium] rewardedAdProviderWithDelegate:self andPlacementName:pid];
             [_placementAdMap setObject:heliumRewarded forKey:pid];

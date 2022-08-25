@@ -163,7 +163,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkPangle):@"BUAdSDKManager",
             @(OMAdNetworkMintegral):@"MTGSDK",
             @(OMAdNetworkIronSource):@"IronSource",
-            @(OMAdNetworkHelium):@"HeliumSdk",
+            @(OMAdNetworkHelium):@"Helium",
             @(OMAdNetworkFyber):@"IASDKCore",
             @(OMAdNetworkSigMob):@"WindAds",
             @(OMAdNetworkKsAd):@"KSAdSDKManager",
@@ -370,8 +370,8 @@ static OMMediations *_instance = nil;
     OMUserData *userData = [OMUserData sharedInstance];
     NSString *adnName = [config adnName:adnID];
     Class adapterClass = NSClassFromString([NSString stringWithFormat:@"OM%@Adapter",adnName]);
-    Class sdkClass = sdkClass = NSClassFromString(OM_SAFE_STRING([self.adnSdkClassMap objectForKey:@(adnID)]));
-
+    Class sdkClass = NSClassFromString(OM_SAFE_STRING([self.adnSdkClassMap objectForKey:@(adnID)]));
+    
     NSString *key = [config adnAppKey:adnID];
     NSArray *pids = [config adnPlacements:adnID];
     

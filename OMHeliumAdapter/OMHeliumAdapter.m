@@ -13,7 +13,7 @@ static OMHeliumAdapter * _instance = nil;
 }
 
 + (void)setConsent:(BOOL)consent {
-    Class heliumClass = NSClassFromString(@"HeliumSdk");
+    Class heliumClass = NSClassFromString(@"Helium");
     if (heliumClass && [heliumClass instancesRespondToSelector:@selector(setSubjectToGDPR:)]) {
         [[heliumClass sharedHelium]setSubjectToGDPR:YES];
     }
@@ -23,14 +23,14 @@ static OMHeliumAdapter * _instance = nil;
 }
 
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit {
-    Class heliumClass = NSClassFromString(@"HeliumSdk");
+    Class heliumClass = NSClassFromString(@"Helium");
     if (heliumClass && [heliumClass instancesRespondToSelector:@selector(setCCPAConsent:)]) {
         [[heliumClass sharedHelium]setCCPAConsent:!privacyLimit];
     }
 }
 
 +(void)setUserAgeRestricted:(BOOL)restricted {
-    Class heliumClass = NSClassFromString(@"HeliumSdk");
+    Class heliumClass = NSClassFromString(@"Helium");
     if (heliumClass && [heliumClass instancesRespondToSelector:@selector(setSubjectToCoppa:)]) {
         [[heliumClass sharedHelium] setSubjectToCoppa:restricted];
     }
@@ -40,7 +40,7 @@ static OMHeliumAdapter * _instance = nil;
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     
     NSString *key = [configuration objectForKey:@"appKey"];
-    Class heliumClass = NSClassFromString(@"HeliumSdk");
+    Class heliumClass = NSClassFromString(@"Helium");
     NSArray *keys = [key componentsSeparatedByString:@"#"];
     if (heliumClass && [heliumClass instancesRespondToSelector:@selector(startWithAppId:andAppSignature:delegate:)] && keys.count > 1) {
         [OMHeliumAdapter sharedInstance].initBlock = completionHandler;
