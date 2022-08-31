@@ -11,19 +11,50 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, BUSplashAdCloseType) {
+    BUSplashAdCloseType_Unknow = 0,             // unknow
+    BUSplashAdCloseType_ClickSkip = 1,          // click skip
+    BUSplashAdCloseType_CountdownToZero = 2,    // countdown
+    BUSplashAdCloseType_ClickAd = 3             // click Ad
+};
+
+typedef NS_ENUM(NSInteger, BUSplashAdErrorCode) {
+    BUSplashAdError_Unknow = 0,
+    BUSplashAdError_DataError = 1,              // data load failed
+    BUSplashAdError_TimeOut = 2,                // timeout
+    BUSplashAdError_RenderFailed = 3            // render failed
+};
+
 @protocol BUSplashAdDelegate;
+@protocol BUSplashCardDelegate;
+@protocol BUSplashZoomOutDelegate;
 
-@interface BUSplashAdView : BUInterfaceBaseView <BUMopubAdMarkUpDelegate, BUAdClientBiddingProtocol>
+
+@class BUAdError;
+@class BUSplashView;
+@class BUSplashCardView;
+@class BUSplashZoomOutView;
+
+
+/// Please note: This Class does not take effect on Pangle global, only use it when you have traffic from mainland China.
+@interface BUSplashAd : BUInterfaceBaseObject <BUMopubAdMarkUpDelegate, BUAdClientBiddingProtocol>
+
+@property (nonatomic, weak, nullable) id<BUSplashAdDelegate> delegate;
+
+@property (nonatomic, weak, nullable) id<BUSplashCardDelegate> cardDelegate;
+
+@property (nonatomic, weak, nullable) id<BUSplashZoomOutDelegate> zoomOutDelegate;
+
 /**
-The unique identifier of splash ad.
+ Whether support splash zoomout view, default NO.
  */
-@property (nonatomic, copy, readonly, nonnull) NSString *slotID;
+@property (nonatomic, assign) BOOL supportZoomOutView;
 
 /**
- Maximum allowable load timeout, default 3s, unit s.
+ Whether support splash card view, default NO.
+ The display priority of cardview is higher than that of zoomout view.
  */
-@property (nonatomic, assign) NSTimeInterval tolerateTimeout;
-
+@property (nonatomic, assign) BOOL supportCardView;
 
 /**
  Whether hide skip button, default NO.
@@ -31,57 +62,80 @@ The unique identifier of splash ad.
  */
 @property (nonatomic, assign) BOOL hideSkipButton;
 
-/**
- The delegate for receiving state change messages.
- */
-@property (nonatomic, weak, nullable) id<BUSplashAdDelegate> delegate;
+/// Maximum allowable load timeout, default 3s, unit s.
+@property (nonatomic, assign) NSTimeInterval tolerateTimeout;
 
-/*
- required.
- Root view controller for handling ad actions.
- */
-@property (nonatomic, weak) UIViewController *rootViewController;
-
-/**
- Whether the splash ad data has been loaded.
- */
-@property (nonatomic, getter=isAdValid, readonly) BOOL adValid;
+/// The unique identifier of splash ad.
+@property (nonatomic, copy, readonly, nonnull) NSString *slotID;
 
 /// media configuration parameters.
 @property (nonatomic, copy, readonly) NSDictionary *mediaExt;
 
-/// When it is a zoom out advertisement, it has value.
-//@property (nonatomic, strong, readonly, nullable) BUSplashZoomOutView *zoomOutView;
+///
+@property (nonatomic, weak, readonly, nullable) UIViewController *splashRootViewController;
 
-/// Please note: This Class does not take effect on Pangle global, only use it when you have traffic from mainland China.
+/**
+ When splash ad load or render failed, it will be nil.
+ When splash ad cloesd, it will be released.
+*/
+@property (nonatomic, strong, readonly, nullable) BUSplashView *splashView;
+
 /// When it is support splash card advertisement, it has value.
-//@property (nonatomic, strong, readonly, nullable) BUSplashCardView *cardView;
-/// The display priority of cardview is higher than that of zoomview
-@property (nonatomic, assign) BOOL supportCardView; // default is NO
+@property (nonatomic, strong, readonly, nullable) BUSplashCardView *cardView;
+
+/// When it is support splash zoomout advertisement, it has value.
+@property (nonatomic, strong, readonly, nullable) BUSplashZoomOutView *zoomOutView;
+
+/// The screenshot of the last frame
+@property (nonatomic, strong, readonly, nullable) UIView *splashViewSnapshot;
+
 
 /**
- Initializes splash ad with slot id and frame.
- Note: use in the main thread.
+ Initializes splash ad with slot id and sise.
  @param slotID : the unique identifier of splash ad
- @param frame : the frame of splashAd view. It is recommended for the mobile phone screen.
- @return BUSplashAdView
+ @param adSize : the adSize of splashAd view. It is recommended for the mobile phone screen.
+ @return BUSplashView
  */
-- (instancetype)initWithSlotID:(NSString *)slotID frame:(CGRect)frame;
+- (instancetype)initWithSlotID:(NSString *)slotID adSize:(CGSize)adSize;
 
 /**
- Initializes splash ad with ad slot and frame.
- Note: use in the main thread.
- @param slot A object, through which you can pass in the splash unique identifier、ad type, and so on
- @param frame the frame of splashAd view. It is recommended for the mobile phone screen.
- @return BUSplashAdView
+ Initializes Splash video ad with ad slot, adSize and rootViewController.
+ @param slot A object, through which you can pass in the splash unique identifier, ad type, and so on.
+ @param adSize the adSize of splashAd view. It is recommended for the mobile phone screen.
+ @return BUSplashView
  */
-- (instancetype)initWithSlot:(BUAdSlot *)slot frame:(CGRect)frame;
+- (instancetype)initWithSlot:(BUAdSlot *)slot adSize:(CGSize)adSize;
 
 /**
  Load splash ad datas.
  Start the countdown(@tolerateTimeout) as soon as you request datas.
  */
 - (void)loadAdData;
+
+/**
+ Show splash ad view.
+ Suggest call it after splash ad loaded successfully.
+ You can call it at any time after loadAdData. The splash view will be added to the rootViewController only when render successfull.
+ */
+- (void)showSplashViewInRootViewController:(UIViewController *)viewController;
+
+/**
+ Show splash card view.
+ You can call it when splashCardReadyToShow: callback.
+ */
+- (void)showCardViewInRootViewController:(UIViewController *)viewController;
+
+/**
+ Show splash zoomout view.
+ You can call it when splashZoomOutReadyToShow: callback.
+ */
+- (void)showZoomOutViewInRootViewController:(UIViewController *)viewController;
+
+/**
+ Remove splash view.Stop the countdown as soon as you call this method.
+ If you customize the skip button, you need to call this method to close the splash ad.
+ */
+- (void)removeSplashView;
 
 /**
  Ad slot material id
@@ -92,54 +146,74 @@ The unique identifier of splash ad.
 
 
 @protocol BUSplashAdDelegate <NSObject>
+/// This method is called when material load successful
+- (void)splashAdLoadSuccess:(BUSplashAd *)splashAd;
 
-@optional
-/**
- This method is called when splash ad material loaded successfully.
- */
-- (void)splashAdDidLoad:(BUSplashAdView *)splashAd;
+/// This method is called when material load failed
+- (void)splashAdLoadFail:(BUSplashAd *)splashAd error:(BUAdError *_Nullable)error;
 
-/**
- This method is called when splash ad material failed to load.
- @param error : the reason of error
- */
-- (void)splashAd:(BUSplashAdView *)splashAd didFailWithError:(NSError * _Nullable)error;
+/// This method is called when splash view render successful
+- (void)splashAdRenderSuccess:(BUSplashAd *)splashAd;
 
-/**
- This method is called when splash ad slot will be showing.
- */
-- (void)splashAdWillVisible:(BUSplashAdView *)splashAd;
+/// This method is called when splash view render failed
+- (void)splashAdRenderFail:(BUSplashAd *)splashAd error:(BUAdError *_Nullable)error;
 
-/**
- This method is called when splash ad is clicked.
- */
-- (void)splashAdDidClick:(BUSplashAdView *)splashAd;
+/// This method is called when splash view will show
+- (void)splashAdWillShow:(BUSplashAd *)splashAd;
 
-/**
- This method is called when splash ad is closed.
- */
-- (void)splashAdDidClose:(BUSplashAdView *)splashAd;
+/// This method is called when splash view did show
+- (void)splashAdDidShow:(BUSplashAd *)splashAd;
 
-/**
- This method is called when splash ad is about to close.
- */
-- (void)splashAdWillClose:(BUSplashAdView *)splashAd;
+/// This method is called when splash card is clicked.
+- (void)splashAdDidClick:(BUSplashAd *)splashAd;
+
+/// This method is called when splash card is closed.
+- (void)splashAdDidClose:(BUSplashAd *)splashAd closeType:(BUSplashAdCloseType)closeType;
 
 /**
  This method is called when another controller has been closed.
  @param interactionType : open appstore in app or open the webpage or view video ad details page.
  */
-- (void)splashAdDidCloseOtherController:(BUSplashAdView *)splashAd interactionType:(BUInteractionType)interactionType;
+- (void)splashDidCloseOtherController:(BUSplashAd *)splashAd interactionType:(BUInteractionType)interactionType;
 
-/**
- This method is called when spalashAd skip button  is clicked.
- */
-- (void)splashAdDidClickSkip:(BUSplashAdView *)splashAd;
+/// This method is called when when video ad play completed or an error occurred.
+- (void)splashVideoAdDidPlayFinish:(BUSplashAd *)splashAd didFailWithError:(NSError *)error;
 
-/**
- This method is called when spalashAd countdown equals to zero
- */
-- (void)splashAdCountdownToZero:(BUSplashAdView *)splashAd;
+@end
+
+
+@protocol BUSplashCardDelegate <NSObject>
+
+/// This method is called when splash card is ready to show.
+- (void)splashCardReadyToShow:(BUSplashAd *)splashAd;
+
+/// This method is called when splash card is clicked.
+- (void)splashCardViewDidClick:(BUSplashAd *)splashAd;
+
+/// This method is called when splash card is closed.
+- (void)splashCardViewDidClose:(BUSplashAd *)splashAd;
+
+@end
+
+
+@protocol BUSplashZoomOutDelegate <NSObject>
+
+/// This method is called when splash card is ready to show.
+- (void)splashZoomOutReadyToShow:(BUSplashAd *)splashAd;
+
+/// This method is called when splash ad is clicked.
+- (void)splashZoomOutViewDidClick:(BUSplashAd *)splashAd;
+
+/// This method is called when splash ad is closed.
+- (void)splashZoomOutViewDidClose:(BUSplashAd *)splashAd;
+
+
+@end
+
+
+@interface BUAdError : NSError
+
+@property (nonatomic, assign) BUSplashAdErrorCode errorCode;
 
 @end
 

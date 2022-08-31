@@ -18,13 +18,13 @@
 
 - (void)loadAd {
     if ([OMPangleAdapter internalAPI]) {
-        Class PangleSplashClass = NSClassFromString(@"BUSplashAdView");
-        if (PangleSplashClass && [[PangleSplashClass alloc] respondsToSelector:@selector(initWithSlotID:frame:)]) {
-            _splashView = [[PangleSplashClass alloc] initWithSlotID:_pid frame:_AdFrame];
-            _splashView.delegate = self;
+        Class PangleSplashClass = NSClassFromString(@"BUSplashAd");
+        if (PangleSplashClass && [[PangleSplashClass alloc] respondsToSelector:@selector(initWithSlotID:adSize:)]) {
+            _buSplashAd = [[PangleSplashClass alloc] initWithSlotID:_pid adSize:_AdFrame.size];
+            _buSplashAd.delegate = self;
         }
-        if (_splashView) {
-            [_splashView loadAdData];
+        if (_buSplashAd) {
+            [_buSplashAd loadAdData];
         }
     }else{
         // 海外
@@ -54,8 +54,8 @@
 
 - (BOOL)isReady{
     if ([OMPangleAdapter internalAPI]) {
-        if (_splashView) {
-            return [_splashView isAdValid];
+        if (_buSplashAd) {
+            return _isSplashAdReady;
         }
     }else{
         return _isSplashReady;
@@ -65,11 +65,8 @@
 
 - (void)showWithWindow:(UIWindow *)window customView:(nonnull UIView *)customView {
     if ([OMPangleAdapter internalAPI]) {
-        if (window) {
-            _splashView.rootViewController = window.rootViewController;
-            customView.frame = CGRectMake(0, _splashView.frame.size.height, customView.frame.size.width, customView.frame.size.height);
-            [_splashView addSubview:customView];
-            [window.rootViewController.view addSubview:_splashView];
+        if (_isSplashAdReady && window) {
+            [_buSplashAd showSplashViewInRootViewController:window.rootViewController];
         }
     }else{
         if (_isSplashReady && window) {
@@ -82,7 +79,8 @@
 /**
  This method is called when splash ad material loaded successfully.
  */
-- (void)splashAdDidLoad:(BUSplashAdView *)splashAd{
+- (void)splashAdLoadSuccess:(BUSplashAd *)splashAd {
+    _isSplashAdReady = YES;
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
@@ -92,7 +90,7 @@
  This method is called when splash ad material failed to load.
  @param error : the reason of error
  */
-- (void)splashAd:(BUSplashAdView *)splashAd didFailWithError:(NSError * _Nullable)error {
+- (void)splashAdLoadFail:(BUSplashAd *)splashAd error:(BUAdError *_Nullable)error {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:error];
     }
@@ -101,7 +99,7 @@
 /**
  This method is called when splash ad slot will be showing.
  */
-- (void)splashAdWillVisible:(BUSplashAdView *)splashAd {
+- (void)splashAdDidShow:(BUSplashAd *)splashAd {
     if (_delegate && [_delegate respondsToSelector:@selector(splashCustomEventDidShow:)]) {
         [_delegate splashCustomEventDidShow:self];
     }
@@ -110,7 +108,7 @@
 /**
  This method is called when splash ad is clicked.
  */
-- (void)splashAdDidClick:(BUSplashAdView *)splashAd {
+- (void)splashAdDidClick:(BUSplashAd *)splashAd {
     if (_delegate && [_delegate respondsToSelector:@selector(splashCustomEventDidClick:)]) {
         [_delegate splashCustomEventDidClick:self];
     }
@@ -119,40 +117,11 @@
 /**
  This method is called when splash ad is closed.
  */
-- (void)splashAdDidClose:(BUSplashAdView *)splashAd {
-    [splashAd removeFromSuperview];
+- (void)splashAdDidClose:(BUSplashAd *)splashAd closeType:(BUSplashAdCloseType)closeType {
+    [splashAd removeSplashView];
     if (_delegate && [_delegate respondsToSelector:@selector(splashCustomEventDidClose:)]) {
         [_delegate splashCustomEventDidClose:self];
     }
-}
-
-/**
- This method is called when splash ad is about to close.
- */
-- (void)splashAdWillClose:(BUSplashAdView *)splashAd {
-
-}
-
-/**
- This method is called when another controller has been closed.
- @param interactionType : open appstore in app or open the webpage or view video ad details page.
- */
-- (void)splashAdDidCloseOtherController:(BUSplashAdView *)splashAd interactionType:(BUInteractionType)interactionType {
-    
-}
-
-/**
- This method is called when spalashAd skip button  is clicked.
- */
-- (void)splashAdDidClickSkip:(BUSplashAdView *)splashAd {
-    
-}
-
-/**
- This method is called when spalashAd countdown equals to zero
- */
-- (void)splashAdCountdownToZero:(BUSplashAdView *)splashAd {
-    
 }
 
 // 海外

@@ -12,8 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id <splashCustomEventDelegate>delegate;
 @property (nonatomic, copy) NSString *pid;
 
-@property (nonatomic, strong) BUSplashAdView *splashView;
+@property (nonatomic, strong) BUSplashAd *buSplashAd;
 @property (nonatomic, assign) CGRect AdFrame;
+@property (nonatomic, assign) BOOL isSplashAdReady;
 
 // 海外
 @property (nonatomic, strong) PAGLAppOpenAd *splashAd;
