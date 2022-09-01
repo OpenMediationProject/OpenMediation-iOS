@@ -94,7 +94,10 @@ typedef NS_ENUM(NSInteger, IMInterstitialAnimationType) {
  * Notifies the delegate that the user will leave application context.
  */
 -(void)userWillLeaveApplicationFromInterstitial:(IMInterstitial*)interstitial;
-
+/**
+ * Notifies the delegate that the interstitial ad impression has been tracked
+ */
+-(void)interstitialAdImpressed:(IMInterstitial*)interstitial;
 @end
 
 @interface IMInterstitial : NSObject
@@ -124,7 +127,10 @@ typedef NS_ENUM(NSInteger, IMInterstitialAnimationType) {
  *The prelaod Manager for Preload flow.
 */
 @property (nonatomic, strong, readonly) IMInterstitialPreloadManager* preloadManager;
-
+/**
+ * contentUrl for OMSDK
+ */
+@property (nonatomic, strong) NSString* contentUrl;
 /**
  * init and new methods are unavailable for this class
  * use "initWithPlacementId:" or "initWithPlacementId:delegate:" method.

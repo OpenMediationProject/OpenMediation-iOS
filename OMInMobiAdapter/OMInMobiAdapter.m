@@ -4,7 +4,6 @@
 #import "OMInMobiAdapter.h"
 
 NSString *imGdprString = nil;
-NSString *imPrivacyString = nil;
 
 @implementation OMInMobiAdapter
 
@@ -55,8 +54,7 @@ NSString *imPrivacyString = nil;
     if (inmobiClass && [inmobiClass respondsToSelector:@selector(initWithAccountID:consentDictionary:andCompletionHandler:)]) {
         NSMutableDictionary *consentDic = [NSMutableDictionary dictionary];
         if (imGdprString.length>0) {
-            [consentDic setObject:@"1" forKey:@"gdpr"];
-            [consentDic setObject:imGdprString forKey:@"IM_GDPR_CONSENT_AVAILABLE"];
+            [consentDic setObject:imGdprString forKey:@"gdpr_consent_available"];
         }
         
         [inmobiClass initWithAccountID:key consentDictionary:consentDic andCompletionHandler:^(NSError * _Nullable error) {
