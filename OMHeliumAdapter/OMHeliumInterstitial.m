@@ -39,6 +39,14 @@
     if(!error && [self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     } else if (error) {
+        SEL descriptionSel = NSSelectorFromString(@"localizedDescription");
+        NSString *errorDescription = @"The ad no fill";
+        if ([error respondsToSelector:descriptionSel]) {
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+            errorDescription = [error performSelector:descriptionSel];
+            #pragma clang diagnostic pop
+        }
         NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.ads" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:error.errorDescription}];
         if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
             [_delegate customEvent:self didFailToLoadWithError:cerror];
@@ -52,7 +60,7 @@
 - (void)omHeliumDidShowWithError:(HeliumError *)error {
     if (error) {
         if(_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]) {
-            NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.bid" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:error.errorDescription}];
+            NSError *cerror = [[NSError alloc] initWithDomain:@"com.charboost.bid" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:@"The ad failed to show"}];
             [_delegate interstitialCustomEventDidFailToShow:self error:cerror];
         }
     } else {
