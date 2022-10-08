@@ -19,7 +19,7 @@
     if ([self isReady]) {
         [self interstitialDidLoad];
     } else {
-        Class HyBidFullscreenVideoAdClass = NSClassFromString(@"_TtC5HyBid19HyBidInterstitialAd");
+        Class HyBidFullscreenVideoAdClass = NSClassFromString(@"HyBidInterstitialAd");
         if (HyBidFullscreenVideoAdClass && [[HyBidFullscreenVideoAdClass alloc] respondsToSelector:@selector(initWithZoneID:andWithDelegate:)]) {
             _fullscreenVideoAd = [[HyBidFullscreenVideoAdClass alloc] initWithZoneID:_pid andWithDelegate:self];
         }

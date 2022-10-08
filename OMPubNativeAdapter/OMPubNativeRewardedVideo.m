@@ -18,7 +18,7 @@
         [self rewardedDidLoad];
     } else {
         
-        Class HyBidRewardedVideoAdClass = NSClassFromString(@"_TtC5HyBid15HyBidRewardedAd");
+        Class HyBidRewardedVideoAdClass = NSClassFromString(@"HyBidRewardedAd");
         if (HyBidRewardedVideoAdClass && [HyBidRewardedVideoAdClass instancesRespondToSelector:@selector(initWithZoneID:andWithDelegate:)]) {
             _rewardedVideoAd = [[HyBidRewardedVideoAdClass alloc] initWithZoneID:_pid andWithDelegate:self];
         }
@@ -67,15 +67,14 @@
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
         [_delegate rewardedVideoCustomEventDidClick:self];
     }
-    _hasShown = YES;
 }
 
 - (void)rewardedDidTrackImpression {
-    if (!_hasShown && _delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
+    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
         [_delegate rewardedVideoCustomEventDidOpen:self];
     }
     
-    if (!_hasShown && _delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoStart:)]) {
+    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoStart:)]) {
         [_delegate rewardedVideoCustomEventVideoStart:self];
     }
 }
