@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, strong) HyBidInterstitialAd *fullscreenVideoAd;
 @property (nonatomic, assign) BOOL isReady;
-@property (nonatomic, assign) BOOL isMediation;
 @property (nonatomic, weak) id<interstitialCustomEventDelegate> delegate;
 @property (nonatomic, weak) id<OMBidCustomEventDelegate> bidDelegate;
 
