@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *pid;
 @property (nonatomic, strong) HyBidRewardedAd *rewardedVideoAd;
 @property (nonatomic, assign) BOOL isReady;
-@property (nonatomic, assign) BOOL isMediation;
+@property (nonatomic, assign) BOOL hasShown;
 @property (nonatomic, weak) id<rewardedVideoCustomEventDelegate> delegate;
 @property (nonatomic, weak) id<OMBidCustomEventDelegate> bidDelegate;
 
