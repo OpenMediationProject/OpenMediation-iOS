@@ -57,7 +57,7 @@ static OMHeliumAdapter * _instance = nil;
 
 - (void)heliumDidStartWithError:(HeliumError *)error {
     if (self.initBlock) {
-        self.initBlock(error?[NSError errorWithDomain:@"om.mediation.heliumadapter" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:error.errorDescription}]:nil);
+        self.initBlock(error?[NSError errorWithDomain:@"om.mediation.heliumadapter" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:@"The helium sdk init failed"}]:nil);
         self.initBlock = nil;
     }
 }
