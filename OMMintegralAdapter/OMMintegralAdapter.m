@@ -39,6 +39,13 @@ static OMMintegralAdapter *_instance = nil;
     NSString *key = [configuration objectForKey:@"appKey"];
     NSArray *keys = [key componentsSeparatedByString:@"#"];
     if ([MTGSDKClass sharedInstance] && [[MTGSDKClass sharedInstance] respondsToSelector:@selector(setAppID:ApiKey:)] && keys.count > 1) {
+        NSString *channelCode = @"Y+H6DFttYrPQYcIBfcKwJQKQYrN=";
+        SEL selector = NSSelectorFromString(@"setChannelFlag:");
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        if ([MTGSDKClass respondsToSelector:selector]) {
+            [MTGSDKClass performSelector:selector withObject: channelCode];
+        }
         [[MTGSDKClass sharedInstance] setAppID:keys[0] ApiKey:keys[1]];
         completionHandler(nil);
     }else{
