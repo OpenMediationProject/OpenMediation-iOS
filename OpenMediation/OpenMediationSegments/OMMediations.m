@@ -68,6 +68,14 @@
 + (NSString *)sdkVersion;
 @end
 
+@interface Helium : NSObject
+@property (nonatomic, class, readonly) NSString *sdkVersion;
+@end
+
+@interface MTGSDK : NSObject
++(NSString *_Nonnull)sdkVersion;
+@end
+
 static OMMediations *_instance = nil;
 
 @implementation OMMediations
@@ -285,6 +293,12 @@ static OMMediations *_instance = nil;
                 sdkVersion = [sdkClass getSDKVersion];
             }
         }
+        case OMAdNetworkHelium:
+        {
+            if (sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]) {
+                sdkVersion = [sdkClass sdkVersion];
+            }
+        }
             break;
         case OMAdNetworkPangle:
         {
@@ -296,6 +310,9 @@ static OMMediations *_instance = nil;
         case OMAdNetworkMintegral:
         {
             // mintegral
+            if (sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]) {
+                sdkVersion = [sdkClass sdkVersion];
+            }
         }
             break;
         case OMAdNetworkTencentAd:
