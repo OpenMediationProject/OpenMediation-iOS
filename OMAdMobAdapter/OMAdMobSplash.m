@@ -27,7 +27,7 @@
             [request registerAdNetworkExtras:extras];
         }
         
-        [adMobClass loadWithAdUnitID:_pid request:request orientation:UIInterfaceOrientationPortrait completionHandler:^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
+        [adMobClass loadWithAdUnitID:_pid request:request completionHandler:^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
             self.appOpenAd = appOpenAd;
             self.appOpenAd.fullScreenContentDelegate = self;
             self.loadTime = [NSDate date];
