@@ -27,8 +27,8 @@
             [request registerAdNetworkExtras:extras];
         }
         
-        [adMobClass loadWithAdUnitID:_pid request:request completionHandler:^(GADAppOpenAd *appOpenAd, NSError *error) {
-            self.appOpenAd = appOpenAd;
+        [adMobClass loadWithAdUnitID:_pid request:request completionHandler:^(id appOpenAd, NSError *error) {
+            self.appOpenAd = (GADAppOpenAd*)appOpenAd;
             self.appOpenAd.fullScreenContentDelegate = self;
             self.loadTime = [NSDate date];
             if (error) {
