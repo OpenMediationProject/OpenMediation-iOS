@@ -19,7 +19,7 @@
 - (void)loadAd{
     Class adMobClass = NSClassFromString(@"GADAppOpenAd");
     Class requestClass = NSClassFromString(@"GADRequest");
-    if (requestClass && [requestClass respondsToSelector:@selector(request)] && adMobClass && [adMobClass respondsToSelector:@selector(loadWithAdUnitID:request:orientation:completionHandler:)]) {
+    if (requestClass && [requestClass respondsToSelector:@selector(request)] && adMobClass && [adMobClass respondsToSelector:@selector(loadWithAdUnitID:request:completionHandler:)]) {
         GADRequest *request = [requestClass request];
         if ([OMGoogleAdAdapter npaAd] && NSClassFromString(@"GADExtras")) {
             GADExtras *extras = [[NSClassFromString(@"GADExtras") alloc] init];
