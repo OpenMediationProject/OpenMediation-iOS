@@ -47,7 +47,7 @@
             errorDescription = [error performSelector:descriptionSel];
             #pragma clang diagnostic pop
         }
-        NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.ads" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:error.errorDescription}];
+        NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.ads" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:errorDescription}];
         if(_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
             [_delegate customEvent:self didFailToLoadWithError:cerror];
         }
