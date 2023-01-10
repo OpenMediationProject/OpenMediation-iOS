@@ -4,6 +4,20 @@
 #ifndef OMMintegralClass_h
 #define OMMintegralClass_h
 
+/**
+ Tri-state boolean.
+ */
+typedef NS_ENUM(NSInteger, MTGBool) {
+    /* No */
+    MTGBoolNo = -1,
+    
+    /* Unknown */
+    MTGBoolUnknown = 0,
+    
+    /* Yes */
+    MTGBoolYes = 1,
+};
+
 @interface MTGSDK : NSObject
 /**
 Set user GDPR authorization information
@@ -14,6 +28,8 @@ Set YES to indicate the user's data will be collected otherwise NO. Default to b
  */
 @property (nonatomic, assign) BOOL consentStatus;
 
+/// Set the COPPA status of the user. YES means follow the coppa rules, NO means no need to follow the coppa rules, default is Unknown (depend on your app's coppa setting on the dev setting page).
+@property (nonatomic, assign) MTGBool coppa;
 
 /**
  If set to YES, the server will not display personalized ads based on the user's personal information

@@ -27,6 +27,13 @@ static OMMintegralAdapter *_instance = nil;
     }
 }
 
++ (void)setUserAgeRestricted:(BOOL)restricted {
+    Class MTGSDKClass = NSClassFromString(@"MTGSDK");
+    if (MTGSDKClass && [MTGSDKClass sharedInstance] && [[MTGSDKClass sharedInstance] respondsToSelector:@selector(setCoppa:)]) {
+        [[MTGSDKClass sharedInstance]setCoppa:(restricted?MTGBoolYes:MTGBoolNo)];
+    }
+}
+
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     Class MTGSDKClass = NSClassFromString(@"MTGSDK");
     if (!MTGSDKClass) {
