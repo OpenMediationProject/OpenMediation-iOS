@@ -5,32 +5,12 @@
 #define OMMintegralBannerClass_h
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-
+#import "OMMintegralClass.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class MTGBannerAdView;
 @class MTGAdSize;
-
-/**
- Tri-state boolean.
- */
-typedef NS_ENUM(NSInteger, MTGBool) {
-    /**
-     No
-     */
-    MTGBoolNo = -1,
-    
-    /**
-     Unknown
-     */
-    MTGBoolUnknown = 0,
-    
-    /**
-     Yes
-     */
-    MTGBoolYes = 1,
-};
 
 typedef NS_ENUM(NSInteger,MTGBannerSizeType) {
     /*Represents the fixed banner ad size - 320pt by 50pt.*/
