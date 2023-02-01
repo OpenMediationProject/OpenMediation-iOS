@@ -268,8 +268,6 @@ static NSString * GitHash = @"b4c67f001";
 @end
 
 
-
-
 @protocol ISRewardedVideoDelegate <NSObject>
 
 @required
@@ -372,39 +370,39 @@ static NSString * GitHash = @"b4c67f001";
 @end
 
 
+@interface ISSegment : NSObject
+
+@property (nonatomic) int                             age;
+@property (nonatomic) int                             level;
+@property (nonatomic) double                          iapTotal;
+@property (nonatomic) BOOL                            paying;
+@property (nonatomic) ISGender                        gender;
+@property (nonatomic, strong) NSDate                  *userCreationDate;
+@property (nonatomic, strong) NSString                *segmentName;
+@property (nonatomic, strong, readonly) NSDictionary  *customKeys;
+
+- (void)setCustomValue:(NSString *)value forKey:(NSString *)key;
+
+- (NSDictionary*)getData;
+
+@end
+
 @interface IronSource : NSObject
 
 /**
  @abstact Retrieve a string-based representation of the SDK version.
  @discussion The returned value will be in the form of "<Major>.<Minor>.<Revision>".
- 
+
  @return NSString representing the current IronSource SDK version.
  */
 + (NSString *)sdkVersion;
-
-
-/**
- @abstact Sets a numeric representation of the current user's age.
- @discussion This value will be passed to the supporting ad networks.
- 
- @param age The user's age. Should be between 5 and 120.
- */
-+ (void)setAge:(NSInteger)age;
-
-/**
- @abstact Sets the gender of the current user.
- @discussion This value will be passed to the supporting ad networks.
- 
- @param gender The user's gender.
- */
-+ (void)setGender:(ISGender)gender;
 
 /**
  @abstract Sets if IronSource SDK should track network changes.
  @discussion Enables the SDK to change the availability according to network modifications, i.e. in the case of no network connection, the availability will turn to FALSE.
  
  Default is NO.
- 
+
  @param flag YES if allowed to track network changes, NO otherwise.
  */
 + (void)shouldTrackReachability:(BOOL)flag;
@@ -412,9 +410,9 @@ static NSString * GitHash = @"b4c67f001";
 /**
  @abstract Sets if IronSource SDK should allow ad networks debug logs.
  @discussion This value will be passed to the supporting ad networks.
- 
+
  Default is NO.
- 
+
  @param flag YES to allow ad networks debug logs, NO otherwise.
  */
 + (void)setAdaptersDebug:(BOOL)flag;
@@ -424,7 +422,7 @@ static NSString * GitHash = @"b4c67f001";
  @discussion This parameter can be changed throughout the session and will be received in the server-to-server ad rewarded callbacks.
  
  It helps verify AdRewarded transactions and must be set before calling showRewardedVideo.
- 
+
  @param dynamicUserId Dynamic user identifier. Should be between 1-128 chars in length.
  @return BOOL that indicates if the dynamic identifier is valid.
  */
@@ -432,7 +430,7 @@ static NSString * GitHash = @"b4c67f001";
 
 /**
  @abstract Retrieves the device's current advertising identifier.
- @discussion Will first try to retrive IDFA, if impossible, will try to retrive IDFV.
+ @discussion Will first try to retrieve IDFA, if impossible, will try to retrieve IDFV.
  
  @return The device's current advertising identifier.
  */
@@ -452,7 +450,7 @@ static NSString * GitHash = @"b4c67f001";
  
  @param segment A segment name, which should not exceed 64 characters.
  */
-+ (void)setMediationSegment:(NSString *)segment;
++ (void)setMediationSegment:(NSString *)segment __attribute__((deprecated("This method has been deprecated and won’t be included in ironSource SDK versions 7.3.0 and above.")));
 
 /**
  @abstract Sets a segment.
@@ -471,33 +469,53 @@ static NSString * GitHash = @"b4c67f001";
 
 
 /**
- @abstact Sets the meta data with a key and value.
- @discussion This value will be passed to the supporting ad networks.
- 
- @param key The meta data key.
- @param value The meta data value
- 
- */
+@abstact Sets the meta data with a key and value.
+@discussion This value will be passed to the supporting ad networks.
+
+@param key The meta data key.
+@param value The meta data value
+
+*/
 + (void)setMetaDataWithKey:(NSString *)key value:(NSString *)value;
 
 /**
- @abstact used for demand only API, return the bidding data token.
+ @abstact Sets the meta data with a key and values.
+ @discussion This value will be passed to the supporting ad networks.
+ 
+ @param key The meta data key.
+ @param values The meta data values
+ 
  */
-+ (NSString *) getISDemandOnlyBiddingData;
++ (void)setMetaDataWithKey:(NSString *)key values:(NSMutableArray *) values;
 
 
+/**
+@abstract Sets the network data according to the network key.
+
+@param networkKey  Network identifier.
+@param networkData a dictionary containing the information required by the network.
+
+ */
++ (void)setNetworkDataWithNetworkKey:(NSString *)networkKey andNetworkData:(NSDictionary *)networkData;
+
+/**
+@abstact used for demand only API, return the bidding data token.
+*/
+ + (NSString *) getISDemandOnlyBiddingData;
+
+    
 #pragma mark - SDK Initialization
 
 /**
  @abstract Sets an identifier for the current user.
- 
+
  @param userId User identifier. Should be between 1-64 chars in length.
  */
 + (void)setUserId:(NSString *)userId;
 
 /**
  @abstract Initializes IronSource's SDK with all the ad units that are defined in the platform.
- 
+
  @param appKey Application key.
  */
 + (void)initWithAppKey:(NSString *)appKey;
@@ -513,7 +531,7 @@ static NSString * GitHash = @"b4c67f001";
  IS_REWARDED_VIDEO, IS_INTERSTITIAL, IS_OFFERWALL, IS_BANNER
  
  e.g: [IronSource initWithAppKey:appKey adUnits:@[IS_REWARDED_VIDEO, IS_INTERSTITIAL, IS_OFFERWALL, IS_BANNER]];
- 
+
  @param appKey Application key.
  @param adUnits An array of ad units to initialize.
  */
@@ -531,21 +549,21 @@ static NSString * GitHash = @"b4c67f001";
 
 /**
  @abstract Sets the delegate for rewarded video callbacks.
- 
+
  @param delegate The 'ISRewardedVideoDelegate' for IronSource to send callbacks to.
  */
 + (void)setRewardedVideoDelegate:(id<ISRewardedVideoDelegate>)delegate;
 
 /**
  @abstract Shows a rewarded video using the default placement.
- 
+
  @param viewController The UIViewController to display the rewarded video within.
  */
 + (void)showRewardedVideoWithViewController:(UIViewController *)viewController;
 
 /**
  @abstract Shows a rewarded video using the provided placement name.
- 
+
  @param viewController The UIViewController to display the rewarded video within.
  @param placementName The placement name as was defined in the platform. If nil is passed, a default placement will be used.
  */
@@ -554,7 +572,7 @@ static NSString * GitHash = @"b4c67f001";
 /**
  @abstract Determine if a locally cached rewarded video exists on the mediation level.
  @discussion A return value of YES here indicates that there is a cached rewarded video for one of the ad networks.
- 
+
  @return YES if rewarded video is ready to be played, NO otherwise.
  */
 + (BOOL)hasRewardedVideo;
@@ -562,15 +580,15 @@ static NSString * GitHash = @"b4c67f001";
 /**
  @abstract Verify if a certain placement has reached its ad limit.
  @discussion This is to ensure you don’t portray the Rewarded Video button when the placement has been capped or paced and thus will not serve the video ad.
- 
+
  @param placementName The placement name as was defined in the platform.
  @return YES if capped or paced, NO otherwise.
  */
 + (BOOL)isRewardedVideoCappedForPlacement:(NSString *)placementName;
 
 /**
- @abstract Retrive an object containing the placement's reward name and amount.
- 
+ @abstract Retrieve an object containing the placement's reward name and amount.
+
  @param placementName The placement name as was defined in the platform.
  @return ISPlacementInfo representing the placement's information.
  */
@@ -585,7 +603,7 @@ static NSString * GitHash = @"b4c67f001";
 
 /**
  @abstract Disables sending server side parameters on successful rewarded video
- */
+  */
 + (void)clearRewardedVideoServerParameters;
 
 #pragma mark - Demand Only Rewarded Video
@@ -624,21 +642,21 @@ static NSString * GitHash = @"b4c67f001";
  */
 + (BOOL)hasISDemandOnlyRewardedVideo:(NSString *)instanceId;
 
+/**
+ @abstract Loads a Rewarded Video.
+ @discussion This method will load Rewarded Video ads from the underlying ad networks according to their priority when in manual Rewarded Video mode.
+ */
++ (void)loadRewardedVideo;
+
+
 #pragma mark - Interstitial
 
 /**
  @abstract Sets the delegate for interstitial callbacks.
- 
+
  @param delegate The 'ISInterstitialDelegate' for IronSource to send callbacks to.
  */
 + (void)setInterstitialDelegate:(id<ISInterstitialDelegate>)delegate;
-
-/**
- @abstract Sets the delegate for rewarded interstitial callbacks.
- 
- @param delegate The 'ISRewardedInterstitialDelegate' for IronSource to send callbacks to.
- */
-+ (void)setRewardedInterstitialDelegate:(id<ISRewardedInterstitialDelegate>)delegate;
 
 /**
  @abstract Loads an interstitial.
@@ -648,14 +666,14 @@ static NSString * GitHash = @"b4c67f001";
 
 /**
  @abstract Show a rewarded video using the default placement.
- 
+
  @param viewController The UIViewController to display the interstitial within.
  */
 + (void)showInterstitialWithViewController:(UIViewController *)viewController;
 
 /**
  @abstract Show a rewarded video using the provided placement name.
- 
+
  @param viewController The UIViewController to display the interstitial within.
  @param placementName The placement name as was defined in the platform. If nil is passed, a default placement will be used.
  */
@@ -664,7 +682,7 @@ static NSString * GitHash = @"b4c67f001";
 /**
  @abstract Determine if a locally cached interstitial exists on the mediation level.
  @discussion A return value of YES here indicates that there is a cached interstitial for one of the ad networks.
- 
+
  @return YES if there is a locally cached interstitial, NO otherwise.
  */
 + (BOOL)hasInterstitial;
@@ -672,7 +690,7 @@ static NSString * GitHash = @"b4c67f001";
 /**
  @abstract Verify if a certain placement has reached its ad limit.
  @discussion This is to ensure you don’t try to show interstitial when the placement has been capped or paced and thus will not serve the interstitial ad.
- 
+
  @param placementName The placement name as was defined in the platform.
  @return YES if capped or paced, NO otherwise.
  */
@@ -720,35 +738,35 @@ static NSString * GitHash = @"b4c67f001";
 
 /**
  @abstract Sets the delegate for offerwall callbacks.
- 
+
  @param delegate The 'ISOfferwallDelegate' for IronSource to send callbacks to.
  */
 + (void)setOfferwallDelegate:(id<ISOfferwallDelegate>)delegate;
 
 /**
  @abstract Show an offerwall using the default placement.
- 
+
  @param viewController The UIViewController to display the offerwall within.
  */
 + (void)showOfferwallWithViewController:(UIViewController *)viewController;
 
 /**
  @abstract Show an offerwall using the provided placement name.
- 
+
  @param viewController The UIViewController to display the offerwall within.
  @param placementName The placement name as was defined in the platform. If nil is passed, a default placement will be used.
  */
 + (void)showOfferwallWithViewController:(UIViewController *)viewController placement:(nullable NSString *)placementName;
 
 /**
- @abstract Retrive information on the user’s total credits and any new credits the user has earned.
+ @abstract Retrieve information on the user’s total credits and any new credits the user has earned.
  @discussion The function can be called at any point during the user’s engagement with the app.
  */
 + (void)offerwallCredits;
 
 /**
  @abstract Determine if the offerwall is prepared.
- 
+
  @return YES if there is an available offerwall, NO otherwise.
  */
 + (BOOL)hasOfferwall;
@@ -810,11 +828,43 @@ static NSString * GitHash = @"b4c67f001";
  */
 + (BOOL)isBannerCappedForPlacement:(NSString *)placementName;
 
+#pragma mark Demand Only Banner
+
+/**
+ @abstract Loads a demand only Banner for a bidder instance.
+ @discussion This method will load a demand only Banner ad for a bidder instance.
+ @param adm The ad markup
+ @param instanceId The demand only instance id to be used to display the Banner.
+ @param viewController The view controller on which the banner should be presented
+ @param size The required banner ad size
+ */
++ (void)loadISDemandOnlyBannerWithAdm:(NSString *)adm
+                           instanceId:(NSString *)instanceId
+                       viewController:(UIViewController *)viewController
+                                 size:(ISBannerSize *)size;
+
+/**
+ @abstract Loads a demand only Banner for a non bidder instance.
+ @discussion This method will load a demand only Banner ad for a non bidder instance.
+ @param instanceId The demand only instance id to be used to display the Banner.
+ @param viewController The view controller on which the banner should be presented
+ @param size The required banner ad size
+ */
++ (void)loadISDemandOnlyBannerWithInstanceId:(NSString *)instanceId
+                              viewController:(UIViewController *)viewController
+                                        size:(ISBannerSize *)size;
+
+/**
+ @abstract Removes the banner from memory.
+ @param instanceId The demand only instance id of the Banner that should be destroyed.
+ */
++ (void)destroyISDemandOnlyBannerWithInstanceId:(NSString *)instanceId;
+
 #pragma mark - Logging
 
 /**
  @abstract Sets the delegate for log callbacks.
- 
+
  @param delegate The 'ISLogDelegate' for IronSource to send callbacks to.
  */
 + (void)setLogDelegate:(id<ISLogDelegate>)delegate;

@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GADRequest : NSObject<NSCopying>
 
-+ (nonnull NSString *)sdkVersion;
 + (instancetype)request;
 - (void)registerAdNetworkExtras:(nonnull id<GADAdNetworkExtras>)extras;
 
@@ -53,6 +52,41 @@ typedef void (^GADInitializationCompletionHandler)(GADInitializationStatus *_Non
 @property(nonatomic, readonly, strong, nonnull) GADRequestConfiguration *requestConfiguration;
 + (void)configureWithApplicationID:(NSString *)applicationID;
 - (void)startWithCompletionHandler:(nullable GADInitializationCompletionHandler)completionHandler;
+@end
+
+@protocol GADFullScreenContentDelegate;
+
+/// Protocol for ads that present full screen content.
+@protocol GADFullScreenPresentingAd <NSObject>
+
+/// Delegate object that receives full screen content messages.
+@property(nonatomic, weak, nullable) id<GADFullScreenContentDelegate> fullScreenContentDelegate;
+
+@end
+
+@protocol GADFullScreenContentDelegate <NSObject>
+
+@optional
+
+/// Tells the delegate that an impression has been recorded for the ad.
+- (void)adDidRecordImpression:(nonnull id<GADFullScreenPresentingAd>)ad;
+
+/// Tells the delegate that a click has been recorded for the ad.
+- (void)adDidRecordClick:(nonnull id<GADFullScreenPresentingAd>)ad;
+
+/// Tells the delegate that the ad failed to present full screen content.
+- (void)ad:(nonnull id<GADFullScreenPresentingAd>)ad
+    didFailToPresentFullScreenContentWithError:(nonnull NSError *)error;
+
+/// Tells the delegate that the ad will present full screen content.
+- (void)adWillPresentFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad;
+
+/// Tells the delegate that the ad will dismiss full screen content.
+- (void)adWillDismissFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad;
+
+/// Tells the delegate that the ad dismissed full screen content.
+- (void)adDidDismissFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad;
+
 @end
 
 NS_ASSUME_NONNULL_END

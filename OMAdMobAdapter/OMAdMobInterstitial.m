@@ -64,10 +64,6 @@
     self.ready = NO;
 }
 
-- (void)adDidPresentFullScreenContent:(id)ad {
-    
-}
-
 - (void)ad:(id)ad didFailToPresentFullScreenContentWithError:(NSError *)error {
     if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]) {
         NSError *error = [NSError errorWithDomain:@"com.admob.interstitial" code:-1 userInfo:@{NSLocalizedDescriptionKey:@"interstitialDidFailToPresentScreen"}];

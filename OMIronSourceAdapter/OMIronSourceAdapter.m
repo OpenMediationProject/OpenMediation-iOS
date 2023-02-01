@@ -3,7 +3,7 @@
 
 #import "OMIronSourceAdapter.h"
 
-static NSString * const IronSourceAdapterVersion = @"2.0.5";
+static NSString * const IronSourceAdapterVersion = @"2.0.6";
 static BOOL _mediationAPI = NO;
 
 @implementation OMIronSourceAdapter
@@ -42,21 +42,23 @@ static BOOL _mediationAPI = NO;
 }
 
 + (void)setUserAge:(NSInteger)userAge {
-    Class ironsourceClass = NSClassFromString(@"IronSource");
-    if (ironsourceClass && [ironsourceClass respondsToSelector:@selector(setAge:)]) {
-        [ironsourceClass setAge:userAge];
+    Class ironsourceClass = NSClassFromString(@"ISSegment");
+    ISSegment *segment = [[ironsourceClass alloc] init];
+    if (segment && [segment respondsToSelector:@selector(setAge:)]) {
+        [segment setAge:(int)userAge];
     }
 }
 
 + (void)setUserGender:(NSInteger)userGender {
-    Class ironsourceClass = NSClassFromString(@"IronSource");
-    if (ironsourceClass && [ironsourceClass respondsToSelector:@selector(setGender:)]) {
+    Class ironsourceClass = NSClassFromString(@"ISSegment");
+    ISSegment *segment = [[ironsourceClass alloc] init];
+    if (segment && [segment respondsToSelector:@selector(setGender:)]) {
         if (userGender == 0) {
-            [ironsourceClass setGender:IRONSOURCE_USER_UNKNOWN];
+            [segment setGender:IRONSOURCE_USER_UNKNOWN];
         }else if (userGender == 1) {
-            [ironsourceClass setGender:IRONSOURCE_USER_MALE];
+            [segment setGender:IRONSOURCE_USER_MALE];
         }else{
-            [ironsourceClass setGender:IRONSOURCE_USER_FEMALE];
+            [segment setGender:IRONSOURCE_USER_FEMALE];
         }
     }
 }
