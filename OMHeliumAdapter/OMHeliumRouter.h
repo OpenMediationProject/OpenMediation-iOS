@@ -8,13 +8,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol OMHeliumAdapterDelegate <NSObject>
 
-- (void)omHeliumDidLoadWithError:(nullable HeliumError *)error;
-- (void)omHeliumDidShowWithError:(HeliumError *)error;
-- (void)omHeliumDidClickWithError:(HeliumError *)error;
-- (void)omHeliumDidCloseWithError:(HeliumError *)error;
+- (void)omHeliumDidLoadWithError:(nullable ChartboostMediationError *)error;
+- (void)omHeliumDidShowWithError:(ChartboostMediationError *)error;
+- (void)omHeliumDidClickWithError:(ChartboostMediationError *)error;
+- (void)omHeliumDidCloseWithError:(ChartboostMediationError *)error;
 - (void)omHeliumDidLoadWinningBidWithInfo:(NSDictionary*)bidInfo;
 @optional
-- (void)omHeliumDidGetReward:(NSInteger)reward;
+- (void)omHeliumDidGetReward:(NSString*)pid;
 
 @end
 

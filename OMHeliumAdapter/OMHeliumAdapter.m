@@ -42,10 +42,12 @@ static OMHeliumAdapter * _instance = nil;
     NSString *key = [configuration objectForKey:@"appKey"];
     Class heliumClass = NSClassFromString(@"Helium");
     NSArray *keys = [key componentsSeparatedByString:@"#"];
-    if (heliumClass && [heliumClass instancesRespondToSelector:@selector(startWithAppId:andAppSignature:delegate:)] && keys.count > 1) {
+    if (heliumClass && [heliumClass instancesRespondToSelector:@selector(startWithAppId:andAppSignature:options:delegate:)] && keys.count > 1) {
         [OMHeliumAdapter sharedInstance].initBlock = completionHandler;
         [[heliumClass sharedHelium] startWithAppId:keys[0]
-                                      andAppSignature:keys[1] delegate:[OMHeliumAdapter sharedInstance]];
+                                      andAppSignature:keys[1]
+                                           options:nil
+                                          delegate:[OMHeliumAdapter sharedInstance]];
     } else {
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.heliumadapter"
                                                     code:400
@@ -55,9 +57,9 @@ static OMHeliumAdapter * _instance = nil;
 }
 
 
-- (void)heliumDidStartWithError:(HeliumError *)error {
+- (void)heliumDidStartWithError:(ChartboostMediationError *)error {
     if (self.initBlock) {
-        self.initBlock(error?[NSError errorWithDomain:@"om.mediation.heliumadapter" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:@"The helium sdk init failed"}]:nil);
+        self.initBlock(error?[NSError errorWithDomain:@"om.mediation.heliumadapter" code:error.code userInfo:@{NSLocalizedDescriptionKey:@"The helium sdk init failed"}]:nil);
         self.initBlock = nil;
     }
 }

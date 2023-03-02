@@ -5,28 +5,27 @@
 #define OMHeliumClass_h
 
 NS_ASSUME_NONNULL_BEGIN
-typedef NS_ENUM( NSUInteger, HeliumErrorCode ) {
-    HeliumErrorCode_NoAdFound,
-    HeliumErrorCode_NoBid,
-    HeliumErrorCode_NoNetwork,
-    HeliumErrorCode_ServerError,
-    HeliumErrorCode_PartnerError,
-    HeliumErrorCode_StartUpError,
-    HeliumErrorCode_Unknown
-};
-@interface HeliumError : NSObject
-@property (assign,readonly) HeliumErrorCode errorCode;
-@property (nonatomic,readonly) NSString *errorDescription;
-@end
-
 
 @class UIViewController;
-@class HeliumError;
-
-
-// Forward Swift declarations
-@class HeliumError;
 @class HeliumKeywords;
+
+@interface ChartboostMediationError : NSError
+@property (nonatomic, readonly) enum ChartboostMediationErrorCode chartboostMediationCode;
+@property (nonatomic, readonly, copy) NSString * _Nonnull localizedDescription;
+/// Initializes the Chartboost Mediation error with the specified error code and description.
+/// \param code Chartboost Mediation error code.
+///
+/// \param description Human readable description of the error. This description will be available under the <code>NSLocalizedDescriptionKey</code>
+/// field of the <code>userInfo</code>.
+///
+///
+/// returns:
+/// An initialized Chartboost Mediation error.
+- (nonnull instancetype)initWithCode:(enum ChartboostMediationErrorCode)code description:(NSString * _Nullable)description error:(NSError * _Nullable)error;
+- (nonnull instancetype)initWithDomain:(NSString * _Nonnull)domain code:(NSInteger)code userInfo:(NSDictionary<NSString *, id> * _Nullable)dict;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder;
+@end
+
 
 #pragma mark - CHBHBannerSize
 
@@ -48,190 +47,174 @@ typedef NS_ENUM(NSInteger, CHBHBannerSize) {
 @protocol HeliumSdkDelegate <NSObject>
 /// Helium SDK has finished initializing.
 /// @param error Optional error if the Helium SDK did not initialize properly.
-- (void)heliumDidStartWithError:(nullable HeliumError *)error;
+- (void)heliumDidStartWithError:(nullable ChartboostMediationError *)error;
 @end
+
 
 #pragma mark - HeliumInterstitialAd
 
 /// Helium interstitial ad.
-@protocol HeliumInterstitialAd <NSObject>
-
+//SWIFT_PROTOCOL("_TtP22ChartboostMediationSDK20HeliumInterstitialAd_")
+@protocol HeliumInterstitialAd
 /// Optional keywords that can be associated with the advertisement placement.
-@property (nonatomic, retain, nullable) HeliumKeywords *keywords;
-
+@property (nonatomic, strong) HeliumKeywords * _Nullable keywords;
 /// Asynchronously loads an ad.
-/// When complete, the delegate method @c heliumInterstitialAdWithPlacementName:didLoadWithError: will
+/// When complete, the delegate method <code>heliumInterstitialAdWithPlacementName:requestIdentifier:didLoadWithError:</code> will
 /// be invoked.
-/// @returns A unique identifier for the load request. It can be ignored in most SDK integrations.
-- (NSString *)loadAd;
-
+- (void)loadAd;
 /// Clears the loaded ad.
-/// @returns @c YES if the loaded ad was cleared; @c NO is returned when there is no ad loaded.
-- (BOOL)clearLoadedAd;
-
+- (void)clearLoadedAd;
 /// Asynchronously shows the ad with the specified view controller.
-/// When complete, the delegate method @c heliumInterstitialAdWithPlacementName:didShowWithError: will
+/// When complete, the delegate method <code>heliumInterstitialAdWithPlacementName:didShowWithError:</code> will
 /// be invoked.
-/// @param vc View controller used to present the ad.
-- (void)showAdWithViewController:(UIViewController *)vc;
-
+/// \param viewController View controller used to present the ad.
+///
+- (void)showAdWithViewController:(UIViewController * _Nonnull)viewController;
 /// Indicates that the ad is ready to show.
 - (BOOL)readyToShow;
 @end
 
 #pragma mark - CHBHeliumInterstitialAdDelegate
 
-/// Callbacks for @c HeliumInterstitialAd
+/// Callbacks for <code>HeliumInterstitialAd</code>.
+//SWIFT_PROTOCOL("_TtP22ChartboostMediationSDK31CHBHeliumInterstitialAdDelegate_")
 @protocol CHBHeliumInterstitialAdDelegate <NSObject>
 /// Ad finished loading with an optional error.
-/// @param placementName Placement associated with the load completion.
-/// @param error Optional error associated with the ad load.
-- (void)heliumInterstitialAdWithPlacementName:(NSString *)placementName
-                             didLoadWithError:(nullable HeliumError *)error;
-
+/// \param placementName Placement associated with the load completion.
+///
+/// \param requestIdentifier A unique identifier for the load request. It can be ignored in most SDK integrations.
+///
+/// \param winningBidInfo Bid information JSON.
+///
+/// \param error Optional error associated with the ad load.
+///
+- (void)heliumInterstitialAdWithPlacementName:(NSString * _Nonnull)placementName requestIdentifier:(NSString * _Nonnull)requestIdentifier winningBidInfo:(NSDictionary<NSString *, id> * _Nullable)winningBidInfo didLoadWithError:(ChartboostMediationError * _Nullable)error;
 /// Ad finished showing with an optional error.
-/// @param placementName Placement associated with the show completion.
-/// @param error Optional error associated with the ad show.
-- (void)heliumInterstitialAdWithPlacementName:(NSString *)placementName
-                             didShowWithError:(nullable HeliumError *)error;
-
+/// \param placementName Placement associated with the show completion.
+///
+/// \param error Optional error associated with the ad show.
+///
+- (void)heliumInterstitialAdWithPlacementName:(NSString * _Nonnull)placementName didShowWithError:(ChartboostMediationError * _Nullable)error;
 /// Ad finished closing with an optional error.
-/// @param placementName Placement associated with the close completion.
-/// @param error Optional error associated with the ad close.
-- (void)heliumInterstitialAdWithPlacementName:(NSString *)placementName
-                            didCloseWithError:(nullable HeliumError *)error;
+/// \param placementName Placement associated with the close completion.
+///
+/// \param error Optional error associated with the ad close.
+///
+- (void)heliumInterstitialAdWithPlacementName:(NSString * _Nonnull)placementName didCloseWithError:(ChartboostMediationError * _Nullable)error;
 @optional
-/// Ad finished loading the winning bid.
-/// This callback will be invoked only upon a load success, and will be triggered after the
-/// @c heliumInterstitialAdWithPlacementName:didLoadWithError: callback.
-/// @param placementName Placement associated with the winning bid load completion.
-/// @param bidInfo Bid information JSON.
-- (void)heliumInterstitialAdWithPlacementName:(NSString *)placementName
-                    didLoadWinningBidWithInfo:(NSDictionary<NSString *, id> *)bidInfo;
-
 /// Ad click event with an optional error.
-/// @param placementName Placement associated with the click event.
-/// @param error Optional error associated with the click event.
-- (void)heliumInterstitialAdWithPlacementName:(NSString *)placementName
-                            didClickWithError:(nullable HeliumError *)error;
-
+/// \param placementName Placement associated with the click event.
+///
+/// \param error Optional error associated with the click event.
+///
+- (void)heliumInterstitialAdWithPlacementName:(NSString * _Nonnull)placementName didClickWithError:(ChartboostMediationError * _Nullable)error;
 /// Ad impression recorded by Helium as result of an ad being shown.
-/// @param placementName Placement associated with the impression event.
-- (void)heliumInterstitialAdDidRecordImpressionWithPlacementName:(NSString *)placementName;
+/// \param placementName Placement associated with the impression event.
+///
+- (void)heliumInterstitialAdDidRecordImpressionWithPlacementName:(NSString * _Nonnull)placementName;
 @end
+
 
 #pragma mark - HeliumRewardedAd
 
 /// Helium rewarded ad.
-@protocol HeliumRewardedAd <NSObject>
-
+//SWIFT_PROTOCOL("_TtP22ChartboostMediationSDK16HeliumRewardedAd_")
+@protocol HeliumRewardedAd
 /// Optional keywords that can be associated with the advertisement placement.
-@property (nonatomic, retain, nullable) HeliumKeywords *keywords;
-
+@property (nonatomic, strong) HeliumKeywords * _Nullable keywords;
 /// Optional custom data that will be sent on every rewarded callback.
 /// This property has a maximum length of 1000 characters. If the length exceeds the maximum,
-/// an error will be logged and this property will be set to @c nil.
-@property (nonatomic, copy, nullable) NSString *customData;
-
+/// an error will be logged and this property will be set to <code>nil</code>.
+@property (nonatomic, copy) NSString * _Nullable customData;
 /// Asynchronously loads an ad.
-/// When complete, the delegate method @c heliumRewardedAdWithPlacementName:didLoadWithError: will
+/// When complete, the delegate method <code>heliumRewardedAdWithPlacementName:requestIdentifier:didLoadWithError:</code> will
 /// be invoked.
-/// @returns A unique identifier for the load request. It can be ignored in most SDK integrations.
-- (NSString *)loadAd;
-
+- (void)loadAd;
 /// Clears the loaded ad.
-/// @returns @c YES if the loaded ad was cleared; @c NO is returned when there is no ad loaded.
-- (BOOL)clearLoadedAd;
-
+- (void)clearLoadedAd;
 /// Asynchronously shows the ad with the specified view controller.
-/// When complete, the delegate method @c heliumRewardedAdWithPlacementName:didShowWithError: will
+/// When complete, the delegate method <code>heliumRewardedAdWithPlacementName:didShowWithError:</code> will
 /// be invoked.
-/// @param vc View controller used to present the ad.
-- (void)showAdWithViewController:(UIViewController *)vc;
-
+/// \param viewController View controller used to present the ad.
+///
+- (void)showAdWithViewController:(UIViewController * _Nonnull)viewController;
 /// Indicates that the ad is ready to show.
 - (BOOL)readyToShow;
 @end
 
+
 #pragma mark - CHBHeliumRewardedAdDelegate
 
-/// Callbacks for @c HeliumRewardedAd
+/// Callbacks for <code>HeliumRewardedAd</code>.
+//SWIFT_PROTOCOL("_TtP22ChartboostMediationSDK27CHBHeliumRewardedAdDelegate_")
 @protocol CHBHeliumRewardedAdDelegate <NSObject>
 /// Ad finished loading with an optional error.
-/// @param placementName Placement associated with the load completion.
-/// @param error Optional error associated with the ad load.
-- (void)heliumRewardedAdWithPlacementName:(NSString *)placementName
-                         didLoadWithError:(nullable HeliumError *)error;
-
+/// \param placementName Placement associated with the load completion.
+///
+/// \param requestIdentifier A unique identifier for the load request. It can be ignored in most SDK integrations.
+///
+/// \param winningBidInfo Bid information JSON.
+///
+/// \param error Optional error associated with the ad load.
+///
+- (void)heliumRewardedAdWithPlacementName:(NSString * _Nonnull)placementName requestIdentifier:(NSString * _Nonnull)requestIdentifier winningBidInfo:(NSDictionary<NSString *, id> * _Nullable)winningBidInfo didLoadWithError:(ChartboostMediationError * _Nullable)error;
 /// Ad finished showing with an optional error.
-/// @param placementName Placement associated with the show completion.
-/// @param error Optional error associated with the ad show.
-- (void)heliumRewardedAdWithPlacementName:(NSString *)placementName
-                         didShowWithError:(nullable HeliumError *)error;
-
+/// \param placementName Placement associated with the show completion.
+///
+/// \param error Optional error associated with the ad show.
+///
+- (void)heliumRewardedAdWithPlacementName:(NSString * _Nonnull)placementName didShowWithError:(ChartboostMediationError * _Nullable)error;
 /// Ad finished closing with an optional error.
-/// @param placementName Placement associated with the close completion.
-/// @param error Optional error associated with the ad close.
-- (void)heliumRewardedAdWithPlacementName:(NSString *)placementName
-                        didCloseWithError:(nullable HeliumError *)error;
-
+/// \param placementName Placement associated with the close completion.
+///
+/// \param error Optional error associated with the ad close.
+///
+- (void)heliumRewardedAdWithPlacementName:(NSString * _Nonnull)placementName didCloseWithError:(ChartboostMediationError * _Nullable)error;
 /// Ad finished playing allowing the user to earn a reward.
-/// @param placementName Placement associated with the reward event.
-/// @param reward The earned reward.
-- (void)heliumRewardedAdWithPlacementName:(NSString *)placementName
-                             didGetReward:(NSInteger)reward;
+/// \param placementName Placement associated with the reward event.
+///
+- (void)heliumRewardedAdDidGetRewardWithPlacementName:(NSString * _Nonnull)placementName;
 @optional
-
-/// Ad finished loading the winning bid.
-/// This callback will be invoked only upon a load success, and will be triggered after the
-/// @c heliumRewardedAdWithPlacementName:didLoadWithError: callback.
-/// @param placementName Placement associated with the winning bid load completion.
-/// @param bidInfo Bid information JSON.
-- (void)heliumRewardedAdWithPlacementName:(NSString *)placementName
-                didLoadWinningBidWithInfo:(NSDictionary<NSString *, id> *)bidInfo;
-
 /// Ad click event with an optional error.
-/// @param placementName Placement associated with the click event.
-/// @param error Optional error associated with the click event.
-- (void)heliumRewardedAdWithPlacementName:(NSString *)placementName
-                        didClickWithError:(nullable HeliumError *)error;
-
+/// \param placementName Placement associated with the click event.
+///
+/// \param error Optional error associated with the click event.
+///
+- (void)heliumRewardedAdWithPlacementName:(NSString * _Nonnull)placementName didClickWithError:(ChartboostMediationError * _Nullable)error;
 /// Ad impression recorded by Helium as result of an ad being shown.
-/// @param placementName Placement associated with the impression event.
-- (void)heliumRewardedAdDidRecordImpressionWithPlacementName:(NSString *)placementName;
+/// \param placementName Placement associated with the impression event.
+///
+- (void)heliumRewardedAdDidRecordImpressionWithPlacementName:(NSString * _Nonnull)placementName;
 @end
 
 #pragma mark - HeliumBannerAd
 
 /// Helium banner ad.
-@protocol HeliumBannerAd <NSObject>
-
+//SWIFT_PROTOCOL("_TtP22ChartboostMediationSDK14HeliumBannerAd_")
+@protocol HeliumBannerAd
 /// Optional keywords that can be associated with the advertisement placement.
 /// Note that changing the keywords for an already-loaded banner will not take effect until the
 /// next auto-refresh load.
-@property (nonatomic, retain, nullable) HeliumKeywords *keywords;
-
+@property (nonatomic, strong) HeliumKeywords * _Nullable keywords;
 /// Asynchronously loads an ad.
-/// When complete, the delegate method @c heliumBannerAdWithPlacementName:didLoadWithError: will
+/// When complete, the delegate method <code>heliumBannerAdWithPlacementName:didLoadWithError:</code> will
 /// be invoked.
-/// When the banner view is visible in the app's view hierarchy it will automatically present the loaded ad.
+/// When the banner view is visible in the app’s view hierarchy it will automatically present the loaded ad.
 /// Calling this method will start the banner auto-refresh process.
-/// Only one @c heliumBannerAdWithPlacementName:didLoadWithError: call will be made per @c loadAdWithViewController:
+/// Only one <code>heliumBannerAdWithPlacementName:didLoadWithError:</code> call will be made per <code>load(with:)</code>
 /// call, even if more ads are loaded as result of the banner auto-refresh process.
-/// @param viewController View controller used to present the ad.
-/// @returns A unique identifier for the load request. It can be ignored in most SDK integrations.
-- (NSString *)loadAdWithViewController:(UIViewController *)viewController;
-
+/// \param viewController View controller used to present the ad.
+///
+- (void)loadAdWithViewController:(UIViewController * _Nonnull)viewController;
 /// Clears the loaded ad, removes the currently presented ad if any, and stops the auto-refresh process.
-/// @returns @c YES if the loaded ad was cleared; @c NO is returned when there is no ad loaded.
-- (BOOL)clearAd;
-
+- (void)clearAd;
 @end
 
 // Forward Swift declarations
 @protocol CHBHeliumBannerAdDelegate;
 
 @class HeliumBannerView;
+@class HeliumInitializationOptions;
 
 /// Helium SDK entrypoint.
 @interface Helium : NSObject
@@ -246,8 +229,12 @@ typedef NS_ENUM(NSInteger, CHBHBannerSize) {
 /// This method must be called before ads can be served.
 /// @param appId Application identifier from the Chartboost dashboard.
 /// @param appSignature Application signature from the Chartboost dashboard.
+/// @param options Optional initialization options.
 /// @param delegate Optional delegate used to listen for the SDK initialization callback.
-- (void)startWithAppId:(NSString *)appId andAppSignature:(NSString *)appSignature delegate:(nullable id<HeliumSdkDelegate>)delegate;
+- (void)startWithAppId:(NSString *)appId
+       andAppSignature:(NSString *)appSignature
+               options:(nullable HeliumInitializationOptions *)options
+              delegate:(nullable id<HeliumSdkDelegate>)delegate;
 
 #pragma mark - Ad Providers
 
@@ -308,6 +295,12 @@ typedef NS_ENUM(NSInteger, CHBHBannerSize) {
 /// @param name Game engine name.
 /// @param version Game engine version.
 - (void)setGameEngineName:(nullable NSString *)name version:(nullable NSString *)version;
+
+#pragma mark - SDK Information
+
+/// The Helium SDK version.
+/// The value is a semantic versioning compliant string.
+@property (nonatomic, class, readonly) NSString *sdkVersion;
 
 @end
 

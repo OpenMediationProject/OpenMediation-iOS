@@ -33,21 +33,13 @@
 }
 
 
-#pragma mark -- OMHeliumAdapterDelegate
+#pragma mark -- OMHeliumAdapterDelegatef
 
-- (void)omHeliumDidLoadWithError:(nullable HeliumError *)error {
+- (void)omHeliumDidLoadWithError:(nullable ChartboostMediationError *)error {
     if (!error && [self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     } else if(error) {
-        SEL descriptionSel = NSSelectorFromString(@"localizedDescription");
-        NSString *errorDescription = @"The ad no fill";
-        if ([error respondsToSelector:descriptionSel]) {
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            errorDescription = [error performSelector:descriptionSel];
-            #pragma clang diagnostic pop
-        }
-        NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.bid" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:errorDescription}];
+        NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.bid" code:error.code userInfo:@{NSLocalizedDescriptionKey:error.localizedDescription}];
         if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
             [_delegate customEvent:self didFailToLoadWithError:cerror];
         }
@@ -59,10 +51,10 @@
     
 }
 
-- (void)omHeliumDidShowWithError:(HeliumError *)error {
+- (void)omHeliumDidShowWithError:(ChartboostMediationError *)error {
     if (error) {
         if(error && _delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
-            NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.bid" code:error.errorCode userInfo:@{NSLocalizedDescriptionKey:@"The ad failed to show"}];
+            NSError *cerror = [[NSError alloc] initWithDomain:@"com.helium.bid" code:error.code userInfo:@{NSLocalizedDescriptionKey:@"The ad failed to show"}];
             [_delegate rewardedVideoCustomEventDidFailToShow:self withError:cerror];
         }
     } else {
@@ -75,14 +67,14 @@
     }
 }
 
-- (void)omHeliumDidClickWithError:(HeliumError *)error {
+- (void)omHeliumDidClickWithError:(ChartboostMediationError *)error {
     if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
         [_delegate rewardedVideoCustomEventDidClick:self];
     }
     
 }
 
-- (void)omHeliumDidCloseWithError:(HeliumError *)error {
+- (void)omHeliumDidCloseWithError:(ChartboostMediationError *)error {
     
     if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]) {
         [_delegate rewardedVideoCustomEventVideoEnd:self];
@@ -93,7 +85,7 @@
     }
 }
 
-- (void)omHeliumDidGetReward:(NSInteger)reward {
+- (void)omHeliumDidGetReward:(NSString*)pid {
     if(_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
         [_delegate rewardedVideoCustomEventDidReceiveReward:self];
     }
