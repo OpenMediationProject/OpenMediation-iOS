@@ -3,16 +3,15 @@
 
 #import <Foundation/Foundation.h>
 #import "OMVungleClass.h"
-#import "OMVungleRouter.h"
 #import "OMBannerCustomEvent.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OMVungleBanner : UIView <OMBannerCustomEvent,OMVungleAdapterDelegate>
+@interface OMVungleBanner : UIView <OMBannerCustomEvent,VungleBannerDelegate>
 
 @property (nonatomic, copy) NSString *pid;
-@property (nonatomic, strong) UIView *renderView;
+@property (nonatomic, strong) VungleBanner *bannerView;
 @property (nonatomic, assign) BOOL adShow;
 @property (nonatomic, weak, nullable) id<bannerCustomEventDelegate> delegate;
 

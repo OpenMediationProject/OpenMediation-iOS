@@ -193,4 +193,10 @@
     }
 }
 
+- (void)adDidShowFail:(id<PAGAdProtocol>)ad error:(NSError *)error {
+    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
+        [_delegate rewardedVideoCustomEventDidFailToShow:self withError:error];
+    }
+}
+
 @end

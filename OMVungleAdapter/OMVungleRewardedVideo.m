@@ -2,81 +2,90 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMVungleRewardedVideo.h"
-
+#import "OMVungleAdapter.h"
 
 @implementation OMVungleRewardedVideo
 
-- (instancetype)initWithParameter:(NSDictionary*)adParameter  {
+- (instancetype)initWithParameter:(NSDictionary*)adParameter {
     if (self = [super init]) {
         _pid = [adParameter objectForKey:@"pid"];
-        [[OMVungleRouter sharedInstance]registerPidDelegate:_pid delegate:self];
+        
     }
     return self;
 }
-- (void)loadAd  {
-    [[OMVungleRouter sharedInstance]loadPlacmentID:_pid];
-}
 
-- (void)loadAdWithBidPayload:(NSString *)bidPayload {
-    [self loadAd];
+- (void)loadAd {
+    Class vungleClass = NSClassFromString(@"_TtC12VungleAdsSDK14VungleRewarded");
+    if (vungleClass && [vungleClass instancesRespondToSelector:@selector(initWithPlacementId:)] && [vungleClass respondsToSelector:@selector(load)]) {
+        _videoAd = [[vungleClass alloc] initWithPlacementId:_pid];;
+        _videoAd.delegate = self;
+        [_videoAd load:nil];
+    }
 }
 
 - (BOOL)isReady {
-    return [[OMVungleRouter sharedInstance]isAdAvailableForPlacementID:_pid];
+    BOOL isReady = NO;
+    if (_videoAd && [_videoAd respondsToSelector:@selector(canPlayAd)]) {
+        isReady = _videoAd.canPlayAd;
+    }
+    return isReady;
 }
 
-- (void)show:(UIViewController*)vc {
-    [[OMVungleRouter sharedInstance]showAdFromViewController:vc forPlacementId:_pid];
+- (void)show:(UIViewController *)vc {
+    if ([self isReady]) {
+        [_videoAd presentWith:vc];
+    }
 }
 
-#pragma mark --
-- (void)omVungleDidload {
-    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+- (void)rewardedAdDidLoad:(VungleRewarded * _Nonnull)rewarded {
+    if ([self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
 }
-
-- (void)omVungleDidFailToLoad:(NSError*)error {
+- (void)rewardedAdDidFailToLoad:(VungleRewarded * _Nonnull)rewarded withError:(NSError * _Nonnull)withError {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
-        [_delegate customEvent:self didFailToLoadWithError:error];
+        [_delegate customEvent:self didFailToLoadWithError:withError];
     }
 }
-
-- (void)omVungleDidStart {
-    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
-        [_delegate rewardedVideoCustomEventDidOpen:self];
-    }
+- (void)rewardedAdDidPresent:(VungleRewarded * _Nonnull)rewarded {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoStart:)]) {
         [_delegate rewardedVideoCustomEventVideoStart:self];
     }
-}
-
-- (void)omVungleShowFailed:(NSError*)error {
-    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
-        [_delegate rewardedVideoCustomEventDidFailToShow:self withError:error];
+    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidOpen:)]) {
+        [_delegate rewardedVideoCustomEventDidOpen:self];
     }
 }
-
-
-- (void)omVungleDidClick {
+- (void)rewardedAdDidFailToPresent:(VungleRewarded * _Nonnull)rewarded withError:(NSError * _Nonnull)withError {
+    if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
+        [_delegate rewardedVideoCustomEventDidFailToShow:self withError:withError];
+    }
+}
+- (void)rewardedAdDidClick:(VungleRewarded * _Nonnull)rewarded {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
         [_delegate rewardedVideoCustomEventDidClick:self];
     }
 }
-
-- (void)omVungleRewardedVideoEnd {
+- (void)rewardedAdDidClose:(VungleRewarded * _Nonnull)rewarded {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]) {
         [_delegate rewardedVideoCustomEventVideoEnd:self];
     }
-}
-
-- (void)omVungleDidFinish:(BOOL)skipped {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClose:)]) {
         [_delegate rewardedVideoCustomEventDidClose:self];
     }
 }
-
-- (void)omVungleDidReceiveReward {
+- (void)rewardedAdWillPresent:(VungleRewarded * _Nonnull)rewarded {
+    
+}
+- (void)rewardedAdWillClose:(VungleRewarded * _Nonnull)rewarded {
+    
+}
+- (void)rewardedAdDidTrackImpression:(VungleRewarded * _Nonnull)rewarded {
+    
+}
+- (void)rewardedAdWillLeaveApplication:(VungleRewarded * _Nonnull)rewarded {
+    
+}
+- (void)rewardedAdDidRewardUser:(VungleRewarded * _Nonnull)rewarded {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
         [_delegate rewardedVideoCustomEventDidReceiveReward:self];
     }

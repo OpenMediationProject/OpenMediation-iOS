@@ -7,13 +7,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-///CN china, NO_CN is not china
-typedef NS_ENUM(NSUInteger, BUAdSDKTerritory) {
-    BUAdSDKTerritory_CN = 1,
-    BUAdSDKTerritory_NO_CN,
-};
-
-
 typedef NS_ENUM(NSInteger, BUInteractionType) {
     BUInteractionTypeCustorm = 0,
     BUInteractionTypeNO_INTERACTION = 1,  // pure ad display
@@ -25,25 +18,6 @@ typedef NS_ENUM(NSInteger, BUInteractionType) {
     BUInteractionTypeEmail = 7,           // send email
     BUInteractionTypeVideoAdDetail = 8    // video ad details page
 };
-
-typedef NS_ENUM(NSInteger, BUFeedADMode) {
-    BUFeedADModeSmallImage = 2,
-    BUFeedADModeLargeImage = 3,
-    BUFeedADModeGroupImage = 4,
-    BUFeedVideoAdModeImage = 5, // video ad || rewarded video ad horizontal screen
-    BUFeedVideoAdModePortrait = 15, // rewarded video ad vertical screen
-    BUFeedADModeImagePortrait = 16
-};
-
-typedef NS_ENUM(NSInteger, BUAdSDKLogLevel) {
-    BUAdSDKLogLevelNone,
-    BUAdSDKLogLevelError,
-    BUAdSDKLogLevelWarning,
-    BUAdSDKLogLevelInfo,
-    BUAdSDKLogLevelDebug,
-    BUAdSDKLogLevelVerbose,
-};
-
 
 typedef NS_ENUM(NSInteger, BUProposalSize) {
     BUProposalSize_Banner600_90,
@@ -138,7 +112,6 @@ typedef void (^BUConfirmGDPR)(BOOL isAgreed);
 typedef void (^BUCompletionHandler)(BOOL success,NSError *error);
 
  __attribute__((objc_subclassing_restricted))
-
 @interface BUAdSDKManager : BUInterfaceBaseObject
 
 @property (nonatomic, copy, readonly, class) NSString *SDKVersion;
@@ -154,19 +127,84 @@ typedef void (^BUCompletionHandler)(BOOL success,NSError *error);
 /// @param completionHandler Callback to the initialization state of the non-main thread
 + (void)startWithAsyncCompletionHandler:(BUCompletionHandler)completionHandler;
 
-/// Open GDPR Privacy for the user to choose before setAppID.
-+ (void)openGDPRPrivacyFromRootViewController:(UIViewController *)rootViewController confirm:(BUConfirmGDPR)confirm;
+@end
+
+@class BUAdSlot;
+
+typedef NS_ENUM(NSInteger, BUAdSDKAgeGroup) {
+    BUAdSDKAgeGroupAdult        = 0, // Default
+    BUAdSDKAgeGroupTeenager     = 1, // Age 15~18
+    BUAdSDKAgeGroupMinor        = 2, // Age < 15
+};
+typedef NS_ENUM(NSInteger, BUAdSDKThemeStatus) {
+    BUAdSDKThemeStatus_Normal = 0,
+    BUAdSDKThemeStatus_Night  = 1,
+};
+typedef NS_ENUM(NSInteger, BUOfflineType) {
+    BUOfflineTypeNone,  // Do not set offline
+    BUOfflineTypeWebview, // Offline dependence WKWebview
+};
+
+@interface BUAdSDKManager (MopubAdaptor) <BUMopubAdMarkUpDelegate>
 
 @end
 
+@interface BUAdSDKManager (BUAdNR)
++ (NSString *)bunr_dictionaryWithSlot:(BUAdSlot *)slot isDynamicRender:(BOOL)isDynamicRender;
+@end
+
+
 @interface BUAdSDKManager (InterfaceReadyReplacement)
+
+/**
+ Register the App key that’s already been applied before requesting an ad from TikTok Audience Network.
+ @param appID : the unique identifier of the App
+ */
 + (void)setAppID:(NSString *)appID;
-+ (void)setGDPR:(NSInteger)GDPR;
-+ (void)setTerritory:(BUAdSDKTerritory)territory;
-+ (void)setLoglevel:(BUAdSDKLogLevel)level;
-+ (void)setCoppa:(NSInteger)coppa;
-+ (void)setCCPA:(NSInteger)CCPA;
-@end;
+
+/**
+ @param  secretKey the unique identifier of the App, more safely
+ */
++ (void)setSecretKey:(NSString *)secretKey;
+
+/* Set the age group of the user, the interface only works only works in CN environment.
+ * @params ageGroup: default BUAdSDKAgeGroupAdult
+ */
++ (void)setAgeGroup:(BUAdSDKAgeGroup)ageGroup;
+
+/// set additional user information.
++ (void)setUserExtData:(NSString *)data;
+
+/// Solve the problem when your WKWebview post message empty,default is BUOfflineTypeWebview
++ (void)setOfflineType:(BUOfflineType)type;
+
+/// Custom set the AB vid of the user. Array element type is NSNumber
++ (void)setABVidArray:(NSArray<NSNumber *> *)abvids;
+
+/// Custom set the tob ab sdk version of the user.
++ (void)setABSDKVersion:(NSString *)abSDKVersion;
+
+
+/// Custom set idfa value
++ (void)setCustomIDFA:(NSString *)idfa;
+
+
+
++ (void)setThemeStatus:(BUAdSDKThemeStatus)themeStatus;
+
+/// get appID
++ (NSString *)appID;
+
+/**
+ Whether to allow SDK to modify the category and options of AVAudioSession when playing audio, default is NO.
+ The category set by the SDK is AVAudioSessionCategoryAmbient, and the options are AVAudioSessionCategoryOptionDuckOthers
+ */
++ (void)allowModifyAudioSessionSetting:(BOOL)isAllow;
+
+
++ (BUAdSDKThemeStatus)themeStatus;
+
+@end
 
 @interface BUSize : NSObject
 
@@ -247,6 +285,13 @@ typedef void (^BUCompletionHandler)(BOOL success,NSError *error);
 
 @end
 
+@interface BUAdSDKConfiguration : NSObject
++ (instancetype)configuration;
+
+/// Custom set the debugLog to print debug Log.
+/// debugLog 0: close debug log, 1: open debug log.
+@property (nonatomic, strong) NSNumber *debugLog;
+@end
 
 // 海外基础协议方法
 
@@ -266,6 +311,7 @@ typedef void (^BUCompletionHandler)(BOOL success,NSError *error);
 - (void)adDidShow:(id<PAGAdProtocol>)ad;
 - (void)adDidClick:(id<PAGAdProtocol>)ad;
 - (void)adDidDismiss:(id<PAGAdProtocol>)ad;
+- (void)adDidShowFail:(id<PAGAdProtocol>)ad error:(NSError *)error;
 @end
 
 typedef NS_ENUM(NSInteger, PAGAdSDKThemeStatus) {

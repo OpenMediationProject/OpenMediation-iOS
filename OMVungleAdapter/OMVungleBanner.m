@@ -8,58 +8,77 @@
 - (instancetype)initWithFrame:(CGRect)frame adParameter:(NSDictionary *)adParameter rootViewController:(UIViewController *)rootViewController {
     if (self = [super initWithFrame:frame]) {
         _pid = [adParameter objectForKey:@"pid"];
-        [[OMVungleRouter sharedInstance]registerPidDelegate:_pid delegate:self];
+        Class bannerViewClass = NSClassFromString(@"_TtC12VungleAdsSDK12VungleBanner");
+        if (bannerViewClass) {
+            _bannerView = [[bannerViewClass alloc] initWithPlacementId:_pid size:[self convertWithSize:frame.size]];
+            _bannerView.delegate = self;
+        }
     }
     return self;
 }
 
+- (BannerSize)convertWithSize:(CGSize)size {
+    if (size.width == 320 && size.height == 50) {
+        return BannerSizeRegular;
+    } else if (size.width == 728 && size.height == 90) {
+        return BannerSizeLeaderboard;
+    } else if (size.width == 300 && size.height == 250) {
+        return BannerSizeMrec;
+    }else{
+        return BannerSizeShort;
+    }
+}
+
+
 - (void)loadAd {
-    _adShow = NO;
-    [[OMVungleRouter sharedInstance]loadBannerWithsize:self.frame.size PlacementID:_pid];
+    [_bannerView load:nil];
 }
 
-- (void)renderBanner {
-    
-    Class vungleClass = NSClassFromString(@"VungleSDK");
-    if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)] && [vungleClass instancesRespondToSelector:@selector(addAdViewToView:withOptions:placementID:error:)]) {
-        VungleSDK *vungle = [vungleClass sharedSDK];
-        _renderView = [[UIView alloc]initWithFrame:self.bounds];
-        [self addSubview:_renderView];
-        NSError *error;
-        [vungle addAdViewToView:_renderView withOptions:nil placementID:self.pid error:&error];
-    }
-    
-}
-
-- (void)omVungleDidload {
-    if (!_adShow) {
-        _adShow = YES;
-        [self renderBanner];
-        if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
-            [_delegate customEvent:self didLoadAd:nil];
-        }
+- (void)bannerAdDidLoad:(VungleBanner * _Nonnull)bavnner {
+    if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
+        [_delegate customEvent:self didLoadAd:nil];
+        [_bannerView presentOn:self];
     }
 }
-
-- (void)omVungleDidFailToLoad:(NSError*)error {
+- (void)bannerAdDidFailToLoad:(VungleBanner * _Nonnull)banner withError:(NSError * _Nonnull)withError {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
-        [_delegate customEvent:self didFailToLoadWithError:error];
+        [_delegate customEvent:self didFailToLoadWithError:withError];
     }
 }
 
-- (void)omVungleDidClick {
+- (void)bannerAdDidClick:(VungleBanner * _Nonnull)banner {
     if (_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventDidClick:)]) {
         [_delegate bannerCustomEventDidClick:self];
     }
 }
-
-- (void)omVungleDidFinish:(BOOL)skipped {
-    _adShow = NO;
-}
-
-- (void)omVungleWillLeaveApplication {
+- (void)bannerAdWillLeaveApplication:(VungleBanner * _Nonnull)banner {
     if (_delegate && [_delegate respondsToSelector:@selector(bannerCustomEventWillLeaveApplication:)]) {
         [_delegate bannerCustomEventWillLeaveApplication:self];
     }
 }
+
+- (void)bannerAdWillPresent:(VungleBanner * _Nonnull)banner {
+    
+}
+
+- (void)bannerAdDidPresent:(VungleBanner * _Nonnull)banner {
+    
+}
+
+- (void)bannerAdDidFailToPresent:(VungleBanner * _Nonnull)banner withError:(NSError * _Nonnull)withError {
+    
+}
+
+- (void)bannerAdWillClose:(VungleBanner * _Nonnull)banner {
+    
+}
+
+- (void)bannerAdDidClose:(VungleBanner * _Nonnull)banner {
+    
+}
+
+- (void)bannerAdDidTrackImpression:(VungleBanner * _Nonnull)banner{
+    
+}
+
 @end

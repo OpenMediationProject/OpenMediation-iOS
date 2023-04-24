@@ -15,11 +15,6 @@
 @property(nonatomic, nonnull, readonly) NSString *sdkVersion;
 @end
 
-@interface VungleSDK : NSObject
-+ (VungleSDK *)sharedSDK;
-- (NSDictionary *)debugInfo;
-@end
-
 @interface UnityAds : NSObject
 + (NSString *)getVersion;
 @end
@@ -160,7 +155,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkAdMob):@"GADMobileAds",
             @(OMAdNetworkFacebook):@"FBAdSettings",
             @(OMAdNetworkUnityAds):@"UnityAds",
-            @(OMAdNetworkVungle):@"VungleSDK",
+            @(OMAdNetworkVungle):@"_TtC12VungleAdsSDK9VungleAds",
             @(OMAdNetworkTencentAd):@"GDTSDKConfig",
             @(OMAdNetworkAdColony):@"AdColony",
             @(OMAdNetworkAppLovin):@"ALSdk",
@@ -168,7 +163,7 @@ static OMMediations *_instance = nil;
             @(OMAdNetworkGoogleAd):@"GADMobileAds",
             @(OMAdNetworkTapjoy):@"Tapjoy",
             @(OMAdNetworkChartboost):@"Chartboost",
-            @(OMAdNetworkPangle):@"BUAdSDKManager",
+            @(OMAdNetworkPangle):NSClassFromString(@"BUAdSDKManager")?@"BUAdSDKManager":@"PAGSdk",
             @(OMAdNetworkMintegral):@"MTGSDK",
             @(OMAdNetworkIronSource):@"IronSource",
             @(OMAdNetworkHelium):@"Helium",
@@ -201,14 +196,14 @@ static OMMediations *_instance = nil;
     if ([self.adnSdkClassMap objectForKey:@(adnID)]) {
         sdkClass = NSClassFromString([self.adnSdkClassMap objectForKey:@(adnID)]);
     }
-
+    
     switch (adnID) {
         case OMAdNetworkAdTiming:
-            {
-                if (sdkClass && [sdkClass respondsToSelector:@selector(SDKVersion)]) {
-                    sdkVersion = [sdkClass SDKVersion];
-                }
+        {
+            if (sdkClass && [sdkClass respondsToSelector:@selector(SDKVersion)]) {
+                sdkVersion = [sdkClass SDKVersion];
             }
+        }
             break;
         case OMAdNetworkAdMob:
         {
@@ -234,14 +229,8 @@ static OMMediations *_instance = nil;
             break;
         case OMAdNetworkVungle:
         {
-            if (sdkClass && [sdkClass respondsToSelector:@selector(sharedSDK)]) {
-                VungleSDK *vungle = [sdkClass sharedSDK];
-                if (vungle && [vungle respondsToSelector:@selector(debugInfo)]) {
-                    NSDictionary *dic = [vungle debugInfo];
-                    if (dic[@"version"]) {
-                        sdkVersion = dic[@"version"];
-                    }
-                }
+            if (sdkClass && [sdkClass respondsToSelector:@selector(sdkVersion)]) {
+                sdkVersion = [sdkClass sdkVersion];
             }
         }
             break;
@@ -261,12 +250,12 @@ static OMMediations *_instance = nil;
             break;
         case OMAdNetworkMopub:
         {
-//            if (sdkClass && [sdkClass respondsToSelector:@selector(sharedInstance)]) {
-//                MoPub *mopub = [sdkClass sharedInstance];
-//                if ([mopub respondsToSelector:@selector(version)]) {
-//                    sdkVersion = [mopub version];
-//                }
-//            }
+            //            if (sdkClass && [sdkClass respondsToSelector:@selector(sharedInstance)]) {
+            //                MoPub *mopub = [sdkClass sharedInstance];
+            //                if ([mopub respondsToSelector:@selector(version)]) {
+            //                    sdkVersion = [mopub version];
+            //                }
+            //            }
         }
             break;
         case OMAdNetworkGoogleAd:
@@ -413,14 +402,14 @@ static OMMediations *_instance = nil;
                 [_adnSDKInitState setObject:[NSNumber numberWithInteger:OMAdnSDKInitStateInitializing] forKey:[NSString stringWithFormat:@"%zd",adnID]];
                 
                 [adapterClass initSDKWithConfiguration:@{@"appKey":key,@"pids":pids} completionHandler:^(NSError * _Nullable error) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            OMAdnSDKInitState state = error?OMAdnSDKInitStateDefault:OMAdnSDKInitStateInitialized;
-                            [weakSelf.adnSDKInitState setObject:[NSNumber numberWithInteger:state] forKey:[NSString stringWithFormat:@"%zd",adnID]];
-                            NSArray *completionBlocks = [weakSelf.adnInitCompletionBlocks objectForKey:@(adnID)];
-                            for (OMMediationInitCompletionBlock completionHandler in completionBlocks) {
-                                completionHandler(error);
-                            }
-                        });
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        OMAdnSDKInitState state = error?OMAdnSDKInitStateDefault:OMAdnSDKInitStateInitialized;
+                        [weakSelf.adnSDKInitState setObject:[NSNumber numberWithInteger:state] forKey:[NSString stringWithFormat:@"%zd",adnID]];
+                        NSArray *completionBlocks = [weakSelf.adnInitCompletionBlocks objectForKey:@(adnID)];
+                        for (OMMediationInitCompletionBlock completionHandler in completionBlocks) {
+                            completionHandler(error);
+                        }
+                    });
                 }];
                 if (userData.consent >=0 && [adapterClass respondsToSelector:@selector(setConsent:)]) {
                     [adapterClass setConsent:(BOOL)userData.consent];
@@ -458,23 +447,23 @@ static OMMediations *_instance = nil;
                 [_adnSDKInitState setObject:[NSNumber numberWithInteger:OMAdnSDKInitStateInitializing] forKey:[NSString stringWithFormat:@"%zd",adnID]];
                 
                 [adapterClass initSDKWithConfiguration:@{@"appKey":key,@"pids":pids} completionHandler:^(NSError * _Nullable error) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            OMAdnSDKInitState state = error?OMAdnSDKInitStateDefault:OMAdnSDKInitStateInitialized;
-                            [weakSelf.adnSDKInitState setObject:[NSNumber numberWithInteger:state] forKey:[NSString stringWithFormat:@"%zd",adnID]];
-                            NSArray *completionBlocks = [weakSelf.adnInitCompletionBlocks objectForKey:@(adnID)];
-                            for (OMMediationInitCompletionBlock completionHandler in completionBlocks) {
-                                completionHandler(error);
-                            }
-                            [weakSelf.adnInitCompletionBlocks setObject:@[] forKey:@(adnID)];
-                        });
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        OMAdnSDKInitState state = error?OMAdnSDKInitStateDefault:OMAdnSDKInitStateInitialized;
+                        [weakSelf.adnSDKInitState setObject:[NSNumber numberWithInteger:state] forKey:[NSString stringWithFormat:@"%zd",adnID]];
+                        NSArray *completionBlocks = [weakSelf.adnInitCompletionBlocks objectForKey:@(adnID)];
+                        for (OMMediationInitCompletionBlock completionHandler in completionBlocks) {
+                            completionHandler(error);
+                        }
+                        [weakSelf.adnInitCompletionBlocks setObject:@[] forKey:@(adnID)];
+                    });
                 }];
             }
         }
         
     }else {
         NSError *error = [[NSError alloc] initWithDomain:@"com.om.mediations"
-            code:400
-        userInfo:@{NSLocalizedDescriptionKey:@"Init adn failed,sdk or adapter not found"}];
+                                                    code:400
+                                                userInfo:@{NSLocalizedDescriptionKey:@"Init adn failed,sdk or adapter not found"}];
         completionHandler(error);
     }
 }

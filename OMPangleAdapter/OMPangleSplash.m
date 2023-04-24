@@ -145,4 +145,10 @@
     }
 }
 
+- (void)adDidShowFail:(id<PAGAdProtocol>)ad error:(NSError *)error {
+    if (_delegate && [_delegate respondsToSelector:@selector(splashCustomEventFailToShow:error:)]) {
+        [_delegate splashCustomEventFailToShow:self error:error];
+    }
+}
+
 @end

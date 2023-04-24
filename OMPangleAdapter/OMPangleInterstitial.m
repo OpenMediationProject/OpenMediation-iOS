@@ -92,6 +92,12 @@
     }
 }
 
+- (void)adDidShowFail:(id<PAGAdProtocol>)ad error:(NSError *)error {
+    if (_delegate && [_delegate respondsToSelector:@selector(interstitialCustomEventDidFailToShow:error:)]) {
+        [_delegate interstitialCustomEventDidFailToShow:self error:error];
+    }
+}
+
 // 国内
 
 #pragma mark BUNativeExpressFullscreenVideoAdDelegate

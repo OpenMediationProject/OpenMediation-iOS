@@ -2,7 +2,6 @@
 // Licensed under the GNU Lesser General Public License Version 3
 
 #import "OMVungleAdapter.h"
-#import "OMVungleRouter.h"
 
 @implementation OMVungleAdapter
 
@@ -11,39 +10,33 @@
 }
 
 + (void)setConsent:(BOOL)consent {
-    Class vungleClass = NSClassFromString(@"VungleSDK");
-    if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)]) {
-        VungleSDK *vungle = [vungleClass sharedSDK];
-        if (vungle && [vungle respondsToSelector:@selector(updateConsentStatus:consentMessageVersion:)]) {
-            [vungle updateConsentStatus:(consent?VungleConsentAccepted:VungleConsentDenied) consentMessageVersion:@"6.7.0"];
-        }
+    Class vungleSettingsClass = NSClassFromString(@"_TtC12VungleAdsSDK21VunglePrivacySettings");
+    if (vungleSettingsClass && [vungleSettingsClass respondsToSelector:@selector(setGDPRStatus:)]) {
+        id settings = [[vungleSettingsClass alloc] init];
+        [settings setGDPRStatus:consent?ConsentStatusAccepted:ConsentStatusDenied];
     }
 }
 
 + (void)setUSPrivacyLimit:(BOOL)privacyLimit {
-    Class vungleClass = NSClassFromString(@"VungleSDK");
-    if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)]) {
-        VungleSDK *vungle = [vungleClass sharedSDK];
-        if (vungle && [vungle respondsToSelector:@selector(updateCCPAStatus:)]) {
-            [vungle updateCCPAStatus:(privacyLimit?VungleCCPAAccepted:VungleCCPADenied)];
-        }
+    Class vungleSettingsClass = NSClassFromString(@"_TtC12VungleAdsSDK21VunglePrivacySettings");
+    if (vungleSettingsClass && [vungleSettingsClass respondsToSelector:@selector(setCCPAStatus:)]) {
+        id settings = [[vungleSettingsClass alloc] init];
+        [settings setCCPAStatus:privacyLimit?YES:NO];
     }
 }
 
 + (void)setUserAgeRestricted:(BOOL)restricted {
-    Class vungleClass = NSClassFromString(@"VungleSDK");
-    if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)]) {
-        VungleSDK *vungle = [vungleClass sharedSDK];
-        if (vungle && [vungle respondsToSelector:@selector(updateCOPPAStatus:)]) {
-            [vungle updateCOPPAStatus:(restricted?YES:NO)];
-        }
+    Class vungleSettingsClass = NSClassFromString(@"_TtC12VungleAdsSDK21VunglePrivacySettings");
+    if (vungleSettingsClass && [vungleSettingsClass respondsToSelector:@selector(setCOPPAStatus:)]) {
+        id settings = [[vungleSettingsClass alloc] init];
+        [settings setCOPPAStatus:restricted?YES:NO];
     }
 }
 
 + (void)initSDKWithConfiguration:(NSDictionary *)configuration completionHandler:(OMMediationAdapterInitCompletionBlock)completionHandler {
     NSString *key = [configuration objectForKey:@"appKey"];
     
-    Class vungleClass = NSClassFromString(@"VungleSDK");
+    Class vungleClass = NSClassFromString(@"_TtC12VungleAdsSDK9VungleAds");
     if (!vungleClass) {
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.vungleadapter"
                                                     code:404
@@ -52,29 +45,14 @@
         return;
     }
     
-    if(vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)] && [key length]>0) {
-        VungleSDK *vungle = [vungleClass sharedSDK];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        SEL setPluginNameSelecotr = @selector(setPluginName:version:);
-        if ([vungle respondsToSelector:setPluginNameSelecotr]) {
-            [vungle performSelector: setPluginNameSelecotr
-                                                    withObject: @"vunglehbs"
-                                                    withObject: @"1.0.0"];
-
-        }
-#pragma clang diagnostic pop
-        if(vungle && [vungle respondsToSelector:@selector(startWithAppId:error:)]) {
-            NSError *error = nil;
-            BOOL start = [vungle startWithAppId:key error:&error];
-            vungle.delegate = [OMVungleRouter sharedInstance];
-            if(start) {
+    if(vungleClass && [vungleClass respondsToSelector:@selector(initWithAppId:completion:)]) {
+        [vungleClass initWithAppId:key completion:^(NSError * _Nullable error) {
+            if(!error) {
                 completionHandler(nil);
             }else{
                 completionHandler(error);
             }
-        }
+        }];
     }else{
         NSError *error = [[NSError alloc] initWithDomain:@"com.mediation.vungleadapter"
                                                     code:400
@@ -84,10 +62,7 @@
 }
 
 + (void)setLogEnable:(BOOL)logEnable {
-    Class vungleClass = NSClassFromString(@"VungleSDK");
-    if (vungleClass && [vungleClass respondsToSelector:@selector(sharedSDK)] && [vungleClass instancesRespondToSelector:@selector(setLoggingEnabled:)]) {
-        [[vungleClass sharedSDK] setLoggingEnabled:logEnable];
-    }
+    
 }
 
 @end

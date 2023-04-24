@@ -164,11 +164,14 @@ typedef NS_ENUM(NSInteger, BUSplashAdErrorCode) {
 /// This method is called when splash view did show
 - (void)splashAdDidShow:(BUSplashAd *)splashAd;
 
-/// This method is called when splash card is clicked.
+/// This method is called when splash view is clicked.
 - (void)splashAdDidClick:(BUSplashAd *)splashAd;
 
-/// This method is called when splash card is closed.
+/// This method is called when splash view is closed.
 - (void)splashAdDidClose:(BUSplashAd *)splashAd closeType:(BUSplashAdCloseType)closeType;
+
+/// This method is called when splash viewControllr is closed.
+- (void)splashAdViewControllerDidClose:(BUSplashAd *)splashAd;
 
 /**
  This method is called when another controller has been closed.
@@ -198,13 +201,13 @@ typedef NS_ENUM(NSInteger, BUSplashAdErrorCode) {
 
 @protocol BUSplashZoomOutDelegate <NSObject>
 
-/// This method is called when splash card is ready to show.
+/// This method is called when splash zoomout is ready to show.
 - (void)splashZoomOutReadyToShow:(BUSplashAd *)splashAd;
 
-/// This method is called when splash ad is clicked.
+/// This method is called when splash zoomout is clicked.
 - (void)splashZoomOutViewDidClick:(BUSplashAd *)splashAd;
 
-/// This method is called when splash ad is closed.
+/// This method is called when splash zoomout is closed.
 - (void)splashZoomOutViewDidClose:(BUSplashAd *)splashAd;
 
 
