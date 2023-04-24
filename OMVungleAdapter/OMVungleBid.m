@@ -8,9 +8,9 @@
 
 + (NSString*)bidderToken {
     NSString *token = @"";
-    Class vungleSDK = NSClassFromString(@"_TtC12VungleAdsSDK9VungleAds");
-    if (vungleSDK &&  [vungleSDK respondsToSelector:@selector(getBiddingToken)]) {
-        token = [vungleSDK getBiddingToken];
+    Class vungleClass = NSClassFromString(@"_TtC12VungleAdsSDK9VungleAds");
+    if (vungleClass && [vungleClass respondsToSelector:@selector(getBiddingToken)]) {
+        token = [vungleClass getBiddingToken];
     }
     return token;
 }
