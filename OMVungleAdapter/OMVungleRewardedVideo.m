@@ -16,7 +16,7 @@
 
 - (void)loadAd {
     Class vungleClass = NSClassFromString(@"_TtC12VungleAdsSDK14VungleRewarded");
-    if (vungleClass && [vungleClass instancesRespondToSelector:@selector(initWithPlacementId:)] && [vungleClass respondsToSelector:@selector(load)]) {
+    if (vungleClass && [vungleClass instancesRespondToSelector:@selector(initWithPlacementId:)] && [_videoAd respondsToSelector:@selector(load:)]) {
         _videoAd = [[vungleClass alloc] initWithPlacementId:_pid];;
         _videoAd.delegate = self;
         [_videoAd load:nil];
@@ -26,28 +26,28 @@
 - (BOOL)isReady {
     BOOL isReady = NO;
     if (_videoAd && [_videoAd respondsToSelector:@selector(canPlayAd)]) {
-        isReady = _videoAd.canPlayAd;
+        isReady = [_videoAd canPlayAd];
     }
     return isReady;
 }
 
 - (void)show:(UIViewController *)vc {
-    if ([self isReady]) {
+    if ([self isReady] && [_videoAd respondsToSelector:@selector(presentWith:)]) {
         [_videoAd presentWith:vc];
     }
 }
 
-- (void)rewardedAdDidLoad:(VungleRewarded * _Nonnull)rewarded {
+- (void)rewardedAdDidLoad:(VungleRewarded *)rewarded {
     if ([self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
         [_delegate customEvent:self didLoadAd:nil];
     }
 }
-- (void)rewardedAdDidFailToLoad:(VungleRewarded * _Nonnull)rewarded withError:(NSError * _Nonnull)withError {
+- (void)rewardedAdDidFailToLoad:(VungleRewarded *)rewarded withError:(NSError *)withError {
     if (_delegate && [_delegate respondsToSelector:@selector(customEvent:didFailToLoadWithError:)]) {
         [_delegate customEvent:self didFailToLoadWithError:withError];
     }
 }
-- (void)rewardedAdDidPresent:(VungleRewarded * _Nonnull)rewarded {
+- (void)rewardedAdDidPresent:(VungleRewarded *)rewarded {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoStart:)]) {
         [_delegate rewardedVideoCustomEventVideoStart:self];
     }
@@ -55,17 +55,17 @@
         [_delegate rewardedVideoCustomEventDidOpen:self];
     }
 }
-- (void)rewardedAdDidFailToPresent:(VungleRewarded * _Nonnull)rewarded withError:(NSError * _Nonnull)withError {
+- (void)rewardedAdDidFailToPresent:(VungleRewarded *)rewarded withError:(NSError *)withError {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidFailToShow:withError:)]) {
         [_delegate rewardedVideoCustomEventDidFailToShow:self withError:withError];
     }
 }
-- (void)rewardedAdDidClick:(VungleRewarded * _Nonnull)rewarded {
+- (void)rewardedAdDidClick:(VungleRewarded *)rewarded {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
         [_delegate rewardedVideoCustomEventDidClick:self];
     }
 }
-- (void)rewardedAdDidClose:(VungleRewarded * _Nonnull)rewarded {
+- (void)rewardedAdDidClose:(VungleRewarded *)rewarded {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventVideoEnd:)]) {
         [_delegate rewardedVideoCustomEventVideoEnd:self];
     }
@@ -73,19 +73,8 @@
         [_delegate rewardedVideoCustomEventDidClose:self];
     }
 }
-- (void)rewardedAdWillPresent:(VungleRewarded * _Nonnull)rewarded {
-    
-}
-- (void)rewardedAdWillClose:(VungleRewarded * _Nonnull)rewarded {
-    
-}
-- (void)rewardedAdDidTrackImpression:(VungleRewarded * _Nonnull)rewarded {
-    
-}
-- (void)rewardedAdWillLeaveApplication:(VungleRewarded * _Nonnull)rewarded {
-    
-}
-- (void)rewardedAdDidRewardUser:(VungleRewarded * _Nonnull)rewarded {
+
+- (void)rewardedAdDidRewardUser:(VungleRewarded *)rewarded {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidReceiveReward:)]) {
         [_delegate rewardedVideoCustomEventDidReceiveReward:self];
     }
