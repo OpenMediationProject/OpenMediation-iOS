@@ -225,7 +225,7 @@ typedef SWIFT_ENUM(NSInteger, BannerSize, open) {
 @class NSString;
 @class NSNumber;
 
-SWIFT_CLASS("_TtC12VungleAdsSDK12BasePublicAd")
+//SWIFT_CLASS("_TtC12VungleAdsSDK12BasePublicAd")
 @interface BasePublicAd : NSObject
 @property (nonatomic, readonly, copy) NSString * _Nonnull appId;
 @property (nonatomic, readonly, copy) NSString * _Nonnull placementId;
@@ -254,7 +254,7 @@ typedef SWIFT_ENUM(NSInteger, ConsentStatus, open) {
 @class NSCoder;
 
 /// A MediaView to display the ad’s image or video
-SWIFT_CLASS("_TtC12VungleAdsSDK9MediaView")
+//SWIFT_CLASS("_TtC12VungleAdsSDK9MediaView")
 @interface MediaView : UIView
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
@@ -272,7 +272,7 @@ typedef SWIFT_ENUM(NSInteger, NativeAdOptionsPosition, open) {
 
 @class NSError;
 
-SWIFT_CLASS("_TtC12VungleAdsSDK9VungleAds")
+//SWIFT_CLASS("_TtC12VungleAdsSDK9VungleAds")
 @interface VungleAds : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull sdkVersion;)
 + (NSString * _Nonnull)sdkVersion SWIFT_WARN_UNUSED_RESULT;
@@ -308,7 +308,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 
 @protocol VungleBannerDelegate;
 
-SWIFT_CLASS("_TtC12VungleAdsSDK12VungleBanner")
+//SWIFT_CLASS("_TtC12VungleAdsSDK12VungleBanner")
 @interface VungleBanner : BasePublicAd
 /// The delegate to receive banner ad lifecycle callbacks
 @property (nonatomic, weak) id <VungleBannerDelegate> _Nullable delegate;
@@ -331,7 +331,7 @@ SWIFT_CLASS("_TtC12VungleAdsSDK12VungleBanner")
 
 
 
-SWIFT_PROTOCOL("_TtP12VungleAdsSDK20VungleBannerDelegate_")
+//SWIFT_PROTOCOL("_TtP12VungleAdsSDK20VungleBannerDelegate_")
 @protocol VungleBannerDelegate <NSObject>
 @optional
 - (void)bannerAdDidLoad:(VungleBanner * _Nonnull)banner;
@@ -349,7 +349,7 @@ SWIFT_PROTOCOL("_TtP12VungleAdsSDK20VungleBannerDelegate_")
 @protocol VungleInterstitialDelegate;
 @class UIViewController;
 
-SWIFT_CLASS("_TtC12VungleAdsSDK18VungleInterstitial")
+//SWIFT_CLASS("_TtC12VungleAdsSDK18VungleInterstitial")
 @interface VungleInterstitial : BasePublicAd
 /// The delegate to receive interstitial ad lifecycle callbacks
 @property (nonatomic, weak) id <VungleInterstitialDelegate> _Nullable delegate;
@@ -364,7 +364,7 @@ SWIFT_CLASS("_TtC12VungleAdsSDK18VungleInterstitial")
 
 
 
-SWIFT_PROTOCOL("_TtP12VungleAdsSDK26VungleInterstitialDelegate_")
+//SWIFT_PROTOCOL("_TtP12VungleAdsSDK26VungleInterstitialDelegate_")
 @protocol VungleInterstitialDelegate <NSObject>
 @optional
 - (void)interstitialAdDidLoad:(VungleInterstitial * _Nonnull)interstitial;
@@ -383,7 +383,7 @@ SWIFT_PROTOCOL("_TtP12VungleAdsSDK26VungleInterstitialDelegate_")
 @class UIImage;
 @class UIImageView;
 
-SWIFT_CLASS("_TtC12VungleAdsSDK12VungleNative")
+//SWIFT_CLASS("_TtC12VungleAdsSDK12VungleNative")
 @interface VungleNative : BasePublicAd
 /// The delegate to receive native ad lifecycle callbacks
 @property (nonatomic, weak) id <VungleNativeDelegate> _Nullable delegate;
@@ -431,7 +431,7 @@ SWIFT_CLASS("_TtC12VungleAdsSDK12VungleNative")
 
 @protocol VungleRewardedDelegate;
 
-SWIFT_CLASS("_TtC12VungleAdsSDK14VungleRewarded")
+//SWIFT_CLASS("_TtC12VungleAdsSDK14VungleRewarded")
 @interface VungleRewarded : BasePublicAd
 /// The delegate to receive rewarded ad lifecycle callbacks
 @property (nonatomic, weak) id <VungleRewardedDelegate> _Nullable delegate;
@@ -451,7 +451,7 @@ SWIFT_CLASS("_TtC12VungleAdsSDK14VungleRewarded")
 
 
 
-SWIFT_PROTOCOL("_TtP12VungleAdsSDK22VungleRewardedDelegate_")
+//SWIFT_PROTOCOL("_TtP12VungleAdsSDK22VungleRewardedDelegate_")
 @protocol VungleRewardedDelegate <NSObject>
 @optional
 - (void)rewardedAdDidLoad:(VungleRewarded * _Nonnull)rewarded;
@@ -467,7 +467,7 @@ SWIFT_PROTOCOL("_TtP12VungleAdsSDK22VungleRewardedDelegate_")
 - (void)rewardedAdDidRewardUser:(VungleRewarded * _Nonnull)rewarded;
 @end
 
-SWIFT_CLASS("_TtC12VungleAdsSDK21VunglePrivacySettings")
+//SWIFT_CLASS("_TtC12VungleAdsSDK21VunglePrivacySettings")
 @interface VunglePrivacySettings : NSObject
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
