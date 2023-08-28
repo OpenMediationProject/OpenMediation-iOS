@@ -21,8 +21,8 @@
 
 - (void)loadAd {
     Class vungleClass = NSClassFromString(@"_TtC12VungleAdsSDK18VungleInterstitial");
-    if (vungleClass && [vungleClass instancesRespondToSelector:@selector(initWithPlacementId:)] && [_interstitialAd respondsToSelector:@selector(load:)]) {
-        _interstitialAd = [[vungleClass alloc] initWithPlacementId:_pid];;
+    if (vungleClass && [vungleClass instancesRespondToSelector:@selector(initWithPlacementId:)]) {
+        _interstitialAd = [[vungleClass alloc] initWithPlacementId:_pid];
         _interstitialAd.delegate = self;
         [_interstitialAd load:nil];
     }

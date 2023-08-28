@@ -9,15 +9,14 @@
 - (instancetype)initWithParameter:(NSDictionary*)adParameter {
     if (self = [super init]) {
         _pid = [adParameter objectForKey:@"pid"];
-        
     }
     return self;
 }
 
 - (void)loadAd {
     Class vungleClass = NSClassFromString(@"_TtC12VungleAdsSDK14VungleRewarded");
-    if (vungleClass && [vungleClass instancesRespondToSelector:@selector(initWithPlacementId:)] && [_videoAd respondsToSelector:@selector(load:)]) {
-        _videoAd = [[vungleClass alloc] initWithPlacementId:_pid];;
+    if (vungleClass && [vungleClass instancesRespondToSelector:@selector(initWithPlacementId:)]) {
+        _videoAd = [[vungleClass alloc] initWithPlacementId:_pid];
         _videoAd.delegate = self;
         [_videoAd load:nil];
     }
@@ -36,6 +35,7 @@
         [_videoAd presentWith:vc];
     }
 }
+
 
 - (void)rewardedAdDidLoad:(VungleRewarded *)rewarded {
     if ([self isReady] && _delegate && [_delegate respondsToSelector:@selector(customEvent:didLoadAd:)]) {
@@ -60,7 +60,7 @@
         [_delegate rewardedVideoCustomEventDidFailToShow:self withError:withError];
     }
 }
-- (void)rewardedAdDidClick:(VungleRewarded *)rewarded {
+- (void)rewardedAdDidClick:(VungleRewarded * _Nonnull)rewarded {
     if (_delegate && [_delegate respondsToSelector:@selector(rewardedVideoCustomEventDidClick:)]) {
         [_delegate rewardedVideoCustomEventDidClick:self];
     }
